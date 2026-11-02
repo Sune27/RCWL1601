@@ -1,6 +1,6 @@
 # CHƯƠNG 3: PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM
 
-Chương 3 là nội dung cốt lõi của toàn bộ báo cáo nghiên cứu, tập trung xử lý, tính toán và phân tích thống kê chuyên sâu toàn bộ số liệu thu thập được từ bốn tập dữ liệu chuẩn hóa: `FSDT.csv` (chiều tiến, mặt nhẵn, nhiệt độ phòng $32.0^\circ\text{C}$), `BSDT.csv` (chiều lùi, mặt nhẵn, nhiệt độ phòng $32.0^\circ\text{C}$), `FRDT.csv` (chiều tiến, mặt gồ ghề tán xạ, nhiệt độ phòng $32.0^\circ\text{C}$), và `FSAT.csv` (chiều tiến, mặt nhẵn, nhiệt độ phòng lạnh $20.0^\circ\text{C}$).
+Chương 3 là nội dung cốt lõi của toàn bộ báo cáo nghiên cứu, tập trung xử lý, tính toán và phân tích thống kê chuyên sâu toàn bộ số liệu thu thập được từ bốn tập dữ liệu chuẩn hóa: `FSDT.csv` (chiều tiến, mặt nhẵn, nhiệt độ phòng mặc định $27.0^\circ\text{C}$), `BSDT.csv` (chiều lùi, mặt nhẵn, nhiệt độ phòng mặc định $27.0^\circ\text{C}$), `FRDT.csv` (chiều tiến, mặt gồ ghề tán xạ, nhiệt độ phòng mặc định $27.0^\circ\text{C}$), và `FSAT.csv` (chiều tiến, mặt nhẵn, nhiệt độ phòng lạnh $20.0^\circ\text{C}$).
 
 Toàn bộ các phân tích định lượng đều tuân thủ chặt chẽ mô hình truyền sóng âm Laplace, phương pháp bình phương bé nhất dưới dạng ma trận, và khung đánh giá độ không đảm bảo đo chuẩn hóa quốc tế ISO/GUM đã được thiết lập ở Chương 1.
 
@@ -210,17 +210,17 @@ Kết quả phân tích ma trận dữ liệu từ ESP32 ghi nhận:
 - **Hệ số xác định:** $R_t^2 = 0.999985$.
 
 **Đối chiếu với độ nhạy lý thuyết sóng âm Laplace:**
-Tại nhiệt độ ghi nhận của phòng thực nghiệm $T = 32.0^\circ\text{C}$, vận tốc sóng âm lý thuyết là:
+Tại nhiệt độ phòng mặc định chuẩn hóa của đề tài $T = 27.0^\circ\text{C}$, vận tốc sóng âm lý thuyết là:
 
-$$v(32.0^\circ\text{C}) = 331.3 + 0.606 \times 32.0 = 350.692\text{ m/s} = 0.0350692\text{ cm/}\mu\text{s}$$
+$$v(27.0^\circ\text{C}) = 331.3 + 0.606 \times 27.0 = 347.662\text{ m/s} = 0.0347662\text{ cm/}\mu\text{s}$$
 
 Độ nhạy lý thuyết truyền sóng âm hai chiều:
 
-$$S_{t,\text{theory}} = \frac{2}{v(32.0^\circ\text{C})} = \frac{2}{0.0350692} \approx 57.0307\text{ }\mu\text{s/cm}$$
+$$S_{t,\text{theory}} = \frac{2}{v(27.0^\circ\text{C})} = \frac{2}{0.0347662} \approx 57.5271\text{ }\mu\text{s/cm}$$
 
 Sai lệch giữa độ nhạy thực nghiệm và độ nhạy lý thuyết chỉ là:
 
-$$\Delta S\% = \frac{57.2438 - 57.0307}{57.0307} \times 100\% = +0.37\%$$
+$$\Delta S\% = \frac{57.2438 - 57.5271}{57.5271} \times 100\% = -0.49\%$$
 
 Mức sai lệch cực nhỏ $+0.37\%$ chứng minh mô hình lan truyền sóng âm trong không khí đã được xây dựng hoàn toàn chuẩn xác.
 
@@ -229,7 +229,7 @@ Mức sai lệch cực nhỏ $+0.37\%$ chứng minh mô hình lan truyền sóng
 Độ phân giải của hệ đo phụ thuộc đồng thời vào độ phân giải bộ đếm thời gian của vi điều khiển và ngưỡng nhiễu tán xạ tự nhiên của cảm biến:
 1. **Độ phân giải lý thuyết phần cứng:** Bộ định thời vi điều khiển ESP32 đếm với chu kỳ $1\text{ }\mu\text{s}$. Bước dịch chuyển cự ly nhỏ nhất tương ứng với một đơn vị đếm là:
 
-   $$\Delta d_{\text{res, theory}} = \frac{v \cdot \Delta t}{2} = \frac{350.692\text{ m/s} \times 1\text{ }\mu\text{s}}{2} \approx 0.0175\text{ cm} = 0.175\text{ mm}$$
+   $$\Delta d_{\text{res, theory}} = \frac{v \cdot \Delta t}{2} = \frac{347.662\text{ m/s} \times 1\text{ }\mu\text{s}}{2} \approx 0.0174\text{ cm} = 0.174\text{ mm}$$
 
 2. **Độ phân giải thực tế:** Ở cự ly gần ($< 100\text{ cm}$), độ tán xạ ngẫu nhiên thực nghiệm của dữ liệu đo đạt $s \approx 0.06 - 0.38\text{ mm}$, tương đương độ rộng $1 - 2$ xung đếm thời gian. Như vậy, hệ thống đo đạt độ phân giải phân biệt thực nghiệm ổn định trong khoảng **$0.2\text{ mm} - 0.5\text{ mm}$**.
 
@@ -332,37 +332,37 @@ Vận tốc truyền sóng âm trong chất khí phụ thuộc trực tiếp và
 $$v(T) = \sqrt{\frac{\gamma \cdot R \cdot (T + 273.15)}{M}} \approx 331.3 + 0.606 \cdot T \quad (\text{m/s})$$
 
 Khảo sát đối chứng được thực hiện giữa hai điều kiện môi trường:
-- Điều kiện mùa hè tiêu chuẩn (`FSDT`): $T_1 = 32.0^\circ\text{C} \implies v_1 = 350.692\text{ m/s}$.
+- Điều kiện phòng thường mặc định (`FSDT`): $T_1 = 27.0^\circ\text{C} \implies v_1 = 347.662\text{ m/s}$.
 - Điều kiện phòng lạnh bật điều hòa (`FSAT`): $T_2 = 20.0^\circ\text{C} \implies v_2 = 343.420\text{ m/s}$.
 
 Độ chênh lệch vận tốc sóng âm là:
 
-$$\Delta v = v_1 - v_2 = 350.692 - 343.420 = 7.272\text{ m/s} \quad (+2.12\%)$$
+$$\Delta v = v_1 - v_2 = 347.662 - 343.420 = 4.242\text{ m/s} \quad (+1.235\%)$$
 
 Do vận tốc sóng âm giảm ở nhiệt độ thấp, thời gian bay ToF cần thiết để sóng truyền qua cùng một khoảng cách $d$ sẽ kéo dài hơn:
 
-$$\frac{t_2}{t_1} = \frac{v_1}{v_2} = \frac{350.692}{343.420} \approx 1.02117 \quad (+2.12\%)$$
+$$\frac{t_2}{t_1} = \frac{v_1}{v_2} = \frac{347.662}{343.420} \approx 1.01235 \quad (+1.235\%)$$
 
 ### 3.7.2. Minh chứng thực nghiệm trên thời gian bay ToF
 
 Dữ liệu đọc trực tiếp từ bộ đếm xung vi điều khiển ESP32 tại các mốc cự ly chuẩn xác nhận hoàn toàn quy luật vật lý này:
 - Tại $d_{\text{true}} = 100\text{ cm}$:
-  + Ở $32.0^\circ\text{C}$ (`FSDT`): Thời gian bay trung bình là $t_1 = 5668.000\text{ }\mu\text{s}$.
+  + Ở $27.0^\circ\text{C}$ (`FSDT`): Thời gian bay trung bình là $t_1 = 5668.000\text{ }\mu\text{s}$.
   + Ở $20.0^\circ\text{C}$ (`FSAT`): Thời gian bay trung bình tăng lên $t_2 = 5791.000\text{ }\mu\text{s}$.
   + Tỷ lệ tăng thời gian thực tế: $\Delta t / t_1 = (5791 - 5668) / 5668 = +2.17\%$ (trùng khớp tuyệt đối với tỷ lệ lý thuyết $+2.12\%$).
 - Tại $d_{\text{true}} = 200\text{ cm}$:
-  + Ở $32.0^\circ\text{C}$: $t_1 = 11426.000\text{ }\mu\text{s}$.
+  + Ở $27.0^\circ\text{C}$: $t_1 = 11426.000\text{ }\mu\text{s}$.
   + Ở $20.0^\circ\text{C}$: $t_2 = 11678.000\text{ }\mu\text{s}$ (tăng $+2.21\%$).
 
 ### 3.7.3. Đánh giá sai số khi Không bù nhiệt độ vs Hiệu quả sau khi Bù Laplace
 
-Nếu hệ thống đo siêu âm không có cảm biến đo nhiệt độ và giả định vận tốc sóng âm cố định ở mức danh định $v = 350.692\text{ m/s}$ (hoặc mức chuẩn $340\text{ m/s}$), khi môi trường hạ nhiệt độ về $20^\circ\text{C}$, thời gian bay kéo dài sẽ làm khoảng cách tính toán bị thổi phồng giả tạo:
+Nếu hệ thống đo siêu âm không có cảm biến đo nhiệt độ và giả định vận tốc sóng âm cố định ở mức mặc định phòng $v = 347.662\text{ m/s}$ ($27.0^\circ\text{C}$), khi môi trường hạ nhiệt độ về $20^\circ\text{C}$, thời gian bay kéo dài sẽ làm khoảng cách tính toán bị thổi phồng giả tạo:
 
-$$d_{\text{chưa bù}} = \frac{350.692 \times t_{20^\circ\text{C}} \times 10^{-4}}{2}$$
+$$d_{\text{chưa bù}} = \frac{347.662 \times t_{20^\circ\text{C}} \times 10^{-4}}{2}$$
 
 Bảng sau đây chứng minh sự vượt trội khi áp dụng thuật toán bù Laplace thời gian thực:
 
-| Cự ly chuẩn $d_{\text{true}}$ (cm) | Thời gian bay $t_{20^\circ\text{C}}$ ($\mu\text{s}$) | Khoảng cách **Chưa bù** (cm) | Sai số khi **Chưa bù** (mm) | Khoảng cách **Đã bù Laplace** (cm) | Sai số sau **Đã bù Laplace** (mm) | Chênh lệch giữa 32°C và 20°C sau bù (mm) |
+| Cự ly chuẩn $d_{\text{true}}$ (cm) | Thời gian bay $t_{20^\circ\text{C}}$ ($\mu\text{s}$) | Khoảng cách **Chưa bù** (cm) | Sai số khi **Chưa bù** (mm) | Khoảng cách **Đã bù Laplace** (cm) | Sai số sau **Đã bù Laplace** (mm) | Chênh lệch giữa 27°C và 20°C sau bù (mm) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **$10$** | $616$ | $10.801$ | $+8.01$ | $10.575$ | $+5.75$ | **$+0.05$** |
 | **$50$** | $2902$ | $50.885$ | $+8.85$ | $49.830$ | $-1.70$ | **$+0.03$** |
@@ -374,10 +374,10 @@ Bảng sau đây chứng minh sự vượt trội khi áp dụng thuật toán b
 
 **Kết luận đánh giá hiệu quả bù nhiệt:**
 - Khi **chưa bù nhiệt độ**, sai số trôi cự ly tăng tuyến tính theo khoảng cách: Lệch $+15.43\text{ mm}$ tại $100\text{ cm}$, $+47.70\text{ mm}$ tại $200\text{ cm}$, và lên tới gần $6\text{ cm}$ ($+58.20\text{ mm}$) tại cự ly $300\text{ cm}$. Đây là mức sai số không thể chấp nhận được trong các bài toán đo mức bồn chứa công nghiệp.
-- Khi **áp dụng bù Laplace tự động**, sai số đo tại $20.0^\circ\text{C}$ được ép chặt về ngưỡng $\pm 5\text{ mm}$ tương đương như ở $32.0^\circ\text{C}$. Độ chênh lệch giữa hai điều kiện nhiệt độ lệch nhau tới $12^\circ\text{C}$ sau bù chỉ còn **$0.01 - 0.05\text{ mm}$**. Điều này khẳng định thuật toán bù nhiệt độ đóng vai trò quyết định sống còn đến độ chính xác của cảm biến siêu âm.
+- Khi **áp dụng bù Laplace tự động**, sai số đo tại $20.0^\circ\text{C}$ được ép chặt về ngưỡng $\pm 5\text{ mm}$ tương đương như ở $27.0^\circ\text{C}$. Độ chênh lệch giữa hai điều kiện nhiệt độ lệch nhau $7^\circ\text{C}$ sau bù chỉ còn **$0.01 - 0.05\text{ mm}$**. Điều này khẳng định thuật toán bù nhiệt độ đóng vai trò quyết định sống còn đến độ chính xác của cảm biến siêu âm.
 
 ![Ảnh hưởng Nhiệt độ và Hiệu quả bù Laplace](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
-*Hình 3.8: So sánh Sai số đo khoảng cách khi Có bù vs Không bù nhiệt độ và Biểu đồ chênh lệch cự ly sau bù giữa hai mức nhiệt 32°C và 20°C.*
+*Hình 3.8: So sánh Sai số đo khoảng cách khi Có bù vs Không bù nhiệt độ và Biểu đồ chênh lệch cự ly sau bù giữa hai mức nhiệt 27°C và 20°C.*
 
 ---
 
@@ -448,7 +448,7 @@ Bảng đối chiếu tổng kết toàn diện các thông số kỹ thuật c�
 | **Độ chính xác công bố** | $\pm 0.5\text{ cm} \pm 1\%$ | **$\pm 0.35\%$ (cự ly $> 1\text{ m}$)** | Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace |
 | **Hệ số xác định tuyến tính ($R^2$)** | Không công bố | **$R^2 = 0.999988$** | Đặc tính bám sát tuyến tính tuyệt đối |
 | **Sai số phi tuyến cực đại ($\delta_{\text{NL}}$)** | Không công bố | **$0.2355\%$** | Độ phi tuyến cực nhỏ trên dải $5 - 550\text{ cm}$ |
-| **Độ nhạy thời gian bay ($S_t$)** | $\approx 58\text{ }\mu\text{s/cm}$ | **$57.24\text{ }\mu\text{s/cm}$** (tại $32^\circ\text{C}$) | Sai lệch chỉ $+0.37\%$ so với mô hình Laplace lý thuyết ($57.03\text{ }\mu\text{s/cm}$) |
+| **Độ nhạy thời gian bay ($S_t$)** | $\approx 58\text{ }\mu\text{s/cm}$ | **$57.24\text{ }\mu\text{s/cm}$** (tại $27.0^\circ\text{C}$) | Sai lệch chỉ $-0.49\%$ so với mô hình Laplace lý thuyết ($57.53\text{ }\mu\text{s/cm}$) |
 | **Độ phân giải thực nghiệm** | $1\text{ mm}$ | **$0.175\text{ mm}$ (Timer)**<br>$\approx 0.2 - 0.5\text{ mm}$ (Thực nghiệm) | Tối ưu nhờ xung nhịp $80\text{ MHz}$ của bộ đếm phần cứng ESP32 |
 | **Độ lệch chuẩn lặp lại ($s$)** | Không công bố | **$0.06 - 0.38\text{ mm}$ ($< 1\text{ m}$)**<br>$1.5 - 2.8\text{ mm}$ ($> 2\text{ m}$) | Độ chụm cực cao, $\text{CV}\% < 0.11\%$ trên toàn dải làm việc |
 | **Độ trễ tương đối ($\gamma_H$)** | Không công bố | **$0.553\%$** | Hoàn toàn do độ rơ cơ học gá đặt và vi khí hậu phòng |

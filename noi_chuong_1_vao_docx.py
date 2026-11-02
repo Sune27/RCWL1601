@@ -179,7 +179,7 @@ add_body_p(
 add_equation_box("v(T) = 331.3 + 0.606 · T  (m/s)", "1.3")
 add_body_p(
     "Phương trình tuyến tính (1.3) chỉ ra rằng: khi nhiệt độ môi trường thay đổi 1 °C, vận tốc sóng âm thay đổi tương ứng 0.606 m/s "
-    "(khoảng 0.177%). Nếu nhiệt độ phòng dao động 10 °C - 12 °C (ví dụ giữa phòng bật điều hòa 20 °C và nhiệt độ tự nhiên 32 °C), "
+    "(khoảng 0.177%). Nếu nhiệt độ phòng dao động 7 °C (ví dụ giữa phòng bật điều hòa 20 °C và nhiệt độ mặc định 27 °C), "
     "vận tốc sóng âm sẽ biến thiên khoảng 7.27 m/s (2.12%). Nếu hệ thống sử dụng vận tốc cố định, sai số đo khoảng cách sẽ trôi lũy tiến "
     "theo cự ly đo, đạt tới hàng chục milimét ở cự ly trên 2 m. Do đó, việc đo nhiệt độ môi trường thời gian thực để bù trừ vận tốc v(T) "
     "là yêu cầu kỹ thuật bắt buộc."

@@ -338,17 +338,17 @@ plt.close()
 print("Tạo Hình 3.8...")
 common_t = sorted([float(c.replace('cm', '')) for c in fsat.keys()])
 
-# Tính khoảng cách không bù tại 20C sử dụng vận tốc chuẩn của 32C
-# v(32C) = 350.692 m/s, v(20C) = 343.420 m/s
+# Tính khoảng cách không bù tại 20C sử dụng vận tốc chuẩn của 27C (Default Temp)
+# v(27C) = 347.662 m/s, v(20C) = 343.420 m/s
 t_20_vals = []
 for d in common_t:
     with open(RESULT_DIR / f"FSAT_{int(d):03d}cm.csv", 'r') as rf:
         rr = csv.DictReader(rf)
         t_20_vals.append(statistics.mean([float(row['t']) for row in rr]))
 
-d_uncomp_20 = [(350.692 * t * 1e-4) / 2.0 for t in t_20_vals]
+d_uncomp_20 = [(347.662 * t * 1e-4) / 2.0 for t in t_20_vals]
 d_comp_20 = [statistics.mean(fsat[f"{int(d):03d}cm"]) for d in common_t]
-d_comp_32 = [statistics.mean(fsdt[f"{int(d):03d}cm"]) for d in common_t]
+d_comp_27 = [statistics.mean(fsdt[f"{int(d):03d}cm"]) for d in common_t]
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
 
@@ -356,7 +356,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
 err_uncomp = [(u - d) * 10 for u, d in zip(d_uncomp_20, common_t)] # mm
 err_comp_20 = [(c - d) * 10 for c, d in zip(d_comp_20, common_t)] # mm
 
-ax1.plot(common_t, err_uncomp, '^-', color='#d62728', label='Chưa bù nhiệt độ (giả định 32°C tại 20°C)', linewidth=1.5)
+ax1.plot(common_t, err_uncomp, '^-', color='#d62728', label='Chưa bù nhiệt độ (giả định 27°C tại 20°C)', linewidth=1.5)
 ax1.plot(common_t, err_comp_20, 'o-', color='#2ca02c', label='Đã bù nhiệt độ Laplace (20°C thực)', linewidth=1.5)
 ax1.axhline(0, color='black', linestyle='--', linewidth=0.8)
 ax1.set_title('Sai số đo khoảng cách khi Có bù vs Không bù nhiệt')
@@ -365,13 +365,13 @@ ax1.set_ylabel('Sai số đo Δd (mm)')
 ax1.grid(True, linestyle=':', alpha=0.6)
 ax1.legend(loc='upper left')
 
-# Đối chiếu kết quả đã bù giữa 2 mức nhiệt độ (32C vs 20C)
-diff_compensated = [(m32 - m20) * 10 for m32, m20 in zip(d_comp_32, d_comp_20)]
+# Đối chiếu kết quả đã bù giữa 2 mức nhiệt độ (27C vs 20C)
+diff_compensated = [(m27 - m20) * 10 for m27, m20 in zip(d_comp_27, d_comp_20)]
 ax2.bar(common_t, diff_compensated, width=8, color='#17becf', alpha=0.85, edgecolor='black', linewidth=0.5)
 ax2.axhline(0, color='black', linestyle='--', linewidth=0.8)
-ax2.set_title('Chênh lệch khoảng cách sau khi bù giữa 32°C và 20°C')
+ax2.set_title('Chênh lệch khoảng cách sau khi bù giữa 27°C và 20°C')
 ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax2.set_ylabel('Chênh lệch d_32°C - d_20°C (mm)')
+ax2.set_ylabel('Chênh lệch d_27°C - d_20°C (mm)')
 ax2.set_ylim(-1.5, 1.5)
 ax2.grid(True, linestyle=':', alpha=0.6)
 

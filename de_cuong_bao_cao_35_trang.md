@@ -71,7 +71,7 @@ $$d = \frac{v(T) \cdot t}{2}, \quad v(T) = 331.3 \sqrt{1 + \frac{T}{273.15}} \ap
   - Bảng tổng hợp ma trận 4 kịch bản thực nghiệm (`FSDT`, `BSDT`, `FRDT`, `FSAT`) với đầy đủ các tham số điều kiện ngoại cảnh:
     + Vật liệu bề mặt phản xạ: Bảng foamex phẳng nhẵn vs. Tấm xốp gồ ghề khúc xạ tán xạ.
     + Hướng tiếp cận: Chiều tiến (Forward) vs. Chiều lùi (Backward).
-    + Nhiệt độ môi trường: Phòng tự nhiên ($31 - 32^\circ\text{C}$) vs. Phòng điều hòa ($20^\circ\text{C}$).
+    + Nhiệt độ môi trường: Phòng mặc định ($27.0^\circ\text{C}$) vs. Phòng điều hòa ($20^\circ\text{C}$).
     + Số lượng mốc khoảng cách và cự ly chi tiết của từng kịch bản.
 - **2.5. Cơ sở thống kê và Thực nghiệm xác định Cỡ mẫu tối ưu $N = 50$ (1.5 – 2 trang):**
   *(Phân tích từ 3 file dữ liệu khảo sát 100 lần đo: `100lanforward_smooth_defttemp_050cm.csv`, `100cm.csv`, `150cm.csv`)*
@@ -115,7 +115,7 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
   - Tác động lên Cự ly đo xa: Bề mặt gồ ghề làm triệt tiêu sóng phản xạ ở cự ly xa, khiến dải đo thực tế bị thu hẹp đáng kể (chỉ đạt tối đa $375\text{ cm}$ thay vì $> 550\text{ cm}$).
   - Biểu đồ so sánh Boxplot và Error-bar trực quan giữa hai bề mặt.
 - **3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt (1.5 trang):**
-  *(Đối chiếu tập dữ liệu `FSDT` - Phòng thường $\sim 31^\circ\text{C}$ vs. `FSAT` - Phòng điều hòa $\sim 20^\circ\text{C}$ trên 19 mốc đo)*
+  *(Đối chiếu tập dữ liệu `FSDT` - Phòng mặc định $27.0^\circ\text{C}$ vs. `FSAT` - Phòng điều hòa $20^\circ\text{C}$ trên 19 mốc đo)*
   - So sánh thời gian bay $\bar{t}\text{ }(\mu\text{s})$ tại cùng các cự ly hình học giữa hai mức nhiệt độ (chênh lệch nhiệt độ $\Delta T \approx 11 - 12^\circ\text{C}$ làm thay đổi vận tốc âm thanh $\approx 6.8\text{ m/s}$).
   - Định lượng sai số trôi cự ly (Thermal Drift Error) nếu giả định vận tốc âm thanh cố định không đổi ($v = 340\text{ m/s}$ hoặc $343\text{ m/s}$).
   - Chứng minh hiệu quả của thuật toán bù nhiệt độ Laplace $v(T)$: Giảm sai số trôi cự ly từ hàng centimet xuống dưới mức milimet, giữ độ chính xác đồng nhất ở các điều kiện nhiệt độ khác nhau.

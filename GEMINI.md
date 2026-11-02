@@ -71,16 +71,26 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
   * Before (Cách đoạn trước): **$0\text{ pt}$**
   * After (Cách đoạn sau): **$4\text{ pt} - 6\text{ pt}$**
 
-### 2.3. Hệ thống Phân cấp Đề mục (Heading Hierarchy)
-Sử dụng hệ thống đánh số đa tầng (Multilevel List) dạng số tự nhiên:
+### 2.3. Hệ thống Phân cấp Đề mục (Heading Hierarchy & Navigation Pane)
+* **Bắt buộc áp dụng Style gốc của Word:** Mọi tiêu đề Chương, Mục và Tiểu mục bắt buộc phải được gán trực tiếp các kiểu dáng chuẩn (`style='Heading 1'`, `style='Heading 2'`, `style='Heading 3'`), tuyệt đối không sử dụng đoạn văn thường `Normal` rồi chỉnh cỡ chữ thủ công.
+* **Tác dụng:** Giúp thanh điều hướng **Navigation Pane** (mở bằng `Ctrl + F` hoặc thẻ `View -> Navigation Pane`) tự động hiển thị cây thư mục đề mục tương tác, cho phép người đọc nhấp chuột để nhảy ngay tới từng phần của báo cáo, đồng thời hỗ trợ cập nhật Mục lục tự động (`TOC`) chính xác 100%.
+* **Kỹ thuật lập trình trong Python (python-docx):**
+  ```python
+  # CHUẨN: Dùng trực tiếp hàm add_heading hoặc gán style Heading
+  doc.add_heading("CHƯƠNG 1: CƠ SỞ LÝ THUYẾT ĐO LƯỜNG VÀ CẢM BIẾN SIÊU ÂM", level=1)
+  doc.add_heading("1.1. NGUYÊN LÝ ĐO KHOẢNG CÁCH THỜI GIAN BAY", level=2)
+  doc.add_heading("1.1.1. Phương trình lan truyền sóng siêu âm thời gian bay", level=3)
 
-| Cấp độ Style | Cỡ chữ | Kiểu dáng | Căn lề | Dãn đoạn (Before/After) | Ví dụ minh họa |
+  # TUYỆT ĐỐI KHÔNG: Dùng add_paragraph() rồi gán font đậm (Word sẽ coi là Normal và bỏ qua khỏi Navigation Pane)
+  ```
+
+| Cấp độ Style Word | Cỡ chữ | Kiểu dáng | Căn lề | Dãn đoạn (Before/After) | Ví dụ minh họa |
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Title (Bìa / Tên đề tài)** | $18 - 20\text{ pt}$ | In hoa, Đậm | Căn giữa | $12\text{ pt} / 12\text{ pt}$ | **BÁO CÁO THỰC NGHIỆM ĐO LƯỜNG VÀ CẢM BIẾN** |
-| **Heading 1 (Tên Chương)** | $16\text{ pt}$ | In hoa, Đậm | Căn giữa/trái | $12\text{ pt} / 6\text{ pt}$ *(Ngắt trang mới)* | **CHƯƠNG 3: PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM** |
-| **Heading 2 (Mục lớn X.Y)** | $14\text{ pt}$ | Chữ thường, Đậm | Căn trái | $9\text{ pt} / 4\text{ pt}$ | **3.1. Tiền xử lý dữ liệu và lọc sai số thô bằng IQR** |
-| **Heading 3 (Tiểu mục X.Y.Z)** | $13\text{ pt}$ | Chữ thường, Đậm | Căn trái | $6\text{ pt} / 3\text{ pt}$ | **3.1.1. Cơ chế hình thành ngoại lai trong phép đo** |
-| **Heading 4 (Mục con X.Y.Z.T)** | $13\text{ pt}$ | Chữ thường, Nghiêng đậm | Căn trái | $3\text{ pt} / 0\text{ pt}$ | *3.1.1.1. Hiện tượng suy hao năng lượng cự ly xa* |
+| **Heading 1 (Tên Chương)** | $16\text{ pt}$ | In hoa, Đậm | Căn giữa/trái | $16\text{ pt} / 10\text{ pt}$ *(Ngắt trang mới)* | **CHƯƠNG 1: CƠ SỞ LÝ THUYẾT ĐO LƯỜNG VÀ CẢM BIẾN SIÊU ÂM** |
+| **Heading 2 (Mục lớn X.Y)** | $14\text{ pt}$ | Chữ thường, Đậm | Căn trái | $12\text{ pt} / 6\text{ pt}$ | **1.1. NGUYÊN LÝ ĐO KHOẢNG CÁCH THỜI GIAN BAY VÀ MÔ HÌNH LAPLACE** |
+| **Heading 3 (Tiểu mục X.Y.Z)** | $13\text{ pt}$ | Chữ thường, Đậm | Căn trái | $8\text{ pt} / 4\text{ pt}$ | **1.1.1. Phương trình lan truyền sóng siêu âm thời gian bay** |
+| **Heading 4 (Mục con X.Y.Z.T)** | $13\text{ pt}$ | Chữ thường, Nghiêng đậm | Căn trái | $4\text{ pt} / 2\text{ pt}$ | *1.1.1.1. Hiện tượng suy hao năng lượng cự ly xa* |
 
 ### 2.4. Định dạng Bảng biểu (Tables)
 * **Vị trí bảng:** Căn giữa trang (Center).
@@ -98,10 +108,27 @@ Sử dụng hệ thống đánh số đa tầng (Multilevel List) dạng số t�
   *(Ví dụ: `Hình 3.1: Minh họa cơ chế lọc sai số thô bằng Khoảng tứ phân vị (IQR)...`).*
 * **Kích thước ảnh:** Chiều rộng tối đa $15.5\text{ cm}$ (đảm bảo nằm trọn vẹn trong vùng in của khổ A4 đã trừ lề).
 
-### 2.6. Định dạng Công thức Toán học (Equations)
-* Đặt trên dòng riêng biệt (Display Mode), căn giữa trang.
-* Đánh số thứ tự công thức ở sát lề phải: `(3.1)`, `(3.2)`.
-* Giải thích ký hiệu công thức: Đặt ngay bên dưới, bắt đầu bằng từ *"Trong đó:"* (không thụt lề), các biến liệt kê rõ ràng kèm đơn vị đo chuẩn SI.
+### 2.6. Định dạng Công thức Toán học chuẩn Word Equation (`Alt + =` / OMML)
+* **Bắt buộc dùng đối tượng Word Equation tự nhiên:** Toàn bộ công thức toán học đứng riêng dòng (display math) phải được tạo dưới dạng đối tượng toán học gốc của Microsoft Word (**Office Math Markup Language - OMML**, tương đương khi người dùng nhấn tổ hợp phím **`Alt + =`** trong Word). Tuyệt đối không dùng văn bản chữ nghiêng thông thường để gõ công thức.
+* **Cấu trúc hiển thị:**
+  * Có đầy đủ ký hiệu phân số toán học thực thụ ($\frac{a}{b}$), dấu căn bậc hai ($\sqrt{\dots}$), phép tính n-ary tích phân/tổng ($\sum$), chỉ số trên/dưới ($x_i, R^2$), ma trận khối ($\mathbf{X}^T\mathbf{X}$).
+  * Căn giữa trang, font Cambria Math hoặc Times New Roman chuẩn toán học.
+  * Đánh số thứ tự công thức sát lề phải: `(1.1)`, `(1.2)`,... để thuận tiện trích dẫn trong văn bản.
+* **Giải thích ký hiệu:** Đặt ngay bên dưới công thức, bắt đầu bằng *"Trong đó:"* (không thụt lề), các biến được liệt kê rõ ràng kèm đơn vị đo chuẩn SI.
+* **Kỹ thuật lập trình chèn OMML trong Python (python-docx):**
+  ```python
+  from docx.oxml import parse_xml
+
+  # Tạo đoạn văn căn giữa và chèn khối thẻ m:oMathPara / m:oMath
+  p = doc.add_paragraph()
+  p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+  wrapper_xml = (
+      f'<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">'
+      f'<m:oMath>{omml_xml_content}</m:oMath>'
+      f'</m:oMathPara>'
+  )
+  p._p.append(parse_xml(wrapper_xml))
+  ```
 
 ### 2.7. Header, Footer và Đánh số trang
 * **Đầu trang (Header):** Ghi tên chương hoặc tên học phần viết hoa nhỏ, căn phải, có đường kẻ chỉ mờ bên dưới, cỡ $10\text{ pt}$.
@@ -118,6 +145,11 @@ Sử dụng hệ thống đánh số đa tầng (Multilevel List) dạng số t�
 1. **Ngôn ngữ:** Thuần Việt học thuật, trang trọng, chính xác. Loại bỏ các từ tiếng Anh kèm theo trong ngoặc đơn nếu không phải là tên riêng chuẩn quốc tế (như ISO/GUM, ESP32, GPIO, IQR, ToF).
 2. **Phương pháp lọc ngoại lai:** Chọn duy nhất **Khoảng tứ phân vị (IQR - Tukey's Fences)** làm giải thuật lọc số chuẩn hóa, không dùng lẫn lộn $3\sigma$.
 3. **Mô hình toán học:** Công nhận trực tiếp các công thức hồi quy ma trận $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$, công thức Laplace, công thức Student $t_{0.975}$ mà không cần diễn giải chứng minh vi tích phân dài dòng.
-4. **Quy tắc An toàn Git:**
+4. **Quy chuẩn Nhiệt độ Môi trường Mặc định (Default Temp):**
+   - Toàn bộ các tập dữ liệu mặc định (`FSDT`, `BSDT`, `FRDT`, `100lanforward_smooth_defttemp_...`) được quy ước và chuẩn hóa tại mức nhiệt độ phòng mặc định **27.0°C** ($v(27.0^\circ\text{C}) = 347.662\text{ m/s}$, $S_{t,\text{theory}} \approx 57.5271\text{ }\mu\text{s/cm}$).
+   - Kịch bản phòng điều hòa (`FSAT`) được thiết lập tại **20.0°C** ($v(20.0^\circ\text{C}) = 343.420\text{ m/s}$), tạo độ chênh lệch thực nghiệm $\Delta T = 7.0^\circ\text{C}$ phục vụ đánh giá thuật toán bù nhiệt Laplace.
+   - Mọi hàm khởi tạo MicroPython (`rcwl1601.py`, `main.py`) mặc định `temperature_c = 27.0` và `default_temp_c = 27.0`.
+
+5. **Quy tắc An toàn Git:**
    - **TUYỆT ĐỐI KHÔNG tự ý chạy lệnh `git commit` hoặc `git push`** khi chưa có sự đồng ý trực tiếp từ người dùng.
    - Luôn đưa ra gợi ý **Suggested Commit Message** ngắn gọn, chuyên nghiệp bằng tiếng Việt ở cuối mỗi câu trả lời.

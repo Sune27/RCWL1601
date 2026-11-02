@@ -10,7 +10,7 @@ Từ các kết quả nghiên cứu và kiểm chứng thực nghiệm chuyên s
 1. **Dải làm việc tuyến tính tối ưu ($5\text{ cm} \to 350\text{ cm}$):** Hệ số xác định hồi quy đạt $R^2 = 0.999988$, sai số tương đối luôn nằm dưới ngưỡng $\pm 0.35\%$, độ lệch chuẩn lặp lại cực nhỏ ($s < 0.4\text{ mm}$ ở cự ly dưới $1\text{ m}$ và $s < 2.5\text{ mm}$ ở cự ly đến $3.5\text{ m}$).
 2. **Vùng chết vật lý ($1\text{ cm} \to 3\text{ cm}$):** Sai số tuyệt đối tăng vọt trên $100\%$ do thời gian dao động suy giảm của màng gốm áp điện ($150\text{ }\mu\text{s}$) và ngưỡng ngắt câm nội của IC RCWL-9610. Mọi hệ thống ứng dụng bắt buộc phải thiết kế khoảng cách lắp đặt cơ khí cách ly vật thể tối thiểu $10\text{ cm}$ để không bao giờ rơi vào vùng mù này.
 3. **Hiện tượng tán xạ khuếch tán trên bề mặt gồ ghề:** Bề mặt phản xạ không bằng phẳng hoặc xốp làm độ lệch chuẩn tăng vọt gấp $15 - 26$ lần và làm suy giảm cự ly đo tin cậy từ $550\text{ cm}$ xuống dưới $350\text{ cm}$. Do đó, cảm biến hoạt động tối ưu nhất với các bề mặt phản xạ phẳng hoặc bề mặt chất lỏng tĩnh.
-4. **Độ nhạy nhiệt độ cực lớn của môi trường không khí:** Sự biến thiên nhiệt độ $12^\circ\text{C}$ làm thay đổi vận tốc sóng âm $2.12\%$, gây trôi sai số cự ly lên tới gần $6\text{ cm}$ ở khoảng cách $3\text{ m}$. Bắt buộc phải tích hợp thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ môi trường thời gian thực.
+4. **Độ nhạy nhiệt độ cực lớn của môi trường không khí:** Sự biến thiên nhiệt độ $7^\circ\text{C}$ làm thay đổi vận tốc sóng âm $1.24\%$, gây trôi sai số cự ly lên tới $3.7\text{ cm}$ ở khoảng cách $3\text{ m}$. Bắt buộc phải tích hợp thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ môi trường thời gian thực.
 
 ### 4.1.2. Định hướng các bài toán kỹ thuật tiêu biểu trong công nghiệp
 
@@ -80,7 +80,7 @@ flowchart TD
   Khi bồn nạp đầy $100\%$ dung tích ($h = 250.0\text{ cm}$), khoảng cách từ cảm biến tới mặt nước vẫn đạt $d = 15.0\text{ cm}$. Cự ly này nằm trọn vẹn trong dải đo tuyến tính lý tưởng ($s < 0.15\text{ mm}$, sai số $< 0.3\%$), loại trừ hoàn toàn nguy cơ mặt nước dâng vào vùng chết $3\text{ cm}$.
 
 #### 2. Tích hợp thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ bồn chứa
-- *Phát hiện ở Mục 3.7:* Nhiệt độ không khí thay đổi giữa ngày và đêm hoặc do chất lỏng tỏa nhiệt làm thay đổi vận tốc sóng âm. Nếu nhiệt độ trôi $12^\circ\text{C}$ mà không bù nhiệt, sai số đo cự ly ở khoảng cách $2.5\text{ m}$ sẽ bị dội lên thành $+47.7\text{ mm}$ (gây sai lệch thể tích lên tới gần **$38\text{ Lít}$**).
+- *Phát hiện ở Mục 3.7:* Nhiệt độ không khí thay đổi giữa ngày và đêm hoặc do chất lỏng tỏa nhiệt làm thay đổi vận tốc sóng âm. Nếu nhiệt độ trôi $7^\circ\text{C}$ (giữa nhiệt độ mặc định $27^\circ\text{C}$ và phòng lạnh $20^\circ\text{C}$) mà không bù nhiệt, sai số đo cự ly ở khoảng cách $2.5\text{ m}$ sẽ bị dội lên thành $+30.9\text{ mm}$ (gây sai lệch thể tích lên tới gần **$24\text{ Lít}$**).
 - *Giải pháp thiết kế:* Bố trí một đầu dò nhiệt độ số chịu ẩm gắn ngay tại cổ nối trên nắp bồn, kết nối trực tiếp với ESP32. Trước mỗi chu kỳ phát xung siêu âm, vi điều khiển cập nhật nhiệt độ $T$ ($^\circ\text{C}$) và tính toán tức thời vận tốc âm thanh:
 
   $$v(T) = 331.3 + 0.606 \cdot T \quad (\text{m/s})$$

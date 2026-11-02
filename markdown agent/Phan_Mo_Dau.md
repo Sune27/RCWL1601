@@ -92,9 +92,9 @@ Mỗi lần tiến hành đo tại một mốc cự ly cụ thể của một k�
 Mỗi file thô chứa đúng 50 hàng dữ liệu liên tiếp (hoặc 100 hàng đối với tập thăm dò `100lan...`), có cấu trúc 3 trường thông tin:
 ```csv
 t,distance_cm,temperature_c
-2232.000,39.069596,31.0
-2233.000,39.087100,31.0
-2232.000,39.069596,31.0
+2232.000,39.069596,27.0
+2233.000,39.087100,27.0
+2232.000,39.069596,27.0
 ...
 ```
 - `t`: Thời gian bay khứ hồi (Time-of-Flight) của xung siêu âm bắt bằng ngắt timer phần cứng của vi điều khiển ESP32 (đơn vị: $\mu\text{s}$).

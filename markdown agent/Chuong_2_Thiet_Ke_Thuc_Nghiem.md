@@ -68,7 +68,7 @@ Trong đo lường bằng sóng siêu âm, chùm sóng phát ra có dạng búp 
    Thí nghiệm được bố trí dọc theo trục hành lang/phòng thí nghiệm thông thoáng có chiều dài khả dụng $> 7\text{ m}$ (đáp ứng cự ly đo xa nhất $600\text{ cm}$). Khoảng cách từ trục đo đến các bức tường và vật cản hai bên tối thiểu $> 1.5\text{ m}$ để triệt tiêu hoàn toàn phản xạ phụ từ vách tường.
 3. **Kiểm soát vi khí hậu và nhiệt độ môi trường:**  
    - Không gian phòng kín, không có quạt gió hoặc luồng gió lùa thổi trực tiếp tạt ngang trục đo (nhằm tránh làm lệch hướng lan truyền của chùm sóng và tránh tạo ra các xoáy khí cục bộ gây biến thiên bất thường của vận tốc âm thanh).
-   - Nhiệt độ môi trường được ghi nhận liên tục tại vị trí đo bằng thiết bị nhiệt kế điện tử chuẩn. Quá trình đo kịch bản phòng điều hòa (`FSAT`) được kích hoạt sau khi phòng đã bật điều hòa ổn định ít nhất 30 phút để nhiệt độ toàn phòng đạt trạng thái cân bằng nhiệt đồng nhất tại $20.0^\circ\text{C}$.
+   - Nhiệt độ môi trường được ghi nhận liên tục tại vị trí đo bằng thiết bị nhiệt kế điện tử chuẩn; kịch bản đo phòng thường (Default Temp) được chuẩn hóa ổn định tại mức mặc định 27.0°C. Quá trình đo kịch bản phòng điều hòa (`FSAT`) được kích hoạt sau khi phòng đã bật điều hòa ổn định ít nhất 30 phút để nhiệt độ toàn phòng đạt trạng thái cân bằng nhiệt đồng nhất tại $20.0^\circ\text{C}$.
 
 ---
 
