@@ -131,16 +131,22 @@ Các đại lượng thống kê mô tả đặc trưng cho xu hướng tập tr
 
 ---
 
-### 1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô
-Trong đo đạc thực nghiệm, các xung nhiễu điện từ, tạp âm môi trường hoặc góc phản xạ dị thường có thể tạo ra các mẫu đo có giá trị sai lệch nghiêm trọng so với bản chất thực. Hai phương pháp lọc sai số thô chuẩn được sử dụng gồm:
+### 1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô bằng Khoảng tứ phân vị (IQR)
+Trong đo đạc thực nghiệm sóng siêu âm, các xung nhiễu điện từ, bọt khí bề mặt, góc phản xạ dị thường hoặc hiện tượng mất xung phản hồi ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai (sai số thô) có giá trị sai lệch nghiêm trọng so với bản chất thực.
 
-1. **Nguyên lý $3\sigma$ (Tiêu chuẩn Chauvenet / 3-Sigma Gauss):**  
-   Dựa trên tính chất của phân phối chuẩn Gauss, một mẫu đo $x_i$ bị coi là sai số thô và bị loại bỏ nếu nằm ngoài dải tin cậy $99.73\%$:
-   $$|x_i - \bar{x}| > 3s \iff x_i \notin [\bar{x} - 3s, \; \bar{x} + 3s]$$
+Hệ thống lựa chọn phương pháp thống kê phi tham số bền vững dựa trên **Khoảng tứ phân vị (Interquartile Range - IQR)** kết hợp hệ hàng rào Tukey (Tukey's Fences) làm giải thuật lọc số chuẩn hóa duy nhất:
 
-2. **Tiêu chuẩn hàng rào Tukey ($\text{IQR}$ / Biểu đồ hộp):**  
-   Phương pháp phi tham số không phụ thuộc vào giả định phân phối chuẩn. Mẫu đo $x_i$ bị loại bỏ nếu rơi ra ngoài hàng rào giới hạn:
-   $$x_i \notin [Q_1 - 1.5 \cdot \text{IQR}, \; Q_3 + 1.5 \cdot \text{IQR}]$$
+$$\text{IQR} = Q_3 - Q_1$$
+
+Hàng rào dưới (Lower Fence) và Hàng rào trên (Upper Fence) được xác định theo:
+
+$$LF = Q_1 - 1.5 \cdot \text{IQR}, \quad UF = Q_3 + 1.5 \cdot \text{IQR}$$
+
+Mẫu đo $x_i$ được chấp nhận là giá trị hợp lệ nếu nằm trong khoảng:
+
+$$x_i \in [LF, \, UF] \iff Q_1 - 1.5 \cdot \text{IQR} \le x_i \le Q_3 + 1.5 \cdot \text{IQR}$$
+
+Mọi mẫu đo nằm ngoài khoảng $[LF, \, UF]$ đều bị loại bỏ hoàn toàn trước khi đưa vào tính toán các chỉ số thống kê đo lường. Phương pháp này có ưu thế vượt trội do tính chất bền vững (robust statistics), hoàn toàn miễn nhiễm với các mẫu tràn thời gian cực trị ($824.6\text{ cm}$) và triệt tiêu triệt để hiện tượng che khuất ngoại lai (masking effect).
 
 ---
 
