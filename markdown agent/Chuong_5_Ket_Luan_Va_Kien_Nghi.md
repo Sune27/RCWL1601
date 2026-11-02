@@ -20,7 +20,7 @@
    - **Độ trễ Hysteresis:** Xác định độ trễ cực đại $\Delta H_{\max} = 1.66\text{ cm}$ ($\gamma_H = 0.553\%$), chứng minh bản chất sóng âm không có trễ nội tại mà sai số phát sinh từ độ rơ gá trượt cơ khí và biến thiên vi khí hậu phòng.
    - **Ảnh hưởng bề mặt phản xạ:** Khẳng định hiện tượng tán xạ khuếch tán trên bề mặt gồ ghề làm tăng độ lệch chuẩn gấp $15 - 26$ lần ở cự ly gần và làm suy giảm cự ly đo tin cậy từ $550\text{ cm}$ xuống dưới $350\text{ cm}$ (bão hòa hoàn toàn ở $375\text{ cm}$).
    - **Ảnh hưởng nhiệt độ và Bù Laplace:** Chứng minh sự cần thiết sống còn của thuật toán bù nhiệt độ, giúp triệt tiêu sai số trôi cự ly do nhiệt từ $5.8\text{ cm}$ xuống dưới $0.5\text{ mm}$ trên cự ly $3\text{ m}$.
-   - **Thiết lập Ngân sách Độ không đảm bảo đo ISO/GUM:** Tổng hợp đầy đủ các thành phần Loại A, Loại B và xác định độ không đảm bảo đo mở rộng $U_{95\%} = 0.60\text{ mm}$ tại $10\text{ cm}$ và $5.05\text{ mm}$ tại $500\text{ cm}$.
+   - **Đánh giá tổng hợp Độ không đảm bảo đo ISO/GUM:** Tổng hợp đầy đủ các thành phần Loại A, Loại B và xác định độ không đảm bảo đo mở rộng $U_{95\%} = 0.60\text{ mm}$ tại $10\text{ cm}$ và $5.05\text{ mm}$ tại $500\text{ cm}$.
 4. **Hiện thực hóa thành công bài toán ứng dụng công nghiệp:**
    - Thiết kế hoàn chỉnh mô hình **Hệ thống giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32**, vận dụng trực tiếp thiết kế cổ nối $15\text{ cm}$ triệt tiêu vùng chết, chuỗi lọc số kết hợp Khoảng tứ phân vị (IQR) và Trung bình trượt (Moving Average) khử hoàn toàn sóng gợn máy bơm ($\pm 2.5\text{ cm}$ xuống $1.8\text{ mm}$), kiểm soát sai số thể tích tương đối dưới $0.28\%$ cho các mức nạp trên $30\%$, tích hợp phân ngưỡng cảnh báo 4 cấp độ và sẵn sàng truyền thông đám mây IoT.
 

@@ -53,7 +53,7 @@ Hệ quả là ở cự ly càng xa (như mốc $150\text{ cm}$ hoặc trên $40
 
 ---
 
-## 1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ DANH ĐỊNH CỦA MODULE RCWL-1601
+## 1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ CỦA MODULE RCWL-1601
 
 Module cảm biến siêu âm **RCWL-1601** là thiết bị đo khoảng cách thế hệ mới được trang bị vi mạch tích hợp chuyên dụng RCWL-9610. Điểm cải tiến của RCWL-1601 so với module HC-SR04 truyền thống là khả năng tương thích nguồn điện kép ($3.3\text{V}$ và $5\text{V}$) với dòng tĩnh rất thấp ($< 3\text{ mA}$), cho phép kết nối trực tiếp với các chân GPIO của vi điều khiển ESP32 ($3.3\text{V}$) mà không cần mạch chuyển đổi mức điện áp.
 
@@ -83,25 +83,25 @@ Vi điều khiển (ESP32)             Module RCWL-1601                Môi trư
 
 ---
 
-### 1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601 (Theo Datasheet)
+### 1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601
 
 Bảng thông số định mức kỹ thuật do nhà sản xuất công bố được tổng hợp làm cơ sở tham chiếu nhằm đối chiếu, đánh giá và kiểm chứng với số liệu khảo sát thực nghiệm ở Chương 3:
 
-| Thông số kỹ thuật | Giá trị định mức danh định (Datasheet) | Đơn vị / Ghi chú |
-| :--- | :---: | :---: |
-| **Điện áp hoạt động** | $3.0 - 5.5$ | $\text{V DC}$ (Hỗ trợ mức $3.3\text{V}$ của ESP32) |
-| **Dòng điện làm việc tĩnh** | $\le 3.0$ | $\text{mA}$ |
-| **Tần số phát sóng siêu âm** | $40 \pm 1$ | $\text{kHz}$ |
-| **Dải đo danh định** | $2.0 - 400.0$ | $\text{cm}$ |
-| **Góc mở bức xạ sóng hiệu dụng** | $\le 15$ | Độ ($^\circ$) |
-| **Độ chính xác công bố** | $\pm 0.5$ | $\text{cm}$ |
-| **Độ phân giải lý thuyết** | $0.1 - 0.3$ | $\text{cm}$ |
-| **Độ rộng xung kích `TRIG` tối thiểu** | $10$ | $\mu\text{s}$ |
-| **Thời gian chu kỳ kích đo khuyến nghị** | $\ge 50$ | $\text{ms}$ (Tránh nhiễu dội âm lặp) |
+| Thông số kỹ thuật | Giá trị định mức danh định (Datasheet) |
+| :--- | :---: |
+| **Điện áp hoạt động** | $3.0 - 5.5\text{ V DC}$ |
+| **Dòng điện làm việc tĩnh** | $\le 3.0\text{ mA}$ |
+| **Tần số phát sóng siêu âm** | $40 \pm 1\text{ kHz}$ |
+| **Dải đo danh định** | $2.0 - 400.0\text{ cm}$ |
+| **Góc mở bức xạ sóng hiệu dụng** | $\le 15^\circ$ |
+| **Độ chính xác công bố** | $\pm 0.5\text{ cm}$ |
+| **Độ phân giải lý thuyết** | $0.1 - 0.3\text{ cm}$ |
+| **Độ rộng xung kích `TRIG` tối thiểu** | $10\text{ }\mu\text{s}$ |
+| **Thời gian chu kỳ kích đo khuyến nghị** | $\ge 50\text{ ms}$ |
 
 ---
 
-## 1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO (ISO/GUM)
+## 1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO
 
 Để chuyển hóa tập dữ liệu mẫu đo thô rời rạc thành các đặc tính kỹ thuật định lượng có độ tin cậy khoa học cao, cần xây dựng một hệ thống công thức toán học đo lường chuẩn mực.
 
@@ -138,7 +138,7 @@ Hệ thống lựa chọn phương pháp thống kê phi tham số bền vững 
 
 $$\text{IQR} = Q_3 - Q_1$$
 
-Hàng rào dưới (Lower Fence) và Hàng rào trên (Upper Fence) được xác định theo:
+Cận dưới (Lower Fence) và Cận trên (Upper Fence) được xác định theo:
 
 $$LF = Q_1 - 1.5 \cdot \text{IQR}, \quad UF = Q_3 + 1.5 \cdot \text{IQR}$$
 
@@ -217,7 +217,7 @@ Công thức ma trận trên cho phép tính toán trực tiếp hệ số góc 
 
 ---
 
-### 1.3.4. Đánh giá Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM
+### 1.3.4. Đánh giá Độ không đảm bảo đo
 
 Theo hướng dẫn chuẩn quốc tế về đánh giá độ không đảm bảo đo trong kỹ thuật (ISO/GUM), kết quả của một phép đo cự ly phải được biểu diễn kèm theo khoảng không đảm bảo đo tin cậy.
 

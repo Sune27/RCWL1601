@@ -13,7 +13,7 @@ Bố cục báo cáo được chuẩn hóa thành 5 Chương trọng tâm, quy t
 | **Mở đầu & Danh mục** | Trang bìa, Lời nói đầu, Mục lục, Danh mục bảng biểu, Danh mục hình vẽ, Ký hiệu & Quy ước mã hóa tập dữ liệu (`FSDT`, `FRDT`, `BSDT`, `FSAT`) | **2.5 – 3 trang** |
 | **Chương 1** | **Cơ sở lý thuyết đo lường và cảm biến siêu âm:** Mô hình sóng siêu âm ToF, cơ chế bù nhiệt độ Laplace $v(T)$, cấu tạo IC RCWL-9610 và cơ sở lý thuyết xử lý số liệu thực nghiệm | **4 – 4.5 trang** |
 | **Chương 2** | **THIẾT KẾ THỰC NGHIỆM:** Thiết kế phần cứng ESP32 + RCWL-1601, kiến trúc phần mềm OOP (MicroPython/PC), thiết kế ma trận kịch bản đo và nghiên cứu thống kê lựa chọn cỡ mẫu tối ưu $N = 50$ (từ khảo sát mẫu lớn 100 lần) | **6 – 6.5 trang** |
-| **Chương 3** | **PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM:** Tiền xử lý & lọc sai số thô, khảo sát Dải đo & Vùng chết, Đánh giá toàn diện các đặc tính tĩnh (Precision, Accuracy, Linearity, Sensitivity, Resolution, Hysteresis), Phân tích yếu tố ngoại cảnh (Bề mặt phản xạ, Nhiệt độ môi trường), Ngân sách độ không đảm bảo đo và Đối chiếu Datasheet | **12 – 13 trang** |
+| **Chương 3** | **PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM:** Tiền xử lý & lọc sai số thô, khảo sát Dải đo & Vùng chết, Đánh giá toàn diện các đặc tính tĩnh (Precision, Accuracy, Linearity, Sensitivity, Resolution, Hysteresis), Phân tích yếu tố ngoại cảnh (Bề mặt phản xạ, Nhiệt độ môi trường), Đánh giá tổng hợp độ không đảm bảo đo và Đối chiếu Datasheet | **12 – 13 trang** |
 | **Chương 4** | **Xây dựng và triển khai bài toán Ứng dụng thực tế:** Hệ thống đo và giám sát mức chất lỏng bồn chứa thông minh có bù nhiệt độ môi trường và cảnh báo đa ngưỡng trên ESP32 | **4 – 4.5 trang** |
 | **Chương 5** | **Kết luận và Kiến nghị:** Tổng kết các kết quả đạt được, vùng làm việc tin cậy, khuyến nghị kỹ thuật giải pháp xử lý tín hiệu và Tài liệu tham khảo | **1.5 – 2 trang** |
 | **TỔNG CỘNG** | **Toàn văn báo cáo khoa học (A4 chuẩn)** | **30 – 34.5 trang** |
@@ -120,7 +120,7 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
   - Định lượng sai số trôi cự ly (Thermal Drift Error) nếu giả định vận tốc âm thanh cố định không đổi ($v = 340\text{ m/s}$ hoặc $343\text{ m/s}$).
   - Chứng minh hiệu quả của thuật toán bù nhiệt độ Laplace $v(T)$: Giảm sai số trôi cự ly từ hàng centimet xuống dưới mức milimet, giữ độ chính xác đồng nhất ở các điều kiện nhiệt độ khác nhau.
 - **3.8. Đánh giá Độ không đảm bảo đo mở rộng toàn diện (1 trang):**
-  - Lập bảng tổng hợp ngân sách độ không đảm bảo đo (Uncertainty Budget) trên toàn dải đo:
+  - Lập bảng tổng hợp độ không đảm bảo đo trên toàn dải đo:
     + Độ không đảm bảo Loại A ($u_A = s/\sqrt{N}$).
     + Độ không đảm bảo Loại B ($u_B$ gồm: sai số vạch thước chuẩn $\pm 1\text{ mm}$, độ phân giải thời gian ESP32 $1\text{ }\mu\text{s}$, độ không đảm bảo của giá trị nhiệt độ môi trường ghi nhận).
     + Độ không đảm bảo chuẩn tổng hợp: $u_c = \sqrt{u_A^2 + u_B^2}$.
@@ -146,7 +146,7 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
     - Thiết kế chiều cao lắp đặt cảm biến cao hơn mức tràn tối thiểu $5\text{ cm}$ để triệt tiêu hoàn toàn rủi ro rơi vào **Vùng chết $0 - 3\text{ cm}$**.
     - Tích hợp **thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ môi trường bồn chứa** để triệt tiêu trôi sai số nhiệt độ ngày/đêm.
     - Áp dụng chuỗi lọc số: **Lọc trung vị (Median Filter) + Lọc loại thô $3\sigma$ + Lọc trung bình trượt (Moving Average)** để khử sóng gợn bề mặt chất lỏng khi bơm nạp xả.
-    - Ứng dụng ngân sách độ không đảm bảo đo $U_{95\%}$ đã tính ở Mục 3.8 để tính toán sai số thể tích $\Delta V$ và độ không đảm bảo thể tích $U_V$ của toàn bồn chứa!
+    - Ứng dụng kết quả phân tích tổng hợp độ không đảm bảo đo $U_{95\%}$ đã tính ở Mục 3.8 để tính toán sai số thể tích $\Delta V$ và độ không đảm bảo thể tích $U_V$ của toàn bồn chứa!
 - **4.3. Kết quả thử nghiệm / Mô phỏng hoạt động & Đánh giá hiệu năng ứng dụng (1 trang):**
   - Bảng thử nghiệm phân ngưỡng cảnh báo tự động 3 cấp độ (An toàn - Cảnh báo - Tràn / Cạn).
   - Hướng mở rộng kết nối truyền thông IoT: Đẩy dữ liệu mức chất lỏng qua Wi-Fi (giao thức MQTT / HTTP RESTful) hiển thị Dashboard thời gian thực.

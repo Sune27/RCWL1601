@@ -221,23 +221,23 @@ r_tcap.font.size = Pt(12)
 r_tcap.font.bold = True
 
 ds_data = [
-    ("Điện áp hoạt động (V_CC)", "2.8 V – 5.5 V (Một chiều - DC)", "Tương thích hoàn toàn mức logic 3.3V của ESP32"),
-    ("Dòng điện tiêu thụ tĩnh", "< 2 mA", "Thích hợp cho các trạm quan trắc năng lượng thấp"),
-    ("Dòng điện cực đại khi phát", "≈ 15 mA – 20 mA", "Tiêu thụ xung tức thời trong 200 μs khi phát sóng"),
-    ("Tần số sóng siêu âm", "40 kHz ± 1.0 kHz", "Tối ưu hóa giữa độ định hướng và suy hao không khí"),
-    ("Dải đo danh định công bố", "2 cm – 400 cm (hoặc 450 cm)", "Độ chính xác cao nhất trên bề mặt phẳng nhẵn"),
-    ("Độ phân giải lý thuyết", "1 mm", "Phụ thuộc độ phân giải bộ đếm thời gian vi điều khiển"),
-    ("Góc mở chùm sóng âm", "≈ 15°", "Góc mở hình nón của mặt sóng phát xạ"),
-    ("Tín hiệu kích hoạt (TRIG)", "Xung mức CAO (HIGH) ≥ 10 μs", "Tương thích logic TTL / CMOS 3.3V"),
-    ("Tín hiệu phản hồi (ECHO)", "Độ rộng xung mức CAO (PWM)", "Độ rộng xung tỷ lệ thuận với khoảng cách đo")
+    ("Điện áp hoạt động (V_CC)", "2.8 V – 5.5 V (Một chiều - DC)"),
+    ("Dòng điện tiêu thụ tĩnh", "< 2 mA"),
+    ("Dòng điện cực đại khi phát", "≈ 15 mA – 20 mA"),
+    ("Tần số sóng siêu âm", "40 kHz ± 1.0 kHz"),
+    ("Dải đo danh định công bố", "2 cm – 400 cm (hoặc 450 cm)"),
+    ("Độ phân giải lý thuyết", "1 mm"),
+    ("Góc mở chùm sóng âm", "≈ 15°"),
+    ("Tín hiệu kích hoạt (TRIG)", "Xung mức CAO (HIGH) ≥ 10 μs"),
+    ("Tín hiệu phản hồi (ECHO)", "Độ rộng xung mức CAO (PWM)")
 ]
 
-table_ds = doc.add_table(rows=len(ds_data)+1, cols=3)
+table_ds = doc.add_table(rows=len(ds_data)+1, cols=2)
 table_ds.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_ds.autofit = False
 
-ds_widths = [Cm(5.0), Cm(5.0), Cm(6.0)]
-ds_headers = ["Thông số kỹ thuật", "Giá trị công bố (Datasheet)", "Đánh giá & Ý nghĩa kỹ thuật"]
+ds_widths = [Cm(7.5), Cm(8.5)]
+ds_headers = ["Thông số kỹ thuật", "Giá trị công bố (Datasheet)"]
 
 for idx, text in enumerate(ds_headers):
     c = table_ds.rows[0].cells[idx]
@@ -261,7 +261,7 @@ for row_idx, data in enumerate(ds_data, start=1):
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.line_spacing = 1.15
-        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 else (WD_ALIGN_PARAGRAPH.CENTER if col_idx == 1 else WD_ALIGN_PARAGRAPH.JUSTIFY)
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 else WD_ALIGN_PARAGRAPH.CENTER
         for r in p.runs:
             r.font.name = 'Times New Roman'
             r.font.size = Pt(11)
@@ -339,7 +339,7 @@ add_bullet_p(
 
 add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM")
 add_body_p(
-    "Theo hướng dẫn quốc tế ISO/IEC Guide 98-3 (GUM), độ tin cậy của kết quả đo được lượng hóa qua ngân sách độ không đảm bảo đo toàn diện:"
+    "Theo hướng dẫn quốc tế ISO/IEC Guide 98-3 (GUM), độ tin cậy của kết quả đo được lượng hóa qua độ không đảm bảo đo toàn diện:"
 )
 add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
 add_bullet_p(

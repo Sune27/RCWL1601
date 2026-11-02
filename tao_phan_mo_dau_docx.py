@@ -301,7 +301,7 @@ toc_items = [
     ("  3.5. Phân tích độ trễ (Hysteresis) giữa chiều tiến và chiều lùi", "23", False),
     ("  3.6. Phân tích ảnh hưởng của bề mặt phản xạ (nhẵn vs gồ ghề)", "24", False),
     ("  3.7. Phân tích ảnh hưởng của nhiệt độ và hiệu quả bù vận tốc Laplace", "25", False),
-    ("  3.8. Đánh giá ngân sách độ không đảm bảo đo mở rộng toàn diện (ISO/GUM)", "26", False),
+    ("  3.8. Phân tích tổng hợp độ không đảm bảo đo mở rộng toàn diện (ISO/GUM)", "26", False),
     ("  3.9. Bảng tổng hợp đối chiếu đặc tính thực nghiệm vs Datasheet", "27", False),
     ("CHƯƠNG 4: XÂY DỰNG VÀ PHÂN TÍCH BÀI TOÁN ỨNG DỤNG THỰC TẾ", "28", True),
     ("  4.1. Tổng quan tiềm năng ứng dụng từ kết quả khảo sát thực nghiệm", "28", False),

@@ -101,8 +101,8 @@ flowchart TD
 
 - *Hiệu quả:* Khử hoàn toàn độ nhấp nhô sóng gợn $\pm 2.5\text{ cm}$, phục hồi mức nước trung bình tĩnh với sai số chuẩn chỉ $\pm 1.8\text{ mm}$.
 
-#### 4. Lan truyền Ngân sách Độ không đảm bảo đo Thể tích theo tiêu chuẩn ISO/GUM
-- Áp dụng kết quả ngân sách độ không đảm bảo đo ở Mục 3.8: Tại dải khoảng trống $d = 0.15\text{ m} \to 2.50\text{ m}$, độ không đảm bảo đo mở rộng của khoảng cách đo là $U_{95\%}(d) \approx 0.60\text{ mm} \to 2.50\text{ mm}$.
+#### 4. Lan truyền Độ không đảm bảo đo Thể tích theo tiêu chuẩn ISO/GUM
+- Áp dụng kết quả đánh giá tổng hợp độ không đảm bảo đo ở Mục 3.8: Tại dải khoảng trống $d = 0.15\text{ m} \to 2.50\text{ m}$, độ không đảm bảo đo mở rộng của khoảng cách đo là $U_{95\%}(d) \approx 0.60\text{ mm} \to 2.50\text{ mm}$.
 - Theo định luật lan truyền độ không đảm bảo đo:
 
   $$h = H_{\text{tổng}} - d \implies u_c(h) = \sqrt{u_c^2(H_{\text{tổng}}) + u_c^2(d)}$$

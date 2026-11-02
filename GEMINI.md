@@ -142,7 +142,7 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
 
 ## 3. NGUYÊN TẮC HỌC THUẬT VÀ NỘI DUNG DỰ ÁN
 
-1. **Ngôn ngữ:** Thuần Việt học thuật, trang trọng, chính xác. Loại bỏ các từ tiếng Anh kèm theo trong ngoặc đơn nếu không phải là tên riêng chuẩn quốc tế (như ISO/GUM, ESP32, GPIO, IQR, ToF).
+1. **Ngôn ngữ:** Thuần Việt học thuật, trang trọng, chính xác. Loại bỏ các từ tiếng Anh kèm theo trong ngoặc đơn nếu không phải là tên riêng chuẩn quốc tế (như ISO/GUM, ESP32, GPIO, IQR, ToF). Tuyệt đối không dịch thô cụm từ 'Uncertainty Budget' thành 'ngân sách độ không đảm bảo đo' (do từ 'ngân sách' chỉ dùng cho tài chính/tiền tệ); bắt buộc dùng chuẩn mực: **'Bảng tổng hợp độ không đảm bảo đo'** (cho bảng biểu số liệu) hoặc **'Phân tích / Đánh giá tổng hợp độ không đảm bảo đo'** (cho tiêu đề và câu văn).
 2. **Phương pháp lọc ngoại lai:** Chọn duy nhất **Khoảng tứ phân vị (IQR - Tukey's Fences)** làm giải thuật lọc số chuẩn hóa, không dùng lẫn lộn $3\sigma$.
 3. **Mô hình toán học:** Công nhận trực tiếp các công thức hồi quy ma trận $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$, công thức Laplace, công thức Student $t_{0.975}$ mà không cần diễn giải chứng minh vi tích phân dài dòng.
 4. **Quy chuẩn Nhiệt độ Môi trường Mặc định (Default Temp):**

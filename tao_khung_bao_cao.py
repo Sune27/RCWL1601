@@ -607,7 +607,7 @@ add_p("So sánh trực tiếp giữa tập dữ liệu FSDT (chiều tiến) và
 add_placeholder_img("Hình 4.2: Biểu đồ Vòng trễ (Hysteresis Loop) so sánh đường đặc tính chiều tiến và chiều lùi")
 
 add_h2("4.7. Đánh giá Độ không đảm bảo đo theo chuẩn ISO/GUM", anchor="chap4_7")
-add_p("Tính toán ngân sách độ không đảm bảo đo tại mốc cự ly tiêu chuẩn d = 100 cm:")
+add_p("Tính toán bảng tổng hợp độ không đảm bảo đo tại mốc cự ly tiêu chuẩn d = 100 cm:")
 add_bullet("Độ KĐBĐ Loại A (u_A): u_A = s / sqrt(N) = 0.158 / sqrt(50) ≈ 0.022 cm (0.22 mm).", "• ")
 add_bullet("Độ KĐBĐ Loại B (u_B): Tổng hợp từ sai số vạch chia thước thép (u_B1 = 1mm/sqrt(3) ≈ 0.58 mm), độ phân giải bộ đếm vi điều khiển (u_B2 ≈ 0.1 mm) và sai số nhiệt độ DHT11 (u_B3 ≈ 0.35 mm) -> u_B ≈ 0.68 mm.", "• ")
 add_bullet("Độ KĐBĐ tổng hợp (u_c) & Mở rộng (U_95%): u_c = sqrt(u_A^2 + u_B^2) ≈ 0.71 mm -> U_95% = 2 * u_c ≈ 1.42 mm.", "• ")

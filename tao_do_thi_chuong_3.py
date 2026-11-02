@@ -380,7 +380,7 @@ plt.savefig(GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 9. HÌNH 3.9: Ngân sách Độ không đảm bảo đo mở rộng ISO/GUM
+# 9. HÌNH 3.9: Phân tích tổng hợp Độ không đảm bảo đo mở rộng ISO/GUM
 # ==========================================================
 print("Tạo Hình 3.9...")
 target_ds = [10.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 500.0]
@@ -414,7 +414,7 @@ ax.plot(target_ds, u_b_list, 's:', color='#ff7f0e', label='Độ không đảm b
 ax.plot(target_ds, u_c_list, '^-', color='#2ca02c', label='Độ KĐBĐ chuẩn tổng hợp u_c (mm)', linewidth=1.5)
 ax.plot(target_ds, U_95_list, 'd-', color='#d62728', label='Độ KĐBĐ mở rộng U_95% (k=2) (mm)', linewidth=2.0)
 
-ax.set_title('Ngân sách Độ không đảm bảo đo mở rộng theo tiêu chuẩn ISO/GUM')
+ax.set_title('Phân tích tổng hợp Độ không đảm bảo đo mở rộng theo chuẩn ISO/GUM')
 ax.set_xlabel('Khoảng cách chuẩn d_true (cm)')
 ax.set_ylabel('Độ không đảm bảo đo (mm)')
 ax.grid(True, linestyle=':', alpha=0.6)

@@ -556,15 +556,15 @@ add_native_equation(
 add_body_p(
     "Phương trình tuyến tính (1.3) chỉ ra rằng: khi nhiệt độ môi trường thay đổi 1 °C, vận tốc sóng âm thay đổi tương ứng 0.606 m/s "
     "(khoảng 0.177%). Nếu nhiệt độ phòng dao động 7 °C (ví dụ giữa phòng bật điều hòa 20 °C và nhiệt độ phòng mặc định 27 °C), "
-    "vận tốc sóng âm sẽ biến thiên khoảng 7.27 m/s (2.12%). Nếu hệ thống sử dụng vận tốc cố định, sai số đo khoảng cách sẽ trôi lũy tiến "
+    "vận tốc sóng âm sẽ biến thiên khoảng 4.24 m/s (1.24%). Nếu hệ thống sử dụng vận tốc cố định, sai số đo khoảng cách sẽ trôi lũy tiến "
     "theo cự ly đo, đạt tới hàng chục milimét ở cự ly trên 2 m. Do đó, việc đo nhiệt độ môi trường thời gian thực để bù trừ vận tốc v(T) "
     "là yêu cầu kỹ thuật bắt buộc."
 )
 
 add_heading_3("1.1.3. Sự suy hao năng lượng sóng âm theo cự ly đo")
 add_body_p("Năng lượng và biên độ áp suất âm p(d) của sóng âm suy giảm mạnh theo khoảng cách truyền dẫn do hai cơ chế vật lý song song:")
-add_bullet_p("Do chùm sóng âm phát đi theo dạng hình nón có góc mở định hướng θ ≈ 15°. Năng lượng sóng âm phân bố trên diện tích mặt cầu tăng dần, khiến mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", "1. Phân kỳ hình học (Geometric Divergence): ")
-add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm theo quy luật hàm mũ: p(d) = p_0 · e^(-α·d). Ở tần số 40 kHz và nhiệt độ phòng 25 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí (Atmospheric Absorption): ")
+add_bullet_p("Do chùm sóng âm phát đi theo dạng hình nón. Năng lượng sóng âm phân bố trên diện tích mặt cầu tăng dần, khiến mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", "1. Phân kỳ hình học: ")
+add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm theo quy luật hàm mũ: p(d) = p_0 · e^(-α·d). Ở tần số 40 kHz và nhiệt độ phòng 27 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí: ")
 add_body_p(
     "Tổng suy hao sau hành trình hai chiều (2d) lên tới hàng chục decibel ở cự ly xa (d > 3 m). "
     "Vì vậy, ở cự ly trên 5.5 m, biên độ xung phản xạ sẽ tụt xuống dưới ngưỡng nhạy phát hiện của bộ so sánh, dẫn tới việc vi điều khiển "
@@ -572,18 +572,16 @@ add_body_p(
 )
 
 # 1.2
-add_heading_2("1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ DANH ĐỊNH CỦA MODULE RCWL-1601")
+add_heading_2("1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ CỦA MODULE RCWL-1601")
 
 add_heading_3("1.2.1. Giản đồ xung kích hoạt và phản hồi thời gian bay")
 add_body_p("Module RCWL-1601 giao tiếp với vi điều khiển ESP32 thông qua giao thức xung kỹ thuật số hai chân (Trigger và Echo):")
 add_bullet_p("Vi điều khiển chủ động kéo chân TRIG lên mức logic CAO (HIGH, 3.3V) trong khoảng thời gian tối thiểu 10 μs để phát lệnh đo.", "• Bước 1 - Kích hoạt xung (Trigger Pulse): ")
-add_bullet_p("Khi nhận được xung TRIG, vi mạch chuyên dụng RCWL-9610 trên module tự động kích hoạt mạch dao động công suất đẩy màng loa phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz (kéo dài đúng 200 μs). Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", "• Bước 2 - Phát chùm sóng siêu âm (Burst Generation): ")
+add_bullet_p("Khi nhận được xung TRIG, vi mạch chuyên dụng RCWL-9610 trên module tự động kích hoạt mạch dao động công suất đẩy màng loa phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz (kéo dài đúng 200 μs). Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", "• Bước 2 - Phát chùm sóng siêu âm: ")
 add_bullet_p("Sóng âm dội về tác động lên màng thu, tạo điện áp vi sai xoay chiều. Vi mạch RCWL-9610 thực hiện khuếch đại tự động độ lợi (AGC) và lọc thông dải 40 kHz. Ngay khi biên độ tín hiệu vượt ngưỡng so sánh, IC lập tức kéo chân ECHO xuống mức THẤP (LOW).", "• Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse): ")
 add_bullet_p("Độ rộng mức cao của xung ECHO (t_echo) tỷ lệ thuận chính xác với thời gian bay hai chiều t của sóng âm.", "• Bước 4 - Đo thời gian bay ToF: ")
 
-add_heading_3("1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601 (Theo Datasheet)")
-add_body_p("Bảng 1.1 tổng hợp các thông số kỹ thuật cốt lõi do nhà sản xuất công bố cho module RCWL-1601:")
-
+add_heading_3("1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601")
 p_tbl = doc.add_paragraph()
 p_tbl.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p_tbl.paragraph_format.space_after = Pt(4)
@@ -593,23 +591,23 @@ r_tcap.font.size = Pt(12)
 r_tcap.font.bold = True
 
 ds_data = [
-    ("Điện áp hoạt động (V_CC)", "2.8 V – 5.5 V (Một chiều - DC)", "Tương thích hoàn toàn mức logic 3.3V của ESP32"),
-    ("Dòng điện tiêu thụ tĩnh", "< 2 mA", "Thích hợp cho các trạm quan trắc năng lượng thấp"),
-    ("Dòng điện cực đại khi phát", "≈ 15 mA – 20 mA", "Tiêu thụ xung tức thời trong 200 μs khi phát sóng"),
-    ("Tần số sóng siêu âm", "40 kHz ± 1.0 kHz", "Tối ưu hóa giữa độ định hướng và suy hao không khí"),
-    ("Dải đo danh định công bố", "2 cm – 400 cm (hoặc 450 cm)", "Độ chính xác cao nhất trên bề mặt phẳng nhẵn"),
-    ("Độ phân giải lý thuyết", "1 mm", "Phụ thuộc độ phân giải bộ đếm thời gian vi điều khiển"),
-    ("Góc mở chùm sóng âm", "≈ 15°", "Góc mở hình nón của mặt sóng phát xạ"),
-    ("Tín hiệu kích hoạt (TRIG)", "Xung mức CAO (HIGH) ≥ 10 μs", "Tương thích logic TTL / CMOS 3.3V"),
-    ("Tín hiệu phản hồi (ECHO)", "Độ rộng xung mức CAO (PWM)", "Độ rộng xung tỷ lệ thuận với khoảng cách đo")
+    ("Điện áp hoạt động (V_CC)", "2.8 V – 5.5 V (Một chiều - DC)"),
+    ("Dòng điện tiêu thụ tĩnh", "< 2 mA"),
+    ("Dòng điện cực đại khi phát", "≈ 15 mA – 20 mA"),
+    ("Tần số sóng siêu âm", "40 kHz ± 1.0 kHz"),
+    ("Dải đo danh định công bố", "2 cm – 400 cm (hoặc 450 cm)"),
+    ("Độ phân giải lý thuyết", "1 mm"),
+    ("Góc mở chùm sóng âm", "≈ 15°"),
+    ("Tín hiệu kích hoạt (TRIG)", "Xung mức CAO (HIGH) ≥ 10 μs"),
+    ("Tín hiệu phản hồi (ECHO)", "Độ rộng xung mức CAO (PWM)")
 ]
 
-table_ds = doc.add_table(rows=len(ds_data)+1, cols=3)
+table_ds = doc.add_table(rows=len(ds_data)+1, cols=2)
 table_ds.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_ds.autofit = False
 
-ds_widths = [Cm(5.0), Cm(5.0), Cm(6.0)]
-ds_headers = ["Thông số kỹ thuật", "Giá trị công bố (Datasheet)", "Đánh giá & Ý nghĩa kỹ thuật"]
+ds_widths = [Cm(7.5), Cm(8.5)]
+ds_headers = ["Thông số kỹ thuật", "Giá trị công bố"]
 
 for idx, text in enumerate(ds_headers):
     c = table_ds.rows[0].cells[idx]
@@ -633,7 +631,7 @@ for row_idx, data in enumerate(ds_data, start=1):
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.line_spacing = 1.15
-        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 else (WD_ALIGN_PARAGRAPH.CENTER if col_idx == 1 else WD_ALIGN_PARAGRAPH.JUSTIFY)
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 else WD_ALIGN_PARAGRAPH.CENTER
         for r in p.runs:
             r.font.name = 'Times New Roman'
             r.font.size = Pt(11)
@@ -661,7 +659,7 @@ add_body_p(
     "Tại mỗi mốc cự ly chuẩn, thực hiện lặp lại N lần đo độc lập trong điều kiện môi trường ổn định, "
     "thu được tập mẫu đo khoảng cách: X = {x_1, x_2, ..., x_N}. Các đại lượng thống kê cơ bản bao gồm:"
 )
-add_bullet_p("Đại diện cho giá trị xu thế trung tâm của tập mẫu đo lặp:", "• Giá trị trung bình mẫu (Sample Mean): ")
+add_bullet_p("Đại diện cho giá trị xu thế trung tâm của tập mẫu đo lặp:", "• Giá trị trung bình mẫu: ")
 
 # Native Word Equation 1.4: x_bar = 1/N * sum(x_i)
 add_native_equation(
@@ -683,7 +681,7 @@ add_native_equation(
     eq_num="1.4"
 )
 
-add_bullet_p("Đại diện cho mức độ phân tán ngẫu nhiên của các giá trị đo quanh giá trị trung bình:", "• Độ lệch chuẩn mẫu thực nghiệm (Sample Standard Deviation): ")
+add_bullet_p("Đại diện cho mức độ phân tán ngẫu nhiên của các giá trị đo quanh giá trị trung bình:", "• Độ lệch chuẩn mẫu thực nghiệm: ")
 
 # Native Word Equation 1.5: s = sqrt(1/(N-1) * sum((x_i - x_bar)^2))
 add_native_equation(
@@ -739,7 +737,7 @@ add_native_equation(
     eq_num="1.6"
 )
 
-add_body_p("Hàng rào dưới (Lower Fence) và Hàng rào trên (Upper Fence) được xác định theo:")
+add_body_p("Cận dưới (Lower Fence) và Cận trên (Upper Fence) được xác định theo:")
 
 # Native Word Equation 1.7: LF & UF
 add_native_equation(
@@ -810,9 +808,9 @@ add_bullet_p(
     "6. Độ phân giải (Resolution): "
 )
 
-add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM")
+add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo")
 add_body_p(
-    "Theo hướng dẫn quốc tế ISO/IEC Guide 98-3 (GUM), độ tin cậy của kết quả đo được lượng hóa qua ngân sách độ không đảm bảo đo toàn diện:"
+    "Theo hướng dẫn quốc tế ISO/IEC Guide 98-3 (GUM), độ tin cậy của kết quả đo được lượng hóa qua độ không đảm bảo đo toàn diện:"
 )
 add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
 add_bullet_p(
@@ -823,7 +821,7 @@ add_bullet_p(
 )
 add_bullet_p("Kết hợp toàn bộ các thành phần theo định luật lan truyền sai số: u_c = √(u_A² + ∑ u_{B,j}²).", "• Độ không đảm bảo đo chuẩn tổng hợp (u_c): ")
 add_bullet_p("Mở rộng khoảng tin cậy với hệ số phủ k_p = 2 (tương ứng mức tin cậy xấp xỉ 95% đối với bậc tự do lớn): U_95% = k_p · u_c = 2 · u_c.", "• Độ không đảm bảo đo mở rộng (U_95%): ")
-add_body_p("Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn theo chuẩn quốc tế:")
+add_body_p("Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn:")
 
 # Native Word Equation 1.10: Y = d_bar +- U_95%
 add_native_equation(
