@@ -15,15 +15,15 @@ Mục tiêu cốt lõi của Chương 2 là thiết kế và chuẩn hóa toàn 
 
 ### 2.1.2. Phương pháp luận thực nghiệm
 Phương pháp luận được áp dụng là **phương pháp đo so sánh trực tiếp với vật chuẩn (Direct Comparison with Standard)**:
-- **Chuẩn so sánh (Reference Standard):** Khoảng cách thực $d_{\text{true}}$ được xác lập bằng hệ thống ray trượt cơ khí thẳng hàng có gắn thước chuẩn chia vạch milimet với sai số giới hạn $\Delta_{\text{ruler}} = \pm 1\text{ mm}$ ($\pm 0.1\text{ cm}$).
+- **Chuẩn so sánh (Reference Standard):** Khoảng cách thực $d_{\text{true}}$ được xác lập bằng thước đo tiêu chuẩn có độ chia nhỏ nhất đến milimet với sai số giới hạn $\Delta_{\text{ruler}} = \pm 1\text{ mm}$ ($\pm 0.1\text{ cm}$).
 - **Đối tượng đo (Measurement Object):** Khoảng cách đo được $d$ suy ra từ thời gian bay ToF của chùm sóng siêu âm phát ra từ cảm biến RCWL-1601, được vi điều khiển ESP32 số hóa với độ phân giải thời gian $1\text{ }\mu\text{s}$ và cập nhật thuật toán bù nhiệt độ môi trường Laplace $v(T) = 331.3 + 0.606 \cdot T$.
 - **Nguyên tắc lặp lại:** Tại mỗi mốc cự ly đặt chuẩn $d_{\text{true}}$, phép đo được kích hoạt lặp lại nhiều lần trong cùng một trạng thái ổn định cơ khí và nhiệt độ để phục vụ phân tích thống kê ngẫu nhiên.
 
 ```
-       [ Ray trượt dẫn hướng cơ khí chuẩn hóa & Thước vạch mm ]
+       [ Thước đo chuẩn vạch milimet căng giữa hai mép bàn ]
   |===================================================================|
-  [Cảm biến RCWL-1601] ------------ Sóng ToF -----------> [Bia phản xạ]
-  (Cố định tại gốc 0 cm)                                  (Dịch chuyển d_true)
+  [RCWL-1601 trên Breadboard] ---------- Sóng ToF ----------> [Viên gạch 40x40 cm]
+  (Sát mép bàn 1, độ cao 85 cm)                              (Mép bàn 2, vuông góc mặt bàn)
             |
       (GPIO 5 & 18)
             v
@@ -32,43 +32,34 @@ Phương pháp luận được áp dụng là **phương pháp đo so sánh tr�
 
 ---
 
-## 2.2. THIẾT KẾ PHẦN CỨNG, MÔ HÌNH GÁ ĐẶT VÀ KHÔNG GIAN THỰC NGHIỆM
+## 2.2. THIẾT KẾ PHẦN CỨNG VÀ KHÔNG GIAN THỰC NGHIỆM
 
 ### 2.2.1. Thiết kế phần cứng và sơ đồ kết nối điện
-Hệ thống phần cứng đo lường gồm hai khối chính: Module cảm biến siêu âm RCWL-1601 và Board mạch vi điều khiển ESP32 NodeMCU 30 chân.
-
-Nhờ vi mạch chuyên dụng RCWL-9610 trên module RCWL-1601 hỗ trợ dải điện áp làm việc rộng từ $3.0\text{V} - 5.5\text{V}$, module có thể hoạt động hoàn toàn ở mức điện áp logic $3.3\text{V}$. Điều này cho phép kết nối trực tiếp chân tín hiệu của module với các chân GPIO của ESP32 mà không cần qua mạch chia áp điện trở hay IC chuyển đổi mức logic (Logic Level Shifter), giúp đường truyền xung nhọn $10\text{ }\mu\text{s}$ và sườn xung `ECHO` không bị méo dạng hay trễ pha do hằng số thời gian ký sinh $RC$.
+Hệ thống đo lường sử dụng module cảm biến siêu âm RCWL-1601 kết nối trực tiếp với vi điều khiển ESP32. Cảm biến được cấp nguồn trực tiếp từ chân 3V3 của ESP32. Các đường tín hiệu TRIG và ECHO giao tiếp trực tiếp với các chân GPIO của ESP32 ở mức logic 3.3V mà không cần mạch chuyển đổi mức logic.
 
 Sơ đồ kết nối phần cứng chi tiết:
 
-| Chân RCWL-1601 | Chân ESP32 NodeMCU | Chức năng kỹ thuật | Ghi chú mức điện áp |
-| :---: | :---: | :--- | :---: |
-| **`VCC`** | **`3V3`** | Cấp nguồn nuôi cảm biến | $3.3\text{V DC}$ (dòng tĩnh $< 3\text{ mA}$) |
-| **`GND`** | **`GND`** | Nối đất chung | $0\text{V}$ |
-| **`TRIG`** | **`GPIO 5`** | Ngõ vào kích phát xung | Mức logic $3.3\text{V}$ (xung kích $\ge 10\text{ }\mu\text{s}$) |
-| **`ECHO`** | **`GPIO 18`** | Ngõ ra phản hồi thời gian bay | Mức logic $3.3\text{V}$ (độ rộng tỷ lệ thuận ToF) |
+| Chân RCWL-1601 | Chân ESP32 | Chức năng kỹ thuật |
+| :---: | :---: | :--- |
+| **`VCC`** | **`3V3`** | Cấp nguồn nuôi cảm biến |
+| **`GND`** | **`GND`** | Nối đất chung |
+| **`TRIG`** | **`GPIO 5`** | Ngõ vào kích phát xung |
+| **`ECHO`** | **`GPIO 18`** | Ngõ ra phản hồi thời gian bay |
 
 ---
 
-### 2.2.2. Thiết kế mô hình gá đặt cơ khí
-Để đảm bảo phép đo đạt độ chính xác cao nhất và loại trừ triệt để sai số góc đặt (Cosine Error), mô hình gá đặt cơ khí được chế tạo với các yêu cầu kỹ thuật nghiêm ngặt:
-1. **Ray dẫn hướng thẳng hàng:** Sử dụng hệ ray trượt nhôm định hình dài, bề mặt định vị phẳng tuyệt đối, trên thân gắn dải thước đo hợp kim có vạch chia chuẩn milimet chính xác.
-2. **Đồ gá cảm biến cố định tại gốc:** Module RCWL-1601 được gắn cố định chắc chắn trên một khối gá đỡ gia công chính xác bằng nhựa cứng, đảm bảo trục đối xứng của loa phát và loa thu siêu âm song song chính xác với phương của ray trượt. Gốc tọa độ $0\text{ cm}$ của thước đo được căn chỉnh trùng khớp với mặt phẳng bề mặt kim loại của màng loa siêu âm.
-3. **Giá đỡ bia phản xạ vuông góc:** Tấm bia phản xạ được lắp trên một con trượt cơ khí di động. Con trượt có cữ khóa cố định vị trí vặn ren để giữ bia phản xạ không bị rung lắc trong quá trình đo, đồng thời bề mặt tấm bia luôn được giữ vuông góc chính xác $90^\circ$ với trục phát sóng siêu âm.
+### 2.2.2. Thiết kế không gian và kiểm soát điều kiện môi trường thực nghiệm
+Đặc tính sóng siêu âm có hình nón đòi hỏi không gian đo phải được tính toán để loại trừ các phản xạ phụ:
+- **Chiều cao bàn đo ($H_{	ext{table}} = 85	ext{ cm}$):** Hệ thống cảm biến và viên gạch phản xạ được đặt trên hai bàn thí nghiệm có độ cao $H_{	ext{table}} = 85.0	ext{ cm}$ so với mặt sàn phòng đo, đảm bảo búp sóng không quét chạm vào nền sàn.
+- **Nhiệt độ phòng đo và vi khí hậu:** Thực nghiệm được bố trí dọc theo hành lang kín gió dài 10 m, chiều rộng 2.8 m. Cảm biến đặt cách tường bên ít nhất 1.4 m. Trong suốt quá trình đo, hệ thống cửa được đóng kín tránh gió lùa và biến thiên nhiệt độ đột ngột.
 
 ---
 
-### 2.2.3. Thiết kế không gian và kiểm soát điều kiện môi trường thực nghiệm
-Trong đo lường bằng sóng siêu âm, chùm sóng phát ra có dạng búp sóng hình nón với góc mở hiệu dụng khoảng $\pm 15^\circ$. Nếu không gian thực nghiệm không được tính toán kỹ lưỡng, sóng âm ở các cự ly xa sẽ va đập vào mặt sàn, trần nhà hoặc tường hai bên, tạo ra hiện tượng giao thoa sóng nhiều đường (Multi-path Interference) và gây tín hiệu giả dội về sớm. Do đó, không gian thực nghiệm được thiết kế và kiểm soát theo các tiêu chuẩn kỹ thuật sau:
-
-1. **Độ cao nâng kệ đặt cảm biến ($h_{\text{shelf}} \ge 75\text{ cm}$):**  
-   Toàn bộ hệ thống ray trượt và cảm biến được đặt trên hệ khung bàn thí nghiệm có độ cao cách mặt sàn nhà $75\text{ cm}$.  
-   *Cơ sở tính toán hình học:* Tại cự ly đo xa $300\text{ cm}$, bán kính mở rộng của chùm tia siêu âm ước tính là $R = d \cdot \tan(15^\circ) \approx 300 \cdot 0.268 \approx 80\text{ cm}$. Việc đặt cảm biến ở độ cao $75 - 80\text{ cm}$ so với sàn đảm bảo vùng rìa chùm tia không bị quét chạm sớm vào mặt sàn nhà gây sai lệch thời gian bắt xung ToF.
-2. **Không gian phòng đo thông thoáng:**  
-   Thí nghiệm được bố trí dọc theo trục hành lang/phòng thí nghiệm thông thoáng có chiều dài khả dụng $> 7\text{ m}$ (đáp ứng cự ly đo xa nhất $600\text{ cm}$). Khoảng cách từ trục đo đến các bức tường và vật cản hai bên tối thiểu $> 1.5\text{ m}$ để triệt tiêu hoàn toàn phản xạ phụ từ vách tường.
-3. **Kiểm soát vi khí hậu và nhiệt độ môi trường:**  
-   - Không gian phòng kín, không có quạt gió hoặc luồng gió lùa thổi trực tiếp tạt ngang trục đo (nhằm tránh làm lệch hướng lan truyền của chùm sóng và tránh tạo ra các xoáy khí cục bộ gây biến thiên bất thường của vận tốc âm thanh).
-   - Nhiệt độ môi trường được ghi nhận liên tục tại vị trí đo bằng thiết bị nhiệt kế điện tử chuẩn; kịch bản đo phòng thường (Default Temp) được chuẩn hóa ổn định tại mức mặc định 27.0°C. Quá trình đo kịch bản phòng điều hòa (`FSAT`) được kích hoạt sau khi phòng đã bật điều hòa ổn định ít nhất 30 phút để nhiệt độ toàn phòng đạt trạng thái cân bằng nhiệt đồng nhất tại $20.0^\circ\text{C}$.
+### 2.2.3. Bố trí mô hình và định vị thiết bị đo
+Để đảm bảo phép đo đạt độ chính xác cao và hạn chế tối đa sai số góc lệch trục, mô hình thực nghiệm được bố trí khoa học và chắc chắn:
+1. **Cố định cảm biến tại vị trí mốc đo gốc:** Module cảm biến RCWL-1601 được cắm cố định vững chắc trên breadboard. Breadboard gắn cảm biến cùng vi điều khiển ESP32 và máy tính thu thập dữ liệu được đặt trên bàn có độ cao khoảng $85	ext{ cm}$ so với mặt sàn. Cảm biến được bố trí ở sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.
+2. **Vật thể phản xạ mục tiêu:** Vật thể đo chuẩn là một viên gạch kích thước $40 	imes 40	ext{ cm}$ có hai mặt với đặc tính bề mặt khác nhau: mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao $85	ext{ cm}$. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện trực diện với trục phát của cảm biến.
+3. **Căn chỉnh cự ly bằng thước đo tiêu chuẩn:** Khoảng cách chuẩn $d_{	ext{true}}$ được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.
 
 ---
 
@@ -78,9 +69,9 @@ Trong đo lường bằng sóng siêu âm, chùm sóng phát ra có dạng búp 
 
 | Tham số khảo sát | Kịch bản 1: `FSDT` *(Bộ dữ liệu chuẩn)* | Kịch bản 2: `BSDT` *(Khảo sát trễ)* | Kịch bản 3: `FRDT` *(Khảo sát bề mặt)* | Kịch bản 4: `FSAT` *(Khảo sát nhiệt độ)* |
 | :--- | :---: | :---: | :---: | :---: |
-| **Bề mặt phản xạ** | Phẳng nhẵn (Tấm composite) | Phẳng nhẵn (Tấm composite) | Gồ ghề nhấp nhô (Tấm xốp) | Phẳng nhẵn (Tấm composite) |
+| **Bề mặt phản xạ** | Mặt trước nhẵn (Viên gạch $40 \times 40\text{ cm}$) | Mặt trước nhẵn (Viên gạch $40 \times 40\text{ cm}$) | Mặt sau gồ ghề (Viên gạch $40 \times 40\text{ cm}$) | Mặt trước nhẵn (Viên gạch $40 \times 40\text{ cm}$) |
 | **Chiều di chuyển** | Tiến ($1\text{ cm} \to 600\text{ cm}$) | Lùi ($300\text{ cm} \to 10\text{ cm}$) | Tiến ($10\text{ cm} \to 375\text{ cm}$) | Tiến ($10\text{ cm} \to 300\text{ cm}$) |
-| **Nhiệt độ môi trường** | Phòng thường ($31.0 - 32.0^\circ\text{C}$) | Phòng thường ($31.0 - 32.0^\circ\text{C}$) | Phòng thường ($31.0 - 32.0^\circ\text{C}$) | Phòng điều hòa ($20.0^\circ\text{C}$) |
+| **Nhiệt độ môi trường** | Phòng thường ($27.0^\circ\text{C}$) | Phòng thường ($27.0^\circ\text{C}$) | Phòng thường ($27.0^\circ\text{C}$) | Phòng điều hòa ($20.0^\circ\text{C}$) |
 | **Số lần đo/mốc ($N$)** | $50$ lần đo | $50$ lần đo | $50$ lần đo | $50$ lần đo |
 | **Số mốc cự ly ($K$)** | **35 mốc** | **19 mốc** | **23 mốc** | **19 mốc** |
 | **Tổng số mẫu đo** | $1.750$ mẫu | $950$ mẫu | $1.150$ mẫu | $950$ mẫu |

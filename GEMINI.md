@@ -153,3 +153,9 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
 5. **Quy tắc An toàn Git:**
    - **TUYỆT ĐỐI KHÔNG tự ý chạy lệnh `git commit` hoặc `git push`** khi chưa có sự đồng ý trực tiếp từ người dùng.
    - Luôn đưa ra gợi ý **Suggested Commit Message** ngắn gọn, chuyên nghiệp bằng tiếng Việt ở cuối mỗi câu trả lời.
+
+6. **Quy chuẩn Mô hình Bố trí Thực nghiệm:**
+   - **Tuyệt đối không dùng cụm từ 'gá đặt cơ khí'** (do mang tính gia công cơ khí nặng không phù hợp bối cảnh thí nghiệm điện tử). Sử dụng các cụm từ chuẩn kỹ thuật đo lường tự nhiên: **'Bố trí mô hình và định vị thiết bị đo'** hoặc **'Phương thức bố trí và cố định thiết bị'**.
+   - **Cấu hình phần cứng thực tế:** Cảm biến RCWL-1601 được cắm cố định trên bo mạch thử nghiệm (breadboard), đặt sát mép bàn cao khoảng 85 cm cùng vi điều khiển ESP32 và máy tính thu thập dữ liệu.
+   - **Vật thể đo chuẩn:** Viên gạch kích thước $40 \times 40\text{ cm}$ có hai mặt với đặc tính đối lập: mặt trước phẳng nhẵn và mặt sau gồ ghề nhấp nhô. Viên gạch được dựng đứng sát mép của một chiếc bàn thứ hai cao 85 cm, luôn được căn chỉnh vuông góc ($90^\circ$) với mặt bàn và đối diện trực diện với cảm biến.
+   - **Xác định cự ly chuẩn:** Dùng thước đo milimét / thước dây tiêu chuẩn căng giữa hai mép bàn để xác lập chính xác từng mốc cự ly rồi kích hoạt cảm biến từ máy tính.

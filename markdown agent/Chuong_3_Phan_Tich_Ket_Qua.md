@@ -94,12 +94,12 @@ Bắt đầu từ cự ly $5\text{ cm}$ ($\bar{d} = 4.295\text{ cm}$) và đặc
 
 ### 3.2.3. Dải đo xa mở rộng vượt định mức (420 cm – 550 cm)
 
-Datasheet công bố từ nhà sản xuất quy định cự ly đo tối đa của RCWL-1601 là $400\text{ cm}$ (hoặc $450\text{ cm}$ trong điều kiện lý tưởng). Tuy nhiên, kết quả thực nghiệm với tấm bia phản xạ phẳng nhẵn ($30 \times 40\text{ cm}$) cho thấy cảm biến vẫn duy trì khả năng bắt sóng chính xác cao vượt ngưỡng thiết kế:
+Datasheet công bố từ nhà sản xuất quy định cự ly đo tối đa của RCWL-1601 là $400\text{ cm}$ (hoặc $450\text{ cm}$ trong điều kiện lý tưởng). Tuy nhiên, kết quả thực nghiệm với bề mặt phẳng nhẵn của viên gạch ($40 \times 40\text{ cm}$) cho thấy cảm biến vẫn duy trì khả năng bắt sóng chính xác cao vượt ngưỡng thiết kế:
 - Tại $420\text{ cm}$: $\bar{d} = 421.241\text{ cm}$ (sai số $+0.29\%$).
 - Tại $500\text{ cm}$: $\bar{d} = 500.691\text{ cm}$ (sai số $+0.14\%$).
 - Tại $550\text{ cm}$: $\bar{d} = 550.566\text{ cm}$ (sai số $+0.10\%$, độ lệch chuẩn $s = 0.152\text{ cm} = 1.52\text{ mm}$).
 
-Nguyên nhân đạt được tầm đo mở rộng này là nhờ tầng tiền khuếch đại tự động điều chỉnh độ lợi tích hợp bên trong vi mạch RCWL-9610 có độ nhạy thu vượt trội hơn cấu trúc linh kiện rời trên các module HC-SR04 truyền thống, kết hợp với góc hướng phản xạ vuông góc $90^\circ$ của cơ cấu gá đặt thử nghiệm.
+Nguyên nhân đạt được tầm đo mở rộng này là nhờ tầng tiền khuếch đại tự động điều chỉnh độ lợi tích hợp bên trong vi mạch RCWL-9610 có độ nhạy thu vượt trội hơn cấu trúc linh kiện rời trên các module HC-SR04 truyền thống, kết hợp với góc hướng phản xạ vuông góc $90^\circ$ của việc căn chỉnh vuông góc của bề mặt viên gạch đối diện trực diện với trục cảm biến.
 
 ### 3.2.4. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)
 
@@ -157,7 +157,7 @@ Khi nâng cự ly lên $580\text{ cm}$, mật độ năng lượng sóng phản 
   + Tại các cự ly $300\text{ cm}$, $500\text{ cm}$ và $550\text{ cm}$, sai số tương đối chỉ đạt lần lượt là $-0.09\%$, $+0.14\%$ và $+0.10\%$.
 
 **Phân tích bản chất sai số hệ thống:**
-Sự tồn tại của độ lệch tuyệt đối khoảng vài milimét có tính chất dịch chuyển đều (offset) bắt nguồn từ khoảng cách cơ khí giữa mặt phẳng màng gốm áp điện nằm thụt sâu bên trong ống kim loại cảm biến so với mặt phẳng mép ngoài của gá đặt ($offset \approx 5 - 6\text{ mm}$). Thành phần sai số hệ thống này hoàn toàn có thể được hiệu chuẩn triệt tiêu bằng phần mềm thông qua hệ số hiệu chỉnh dịch gốc toạ độ.
+Sự tồn tại của độ lệch tuyệt đối khoảng vài milimét có tính chất dịch chuyển đều (offset) bắt nguồn từ khoảng cách cơ khí giữa mặt phẳng màng gốm áp điện nằm thụt sâu bên trong ống kim loại cảm biến so với mép bo mạch và mép bàn đo ($offset \approx 5 - 6\text{ mm}$). Thành phần sai số hệ thống này hoàn toàn có thể được hiệu chuẩn triệt tiêu bằng phần mềm thông qua hệ số hiệu chỉnh dịch gốc toạ độ.
 
 ![Độ chính xác và Sai số toàn dải](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_4_do_chinh_xac_sai_so.png)
 *Hình 3.4: Phân bố Sai số tuyệt đối $\Delta d$ (mm) và Sai số tương đối $\delta\%$ trên dải làm việc hiệu dụng.*
@@ -282,7 +282,7 @@ Khác với cảm biến biến dạng áp điện hoặc cảm biến từ trư
 
 ## 3.6. Phân tích ảnh hưởng của Bề mặt phản xạ
 
-Đối chiếu kết quả giữa hai bề mặt phản xạ: Tấm nhựa phẳng nhẵn bóng (`FSDT.csv`) và Tấm bìa carton bọc xốp gai nhám gồ ghề (`FRDT.csv`) trên 22 mốc cự ly chung ($10\text{ cm} \to 360\text{ cm}$) cùng mốc giới hạn $375\text{ cm}$.
+Đối chiếu kết quả giữa hai bề mặt phản xạ: hai bề mặt của cùng một viên gạch kích thước $40 \times 40\text{ cm}$: Mặt trước phẳng nhẵn (`FSDT.csv`) và Mặt sau gồ ghề nhấp nhô (`FRDT.csv`) trên 22 mốc cự ly chung ($10\text{ cm} \to 360\text{ cm}$) cùng mốc giới hạn $375\text{ cm}$.
 
 ```mermaid
 flowchart TD
@@ -451,7 +451,7 @@ Bảng đối chiếu tổng kết toàn diện các thông số kỹ thuật c�
 | **Độ nhạy thời gian bay ($S_t$)** | $\approx 58\text{ }\mu\text{s/cm}$ | **$57.24\text{ }\mu\text{s/cm}$** (tại $27.0^\circ\text{C}$) | Sai lệch chỉ $-0.49\%$ so với mô hình Laplace lý thuyết ($57.53\text{ }\mu\text{s/cm}$) |
 | **Độ phân giải thực nghiệm** | $1\text{ mm}$ | **$0.175\text{ mm}$ (Timer)**<br>$\approx 0.2 - 0.5\text{ mm}$ (Thực nghiệm) | Tối ưu nhờ xung nhịp $80\text{ MHz}$ của bộ đếm phần cứng ESP32 |
 | **Độ lệch chuẩn lặp lại ($s$)** | Không công bố | **$0.06 - 0.38\text{ mm}$ ($< 1\text{ m}$)**<br>$1.5 - 2.8\text{ mm}$ ($> 2\text{ m}$) | Độ chụm cực cao, $\text{CV}\% < 0.11\%$ trên toàn dải làm việc |
-| **Độ trễ tương đối ($\gamma_H$)** | Không công bố | **$0.553\%$** | Hoàn toàn do độ rơ cơ học gá đặt và vi khí hậu phòng |
+| **Độ trễ tương đối ($\gamma_H$)** | Không công bố | **$0.553\%$** | Do sai số căn chỉnh dịch chuyển bàn đo và vi khí hậu phòng |
 | **Tầm đo trên mặt gồ ghề/xốp** | Không công bố | Bị suy giảm còn **$300\text{ cm}$**<br>*(Bão hòa hoàn toàn ở $375\text{ cm}$)* | Do hiện tượng tán xạ khuếch tán làm phân tán năng lượng sóng phản xạ |
 | **Khả năng thích ứng nhiệt độ** | Bù nhiệt nội bộ trên IC | Bù Laplace bằng phần mềm trên ESP32 | Giảm sai số trôi nhiệt từ $5.8\text{ cm}$ xuống dưới $0.5\text{ mm}$ trên dải $3\text{ m}$ |
 

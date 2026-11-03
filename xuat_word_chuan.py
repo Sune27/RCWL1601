@@ -564,7 +564,7 @@ add_body_p(
 add_heading_3("1.1.3. Sự suy hao năng lượng sóng âm theo cự ly đo")
 add_body_p("Năng lượng và biên độ áp suất âm p(d) của sóng âm suy giảm mạnh theo khoảng cách truyền dẫn do hai cơ chế vật lý song song:")
 add_bullet_p("Do chùm sóng âm phát đi theo dạng hình nón. Năng lượng sóng âm phân bố trên diện tích mặt cầu tăng dần, khiến mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", "1. Phân kỳ hình học: ")
-add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm theo quy luật hàm mũ: p(d) = p_0 · e^(-α·d). Ở tần số 40 kHz và nhiệt độ phòng 27 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí: ")
+add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm làm suy hao biên độ áp suất âm. Ở tần số 40 kHz và nhiệt độ phòng 27 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí: ")
 add_body_p(
     "Tổng suy hao sau hành trình hai chiều (2d) lên tới hàng chục decibel ở cự ly xa (d > 3 m). "
     "Vì vậy, ở cự ly trên 5.5 m, biên độ xung phản xạ sẽ tụt xuống dưới ngưỡng nhạy phát hiện của bộ so sánh, dẫn tới việc vi điều khiển "
@@ -576,9 +576,9 @@ add_heading_2("1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ CỦA MODULE RCW
 
 add_heading_3("1.2.1. Giản đồ xung kích hoạt và phản hồi thời gian bay")
 add_body_p("Module RCWL-1601 giao tiếp với vi điều khiển ESP32 thông qua giao thức xung kỹ thuật số hai chân (Trigger và Echo):")
-add_bullet_p("Vi điều khiển chủ động kéo chân TRIG lên mức logic CAO (HIGH, 3.3V) trong khoảng thời gian tối thiểu 10 μs để phát lệnh đo.", "• Bước 1 - Kích hoạt xung (Trigger Pulse): ")
-add_bullet_p("Khi nhận được xung TRIG, vi mạch chuyên dụng RCWL-9610 trên module tự động kích hoạt mạch dao động công suất đẩy màng loa phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz (kéo dài đúng 200 μs). Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", "• Bước 2 - Phát chùm sóng siêu âm: ")
-add_bullet_p("Sóng âm dội về tác động lên màng thu, tạo điện áp vi sai xoay chiều. Vi mạch RCWL-9610 thực hiện khuếch đại tự động độ lợi (AGC) và lọc thông dải 40 kHz. Ngay khi biên độ tín hiệu vượt ngưỡng so sánh, IC lập tức kéo chân ECHO xuống mức THẤP (LOW).", "• Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse): ")
+add_bullet_p("Vi điều khiển chủ động kéo chân TRIG lên mức logic CAO để phát lệnh đo.", "• Bước 1 - Kích hoạt xung (Trigger Pulse): ")
+add_bullet_p("Khi nhận được xung TRIG, vi mạch chuyên dụng RCWL-9610 trên module tự động kích hoạt mạch dao động công suất phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz. Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", "• Bước 2 - Phát chùm sóng siêu âm: ")
+add_bullet_p("Sóng âm dội về tác động lên màng thu, tạo điện áp vi sai xoay chiều. Vi mạch RCWL-9610 thực hiện khuếch đại tự động độ lợi và lọc thông dải 40 kHz. Ngay khi biên độ tín hiệu vượt ngưỡng so sánh, IC lập tức kéo chân ECHO xuống mức THẤP.", "• Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse): ")
 add_bullet_p("Độ rộng mức cao của xung ECHO (t_echo) tỷ lệ thuận chính xác với thời gian bay hai chiều t của sóng âm.", "• Bước 4 - Đo thời gian bay ToF: ")
 
 add_heading_3("1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601")
@@ -718,7 +718,7 @@ add_native_equation(
     eq_num="1.5"
 )
 
-add_bullet_p("Giá trị chia đôi tập dữ liệu đã sắp xếp thứ tự: Med = x_((N+1)/2) với N lẻ. Giá trị trung vị có tính chất thống kê bền vững (Robust Statistics), hoàn toàn không bị ảnh hưởng bởi các xung nhiễu đột biến cực đoan.", "• Giá trị trung vị mẫu (Median): ")
+add_bullet_p("Giá trị chia đôi tập dữ liệu đã sắp xếp thứ tự: Med = x_((N+1)/2) với N lẻ. Giá trị trung vị có tính chất thống kê bền vững, hoàn toàn không bị ảnh hưởng bởi các xung nhiễu đột biến cực đoan.", "• Giá trị trung vị mẫu (Median): ")
 
 add_heading_3("1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
 add_body_p(
@@ -815,7 +815,7 @@ add_body_p(
 add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
 add_bullet_p(
     "Đánh giá bằng các phương pháp phi thống kê (thông số kỹ thuật thiết bị, độ phân giải vi điều khiển, độ chia thước chuẩn cơ khí). "
-    "Với giả thiết phân bố xác suất hình chữ nhật (Uniform Distribution), độ không đảm bảo chuẩn thành phần là: u_B = a / √3, "
+    "Với giả thiết phân bố xác suất hình chữ nhật, độ không đảm bảo chuẩn thành phần là: u_B = a / √3, "
     "trong đó a là nửa khoảng dung sai cho phép.",
     "• Độ không đảm bảo đo Loại B (u_B): "
 )
@@ -861,13 +861,13 @@ add_heading_3("2.1.2. Phương pháp luận thực nghiệm")
 add_body_p(
     "Để đảm bảo tính khách quan và khả năng tái lập của kết quả đo, nghiên cứu áp dụng phương pháp luận đo lường chuẩn hóa:"
 )
-add_bullet_p("Sử dụng giàn ray trượt quang cơ khí dài 7 m có vạch chia milimét tiêu chuẩn (độ không đảm bảo đo u_B1 = 0.289 mm) làm chuẩn chiều dài đối chứng.", "• Phương pháp đo so sánh trực tiếp: ")
+add_bullet_p("Sử dụng thước đo tiêu chuẩn có độ chia milimét tiêu chuẩn (độ không đảm bảo đo u_B1 = 0.289 mm) làm chuẩn chiều dài đối chứng.", "• Phương pháp đo so sánh trực tiếp: ")
 add_bullet_p("Tại mỗi mốc cự ly chuẩn, thực hiện lặp lại N lần đo độc lập trong điều kiện môi trường ổn định để đánh giá độ phân tán ngẫu nhiên và tính toán độ không đảm bảo đo Loại A (u_A).", "• Phương pháp đo lặp thống kê: ")
-add_bullet_p("Nhiệt độ môi trường phòng thực nghiệm được giám sát liên tục bằng nhiệt kế điện tử chuẩn (độ chính xác ±0.5 °C). Dữ liệu nhiệt độ được ghi nhận đồng bộ vào từng mẫu đo để áp dụng thuật toán bù vận tốc sóng âm Laplace.", "• Phương pháp kiểm soát và bù trừ điều kiện môi trường: ")
-add_bullet_p("Toàn bộ dữ liệu thô (thời gian bay t, cự ly đo d, nhiệt độ T) được ESP32 truyền về máy tính qua giao tiếp nối tiếp UART với tốc độ 115200 bps, tự động ghi lưu thành các tệp định dạng CSV để triệt tiêu hoàn toàn sai số chủ quan của con người.", "• Phương pháp thu thập dữ liệu tự động hóa: ")
+add_bullet_p("Nhiệt độ môi trường phòng thực nghiệm được giám sát liên tục bằng nhiệt kế. Dữ liệu nhiệt độ được ghi nhận đồng bộ vào từng mẫu đo để áp dụng thuật toán bù vận tốc sóng âm Laplace.", "• Phương pháp kiểm soát và bù trừ điều kiện môi trường: ")
+add_bullet_p("Toàn bộ dữ liệu thô (thời gian bay t, cự ly đo d, nhiệt độ T) được ESP32 truyền về máy tính tự động ghi lưu thành các tệp định dạng CSV.", "• Phương pháp thu thập dữ liệu tự động hóa: ")
 
 # 2.2
-add_heading_2("2.2. THIẾT KẾ PHẦN CỨNG, MÔ HÌNH GÁ ĐẶT VÀ KHÔNG GIAN THỰC NGHIỆM")
+add_heading_2("2.2. THIẾT KẾ PHẦN CỨNG VÀ KHÔNG GIAN THỰC NGHIỆM")
 
 add_heading_3("2.2.1. Thiết kế phần cứng và sơ đồ kết nối điện")
 add_body_p(
@@ -885,18 +885,18 @@ r_t1.font.size = Pt(12)
 r_t1.font.bold = True
 
 pin_data = [
-    ("VCC", "3V3 (ESP32)", "Cấp nguồn nuôi cảm biến", "3.3 V DC (Dòng tĩnh < 3 mA)"),
-    ("GND", "GND (ESP32)", "Nối đất chung hệ thống", "0 V (Mass tham chiếu)"),
-    ("TRIG", "GPIO 5 (ESP32)", "Ngõ vào kích phát xung siêu âm", "Mức logic 3.3 V (Xung kích ≥ 10 μs)"),
-    ("ECHO", "GPIO 18 (ESP32)", "Ngõ ra phản hồi thời gian bay ToF", "Mức logic 3.3 V (Độ rộng xung tỷ lệ thuận ToF)")
+    ("VCC", "3V3 (ESP32)", "Cấp nguồn nuôi cảm biến"),
+    ("GND", "GND (ESP32)", "Nối đất chung hệ thống"),
+    ("TRIG", "GPIO 5 (ESP32)", "Ngõ vào kích phát xung siêu âm"),
+    ("ECHO", "GPIO 18 (ESP32)", "Ngõ ra phản hồi thời gian bay ToF")
 ]
 
-table_pin = doc.add_table(rows=len(pin_data)+1, cols=4)
+table_pin = doc.add_table(rows=len(pin_data)+1, cols=3)
 table_pin.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_pin.autofit = False
 
-pin_widths = [Cm(3.0), Cm(3.5), Cm(5.5), Cm(4.0)]
-pin_headers = ["Chân RCWL-1601", "Chân ESP32", "Chức năng kỹ thuật", "Ghi chú mức điện áp"]
+pin_widths = [Cm(4.0), Cm(4.0), Cm(8.0)]
+pin_headers = ["Chân RCWL-1601", "Chân ESP32", "Chức năng kỹ thuật"]
 
 for idx, text in enumerate(pin_headers):
     c = table_pin.rows[0].cells[idx]
@@ -920,7 +920,7 @@ for row_idx, data in enumerate(pin_data, start=1):
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.line_spacing = 1.15
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx in (0, 1) else (WD_ALIGN_PARAGRAPH.LEFT if col_idx == 2 else WD_ALIGN_PARAGRAPH.CENTER)
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx in (0, 1) else WD_ALIGN_PARAGRAPH.LEFT
         for r in p.runs:
             r.font.name = 'Times New Roman'
             r.font.size = Pt(11)
@@ -940,21 +940,20 @@ for c in table_pin.rows[0].cells:
 for c in table_pin.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
-add_heading_3("2.2.2. Thiết kế mô hình gá đặt cơ khí")
+add_heading_3("2.2.2. Thiết kế không gian và kiểm soát điều kiện môi trường thực nghiệm")
 add_body_p(
-    "Để đảm bảo độ chính xác cơ học và khả năng định vị chuẩn dọc theo hành trình 6 m, hệ thống gá đặt thực nghiệm được thiết kế bao gồm:"
+    "Đặc tính sóng siêu âm có hình nón đòi hỏi không gian đo phải được tính toán để loại trừ các phản xạ phụ:"
 )
-add_bullet_p("Được ghép từ các thanh ray nhôm định hình chuẩn có độ võng nhỏ hơn 0.5 mm trên chiều dài 2 m, đặt thẳng hàng tuyệt đối. Dọc theo ray có dán thước thép đo khoảng cách chuẩn chiều dài 7 m, độ chia nhỏ nhất 1 mm.", "1. Ray trượt dẫn hướng chiều dài 7 m: ")
-add_bullet_p("Cảm biến RCWL-1601 được gá cố định tại mốc tọa độ x = 0 cm. Mặt phẳng hai mắt phát - thu gốm áp điện được căn chỉnh vuông góc 90° so với trục dọc của ray trượt bằng bọt thủy nivo quang học và thước đo góc vuông laser.", "2. Giá đỡ cảm biến chuẩn tọa độ gốc: ")
-add_bullet_p("Tấm bia phản xạ kích thước 30 cm × 40 cm (đảm bảo bao trùm hoàn toàn diện tích đáy của búp sóng siêu âm 15° ở cự ly xa) được gắn vuông góc trên con trượt cơ khí. Con trượt trang bị con trỏ chỉ vạch cơ khí có độ dày mũi trỏ < 0.2 mm, kết hợp chốt hãm vít ren giúp khóa chặt vị trí tại từng mốc cự ly đặt.", "3. Cụm bia phản xạ trượt di động: ")
+add_bullet_p("Hệ thống cảm biến và viên gạch phản xạ được đặt trên hai bàn thí nghiệm có độ cao H_table = 85.0 cm so với mặt sàn phòng đo.", "• Chiều cao bàn đo H_table = 85 cm: ")
+add_bullet_p("Thực nghiệm được bố trí dọc theo hành lang kín gió dài 10 m, chiều rộng 2.8 m. Cảm biến đặt cách tường bên ít nhất 1.4 m. Trong suốt quá trình đo, hệ thống cửa được đóng kín tránh gió lùa và biến thiên nhiệt độ đột ngột.", "• Nhiệt độ phòng đo: ")
 
-add_heading_3("2.2.3. Thiết kế không gian và kiểm soát điều kiện môi trường thực nghiệm")
+add_heading_3("2.2.3. Bố trí mô hình và định vị thiết bị đo")
 add_body_p(
-    "Đặc tính sóng siêu âm có góc mở búp sóng hình nón 15° đòi hỏi không gian đo phải được tính toán cẩn trọng để loại trừ các phản xạ phụ:"
+    "Để đảm bảo phép đo đạt độ chính xác cao và hạn chế tối đa sai số góc lệch trục, mô hình thực nghiệm được bố trí khoa học và chắc chắn:"
 )
-add_bullet_p("Bán kính vùng nón sóng âm phát triển theo khoảng cách: R_cone(d) = d · tan(7.5°). Tại cự ly đo lớn nhất d = 6.0 m, bán kính búp sóng đạt R_cone ≈ 0.79 m (đường kính vệt sóng ≈ 1.58 m).", "• Vùng bao sóng âm: ")
-add_bullet_p("Toàn bộ giàn ray trượt và cảm biến được đặt trên hệ giá đỡ nâng cao H_shelf = 75.0 cm so với mặt sàn phòng thí nghiệm. Thiết kế độ cao 75 cm đảm bảo ở cự ly đo đến 5.5 m, mép dưới của búp sóng 15° vẫn chưa chạm tới mặt sàn, triệt tiêu hoàn toàn phản xạ phụ từ sàn nhà vào đầu thu.", "• Thiết kế chiều cao nâng kệ H_shelf = 75 cm: ")
-add_bullet_p("Thực nghiệm được bố trí dọc theo hành lang kín gió dài 10 m, chiều rộng 2.8 m. Cảm biến đặt cách tường bên ít nhất 1.4 m để tránh sóng dội thành vách. Trong suốt quá trình đo, hệ thống cửa được đóng kín để duy trì vi khí hậu ổn định, tránh gió lùa và biến thiên nhiệt độ đột ngột.", "• Kiểm soát vi khí hậu phòng đo: ")
+add_bullet_p("Module cảm biến RCWL-1601 được cắm cố định vững chắc trên breadboard. Breadboard gắn cảm biến cùng vi điều khiển ESP32 và máy tính thu thập dữ liệu được đặt trên bàn có độ cao khoảng 85 cm so với mặt sàn. Cảm biến được bố trí ở sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.", "1. Cố định cảm biến tại vị trí mốc đo gốc: ")
+add_bullet_p("Vật thể đo chuẩn là một viên gạch kích thước 40 cm × 40 cm có hai mặt với đặc tính bề mặt khác nhau: mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao 85 cm. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện trực diện với trục phát của cảm biến.", "2. Vật thể phản xạ mục tiêu: ")
+add_bullet_p("Khoảng cách chuẩn d_true được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.", "3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: ")
 
 # 2.3
 add_heading_2("2.3. THIẾT KẾ MA TRẬN KỊCH BẢN THỰC NGHIỆM")
@@ -971,7 +970,7 @@ r_t2.font.size = Pt(12)
 r_t2.font.bold = True
 
 sc_data = [
-    ("Bề mặt phản xạ", "Phẳng nhẵn (Tấm composite)", "Phẳng nhẵn (Tấm composite)", "Nhám gồ ghề (Tấm bìa bọc xốp)", "Phẳng nhẵn (Tấm composite)"),
+    ("Bề mặt phản xạ", "Mặt trước nhẵn (Gạch 40x40 cm)", "Mặt trước nhẵn (Gạch 40x40 cm)", "Mặt sau gồ ghề (Gạch 40x40 cm)", "Mặt trước nhẵn (Gạch 40x40 cm)"),
     ("Chiều di chuyển", "Tiến (1 cm → 600 cm)", "Lùi (300 cm → 10 cm)", "Tiến (10 cm → 375 cm)", "Tiến (10 cm → 300 cm)"),
     ("Số lượng mốc đo", "35 mốc cự ly", "19 mốc cự ly đối ứng", "23 mốc cự ly", "19 mốc cự ly đối ứng"),
     ("Nhiệt độ môi trường", "27.0 °C (Nhiệt độ phòng)", "27.0 °C (Nhiệt độ phòng)", "27.0 °C (Nhiệt độ phòng)", "20.0 °C (Bật điều hòa lạnh)"),
