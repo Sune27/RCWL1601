@@ -257,15 +257,15 @@ add_bullet_p("Vật thể đo chuẩn là một viên gạch kích thước 40 c
 add_bullet_p("Khoảng cách chuẩn d_true được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.", "3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: ")
 
 # 2.3
-add_heading_2("2.3. THIẾT KẾ MA TRẬN KỊCH BẢN THỰC NGHIỆM")
+add_heading_2("2.3. CÁC TRƯỜNG HỢP ĐO VÀ ĐIỀU KIỆN THỰC NGHIỆM")
 add_body_p(
-    "Để đánh giá đầy đủ, độc lập và toàn diện các đặc tính kỹ thuật, nghiên cứu thiết lập ma trận thực nghiệm gồm 4 kịch bản đo lường chuyên biệt:"
+    "Để đánh giá đầy đủ, độc lập và toàn diện các đặc tính kỹ thuật, nghiên cứu thiết lập 4 trường hợp đo chuyên biệt với các điều kiện môi trường tương ứng:"
 )
 
 p_tbl2 = doc.add_paragraph()
 p_tbl2.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p_tbl2.paragraph_format.space_after = Pt(4)
-r_t2 = p_tbl2.add_run("Bảng 2.2: Ma trận 4 kịch bản khảo sát thực nghiệm tổng thể của đề tài")
+r_t2 = p_tbl2.add_run("Bảng 2.2: Bảng tổng hợp các trường hợp đo và thông số thực nghiệm")
 r_t2.font.name = 'Times New Roman'
 r_t2.font.size = Pt(12)
 r_t2.font.bold = True
@@ -285,7 +285,7 @@ table_sc.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_sc.autofit = False
 
 sc_widths = [Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2)]
-sc_headers = ["Tham số khảo sát", "Kịch bản 1: FSDT (Chuẩn)", "Kịch bản 2: BSDT (Trễ)", "Kịch bản 3: FRDT (Nhám)", "Kịch bản 4: FSAT (Nhiệt)"]
+sc_headers = ["Tham số khảo sát", "Trường hợp 1: FSDT (Chuẩn)", "Trường hợp 2: BSDT (Trễ)", "Trường hợp 3: FRDT (Gồ ghề)", "Trường hợp 4: FSAT (Nhiệt độ)"]
 
 for idx, text in enumerate(sc_headers):
     c = table_sc.rows[0].cells[idx]

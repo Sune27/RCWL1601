@@ -159,3 +159,7 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
    - **Cấu hình phần cứng thực tế:** Cảm biến RCWL-1601 được cắm cố định trên bo mạch thử nghiệm (breadboard), đặt sát mép bàn cao khoảng 85 cm cùng vi điều khiển ESP32 và máy tính thu thập dữ liệu.
    - **Vật thể đo chuẩn:** Viên gạch kích thước $40 \times 40\text{ cm}$ có hai mặt với đặc tính đối lập: mặt trước phẳng nhẵn và mặt sau gồ ghề nhấp nhô. Viên gạch được dựng đứng sát mép của một chiếc bàn thứ hai cao 85 cm, luôn được căn chỉnh vuông góc ($90^\circ$) với mặt bàn và đối diện trực diện với cảm biến.
    - **Xác định cự ly chuẩn:** Dùng thước đo milimét / thước dây tiêu chuẩn căng giữa hai mép bàn để xác lập chính xác từng mốc cự ly rồi kích hoạt cảm biến từ máy tính.
+
+7. **Quy chuẩn Tên gọi Các trường hợp Đo lường:**
+   - Tuyệt đối không dùng cụm từ thiếu tự nhiên **'ma trận kịch bản thực nghiệm'**.
+   - Bắt buộc sử dụng cụm từ thuần kỹ thuật đo lường: **'Các trường hợp đo và điều kiện thực nghiệm'** (cho tiêu đề Mục 2.3) và **'Bảng tổng hợp các trường hợp đo và thông số thực nghiệm'** (cho Bảng 2.2). Các cột bảng gọi là: *Trường hợp 1 (FSDT)*, *Trường hợp 2 (BSDT)*, *Trường hợp 3 (FRDT)*, *Trường hợp 4 (FSAT)*.

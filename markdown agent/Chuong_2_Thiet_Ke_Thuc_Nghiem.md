@@ -63,11 +63,11 @@ Sơ đồ kết nối phần cứng chi tiết:
 
 ---
 
-## 2.3. THIẾT KẾ MA TRẬN KỊCH BẢN THỰC NGHIỆM
+## 2.3. CÁC TRƯỜNG HỢP ĐO VÀ ĐIỀU KIỆN THỰC NGHIỆM
 
-Để kiểm chứng toàn diện đặc tính của cảm biến siêu âm trong các điều kiện làm việc thực tế khác nhau, hệ thống thực nghiệm được chia thành **4 bộ kịch bản đo chính thức** với đầy đủ các tham số môi trường và hình học:
+Để đánh giá đầy đủ, độc lập và toàn diện các đặc tính kỹ thuật của cảm biến trong các điều kiện làm việc khác nhau, hệ thống thực nghiệm thiết lập **4 trường hợp đo chuyên biệt** với các tham số môi trường và hình học đối chứng:
 
-| Tham số khảo sát | Kịch bản 1: `FSDT` *(Bộ dữ liệu chuẩn)* | Kịch bản 2: `BSDT` *(Khảo sát trễ)* | Kịch bản 3: `FRDT` *(Khảo sát bề mặt)* | Kịch bản 4: `FSAT` *(Khảo sát nhiệt độ)* |
+| Tham số khảo sát | Trường hợp 1: `FSDT` *(Đo chuẩn)* | Trường hợp 2: `BSDT` *(Khảo sát trễ)* | Trường hợp 3: `FRDT` *(Mặt gồ ghề)* | Trường hợp 4: `FSAT` *(Nhiệt độ thấp)* |
 | :--- | :---: | :---: | :---: | :---: |
 | **Bề mặt phản xạ** | Mặt trước nhẵn (Viên gạch $40 \times 40\text{ cm}$) | Mặt trước nhẵn (Viên gạch $40 \times 40\text{ cm}$) | Mặt sau gồ ghề (Viên gạch $40 \times 40\text{ cm}$) | Mặt trước nhẵn (Viên gạch $40 \times 40\text{ cm}$) |
 | **Chiều di chuyển** | Tiến ($1\text{ cm} \to 600\text{ cm}$) | Lùi ($300\text{ cm} \to 10\text{ cm}$) | Tiến ($10\text{ cm} \to 375\text{ cm}$) | Tiến ($10\text{ cm} \to 300\text{ cm}$) |
