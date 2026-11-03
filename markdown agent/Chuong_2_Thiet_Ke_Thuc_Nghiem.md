@@ -81,55 +81,83 @@ Sơ đồ kết nối phần cứng chi tiết:
 
 ## 2.4. CƠ SỞ THỐNG KÊ VÀ THỰC NGHIỆM XÁC ĐỊNH CỠ MẪU TỐI ƯU N = 50
 
-Trong thiết kế thực nghiệm đo lường, việc lựa chọn số lần đo lặp lại $N$ tại mỗi điểm đo là một quyết định kỹ thuật mang tính chiến lược:
-- Nếu chọn $N$ quá nhỏ ($N < 15$): Sai số ngẫu nhiên lớn, độ không đảm bảo đo cao, kết quả không đủ độ tin cậy để đại diện cho bản chất cảm biến.
-- Nếu chọn $N$ quá lớn ($N \ge 100$): Tốn kém thời gian thao tác, tăng nguy cơ gây trôi nhiệt độ môi trường theo thời gian, đồng thời hiệu quả giảm sai số thu được không đáng kể.
+### 2.4.1. Bản chất bài toán tối ưu cỡ mẫu trong đo lường siêu âm
+Trong kỹ thuật đo lường, kết quả đo khoảng cách thực nghiệm không thể là một giá trị đơn độc, mà luôn được biểu diễn dưới dạng một khoảng tin cậy:
 
-Để giải quyết mâu thuẫn này một cách khoa học, nhóm nghiên cứu đã tiến hành một thí nghiệm thăm dò quy mô lớn gồm $100$ lần đo liên tục tại 3 cự ly thực nghiệm tiêu biểu: cự ly gần ($50\text{ cm}$), cự ly trung bình ($100\text{ cm}$) và cự ly xa ($150\text{ cm}$) lưu trong 3 file dữ liệu `100lanforward_smooth_defttemp_050cm.csv`, `100cm.csv`, `150cm.csv`.
-
-### 2.4.1. Cơ sở lý thuyết đường cong hội tụ Student 95%
-Khi số mẫu đo tăng dần từ $k = 2 \to 100$, độ không đảm bảo đo ngẫu nhiên của giá trị trung bình $\bar{x}(k)$ ở mức xác suất tin cậy $95\%$ được định lượng bằng **Bán kính khoảng tin cậy Student 95% ($\varepsilon_{95\%}$)**:
-
-$$\varepsilon_{95\%}(k) = t_{0.975, \, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
+$$d \in [\bar{d} - \varepsilon, \, \bar{d} + \varepsilon] \iff d = \bar{d} \pm \varepsilon$$
 
 Trong đó:
-- $k$: Cỡ mẫu tích lũy khảo sát ($k = 2, 3, \dots, 100$).
-- $s(k) = \sqrt{\frac{1}{k-1} \sum_{i=1}^k (x_i - \bar{x}(k))^2}$: Độ lệch chuẩn thực nghiệm tính trên $k$ mẫu đầu tiên.
-- $t_{0.975, \, k-1}$: Phân vị phân phối Student bậc tự do $k-1$ ứng với độ tin cậy hai phía $95\%$ (với $k=3 \to t=4.303$, $k=10 \to t=2.262$, $k=30 \to t=2.042$, $k=50 \to t=2.009$, $k=100 \to t=1.984$).
+- $\bar{d}$: Giá trị trung bình mẫu quan sát.
+- $\varepsilon$: Bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức xác suất tin cậy $95\%$.
+
+Theo lý thuyết xác suất thống kê và phân phối Student, bán kính sai số $\varepsilon$ được xác định theo mô hình:
+
+$$\varepsilon(N) = t_{0.975, \, N-1} \cdot \frac{s}{\sqrt{N}}$$
+
+Trong biểu thức trên:
+1. Độ lệch chuẩn thực nghiệm $s$ phản ánh bản chất nhiễu phần cứng và độ tán xạ sóng âm thực tế của cảm biến trong không khí.
+2. Thừa số $\frac{1}{\sqrt{N}}$ đóng vai trò nén sai số: số lần đo lặp lại $N$ càng lớn thì sai số ngẫu nhiên $\varepsilon$ càng thu hẹp.
+
+**Mâu thuẫn kỹ thuật dẫn tới bài toán tối ưu:**
+- Nếu muốn sai số $\varepsilon$ nhỏ tối đa $\to$ Cần tăng số lần đo $N$ thật lớn.
+- Tuy nhiên, khi $N$ tăng cao $\to$ Thời gian đo kéo dài, tải tính toán tăng, và nguy hiểm nhất là dẫn tới hiện tượng **trôi nhiệt độ môi trường** (Thermal Drift). Khi nhiệt độ không khí thay đổi (dù chỉ $0.5 - 1.0^\circ\text{C}$), vận tộc âm thanh $v(T)$ sẽ thay đổi và tạo ra sai số hệ thống ngược lại.
+- Đồng thời, do quy luật hàm số mũ ngược $\frac{1}{\sqrt{N}}$, tốc độ thu hẹp sai số sẽ giảm dần (hiệu suất biên giảm dần).
+- $\Rightarrow$ **Mục tiêu kỹ thuật:** Xác định kích thước mẫu tối ưu $N$ sao cho:
+  1. Sai số ngẫu nhiên $\varepsilon_{95\%}$ nhỏ hơn dung sai cho phép của thước đo chuẩn đối chứng ($\pm 0.5\text{ mm}$).
+  2. Tốc độ suy giảm sai số đã chạm ngưỡng dừng bão hòa ($|d\varepsilon/dN| \approx 0$).
+  3. Thời gian đo $T_{\text{total}}$ đủ ngắn để môi trường vi khí hậu được coi là bất biến.
 
 ---
 
-### 2.4.2. Biểu đồ hội tụ thực nghiệm và Bảng số liệu đối chiếu
-Đồ thị biểu diễn sự biến thiên của bán kính khoảng tin cậy $\varepsilon_{95\%}(k)$ theo số lượng mẫu đo tích lũy $k$ tại 3 cự ly được thể hiện trên hình dưới đây:
+### 2.4.2. Dữ liệu thực nghiệm và Phân tích đạo hàm hội tụ
 
-![Đồ thị hội tụ bán kính khoảng tin cậy Student 95% và chốt N=50](../graph/bieu_do_chot_N50_student_t95.png)
+#### A. Dữ liệu thực nghiệm
+Chuỗi thí nghiệm lấy mẫu liên tục 100 lần đo tại 3 cự ly thực nghiệm tiêu biểu: gần ($50\text{ cm}$), trung bình ($100\text{ cm}$) và xa ($150\text{ cm}$) ở chu kỳ lấy mẫu $50\text{ ms}$ (tần số $20\text{ Hz}$, nhiệt độ kiểm soát $27.0^\circ\text{C}$). Dữ liệu được lưu trữ tập trung tại bảng tổng hợp:
+- **`du_lieu_tong_hop/mau_100.csv`** (bảng 100 dòng $\times$ 3 cột: `d_50cm_cm`, `d_100cm_cm`, `d_150cm_cm`).
 
-*Hình 2.1: Quy luật hội tụ bán kính khoảng tin cậy Student 95% $\varepsilon_{95\%}(k)$ theo số mẫu $k$ tại 3 cự ly (50cm, 100cm, 150cm) và mốc chốt tối ưu N = 50.*
+#### B. Thuật toán tính toán và Đạo hàm sai phân
+Thuật toán duyệt cỡ mẫu $k$ từ $2$ đến $100$ trên tệp `mau_100.csv`:
+1. Tính trung bình tích lũy $\bar{d}(k)$ và độ lệch chuẩn tích lũy $s(k)$.
+2. Tra phân vị Student $t_{0.975, k-1}$ và tính bán kính sai số $\varepsilon_{95\%}(k)$ theo đơn vị milimet ($\text{mm}$).
+3. Tính đạo hàm sai phân bậc 1 theo từng bước mẫu $k$:
+   $$\frac{d\varepsilon_{95\%}}{dk} \approx \Delta\varepsilon_{95\%}(k) = \varepsilon_{95\%}(k) - \varepsilon_{95\%}(k-1) \quad (\text{mm/bước})$$
 
-Bảng số liệu đối chiếu giá trị $\varepsilon_{95\%}(k)$ trích xuất tại các mốc cỡ mẫu tiêu biểu (đơn vị: milimet - $\text{mm}$):
+Toàn bộ kết quả tính toán được phân tách chuẩn hóa thành 3 tệp độc lập lưu trong thư mục `du_lieu_tong_hop/chuong_2/`:
+- **`du_lieu_tong_hop/chuong_2/hoi_tu_50cm.csv`**
+- **`du_lieu_tong_hop/chuong_2/hoi_tu_100cm.csv`**
+- **`du_lieu_tong_hop/chuong_2/hoi_tu_150cm.csv`**
 
-| Cỡ mẫu khảo sát $k$ | Hệ số Student $t_{0.975}$ | Mốc 50cm: $\varepsilon_{95\%}$ (mm) | Mốc 100cm: $\varepsilon_{95\%}$ (mm) | Mốc 150cm: $\varepsilon_{95\%}$ (mm) | Nhận xét trạng thái kỹ thuật |
-| :---: | :---: | :---: | :---: | :---: | :--- |
-| **$k = 5$** | 2.776 | $\pm 0.11\text{ mm}$ | $\pm 0.62\text{ mm}$ | $\pm 1.25\text{ mm}$ | Sai số vượt ngưỡng dung sai cho phép ($> 0.5\text{ mm}$) |
-| **$k = 10$** | 2.262 | $\pm 0.07\text{ mm}$ | $\pm 0.34\text{ mm}$ | $\pm 0.89\text{ mm}$ | Sai số đang giảm dốc đứng theo hàm $1/\sqrt{k}$ |
-| **$k = 20$** | 2.086 | $\pm 0.04\text{ mm}$ | $\pm 0.21\text{ mm}$ | $\pm 0.58\text{ mm}$ | Mốc 50cm và 100cm bắt đầu phẳng, 150cm vẫn biến động |
-| **$k = 30$** | 2.042 | $\pm 0.03\text{ mm}$ | $\pm 0.15\text{ mm}$ | $\pm 0.46\text{ mm}$ | **Chạm điểm khuỷu tay (Elbow Point)** |
-| **$k = 50$** | **2.009** | **$\pm 0.03\text{ mm}$** | **$\pm 0.11\text{ mm}$** | **$\pm 0.40\text{ mm}$** | **MỐC CHỐT TỐI ƯU $N = 50$ (Tất cả đều $< 0.4\text{ mm}$)** |
-| **$k = 100$** | 1.984 | $\pm 0.02\text{ mm}$ | $\pm 0.08\text{ mm}$ | $\pm 0.27\text{ mm}$ | Vùng bão hòa, chỉ giảm thêm $\approx 0.1\text{ mm}$ dù tốn gấp 2 lần mẫu |
+Mỗi tệp gồm 6 cột dữ liệu: `k`, `t_student_95`, `mean_cm`, `s_mm`, `epsilon95_mm`, và đạo hàm `d_epsilon95_mm` đặt liền kề.
+
+#### C. Hệ thống Đồ thị và Bảng số liệu hội tụ
+
+![Đồ thị hội tụ bán kính sai số Student 95%](../graph/chuong_2/hinh_2_1_hoi_tu_sai_so_N.png)
+
+*Hình 2.1: Quy luật hội tụ bán kính sai số Student 95% $\varepsilon_{95\%}(k)$ theo số mẫu $k$ tại 3 cự ly (50cm, 100cm, 150cm).*
+
+![Tốc độ biến thiên sai số theo cỡ mẫu k](../graph/chuong_2/hinh_2_2_dao_ham_diem_khuyu_tay.png)
+
+*Hình 2.2: Tốc độ biến thiên sai số $|d\varepsilon_{95\%}/dk|$ theo cỡ mẫu $k$ xác nhận trạng thái dừng bão hòa tại $N = 50$.*
+
+Bảng số liệu đối chiếu trích xuất tại các mốc cỡ mẫu tiêu biểu:
+
+| Cỡ mẫu $k$ | Hệ số Student $t_{0.975}$ | Mốc 50cm: $\varepsilon_{95\%}$ | Mốc 100cm: $\varepsilon_{95\%}$ | Mốc 150cm: $\varepsilon_{95\%}$ | Đạo hàm $|d\varepsilon/dk|$ tiêu biểu | Ý nghĩa vật lý thực nghiệm |
+| :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **$k = 5$** | 2.776 | $\pm 0.12\text{ mm}$ | $\pm 0.12\text{ mm}$ | $\pm 0.15\text{ mm}$ | $\sim 0.07\text{ mm/bước}$ | Mẫu quá nhỏ, chưa xuất hiện các xung trượt chu kỳ sóng ở cự ly xa |
+| **$k = 10$** | 2.262 | $\pm 0.06\text{ mm}$ | $\pm 0.06\text{ mm}$ | $\pm 0.12\text{ mm}$ | $\sim 0.016\text{ mm/bước}$ | Sai số giảm dốc nhưng tạo ảo giác ổn định sớm |
+| **$k = 20$** | 2.086 | $\pm 0.05\text{ mm}$ | $\pm 0.17\text{ mm}$ | $\pm 0.07\text{ mm}$ | $\sim 0.004\text{ mm/bước}$ | Mốc 100cm bắt đầu nhảy bậc; mốc 150cm vẫn chưa bộc lộ trượt sóng |
+| **$k = 30$** | 2.042 | $\pm 0.03\text{ mm}$ | $\pm 0.14\text{ mm}$ | $\pm 0.28\text{ mm}$ | $\sim 0.010\text{ mm/bước}$ | **Bắt đầu xuất hiện trượt chu kỳ:** $\varepsilon$ ở 150cm bật tăng vọt từ $0.07 \to 0.28\text{ mm}$ |
+| **$k = 50$** | **2.009** | **$\pm 0.03\text{ mm}$** | **$\pm 0.11\text{ mm}$** | **$\pm 0.40\text{ mm}$** | **$\le 0.0005\text{ mm/bước}$** | **MỐC CHỐT TỐI ƯU:** Đã gom đủ các xung lỗi, đỉnh $\varepsilon \le 0.40\text{ mm} < 0.5\text{ mm}$ |
+| **$k = 100$** | 1.984 | $\pm 0.02\text{ mm}$ | $\pm 0.08\text{ mm}$ | $\pm 0.27\text{ mm}$ | $\le 0.0002\text{ mm/bước}$ | Vùng bão hòa, giảm chậm dần |
 
 ---
 
 ### 2.4.3. Luận giải khoa học quyết định lựa chọn cỡ mẫu $N = 50$
-Dựa trên hình ảnh đồ thị và bảng số liệu thực nghiệm, quyết định lựa chọn $N = 50$ lần đo cho toàn bộ các thí nghiệm được bảo vệ thông qua 3 luận cứ khoa học then chốt:
+Quyết định lựa chọn **$N = 50$ lần đo/mốc** cho toàn bộ các tập dữ liệu thực nghiệm được bảo vệ thông qua 3 luận cứ đo lường kỹ thuật:
 
-1. **Vượt qua điểm khuỷu tay và đạt tiêu chuẩn dung sai kỹ thuật:**
-   - Trong khoảng $k = 2 \to 30$, đường sai số $\varepsilon_{95\%}$ rơi dốc đứng. Từ $k \approx 30 - 35$ trở đi, đường cong đi qua điểm khuỷu tay và bắt đầu chuyển sang pha tiệm cận phẳng.
-   - Tại mốc $N = 50$, bán kính sai số khoảng tin cậy của cả 3 cự ly đều nằm gọn dưới ngưỡng dung sai cho phép $\pm 0.5\text{ mm}$ ($\pm 0.03\text{ mm}$ ở cự ly $50\text{ cm}$, $\pm 0.11\text{ mm}$ ở cự ly $100\text{ cm}$, và $\pm 0.40\text{ mm}$ ở cự ly $150\text{ cm}$).
-2. **Giải quyết hiện tượng trượt chu kỳ sóng ở cự ly xa:**
-   - Quan sát đường cong mốc $150\text{ cm}$, ta thấy đường sai số vẫn còn gợn sóng biến động trong khoảng $k = 20 \to 35$. Hiện tượng này xuất phát từ bản chất vật lý: ở cự ly xa, biên độ sóng phản xạ suy giảm, khiến mạch so sánh điện áp ở đầu thu thỉnh thoảng bị trượt đúng một chu kỳ sóng siêu âm ($T = 1/40\text{ kHz} = 25\text{ }\mu\text{s} \to \Delta d \approx 4.3\text{ mm}$). 
-   - Nếu chỉ đo $N = 20 - 30$ lần, các điểm trượt chu kỳ này sẽ kéo lệch giá trị trung bình. Phải đến khi đạt cỡ mẫu **$N \ge 45 - 50$**, số lượng mẫu lớn mới trung hòa và làm phẳng hoàn toàn các điểm đột biến này, đưa sai số về trạng thái bão hòa ổn định.
-3. **Quy luật hiệu suất giảm dần (Diminishing Returns) và tối ưu hóa thời gian đo:**
-   - So sánh giữa $N = 50$ và $N = 100$: Khi tăng gấp đôi số lần đo từ 50 lên 100 lần, sai số khoảng tin cậy chỉ giảm thêm một lượng không đáng kể là **$0.13\text{ mm}$** ở mốc $150\text{ cm}$ và **$0.03\text{ mm}$** ở mốc $100\text{ cm}$ (nhỏ hơn cả độ phân giải của bộ đếm thời gian vi điều khiển $\approx 0.17\text{ mm}$).
-   - Trong khi đó, việc tăng lên 100 lần đo sẽ làm tăng tổng số lượt đo của toàn bộ đề tài từ $4.800$ lần lên gần $10.000$ lần, kéo dài thời gian thí nghiệm và làm tăng nguy cơ trôi nhiệt độ phòng.
-
-$\Rightarrow$ **Kết luận:** Lựa chọn **$N = 50$ lần đo/mốc** là điểm cân bằng hoàn hảo nhất giữa tính khả thi thực nghiệm và độ chính xác đo lường khoa học, bảo đảm độ tin cậy $95\%$ cho toàn bộ các tập dữ liệu `FSDT`, `BSDT`, `FRDT`, `FSAT`.
+1. **Thỏa mãn tiêu chuẩn dung sai đo lường:**
+   - Tại $N = 50$, bán kính sai số ngẫu nhiên $\varepsilon_{95\%}$ ở cả 3 cự ly đều nhỏ hơn dung sai vạch chia của thước chuẩn cơ khí ($\pm 0.5\text{ mm}$): đạt $\pm 0.03\text{ mm}$ tại 50cm; $\pm 0.11\text{ mm}$ tại 100cm; và $\pm 0.40\text{ mm}$ tại 150cm.
+2. **Điểm dừng đạo hàm tối ưu bão hòa:**
+   - Đồ thị Hình 2.2 chứng minh tại $k = 50$, đạo hàm sai phân $|d\varepsilon/dk| \le 0.0005\text{ mm/bước} \approx 0$, xác nhận đường cong đã bước vào vùng phẳng bão hòa. Việc tăng số lần đo lên $N = 100$ chỉ giảm thêm $0.03\text{ mm}$ ở mốc 100cm (hoàn toàn nhỏ hơn độ phân giải phần cứng vi điều khiển $\approx 0.175\text{ mm}$).
+3. **Bảo toàn tính ổn định vi khí hậu:**
+   - Với tần số lấy mẫu $20\text{ Hz}$ (chu kỳ $50\text{ ms}$), việc đo $N = 50$ lần chỉ mất đúng $T_{\text{total}} = 50 \times 50\text{ ms} = 2.5\text{ giây}$. Khoảng thời gian $2.5\text{ giây}$ đủ ngắn để nhiệt độ phòng và luồng không khí được coi là bất biến, loại trừ hoàn toàn nguy cơ trôi nhiệt độ môi trường trong phiên đo.

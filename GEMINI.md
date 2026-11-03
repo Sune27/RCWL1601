@@ -45,9 +45,25 @@ Khi tạo mới hoặc cập nhật các đồ thị phân tích dữ liệu, c�
 * Cú pháp đặt tên: `hinh_<so_chuong>_<stt>_<ten_ngan_khong_dau>.png`
   *(Ví dụ: `hinh_3_1_loc_sai_so_tho.png`, `hinh_4_1_nguyen_ly_bon_chua.png`)*.
 
+### 1.5. Quy tắc Trình bày Chi tiết trên Đồ thị (Bắt buộc)
+* **Ký hiệu điểm dữ liệu (Markers):** Luôn sử dụng các hình học phân biệt rõ ràng cho các chuỗi dữ liệu trên đường vẽ (Ví dụ: hình tròn `marker='o'`, hình vuông `marker='s'`, hình tam giác `marker='^'`).
+* **Tuyệt đối không vẽ mũi tên chỉ điểm:** Không sử dụng các mũi tên chú thích (`annotate` với `arrowprops`) chĩa trực tiếp vào các điểm dữ liệu trên đồ thị để giữ khung hình thoáng, chuyên nghiệp và tránh rối mắt.
+* **Không tô bóng/ký hiệu các vùng phân dải:** Không sử dụng `axvspan` hay các mảng màu phân vùng (vùng dốc, vùng bão hòa, vùng chuyển tiếp...) đè lên dữ liệu đo lường.
+* **Thuật ngữ đo lường chuẩn xác:** Tuyệt đối không sử dụng từ ngữ "điểm khuỷu tay" (elbow point) trên đồ thị và báo cáo. Thay vào đó sử dụng các thuật ngữ đo lường chính quy: "Điểm dừng bão hòa sai số", "Ngưỡng tốc độ biến thiên $|d\varepsilon/dk| \approx 0$", hoặc ghi trực tiếp mốc "N = 50".
+
 ---
 
-## 2. QUY CHUẨN ĐỊNH DẠNG TÀI LIỆU WORD (.DOCX) DÀNH CHO BÁO CÁO
+## 2. QUY CHUẨN ĐỊNH DẠNG VÀ THAO TÁC VỚI TÀI LIỆU WORD (.DOCX) DÀNH CHO BÁO CÁO
+
+### 2.0. QUY TẮC KÍCH HOẠT TIỀN TỐ "DOCX" VÀ AN TOÀN TIẾN TRÌNH WORD
+> [!IMPORTANT]
+> **1. Quy tắc Tiền tố `docx` ở đầu câu lệnh:**
+> - Antigravity CHỈ ĐƯỢC PHÉP chỉnh sửa tệp Word (`.docx`) hoặc can thiệp/chạy các kịch bản xuất bản Word (`xuat_word_chuan.py`) KHI VÀ CHỈ KHI câu lệnh (prompt) của người dùng **có chữ `docx` ở đầu** (ví dụ: `"docx hãy gộp hai bản báo cáo vào 1"`, `"docx cập nhật mục 2.4 vào word"`).
+> - Nếu câu lệnh KHÔNG có tiền tố `docx` ở đầu: Tuyệt đối không chỉnh sửa mã nguồn xuất Word hay ghi đè tệp Word.
+>
+> **2. Quy tắc Kiểm tra An toàn Tiến trình Word đang mở:**
+> - Trước khi thực hiện bất kỳ thao tác nào liên quan tới file Word, Antigravity phải kiểm tra xem người dùng có đang mở ứng dụng Word hay không (kiểm tra tiến trình `WINWORD` hoặc file khóa `~$...docx`).
+> - **Nếu Word đang mở:** DỪNG LẠI NGAY LẬP TỨC và đưa ra thông báo: *"Vui lòng lưu và tắt ứng dụng Word để Antigravity có thể cập nhật tài liệu!"*. Tuyệt đối không tự ý ép ghi đè hoặc tự động sinh tệp phụ khi chưa có yêu cầu.
 
 Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tuân thủ chuẩn trình bày luận văn kỹ thuật đại học:
 
@@ -163,3 +179,11 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
 7. **Quy chuẩn Tên gọi Các trường hợp Đo lường:**
    - Tuyệt đối không dùng cụm từ thiếu tự nhiên **'ma trận kịch bản thực nghiệm'**.
    - Bắt buộc sử dụng cụm từ thuần kỹ thuật đo lường: **'Các trường hợp đo và điều kiện thực nghiệm'** (cho tiêu đề Mục 2.3) và **'Bảng tổng hợp các trường hợp đo và thông số thực nghiệm'** (cho Bảng 2.2). Các cột bảng gọi là: *Trường hợp 1 (FSDT)*, *Trường hợp 2 (BSDT)*, *Trường hợp 3 (FRDT)*, *Trường hợp 4 (FSAT)*.
+
+
+
+8. **Quy tắc Thao tác Tệp Word (Bắt buộc Tiền tố `docx` & Dừng khi Word mở):**
+
+   - Chỉ được phép chỉnh sửa mã nguồn xuất Word hoặc can thiệp tệp Word khi câu lệnh của người dùng bắt đầu bằng chữ `docx`.
+
+   - Nếu phát hiện ứng dụng Word đang mở, lập tức dừng lại và thông báo nhắc người dùng tắt Word trước khi tiếp tục.
