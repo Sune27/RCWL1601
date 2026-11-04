@@ -312,46 +312,87 @@ plt.savefig(GRAPH_DIR / "hinh_3_6_vong_tre_hysteresis.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 7. HÌNH 3.7: Ảnh hưởng của Bề mặt phản xạ (Nhẵn vs Gồ ghề)
+# 7. HÌNH 3.7a & 3.7b (Mục 3.6): Ảnh hưởng của Bề mặt phản xạ (Nhẵn FSDT vs Gồ ghề FRDT)
+#    Đồ thị đơn 1 khung hình (dpi=300), trích xuất trực tiếp từ thong_ke_chuong_3.csv
 # ==========================================================
-print("Tạo Hình 3.7...")
-common_r = sorted(list(set([float(c.replace('cm', '')) for c in frdt.keys()]).intersection(set([float(c.replace('cm', '')) for c in fsdt.keys()]))))
-s_smooth = [statistics.stdev(fsdt[f"{int(d):03d}cm"]) * 10 for d in common_r] # mm
-s_rough = [statistics.stdev(frdt[f"{int(d):03d}cm"]) * 10 for d in common_r] # mm
+print("Tạo Hình 3.7a & 3.7b (Mục 3.6 - Bề mặt phản xạ từ thong_ke_chuong_3.csv)...")
+fsdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSDT_')}
+frdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FRDT_')}
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
+# --- Hình 3.7a: So sánh độ lệch chuẩn s và SE sau lọc IQR trên 22 mốc chung (10 cm – 350 cm) ---
+common_surf_x = sorted(set(fsdt_map.keys()).intersection(frdt_map.keys()))
+s_fsdt_surf = [float(fsdt_map[x]['std_sach_mm']) for x in common_surf_x]
+s_frdt_surf = [float(frdt_map[x]['std_sach_mm']) for x in common_surf_x]
+se_frdt_surf = [float(frdt_map[x]['se_sach_mm']) for x in common_surf_x]
 
-# Tán xạ làm tăng s (khảo sát đến 340cm để thấy rõ tỉ số chênh lệch)
-common_r_sub = [d for d in common_r if d <= 340]
-s_smooth_sub = [statistics.stdev(fsdt[f"{int(d):03d}cm"]) * 10 for d in common_r_sub]
-s_rough_sub = [statistics.stdev(frdt[f"{int(d):03d}cm"]) * 10 for d in common_r_sub]
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax.plot(common_surf_x, s_fsdt_surf, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
+        label='Mặt phẳng nhẵn FSDT – Độ lệch chuẩn s (mm)')
+ax.plot(common_surf_x, s_frdt_surf, color='#ff7f0e', linestyle='--', linewidth=1.8, marker='s', markersize=4.5,
+        label='Mặt gồ ghề FRDT – Độ lệch chuẩn s (mm)')
+ax.plot(common_surf_x, se_frdt_surf, color='#2ca02c', linestyle=':', linewidth=1.7, marker='^', markersize=4.2,
+        label='Mặt gồ ghề FRDT – Sai số chuẩn SE = s/√n (mm)')
+ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
+           label='Dung sai vạch chia thước (0.5 mm)')
 
-ax1.plot(common_r_sub, s_smooth_sub, 'o-', color='#1f77b4', label='Mặt phẳng nhẵn (FSDT)', linewidth=1.5, markersize=4)
-ax1.plot(common_r_sub, s_rough_sub, 's-', color='#ff7f0e', label='Mặt gồ ghề tán xạ (FRDT)', linewidth=1.5, markersize=4)
-ax1.set_title('So sánh Độ tán xạ dữ liệu đo (Độ lệch chuẩn s)')
-ax1.set_xlabel('Khoảng cách chuẩn (cm)')
-ax1.set_ylabel('Độ lệch chuẩn s (mm)')
-ax1.grid(True, linestyle=':', alpha=0.6)
-ax1.legend(loc='upper left')
-
-# Giới hạn cự ly do suy hao
-all_frdt_d = sorted([float(c.replace('cm', '')) for c in frdt.keys()])
-r_means = [statistics.mean(frdt[f"{int(d):03d}cm"]) for d in all_frdt_d]
-f_sub_means = [statistics.mean(fsdt[f"{int(d):03d}cm"]) if f"{int(d):03d}cm" in fsdt else d for d in all_frdt_d]
-
-ax2.plot(all_frdt_d, f_sub_means, 'o-', color='#1f77b4', label='Mặt phẳng nhẵn (đo ổn định đến 550 cm)', linewidth=1.5, markersize=4)
-ax2.plot(all_frdt_d, r_means, 's--', color='#d62728', label='Mặt gồ ghề (suy hao bão hòa tại ≥350 cm)', linewidth=1.5, markersize=4)
-ax2.axvspan(345, 380, color='#ff9999', alpha=0.35, label='Vùng suy giảm tín hiệu mạnh')
-ax2.set_title('Giới hạn tầm đo trên bề mặt gồ ghề')
-ax2.set_xlabel('Khoảng cách chuẩn (cm)')
-ax2.set_ylabel('Khoảng cách đo được (cm)')
-ax2.grid(True, linestyle=':', alpha=0.6)
-ax2.legend(loc='lower right')
+ax.set_title("So sánh độ chụm (s và SE sau lọc IQR) giữa mặt phẳng nhẵn và mặt gồ ghề (10 cm – 350 cm)", fontweight='bold', pad=12)
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_ylabel("Độ phân tán / Sai số chuẩn (mm)", fontweight='bold')
+ax.set_xlim(0, 365)
+ax.set_ylim(-0.15, 4.35)
+ax.set_yticks([0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0])
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.grid(axis='x', visible=False)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.95)
 
 plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_7_anh_huong_be_mat.png", dpi=300)
-plt.close()
+h3_7a_p1 = GRAPH_DIR / "hinh_3_7a_do_chum_be_mat.png"
+h3_7a_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_7a_do_chum_be_mat.png"
+h3_7_legacy = GRAPH_DIR / "hinh_3_7_anh_huong_be_mat.png"
+fig.savefig(h3_7a_p1, dpi=300)
+fig.savefig(h3_7a_p2, dpi=300)
+fig.savefig(h3_7_legacy, dpi=300)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.7a tại: {h3_7a_p1} và {h3_7a_p2}")
 
+# --- Hình 3.7b: So sánh đặc tính khoảng cách trung bình và giới hạn tầm đo (10 cm – 600 cm) ---
+x_fsdt_range = sorted([x for x in fsdt_map.keys() if x >= 10.0])
+y_fsdt_sach = [float(fsdt_map[x]['mean_sach_cm']) for x in x_fsdt_range]
+
+x_frdt_range = sorted(frdt_map.keys())
+y_frdt_tho = [float(frdt_map[x]['mean_tho_cm']) for x in x_frdt_range]
+y_frdt_sach = [float(frdt_map[x]['mean_sach_cm']) for x in x_frdt_range]
+
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax.plot([0, 600], [0, 600], color='#7f7f7f', linestyle='--', linewidth=1.1,
+        label='Đường chuẩn lý tưởng (y = x)')
+ax.plot(x_fsdt_range, y_fsdt_sach, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
+        label='Mặt phẳng nhẵn FSDT (sau lọc IQR, ổn định đến 550 cm)')
+ax.plot(x_frdt_range, y_frdt_tho, color='#ff7f0e', linestyle=':', linewidth=1.5, marker='^', markersize=4.2,
+        label='Mặt gồ ghề FRDT (trước lọc IQR, chớm mất xung tại 350 cm)')
+ax.plot(x_frdt_range, y_frdt_sach, color='#d62728', linestyle='--', linewidth=1.8, marker='s', markersize=4.5,
+        label='Mặt gồ ghề FRDT (sau lọc IQR, tràn bão hòa tại 375 cm)')
+ax.axhline(824.6, color='#9467bd', linestyle='-.', linewidth=1.1,
+           label='Ngưỡng tràn bộ đếm thời gian bay (~824.6 cm)')
+
+ax.set_title("So sánh đặc tính khoảng cách trung bình và giới hạn tầm đo giữa hai bề mặt (10 cm – 600 cm)", fontweight='bold', pad=12)
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_ylabel("Khoảng cách đo trung bình (cm)", fontweight='bold')
+ax.set_xlim(0, 620)
+ax.set_ylim(0, 910)
+ax.set_yticks([0, 100, 200, 300, 400, 500, 600, 700, 824.6])
+ax.set_yticklabels(['0', '100', '200', '300', '400', '500', '600', '700', '824.6'])
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.grid(axis='x', visible=False)
+ax.legend(loc='upper left', bbox_to_anchor=(0.015, 0.88), framealpha=0.95)
+
+plt.tight_layout()
+h3_7b_p1 = GRAPH_DIR / "hinh_3_7b_gioi_han_tam_do_be_mat.png"
+h3_7b_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_7b_gioi_han_tam_do_be_mat.png"
+fig.savefig(h3_7b_p1, dpi=300)
+fig.savefig(h3_7b_p2, dpi=300)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.7b tại: {h3_7b_p1} và {h3_7b_p2}")
 # ==========================================================
 # 8. HÌNH 3.8: Ảnh hưởng Nhiệt độ và Hiệu quả bù Vận tốc Laplace
 # ==========================================================

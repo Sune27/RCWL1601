@@ -298,45 +298,38 @@ Khác với cảm biến biến dạng áp điện hoặc cảm biến từ trư
 
 ## 3.6. Phân tích ảnh hưởng của Bề mặt phản xạ
 
-Đối chiếu kết quả giữa hai bề mặt phản xạ: hai bề mặt của cùng một viên gạch kích thước $40 \times 40\text{ cm}$: Mặt trước phẳng nhẵn (`FSDT.csv`) và Mặt sau gồ ghề nhấp nhô (`FRDT.csv`) trên 22 mốc cự ly chung ($10\text{ cm} \to 360\text{ cm}$) cùng mốc giới hạn $375\text{ cm}$.
+Để lượng hóa tác động của cơ chế phản xạ gương định hướng và tán xạ khuếch tán sóng siêu âm (đã trình bày tại **Mục 1.1.3, Chương 1**) lên chất lượng phép đo thực tế, thí nghiệm đối chứng được thực hiện tại cùng điều kiện nhiệt độ phòng mặc định $27.0^\circ\text{C}$ ($v = 347.662\text{ m/s}$) trên hai mặt đối lập của cùng một viên gạch kích thước $40 \times 40\text{ cm}$ (**Mục 2.2 & Mục 2.3, Chương 2**): **Trường hợp 1 (`FSDT`)** sử dụng mặt trước phẳng nhẵn và **Trường hợp 3 (`FRDT`)** sử dụng mặt sau gồ ghề nhấp nhô. Toàn bộ chỉ tiêu thống kê trước và sau lọc $\text{IQR}$ trên $22$ mốc cự ly chung ($10\text{ cm} - 350\text{ cm}$) cùng mốc kiểm tra giới hạn $375\text{ cm}$ của `FRDT` ($23$ mốc, tổng cộng $1\,150$ mẫu thô) được trích xuất trực tiếp từ tệp `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`.
 
-```mermaid
-flowchart TD
-    subgraph A["Bề mặt nhẵn bóng (Specular Reflection)"]
-        A1["Chùm sóng âm 40 kHz"] --> A2["Phản xạ gương định hướng 90°"]
-        A2 --> A3["Năng lượng dội về cực đại"]
-        A3 --> A4["Độ chụm cao, đo xa đến 550 cm"]
-    end
-    subgraph B["Bề mặt gồ ghề nhám (Diffuse Scattering)"]
-        B1["Chùm sóng âm 40 kHz"] --> B2["Tán xạ đa hướng ngẫu nhiên"]
-        B2 --> B3["Năng lượng dội về suy giảm mạnh"]
-        B3 --> B4["Độ lệch chuẩn tăng vọt, bão hòa tại 350-375 cm"]
-    end
-```
+### 3.6.1. Tác động của tán xạ bề mặt lên độ chụm và độ chính xác đo
 
-| Cự ly chuẩn $x_{\text{true}}$ (cm) | Mặt phẳng nhẵn $\bar{x}$ (cm) | Mặt nhẵn $s_{\text{smooth}}$ (mm) | Mặt gồ ghề $\bar{x}$ (cm) | Mặt gồ ghề $s_{\text{rough}}$ (mm) | Tỷ số tăng tán xạ $s_{\text{rough}} / s_{\text{smooth}}$ |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **$10$** | $10.570$ | $0.061$ | $9.999$ | $1.620$ | **$26.4$ lần** |
-| **$50$** | $49.847$ | $0.094$ | $49.762$ | $1.452$ | **$15.5$ lần** |
-| **$100$** | $99.429$ | $0.383$ | $98.732$ | $0.101$ | $0.3$ lần |
-| **$150$** | $149.956$ | $0.158$ | $148.657$ | $0.245$ | $1.6$ lần |
-| **$200$** | $200.351$ | $2.192$ | $198.969$ | $0.253$ | $0.1$ lần |
-| **$250$** | $250.124$ | $0.245$ | $247.826$ | $0.248$ | $1.0$ lần |
-| **$300$** | $299.718$ | $2.860$ | $299.266$ | $0.244$ | $0.1$ lần |
-| **$340$** | $340.388$ | $1.962$ | $339.921$ | $0.462$ | $0.2$ lần |
-| **$350$** | $349.550$ | $2.491$ | $360.649$ | **$669.240$** | **$268.7$ lần** *(Bắt đầu bão hòa)* |
-| **$375$** | *Không đo* | — | $824.593$ | **$0.000$** | **Bão hòa 100%** *(Mất tín hiệu hoàn toàn)* |
+Đối chiếu các chỉ tiêu độ lệch chuẩn thực nghiệm $s$ (`std_sach_mm`), sai số chuẩn trung bình $\text{SE}$ (`se_sach_mm`) và sai số đo $\Delta x$, $\delta\%$ (`sai_so_tuyet_doi_mm`, `sai_so_tuong_doi_pct` — định nghĩa tại **Mục 1.3, Chương 1**) trên $22$ mốc cự ly chung từ $10\text{ cm}$ đến $350\text{ cm}$ cho thấy ba đặc điểm vật lý rõ rệt:
 
-**Phân tích kết quả chuyên sâu:**
-1. **Hiện tượng tán xạ khuếch tán làm suy giảm độ chụm cự ly gần:** Ở các cự ly ngắn ($10\text{ cm} \to 50\text{ cm}$), bề mặt gồ ghề phân tán chùm tia sóng âm ra nhiều hướng. Các tia phản xạ không đồng pha giao thoa triệt tiêu lẫn nhau, khiến độ lệch chuẩn của mặt gồ ghề $s_{\text{rough}}$ cao gấp **$15$ đến $26$ lần** so với mặt phẳng nhẵn.
-2. **Sự sụt giảm nghiêm trọng cự ly đo cực đại:** Trong khi mặt phẳng nhẵn phản xạ gương duy trì được năng lượng sóng dội về đo chính xác tới $550\text{ cm}$, thì mặt gồ ghề bị suy giảm năng lượng nghiêm trọng:
-   - Tại cự ly $350\text{ cm}$: Năng lượng sóng phản xạ tiệm cận ngưỡng nhạy đáy của IC, xuất hiện các mẫu đo bị mất xung dẫn tới độ lệch chuẩn bùng nổ lên $s = 66.92\text{ cm}$.
-   - Tại cự ly $375\text{ cm}$: Toàn bộ $50/50$ mẫu ($100\%$) đều không kích hoạt được bộ thu, dẫn đến hệ thống bị treo quá thời gian và trả về giá trị tràn bão hòa $824.593\text{ cm}$.
-3. **Ý nghĩa thiết kế kỹ thuật:** Cảm biến siêu âm RCWL-1601 đòi hỏi vật cản phải có tiết diện phẳng đủ lớn hoặc góc nghiêng giới hạn trong phạm vi $\pm 15^\circ$ nếu muốn hoạt động ở cự ly trên $3.5\text{ m}$. Đối với các bề mặt xốp, lồi lõm hoặc dạng hạt rời (như ngũ cốc, than đá), cự ly hoạt động tin cậy bị suy giảm xuống tối đa khoảng $3.0\text{ m}$.
+- **Suy giảm độ chụm cục bộ ở vùng cự ly gần ($10\text{ cm} - 60\text{ cm}$) do giao thoa đa tia phản xạ:** Ở cự ly ngắn, góc mở chùm tia siêu âm bao phủ nhiều gờ lồi lõm có độ sâu chênh lệch cỡ milimét trên mặt sau viên gạch, tạo ra các sóng phản hồi lệch pha giao thoa trực tiếp tại màng thu. Tại $x_{\text{true}} = 10\text{ cm}$, độ lệch chuẩn sau lọc $s$ tăng từ $0.061\text{ mm}$ (`FSDT`, $\text{SE} = 0.0086\text{ mm}$) lên **$1.620\text{ mm}$** (`FRDT`, $\text{SE} = 0.2291\text{ mm}$ — gấp **$26.6$ lần**); tại $x_{\text{true}} = 60\text{ cm}$, $s$ tăng từ $0.088\text{ mm}$ ($\text{SE} = 0.0128\text{ mm}$) lên **$2.240\text{ mm}$** ($\text{SE} = 0.3168\text{ mm}$ — gấp **$25.5$ lần**). Ở các mốc $40\text{ cm}$ và $50\text{ cm}$, mặt gồ ghề làm phát sinh lần lượt $13/50$ mẫu ($26\%$, $s_{\text{thô}} = 2.338\text{ mm}$) và $6/50$ mẫu ($12\%$, $s_{\text{thô}} = 1.452\text{ mm}$) nhảy chu kỳ ngoại lai trước khi được bộ lọc $\text{IQR}$ khử sạch về $s = 0.089\text{ mm}$ và $0.077\text{ mm}$. Tính trên toàn bộ $22$ mốc từ $10\text{ cm}$ đến $350\text{ cm}$ ($1\,100$ mẫu), tỷ lệ ngoại lai bị loại bỏ bởi $\text{IQR}$ trên mặt gồ ghề là $59/1\,100$ mẫu ($5.36\%$), cao hơn mức $46/1\,100$ mẫu ($4.18\%$) của mặt phẳng nhẵn.
+- **Hiện tượng dịch chuyển vị trí các đỉnh trượt chu kỳ trên dải trung bình ($80\text{ cm} - 340\text{ cm}$):** Trong dải này, độ lệch chuẩn sau lọc của mặt gồ ghề dao động trong khoảng $0.101 - 2.555\text{ mm}$, tương đương biên độ răng cưa $0.142 - 2.860\text{ mm}$ của mặt phẳng nhẵn. Đáng chú ý, vị trí các đỉnh phân tán cao giữa hai bề mặt xuất hiện lệch pha nhau theo cự ly (tại $180, 220, 280, 320\text{ cm}$, mặt gồ ghề rơi vào vùng chuyển tiếp hai chu kỳ sóng mang $40\text{ kHz}$ nên $s$ đạt $2.076 - 2.555\text{ mm}$; ngược lại tại $100, 200, 300\text{ cm}$, chùm phản xạ của mặt gồ ghề khóa gọn vào một chu kỳ đơn lẻ nên $s$ chỉ còn $0.101 - 0.253\text{ mm}$). Nguyên nhân là độ nhấp nhô hình học của mặt sau viên gạch làm dịch chuyển mặt phẳng phản xạ âm học hiệu dụng đi vài milimét so với mép chân gạch, từ đó làm đổi vị trí các mốc cự ly rơi vào ranh giới ngưỡng so sánh xung `Echo`. Nhờ lấy trung bình trên cỡ mẫu hợp lệ $n_{\text{hợp lệ}} \in [37, \, 50]$, sai số chuẩn trung bình $\text{SE}$ của mặt gồ ghề trên toàn bộ $22$ mốc ($10 - 350\text{ cm}$) luôn nằm gọn trong khoảng **$0.0071 - 0.3903\text{ mm}$**, thấp hơn dung sai vạch chia thước chuẩn $0.5\text{ mm}$ tại $22/22$ mốc đo.
+- **Độ dịch chuyển sai số hệ thống ($\Delta x$ và $\delta\%$):** Do các đỉnh gờ lồi trên mặt nhám nhô về phía trước mặt phẳng chân gạch căn thước, sóng siêu âm dội về sớm hơn tại một số mốc làm sai số tuyệt đối $\Delta x = \bar{x} - x_{\text{true}}$ thiên âm rõ hơn so với mặt nhẵn (biến thiên từ $-21.74\text{ mm}$ tại $250\text{ cm}$, $-13.71\text{ mm}$ tại $60\text{ cm}$, $-12.94\text{ mm}$ tại $150\text{ cm}$ đến $+10.88\text{ mm}$ tại $350\text{ cm}$). Xét về sai số tương đối trên dải $80\text{ cm} - 350\text{ cm}$ ($17$ mốc), có **$16/17$ mốc đạt $|\delta\%| \le 0.87\%$** (duy nhất mốc $100\text{ cm}$ ở mức $-1.27\%$), đáp ứng yêu cầu đo lường khi biên độ xung phản hồi còn vượt ngưỡng thu.
 
-![Ảnh hưởng của Bề mặt phản xạ](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_7_anh_huong_be_mat.png)
-*Hình 3.7: So sánh Độ lệch chuẩn phân tán $s$ và Tầm đo cực đại giữa Mặt phản xạ nhẵn (FSDT) và Mặt gồ ghề (FRDT).*
+![So sánh độ chụm giữa mặt phẳng nhẵn và mặt gồ ghề](../graph/chuong_3/hinh_3_7a_do_chum_be_mat.png)
+*Hình 3.7a: So sánh độ lệch chuẩn thực nghiệm $s$ và sai số chuẩn trung bình $\text{SE}$ sau lọc $\text{IQR}$ giữa mặt phẳng nhẵn (`FSDT`) và mặt gồ ghề (`FRDT`) trên dải 10 cm – 350 cm.*
 
+**Đánh giá từ đồ thị Hình 3.7a:** Biểu diễn chung trên một trục tung đơn vị $\text{mm}$ cho thấy:
+- **Đường màu cam nét đứt ($s$ của mặt gồ ghề `FRDT`) so với đường màu xanh lam nét liền ($s$ của mặt phẳng nhẵn `FSDT`):** Nổi rõ hai đỉnh vọt biên độ ở ngay đầu dải ($1.620\text{ mm}$ tại $10\text{ cm}$ và $2.240\text{ mm}$ tại $60\text{ cm}$) do giao thoa tán xạ gần, sau đó dao động răng cưa cùng bậc độ lớn $\le 2.62\text{ mm}$ với pha dịch chuyển dọc trục khoảng cách đến mốc $350\text{ cm}$.
+- **Đường màu xanh lá chấm tròn ($\text{SE}$ của mặt gồ ghề `FRDT`):** Duy trì phẳng sát đáy và nằm hoàn toàn dưới ngưỡng tham chiếu dung sai thước $0.5\text{ mm}$ (đường tím chấm gạch) trên suốt dải $10 - 350\text{ cm}$, khẳng định phép lấy trung bình $N = 50$ mẫu kết hợp lọc $\text{IQR}$ khử hiệu quả nhiễu pha tán xạ khi chưa mất xung.
+
+### 3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa
+
+Tác động bất lợi nghiêm trọng nhất của bề mặt gồ ghề không nằm ở sai số dải gần mà ở **sự suy giảm đột ngột cự ly hoạt động cực đại** do thất thoát năng lượng âm học ra không gian:
+
+- **Đối chứng với mặt phẳng nhẵn (`FSDT`):** Nhờ phản xạ gương bảo toàn năng lượng dọc trục pháp tuyến $90^\circ$, cảm biến đo ổn định hoàn toàn không có xung tràn đến tận **$550\text{ cm}$** ($\bar{x} = 550.630\text{ cm}$, $s = 0.319\text{ mm}$, $\text{SE} = 0.0492\text{ mm}$), chỉ chớm xuất hiện $4/50$ xung mất tín hiệu tại $580\text{ cm}$ ($\bar{x}$ sau lọc vẫn đạt $579.850\text{ cm}$) và bão hòa hoàn toàn tại $600\text{ cm}$ ($\bar{x} = 824.562\text{ cm}$).
+- **Ngưỡng chớm mất xung tại $350\text{ cm}$ trên mặt gồ ghề (`FRDT`):** Do tán xạ khuếch tán làm biên độ áp suất âm phản hồi suy giảm nhanh theo khoảng cách, ngay tại $x_{\text{true}} = 350\text{ cm}$ đã xuất hiện **$5/50$ mẫu ($10\%$)** không đủ biên độ kích hoạt mạch thu và bị tràn bộ đếm thời gian lên $\approx 824.4\text{ cm}$. Các xung tràn này kéo trung bình thô lệch lên $\bar{x}_{\text{thô}} = 360.649\text{ cm}$ và làm độ lệch chuẩn thô bùng nổ lên $s_{\text{thô}} = 669.240\text{ mm}$ ($\text{SE}_{\text{thô}} = 94.6448\text{ mm}$, gấp $268.7$ lần mặt nhẵn). Tuy nhiên, vì tỷ lệ xung lỗi ($10\%$) vẫn thấp hơn điểm gãy tứ phân vị ($25\%$), bộ lọc $\text{IQR}$ loại bỏ chính xác cả $5$ mẫu tràn ($n_{\text{hợp lệ}} = 45$), khôi phục kết quả đo chuẩn xác $\bar{x} = 351.088\text{ cm}$ ($\Delta x = +10.88\text{ mm}$, $\delta = +0.311\%$), $s = 2.618\text{ mm}$ và $\text{SE} = 0.3903\text{ mm}$.
+- **Sự sụp đổ phép đo và vượt ngưỡng lọc $\text{IQR}$ tại $375\text{ cm}$:** Khi dịch bia gồ ghề ra mốc $x_{\text{true}} = 375\text{ cm}$, dữ liệu thô ghi nhận tới **$33/50$ mẫu ($66\%$)** bị mất tín hiệu tràn lên $824.49 - 824.75\text{ cm}$, chỉ còn $17/50$ mẫu ($34\%$) bắt được xung phản xạ yếu quanh $376.39 - 378.16\text{ cm}$. Do tỷ lệ mẫu bão hòa vượt quá $50\%$, trung vị mẫu bị kéo hẳn lên vùng tràn ($\text{Med} = 824.575\text{ cm}$, trong khi $Q_1 = 377.388\text{ cm}$ và $Q_3 = 824.623\text{ cm}$), làm khoảng tứ phân vị phình rộng lên $\text{IQR} = 447.235\text{ cm}$ và mở toang hàng rào lọc $[-293.46; \, 1495.48]\text{ cm}$ ($0$ mẫu bị đánh dấu ngoại lai). Hệ quả là ngay cả sau lọc $\text{IQR}$, phép đo hoàn toàn mất hiệu lực với $\bar{x} = 672.502\text{ cm}$ ($\Delta x = +2975.02\text{ mm}$, $\delta = +79.33\%$), $s = 2140.734\text{ mm}$ và $\text{SE} = 302.7455\text{ mm}$.
+- **Kết luận thiết kế kỹ thuật:** Bề mặt gồ ghề tán xạ làm **thu hẹp tầm đo tin cậy cực đại từ $550\text{ cm}$ xuống còn $350\text{ cm}$ (sụt giảm $200\text{ cm}$, tương đương $-36.4\%$)**. Kết quả này là cơ sở thực nghiệm trực tiếp cho thiết kế ứng dụng tại Chương 4: đối với bề mặt chất lỏng tĩnh phẳng nhẵn trong bồn chứa kín, cảm biến RCWL-1601 khai thác an toàn toàn bộ dải xa; ngược lại đối với vật liệu rắn dạng hạt rời, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, chiều cao lắp đặt tối đa phải giới hạn bảo toàn dưới ngưỡng $300 - 350\text{ cm}$.
+
+![Giới hạn tầm đo giữa mặt phẳng nhẵn và mặt gồ ghề](../graph/chuong_3/hinh_3_7b_gioi_han_tam_do_be_mat.png)
+*Hình 3.7b: So sánh đặc tính khoảng cách đo trung bình $\bar{x}$ và sự thu hẹp giới hạn tầm đo giữa mặt phẳng nhẵn (`FSDT`) và mặt gồ ghề (`FRDT`) trên dải 10 cm – 600 cm.*
+
+**Đánh giá từ đồ thị Hình 3.7b:** Sự phân tách giới hạn hoạt động vật lý giữa hai bề mặt thể hiện rõ nét qua ba đường đặc tính:
+- **Đường màu xanh lam nét liền (`FSDT` sau lọc $\text{IQR}$):** Bám trùng khít lên đường chuẩn lý tưởng $y = x$ suốt từ $10\text{ cm}$ đến $550\text{ cm}$ (và $580\text{ cm}$ sau lọc) trước khi chạm trần tràn bộ đếm $\approx 824.6\text{ cm}$ tại $600\text{ cm}$.
+- **Đường màu cam chấm tròn và đường màu đỏ nét đứt (`FRDT` trước và sau lọc $\text{IQR}$):** Tại mốc $350\text{ cm}$, đường thô màu cam nhô nhẹ lên $360.65\text{ cm}$ do chớm mất $10\%$ số xung nhưng được bộ lọc $\text{IQR}$ (đường đỏ) kéo trở lại đúng đường chuẩn $y = x$ ($351.09\text{ cm}$). Ngay sau đó tại mốc $375\text{ cm}$, cả hai đường đồng loạt vọt thẳng lên $672.50\text{ cm}$ hướng về ngưỡng trần bão hòa $824.6\text{ cm}$ khi $66\%$ số mẫu mất sóng phản hồi, đánh dấu ranh giới tắt dần tín hiệu của bề mặt tán xạ.
 ---
 
 ## 3.7. Phân tích Ảnh hưởng của Nhiệt độ và Hiệu quả bù Vận tốc sóng âm Laplace
