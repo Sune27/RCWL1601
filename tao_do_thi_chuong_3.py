@@ -35,108 +35,96 @@ frdt = load_agg('FRDT.csv')
 fsat = load_agg('FSAT.csv')
 
 # ==========================================================
-# 1. HÌNH 3.1: Hiệu quả lọc sai số thô bằng Khoảng tứ phân vị (IQR)
 # ==========================================================
-print("Tạo Hình 3.1...")
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
+# 1. HÌNH 3.1: Độ lệch chuẩn trước và sau khi lọc IQR (Thang Logarit)
+# ==========================================================
+print("Tạo Hình 3.1 (Độ lệch chuẩn trước và sau khi lọc IQR, trục Y logarit)...")
 
-def calc_iqr_data(vals):
-    s_vals = sorted(vals)
-    n = len(s_vals)
-    q1 = s_vals[n // 4]
-    q3 = s_vals[(3 * n) // 4]
-    iqr = q3 - q1
-    lf = q1 - 1.5 * iqr
-    uf = q3 + 1.5 * iqr
-    med = statistics.median(vals)
-    m_raw = statistics.mean(vals)
-    filtered = [x for x in vals if lf <= x <= uf]
-    m_iqr = statistics.mean(filtered)
-    s_iqr = statistics.stdev(filtered) if len(filtered) > 1 else 0
-    return q1, q3, iqr, lf, uf, med, m_raw, m_iqr, s_iqr
+p_stat = AGG_DIR / "chuong_3" / "thong_ke_chuong_3.csv"
+with open(p_stat, "r", encoding="utf-8") as f:
+    rows_stat = list(csv.DictReader(f))
 
-# FSDT 580cm
-vals_580 = fsdt['580cm']
-q1_1, q3_1, iqr_1, lf_1, uf_1, med_1, m_raw_1, m_iqr_1, s_iqr_1 = calc_iqr_data(vals_580)
-valid_idx_1 = [i for i, x in enumerate(vals_580) if lf_1 <= x <= uf_1]
-outlier_idx_1 = [i for i, x in enumerate(vals_580) if x < lf_1 or x > uf_1]
+fsdt_stat = [r for r in rows_stat if r['ten_file'].startswith('FSDT')]
+d_list = [float(r['cu_ly_dat_cm']) for r in fsdt_stat]
+s_raw = [float(r['std_tho_mm']) for r in fsdt_stat]
+s_clean = [float(r['std_sach_mm']) for r in fsdt_stat]
 
-ax1.plot([i+1 for i in valid_idx_1], [vals_580[i] for i in valid_idx_1], 'o', color='#1f77b4', label='Mẫu hợp lệ trong dải IQR', markersize=4, alpha=0.8)
-ax1.plot([i+1 for i in outlier_idx_1], [vals_580[i] for i in outlier_idx_1], 'x', color='red', label=f'Ngoại lai bị loại ({len(outlier_idx_1)} mẫu)', markersize=7, markeredgewidth=1.8)
-ax1.axhline(m_raw_1, color='red', linestyle='--', linewidth=1.2, label=f'Mean thô: {m_raw_1:.2f} cm')
-ax1.axhline(m_iqr_1, color='green', linestyle='-', linewidth=1.4, label=f'Mean sau lọc IQR: {m_iqr_1:.2f} cm')
-ax1.axhline(med_1, color='black', linestyle=':', linewidth=1.2, label=f'Median: {med_1:.2f} cm')
-ax1.axhspan(lf_1, uf_1, color='green', alpha=0.15, label=f'Hàng rào IQR [LF, UF]')
-ax1.set_title('Lọc ngoại lai bão hòa cự ly xa (FSDT - 580 cm)')
-ax1.set_xlabel('Thứ tự lần đo k')
-ax1.set_ylabel('Khoảng cách đo (cm)')
-ax1.set_ylim(575, 835)
-ax1.grid(True, linestyle=':', alpha=0.6)
-ax1.legend(loc='upper right', fontsize=8)
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
 
-# FRDT 350cm
-vals_350r = frdt['350cm']
-q1_2, q3_2, iqr_2, lf_2, uf_2, med_2, m_raw_2, m_iqr_2, s_iqr_2 = calc_iqr_data(vals_350r)
-valid_idx_2 = [i for i, x in enumerate(vals_350r) if lf_2 <= x <= uf_2]
-outlier_idx_2 = [i for i, x in enumerate(vals_350r) if x < lf_2 or x > uf_2]
+# Vẽ 2 chuỗi dữ liệu: Thô (đỏ nét đứt) và Sau lọc IQR (xanh nét liền)
+ax.plot(d_list, s_raw, color='#d62728', linestyle='--', linewidth=1.4, marker='s', markersize=4, label='Độ lệch chuẩn thô trước khi lọc')
+ax.plot(d_list, s_clean, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4, label='Độ lệch chuẩn sau khi lọc IQR')
+ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2, label='Dung sai vạch chia thước (0.5 mm)')
 
-ax2.plot([i+1 for i in valid_idx_2], [vals_350r[i] for i in valid_idx_2], 's', color='#ff7f0e', label='Mẫu hợp lệ trong dải IQR', markersize=4, alpha=0.8)
-ax2.plot([i+1 for i in outlier_idx_2], [vals_350r[i] for i in outlier_idx_2], 'x', color='red', label=f'Ngoại lai bị loại ({len(outlier_idx_2)} mẫu)', markersize=7, markeredgewidth=1.8)
-ax2.axhline(m_raw_2, color='red', linestyle='--', linewidth=1.2, label=f'Mean thô: {m_raw_2:.2f} cm')
-ax2.axhline(m_iqr_2, color='green', linestyle='-', linewidth=1.4, label=f'Mean sau lọc IQR: {m_iqr_2:.2f} cm')
-ax2.axhline(med_2, color='black', linestyle=':', linewidth=1.2, label=f'Median: {med_2:.2f} cm')
-ax2.axhspan(lf_2, uf_2, color='green', alpha=0.15, label=f'Hàng rào IQR [LF, UF]')
-ax2.set_title('Lọc ngoại lai tán xạ khuếch tán (FRDT - 350 cm)')
-ax2.set_xlabel('Thứ tự lần đo k')
-ax2.set_ylabel('Khoảng cách đo (cm)')
-ax2.set_ylim(345, 835)
-ax2.grid(True, linestyle=':', alpha=0.6)
-ax2.legend(loc='upper right', fontsize=8)
+# Chuyển trục Y sang thang logarit
+ax.set_yscale('log')
+ax.set_ylim(0.04, 5000)
+ax.set_xlim(-10, 615)
 
+# Định dạng các mốc chính trên trục Y logarit (ScalarFormatter: 0.1, 1, 10, 100, 1000)
+ax.set_yticks([0.1, 1, 10, 100, 1000])
+ax.get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+
+# Tắt toàn bộ minor grid, chỉ bật lưới ngang tại các mốc chính trục Y
+ax.minorticks_off()
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.grid(axis='x', visible=False)
+
+# Tiêu đề và nhãn trục
+ax.set_title("Độ lệch chuẩn trước và sau khi lọc IQR", fontweight='bold', pad=12)
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_ylabel("Độ lệch chuẩn s (mm)", fontweight='bold')
+
+ax.legend(loc='upper left', framealpha=0.95)
 plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_1_loc_sai_so_tho.png", dpi=300)
-plt.close()
+
+h3_1_p1 = GRAPH_DIR / "hinh_3_1_loc_sai_so_tho.png"
+h3_1_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_1_loc_sai_so_tho.png"
+(GRAPH_DIR / "chuong_3").mkdir(parents=True, exist_ok=True)
+fig.savefig(h3_1_p1)
+fig.savefig(h3_1_p2)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.1 tại: {h3_1_p1} và {h3_1_p2}")
 
 # ==========================================================
-# 2. HÌNH 3.2: Khảo sát Vùng chết (1-5cm) và Giới hạn xa (400-600cm)
+# 2. HÌNH 3.2: Khảo sát Vùng chết (1 cm – 10 cm)
 # ==========================================================
-print("Tạo Hình 3.2...")
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
+print("Tạo Hình 3.2 (Đồ thị đơn khảo sát vùng gần 1-10cm)...")
 
-# Blind zone 1cm to 10cm
-bz_cols = ['001cm', '002cm', '003cm', '005cm', '008cm', '010cm']
-bz_true = [float(c.replace('cm', '')) for c in bz_cols]
-bz_meas = [statistics.mean(fsdt[c]) for c in bz_cols]
-bz_err = [m - t for m, t in zip(bz_meas, bz_true)]
+bz_d = [1.0, 2.0, 3.0, 5.0, 8.0, 10.0]
+fsdt_bz = [r for r in rows_stat if r['ten_file'].startswith('FSDT') and float(r['cu_ly_dat_cm']) in bz_d]
+fsdt_bz.sort(key=lambda x: float(x['cu_ly_dat_cm']))
 
-ax1.plot(bz_true, bz_meas, 'o-', color='#d62728', linewidth=1.8, label='Khoảng cách đo thực tế')
-ax1.plot(bz_true, bz_true, '--', color='#7f7f7f', label='Đường lý tưởng (y = x)')
-ax1.axvspan(0.5, 3.5, color='#ff9999', alpha=0.3, label='Vùng chết (Blind Zone: 1-3 cm)')
-ax1.set_title('Đặc tính đo trong Vùng chết (1 cm – 10 cm)')
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax1.set_ylabel('Khoảng cách đo được (cm)')
-ax1.set_xticks(bz_true)
-ax1.grid(True, linestyle=':', alpha=0.6)
-ax1.legend(loc='lower right')
+d_true_bz = [float(r['cu_ly_dat_cm']) for r in fsdt_bz]
+d_meas_bz = [float(r['mean_sach_cm']) for r in fsdt_bz]
 
-# Saturation / Extended range 400cm to 600cm
-sat_cols = ['400cm', '420cm', '450cm', '500cm', '550cm', '580cm', '600cm']
-sat_true = [float(c.replace('cm', '')) for c in sat_cols]
-sat_meas = [statistics.mean(fsdt[c]) for c in sat_cols]
+fig, ax = plt.subplots(figsize=(8.5, 4.8), dpi=300)
 
-ax2.plot(sat_true, sat_meas, 's-', color='#2ca02c', linewidth=1.8, label='Khoảng cách đo trung bình')
-ax2.plot(sat_true, sat_true, '--', color='#7f7f7f', label='Đường lý tưởng (y = x)')
-ax2.axvspan(400, 550, color='#98df8a', alpha=0.25, label='Dải đo xa mở rộng (420-550 cm)')
-ax2.axvspan(570, 610, color='#ffbb78', alpha=0.35, label='Ngưỡng suy hao & bão hòa (>580 cm)')
-ax2.set_title('Đặc tính cự ly xa và Giới hạn bão hòa (400 cm – 600 cm)')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax2.set_ylabel('Khoảng cách đo được (cm)')
-ax2.grid(True, linestyle=':', alpha=0.6)
-ax2.legend(loc='upper left')
+ax.plot(d_true_bz, d_meas_bz, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=6, label='Khoảng cách đo thực tế')
+ax.plot([0, 11], [0, 11], color='#d62728', linestyle='--', linewidth=1.4, marker='s', markersize=4, label='Đường chuẩn lý tưởng (y = x)')
 
+ax.set_xlim(0, 11)
+ax.set_ylim(0, 12)
+ax.set_xticks([1, 2, 3, 5, 8, 10])
+ax.set_yticks([0, 2, 4, 6, 8, 10, 12])
+
+# Chỉ hiển thị lưới ngang tại các mốc chính trục Y
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.grid(axis='x', visible=False)
+
+ax.set_title("Đặc tính đo khoảng cách trong vùng gần (1 cm – 10 cm)", fontweight='bold', pad=12)
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_ylabel("Khoảng cách đo được (cm)", fontweight='bold')
+
+ax.legend(loc='lower right', framealpha=0.95)
 plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_2_vung_chet_va_gioi_han_xa.png", dpi=300)
-plt.close()
+
+h3_2_p1 = GRAPH_DIR / "hinh_3_2_vung_chet_va_gioi_han_xa.png"
+h3_2_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_2_vung_chet_1_10cm.png"
+fig.savefig(h3_2_p1)
+fig.savefig(h3_2_p2)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.2 tại: {h3_2_p1} và {h3_2_p2}")
 
 # ==========================================================
 # 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Độ lệch chuẩn s và CV%)
@@ -415,7 +403,7 @@ ax.plot(target_ds, u_c_list, '^-', color='#2ca02c', label='Độ KĐBĐ chuẩn 
 ax.plot(target_ds, U_95_list, 'd-', color='#d62728', label='Độ KĐBĐ mở rộng U_95% (k=2) (mm)', linewidth=2.0)
 
 ax.set_title('Phân tích tổng hợp Độ không đảm bảo đo mở rộng theo chuẩn ISO/GUM')
-ax.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
 ax.set_ylabel('Độ không đảm bảo đo (mm)')
 ax.grid(True, linestyle=':', alpha=0.6)
 ax.legend(loc='upper left')

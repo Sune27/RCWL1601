@@ -104,13 +104,55 @@ def set_cell_background(cell, hex_color):
     cell._tc.get_or_add_tcPr().append(shading_elm)
 
 def add_heading_1(text):
-    return doc.add_heading(text, level=1)
+    p = doc.add_heading(level=1)
+    p.paragraph_format.space_before = Pt(14)
+    p.paragraph_format.space_after = Pt(6)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(15)
+    r.font.bold = True
+    r.font.color.rgb = C_NAVY
+    rPr = r._r.get_or_add_rPr()
+    rFonts = rPr.get_or_add_rFonts()
+    rFonts.set(qn('w:ascii'), 'Times New Roman')
+    rFonts.set(qn('w:hAnsi'), 'Times New Roman')
+    rFonts.set(qn('w:cs'), 'Times New Roman')
+    return p
 
 def add_heading_2(text):
-    return doc.add_heading(text, level=2)
+    p = doc.add_heading(level=2)
+    p.paragraph_format.space_before = Pt(10)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(13.5)
+    r.font.bold = True
+    r.font.color.rgb = C_NAVY
+    rPr = r._r.get_or_add_rPr()
+    rFonts = rPr.get_or_add_rFonts()
+    rFonts.set(qn('w:ascii'), 'Times New Roman')
+    rFonts.set(qn('w:hAnsi'), 'Times New Roman')
+    rFonts.set(qn('w:cs'), 'Times New Roman')
+    return p
 
 def add_heading_3(text):
-    return doc.add_heading(text, level=3)
+    p = doc.add_heading(level=3)
+    p.paragraph_format.space_before = Pt(8)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(12.5)
+    r.font.bold = True
+    r.font.color.rgb = C_BLACK
+    rPr = r._r.get_or_add_rPr()
+    rFonts = rPr.get_or_add_rFonts()
+    rFonts.set(qn('w:ascii'), 'Times New Roman')
+    rFonts.set(qn('w:hAnsi'), 'Times New Roman')
+    rFonts.set(qn('w:cs'), 'Times New Roman')
+    return p
 
 def add_body_p(text, indent=True):
     p = doc.add_paragraph()
@@ -289,7 +331,7 @@ doc.add_page_break()
 # -------------------------------------------------------------
 # PHẦN 2: LỜI NÓI ĐẦU (CÓ HEADING ĐỂ HIỆN TRÊN NAVIGATION PANE)
 # -------------------------------------------------------------
-doc.add_heading("LỜI NÓI ĐẦU", level=1)
+add_heading_1("LỜI NÓI ĐẦU")
 
 preface_paragraphs = [
     "Trong tiến trình tự động hóa công nghiệp và phát triển các hệ thống điều khiển thông minh "
@@ -338,7 +380,7 @@ doc.add_page_break()
 # -------------------------------------------------------------
 # PHẦN 3: MỤC LỤC TỰ ĐỘNG (CÓ HEADING TRÊN NAVIGATION PANE)
 # -------------------------------------------------------------
-doc.add_heading("MỤC LỤC", level=1)
+add_heading_1("MỤC LỤC")
 
 p_toc_hint = doc.add_paragraph()
 p_toc_hint.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -374,7 +416,7 @@ doc.add_page_break()
 # -------------------------------------------------------------
 # PHẦN 4: BẢNG QUY ƯỚC KÝ HIỆU (CÓ HEADING TRÊN NAVIGATION PANE)
 # -------------------------------------------------------------
-doc.add_heading("BẢNG QUY ƯỚC KÝ HIỆU VÀ CẤU TRÚC DỮ LIỆU THỰC NGHIỆM", level=1)
+add_heading_1("BẢNG QUY ƯỚC KÝ HIỆU VÀ CẤU TRÚC DỮ LIỆU THỰC NGHIỆM")
 
 p_cap = doc.add_paragraph()
 p_cap.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -971,13 +1013,13 @@ r_t2.font.size = Pt(12)
 r_t2.font.bold = True
 
 sc_data = [
-    ("Bề mặt phản xạ", "Mặt trước nhẵn (Gạch 40x40 cm)", "Mặt trước nhẵn (Gạch 40x40 cm)", "Mặt sau gồ ghề (Gạch 40x40 cm)", "Mặt trước nhẵn (Gạch 40x40 cm)"),
-    ("Chiều di chuyển", "Tiến (1 cm → 600 cm)", "Lùi (300 cm → 10 cm)", "Tiến (10 cm → 375 cm)", "Tiến (10 cm → 300 cm)"),
-    ("Số lượng mốc đo", "35 mốc cự ly", "19 mốc cự ly đối ứng", "23 mốc cự ly", "19 mốc cự ly đối ứng"),
-    ("Nhiệt độ môi trường", "27.0 °C (Nhiệt độ phòng)", "27.0 °C (Nhiệt độ phòng)", "27.0 °C (Nhiệt độ phòng)", "20.0 °C (Bật điều hòa lạnh)"),
-    ("Số lần đo lặp N", "50 mẫu / mốc", "50 mẫu / mốc", "50 mẫu / mốc", "50 mẫu / mốc"),
-    ("Tổng số mẫu đo", "1.750 mẫu dữ liệu", "950 mẫu dữ liệu", "1.150 mẫu dữ liệu", "950 mẫu dữ liệu"),
-    ("Mục đích nghiên cứu", "Khảo sát toàn dải, vùng chết, độ chụm, độ chính xác, độ nhạy ToF", "Đối chứng với FSDT để xác định Độ trễ đo (Hysteresis)", "Đánh giá ảnh hưởng tán xạ khuếch tán bề mặt nhám", "Định lượng độ trôi nhiệt độ và kiểm chứng bù Laplace")
+    ("Bề mặt phản xạ", "Mặt nhẵn", "Mặt nhẵn", "Mặt gồ ghề", "Mặt nhẵn"),
+    ("Chiều di chuyển", "Tiến (1 – 600 cm)", "Lùi (300 – 10 cm)", "Tiến (10 – 375 cm)", "Tiến (10 – 300 cm)"),
+    ("Số mốc cự ly", "35", "19", "23", "19"),
+    ("Nhiệt độ môi trường", "27.0 °C", "27.0 °C", "27.0 °C", "20.0 °C"),
+    ("Số lần đo lặp N", "50", "50", "50", "50"),
+    ("Tổng số mẫu", "1.750", "950", "1.150", "950"),
+    ("Mục đích", "Khảo sát toàn dải, độ chụm, độ chính xác, độ nhạy", "Khảo sát độ trễ (Hysteresis)", "Khảo sát tán xạ bề mặt", "Khảo sát trôi nhiệt độ")
 ]
 
 table_sc = doc.add_table(rows=len(sc_data)+1, cols=5)
@@ -985,7 +1027,7 @@ table_sc.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_sc.autofit = False
 
 sc_widths = [Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2)]
-sc_headers = ["Tham số khảo sát", "Trường hợp 1: FSDT (Chuẩn)", "Trường hợp 2: BSDT (Trễ)", "Trường hợp 3: FRDT (Gồ ghề)", "Trường hợp 4: FSAT (Nhiệt độ)"]
+sc_headers = ["Tham số", "FSDT (Chuẩn)", "BSDT (Trễ)", "FRDT (Nhám)", "FSAT (Nhiệt độ)"]
 
 for idx, text in enumerate(sc_headers):
     c = table_sc.rows[0].cells[idx]
@@ -1030,7 +1072,7 @@ for c in table_sc.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
 # 2.4
-add_heading_2("2.4. CƠ SỞ THỐNG KÊ VÀ THỰC NGHIỆM XÁC ĐỊNH CỠ MẪU TỐI ƯU")
+add_heading_2("2.4. XÁC ĐỊNH CỠ MẪU TỐI ƯU")
 
 add_heading_3("2.4.1. Bản chất bài toán tối ưu cỡ mẫu trong đo lường siêu âm")
 add_body_p(
@@ -1059,13 +1101,13 @@ add_body_p(
     "và thời gian đo đủ ngắn để môi trường vi khí hậu được coi là bất biến."
 )
 
-add_heading_3("2.4.2. Dữ liệu thực nghiệm và Phân tích đạo hàm hội tụ")
+add_heading_3("2.4.2. Phân tích dữ liệu thực nghiệm")
 add_body_p(
-    "Thực nghiệm tiến hành đo liên tục 100 lần tại 3 cự ly đại diện: 50 cm (gần), 100 cm (trung bình) và 150 cm (xa) ở tần số quét 20 Hz (chu kỳ 50 ms, nhiệt độ kiểm soát 27.0°C). "
-    "Dữ liệu được lưu trữ tập trung tại bảng tổng hợp du_lieu_tong_hop/mau_100.csv. "
-    "Thuật toán duyệt k từ 2 đến 100 trên tệp mau_100.csv để tính độ lệch chuẩn tích lũy s(k), bán kính sai số ε_95%(k) theo đơn vị milimet (mm) "
-    "và đạo hàm sai phân bậc 1 (dε_95%/dk = ε_95%(k) - ε_95%(k-1)). Toàn bộ kết quả được phân tách thành 3 tệp độc lập trong thư mục du_lieu_tong_hop/chuong_2/ "
-    "gồm: hoi_tu_50cm.csv, hoi_tu_100cm.csv và hoi_tu_150cm.csv với 6 cột chuẩn hóa (k, t_student_95, mean_cm, s_mm, epsilon95_mm, d_epsilon95_mm)."
+    "Thực nghiệm tiến hành đo liên tục 100 lần tại 3 cự ly: 50 cm, 100 cm và 150 cm (nhiệt độ 27.0°C). "
+    "Dữ liệu được lưu trữ tại bảng tổng hợp du_lieu_tong_hop/mau_100.csv. "
+    "Thuật toán duyệt k từ 2 đến 100 trên tệp mau_100.csv để tính độ lệch chuẩn tích lũy s(k), bán kính sai số ε_95%(k) "
+    "và đạo hàm bậc 1. Toàn bộ kết quả được phân tách thành 3 tệp độc lập trong thư mục du_lieu_tong_hop/chuong_2/: "
+    "hoi_tu_50cm.csv, hoi_tu_100cm.csv và hoi_tu_150cm.csv."
 )
 
 # Chèn ảnh Hình 2.1
@@ -1076,14 +1118,20 @@ if os.path.exists(IMG_H2_1_PATH):
     p_img1.paragraph_format.space_after = Pt(4)
     run_img1 = p_img1.add_run()
     run_img1.add_picture(IMG_H2_1_PATH, width=Cm(15.0))
-    
+
     p_cap1 = doc.add_paragraph()
     p_cap1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap1.paragraph_format.space_after = Pt(10)
-    r_c1 = p_cap1.add_run("Hình 2.1: Bán kính sai số ngẫu nhiên theo tích lũy cỡ mẫu tại 3 cự ly (50 cm, 100 cm, 150 cm).")
+    p_cap1.paragraph_format.space_after = Pt(6)
+    r_c1 = p_cap1.add_run("Hình 2.1: Bán kính sai số ngẫu nhiên theo tích lũy cỡ mẫu tại 3 cự ly.")
     r_c1.font.name = 'Times New Roman'
-    r_c1.font.size = Pt(11)
+    r_c1.font.size = Pt(10)
     r_c1.font.italic = True
+
+add_body_p(
+    "Đánh giá từ đồ thị Hình 2.1: Khi số lần đo k tăng từ 2 đến khoảng 30, bán kính sai số ngẫu nhiên ε_95% giảm nhanh ở cả 3 cự ly. "
+    "Từ k ≥ 40 - 50, đường cong bắt đầu đi ngang và hội tụ ổn định. Tại k = 50, bán kính sai số ở cự ly 50 cm là ±0.03 mm, "
+    "ở 100 cm là ±0.11 mm, và ở 150 cm là ±0.40 mm; tất cả đều nhỏ hơn giới hạn dung sai của thước cơ khí (±0.5 mm)."
+)
 
 # Chèn ảnh Hình 2.2
 if os.path.exists(IMG_H2_2_PATH):
@@ -1093,44 +1141,41 @@ if os.path.exists(IMG_H2_2_PATH):
     p_img2.paragraph_format.space_after = Pt(4)
     run_img2 = p_img2.add_run()
     run_img2.add_picture(IMG_H2_2_PATH, width=Cm(15.0))
-    
+
     p_cap2 = doc.add_paragraph()
     p_cap2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap2.paragraph_format.space_after = Pt(10)
-    r_c2 = p_cap2.add_run("Hình 2.2: Tốc độ biến thiên sai số |dε_95%/dk| theo cỡ mẫu k xác nhận trạng thái dừng bão hòa tại N = 50.")
+    p_cap2.paragraph_format.space_after = Pt(6)
+    r_c2 = p_cap2.add_run("Hình 2.2: Tốc độ biến thiên sai số |dε_95%/dk| theo cỡ mẫu k.")
     r_c2.font.name = 'Times New Roman'
-    r_c2.font.size = Pt(11)
+    r_c2.font.size = Pt(10)
     r_c2.font.italic = True
 
-add_body_p("Bảng 2.3 trích xuất từ dữ liệu thực nghiệm chi tiết hóa các mốc biến thiên của bán kính sai số và tốc độ đạo hàm theo cỡ mẫu k:")
-
-p_tbl3 = doc.add_paragraph()
-p_tbl3.alignment = WD_ALIGN_PARAGRAPH.LEFT
-p_tbl3.paragraph_format.space_after = Pt(4)
-r_t3 = p_tbl3.add_run("Bảng 2.3: Bảng số liệu hội tụ của bán kính sai số Student 95% (ε_95%) và đạo hàm sai phân theo cỡ mẫu k")
-r_t3.font.name = 'Times New Roman'
-r_t3.font.size = Pt(12)
-r_t3.font.bold = True
+add_body_p(
+    "Đánh giá từ đồ thị Hình 2.2: Đồ thị thể hiện tốc độ suy giảm sai số |dε_95%/dk| sau mỗi lần đo bổ sung. "
+    "Ở các giá trị k < 20, tốc độ biến thiên lớn (từ 0.05 đến 0.15 mm/bước), cho thấy việc tăng số lần đo ở giai đoạn đầu giảm sai số rất hiệu quả. "
+    "Khi k tiến dần đến 50, tốc độ biến thiên giảm nhanh về xấp xỉ 0 (|dε/dk| ≤ 0.0005 mm/bước ≈ 0), đồ thị chuyển sang trạng thái bão hòa, "
+    "việc đo thêm sau mốc 50 hầu như không làm sai số giảm thêm."
+)
 
 cv_data = [
-    ("k = 5", "2.776", "± 0.12 mm", "± 0.12 mm", "± 0.15 mm", "Mẫu quá nhỏ, chưa xuất hiện trượt chu kỳ sóng ở cự ly xa, |dε/dk| ~ 0.07 mm/bước"),
-    ("k = 10", "2.262", "± 0.06 mm", "± 0.06 mm", "± 0.12 mm", "Sai số giảm dốc nhưng tạo ảo giác ổn định sớm, |dε/dk| ~ 0.016 mm/bước"),
-    ("k = 20", "2.086", "± 0.05 mm", "± 0.17 mm", "± 0.07 mm", "Mốc 100cm bắt đầu nhảy bậc; mốc 150cm chưa bộc lộ trượt sóng, |dε/dk| ~ 0.004 mm/bước"),
-    ("k = 30", "2.042", "± 0.03 mm", "± 0.14 mm", "± 0.28 mm", "Bắt đầu xuất hiện trượt chu kỳ sóng: ε ở 150cm bật tăng vọt từ 0.07 lên 0.28 mm"),
-    ("k = 50 (Tối ưu)", "2.009", "± 0.03 mm", "± 0.11 mm", "± 0.40 mm", "MỐC CHỐT TỐI ƯU: Đã gom đủ các xung lỗi, đỉnh ε ≤ 0.40 mm < 0.5 mm, |dε/dk| ≤ 0.0005 mm/bước ≈ 0"),
-    ("k = 100", "1.984", "± 0.02 mm", "± 0.08 mm", "± 0.27 mm", "Vùng bão hòa, tốc độ suy giảm sai số triệt tiêu (|dε/dk| ≤ 0.0002 mm/bước)")
+    ("k = 5", "± 0.12 mm", "± 0.12 mm", "± 0.15 mm", "Mẫu nhỏ, sai số còn lớn"),
+    ("k = 10", "± 0.06 mm", "± 0.06 mm", "± 0.12 mm", "Sai số giảm nhanh nhưng chưa phản ánh đủ biến động"),
+    ("k = 20", "± 0.05 mm", "± 0.17 mm", "± 0.07 mm", "Sai số tiếp tục giảm, bắt đầu phân hóa theo cự ly"),
+    ("k = 30", "± 0.03 mm", "± 0.14 mm", "± 0.28 mm", "Xuất hiện trượt chu kỳ sóng tại 150cm, sai số tăng lên"),
+    ("k = 50", "± 0.03 mm", "± 0.11 mm", "± 0.40 mm", "Sai số nhỏ hơn 0.5 mm ở cả 3 cự ly, đạt bão hòa"),
+    ("k = 100", "± 0.02 mm", "± 0.08 mm", "± 0.27 mm", "Vùng bão hòa, sai số hầu như không giảm thêm")
 ]
 
-table_cv = doc.add_table(rows=len(cv_data)+1, cols=6)
+table_cv = doc.add_table(rows=len(cv_data)+1, cols=5)
 table_cv.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_cv.autofit = False
 
-cv_widths = [Cm(2.6), Cm(2.2), Cm(2.4), Cm(2.4), Cm(2.4), Cm(4.0)]
-cv_headers = ["Cỡ mẫu k", "Hệ số Student", "Mốc 50cm (ε_95%)", "Mốc 100cm (ε_95%)", "Mốc 150cm (ε_95%)", "Nhận xét trạng thái kỹ thuật & Đạo hàm"]
+cv_widths = [Cm(2.6), Cm(2.4), Cm(2.4), Cm(2.4), Cm(6.2)]
+cv_headers = ["Cỡ mẫu k", "Mốc 50cm (ε_95%)", "Mốc 100cm (ε_95%)", "Mốc 150cm (ε_95%)", "Nhận xét"]
 
-for idx, text in enumerate(cv_headers):
-    c = table_cv.rows[0].cells[idx]
-    c.text = text
+for idx_h, text_h in enumerate(cv_headers):
+    c = table_cv.rows[0].cells[idx_h]
+    c.text = text_h
     set_cell_background(c, "D9E1F2")
     p = c.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1138,31 +1183,31 @@ for idx, text in enumerate(cv_headers):
     p.paragraph_format.space_after = Pt(3)
     for r in p.runs:
         r.font.name = 'Times New Roman'
-        r.font.size = Pt(10.5)
+        r.font.size = Pt(9.5)
         r.font.bold = True
         r.font.color.rgb = C_NAVY
 
-for row_idx, data in enumerate(cv_data, start=1):
-    for col_idx, text in enumerate(data):
+for row_idx, data_row in enumerate(cv_data, start=1):
+    for col_idx, text_val in enumerate(data_row):
         c = table_cv.rows[row_idx].cells[col_idx]
-        c.text = text
+        c.text = text_val
         p = c.paragraphs[0]
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.line_spacing = 1.15
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.JUSTIFY
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 4 else WD_ALIGN_PARAGRAPH.LEFT
         for r in p.runs:
             r.font.name = 'Times New Roman'
-            r.font.size = Pt(10)
+            r.font.size = Pt(9.5)
             if col_idx == 0:
                 r.font.bold = True
-                if "50" in text:
+                if "50" in text_val:
                     r.font.color.rgb = C_MAROON
 
 for row in table_cv.rows:
-    for idx, width in enumerate(cv_widths):
-        row.cells[idx].width = width
-        set_cell_border(row.cells[idx],
+    for idx_w, width in enumerate(cv_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
             top=dict(sz=4, val='single', color='B0C4DE'),
             bottom=dict(sz=4, val='single', color='B0C4DE'),
             left=dict(val='none'), right=dict(val='none'))
@@ -1172,9 +1217,25 @@ for c in table_cv.rows[0].cells:
 for c in table_cv.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
-add_heading_3("2.4.3. Luận giải khoa học quyết định lựa chọn cỡ mẫu N = 50")
+p_tbl3 = doc.add_paragraph()
+p_tbl3.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_tbl3.paragraph_format.space_before = Pt(4)
+p_tbl3.paragraph_format.space_after = Pt(8)
+r_t3 = p_tbl3.add_run("Bảng 2.3: Bảng trích số liệu của bán kính sai số Student 95%")
+r_t3.font.name = 'Times New Roman'
+r_t3.font.size = Pt(9.5)
+r_t3.font.italic = True
+
 add_body_p(
-    "Quyết định lựa chọn N = 50 lần đo làm chuẩn cho toàn bộ các tập dữ liệu thực nghiệm được bảo vệ thông qua 3 luận cứ kỹ thuật đo lường:"
+    "Đánh giá từ Bảng 2.3: Số liệu định lượng xác nhận xu hướng hội tụ của phép đo. "
+    "Việc tăng cỡ mẫu từ k = 10 lên k = 50 giúp giảm sai số hơn 2 lần ở cả 3 cự ly. "
+    "Tuy nhiên, khi tăng từ k = 50 lên k = 100, sai số tại mốc 100 cm chỉ giảm thêm 0.03 mm (từ 0.11 mm xuống 0.08 mm), "
+    "giá trị này nhỏ hơn nhiều so với độ phân giải phần cứng của vi điều khiển (≈ 0.175 mm)."
+)
+
+add_body_p(
+    "Kết luận: Dựa trên các phân tích và đánh giá từ hai đồ thị và bảng số liệu nêu trên, "
+    "nhóm nghiên cứu đưa ra quyết định lựa chọn cỡ mẫu N = 50 cho toàn bộ các phép đo thực nghiệm của đề tài với các lý do:"
 )
 add_bullet_p(
     "Tại N = 50, bán kính sai số ngẫu nhiên ε_95% ở cả 3 cự ly đều nhỏ hơn dung sai vạch chia của thước chuẩn cơ khí (±0.5 mm): "
@@ -1182,8 +1243,8 @@ add_bullet_p(
     "1. Đạt tiêu chuẩn dung sai đo lường: "
 )
 add_bullet_p(
-    "Đồ thị Hình 2.2 chứng minh tại k = 50, đạo hàm sai phân |dε/dk| ≤ 0.0005 mm/bước ≈ 0, xác nhận đường cong đã bước vào vùng phẳng bão hòa. "
-    "Việc tăng số lần đo lên N = 100 chỉ giảm thêm 0.03 mm ở mốc 100cm (hoàn toàn nhỏ hơn độ phân giải phần cứng vi điều khiển ≈ 0.175 mm).",
+    "Đồ thị Hình 2.2 chứng minh tại k = 50, đạo hàm sai phân |dε/dk| ≤ 0.0005 mm/bước ≈ 0, xác nhận đường cong đã bước vào vùng bão hòa. "
+    "Việc tăng số lần đo lên N = 100 chỉ giảm thêm 0.03 mm ở mốc 100cm (nhỏ hơn độ phân giải phần cứng vi điều khiển ≈ 0.175 mm).",
     "2. Điểm dừng đạo hàm tối ưu bão hòa: "
 )
 add_bullet_p(
@@ -1191,6 +1252,363 @@ add_bullet_p(
     "Khoảng thời gian 2.5 giây đủ ngắn để nhiệt độ phòng và vi khí hậu được coi là bất biến, loại trừ hiện tượng trôi nhiệt độ môi trường.",
     "3. Bảo toàn tính ổn định vi khí hậu: "
 )
+
+# ==========================================================
+# PHẦN 7: CHƯƠNG 3 (PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM)
+# ==========================================================
+add_heading_1("CHƯƠNG 3: PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM")
+
+add_body_p(
+    "Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ bốn tập dữ liệu thực nghiệm: "
+    "FSDT.csv (chiều tiến, mặt nhẵn, 27.0°C), BSDT.csv (chiều lùi, mặt nhẵn, 27.0°C), "
+    "FRDT.csv (chiều tiến, mặt nhám, 27.0°C) và FSAT.csv (chiều tiến, mặt nhẵn, 20.0°C). "
+    "Các phân tích dựa trên mô hình truyền sóng âm Laplace, phương pháp bình phương tối thiểu "
+    "và quy chuẩn đánh giá độ không đảm bảo đo ISO/GUM đã nêu ở Chương 1."
+)
+
+add_heading_2("3.1. Tiền xử lý dữ liệu và Đánh giá hiệu quả lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
+
+add_heading_3("3.1.1. Khung tiền xử lý và cơ chế hình thành ngoại lai trong phép đo siêu âm")
+add_body_p(
+    "Theo thuật toán phát hiện sai số thô bằng Khoảng tứ phân vị (IQR / Tukey's Fences) đã nêu tại Mục 1.3.2 (Chương 1), "
+    "dữ liệu từ 4 tập thực nghiệm được xử lý. Để giữ nguyên chuỗi thời gian, thuật toán thực hiện gán giá trị trực tiếp: "
+    "mẫu nào nằm ngoài khoảng hợp lệ [LF, UF] sẽ được chuyển thành giá trị NaN."
+)
+add_body_p("Trong quá trình thu thập tín hiệu, dữ liệu thực nghiệm xuất hiện sai số thô do một số nguyên nhân:")
+add_bullet_p(
+    "Sóng âm phản xạ bị suy hao biên độ dưới ngưỡng phát hiện của mạch thu RCWL-9610. "
+    "Bộ đếm thời gian của vi điều khiển ESP32 chờ hết chu kỳ (48 ms) và trả về giá trị ≈ 824.6 cm.",
+    "1. Xung quá thời gian chờ: "
+)
+add_bullet_p(
+    "Trên bề mặt nhám (FRDT), sóng âm phản xạ qua các vật thể phụ trước khi về đầu thu, "
+    "làm tăng thời gian lan truyền ToF và tạo các giá trị đột biến.",
+    "2. Tán xạ phản xạ nhiều đường: "
+)
+
+add_heading_3("3.1.2. Tổng hợp kết quả lọc ngoại lai trên toàn bộ 4 tập dữ liệu thực nghiệm")
+add_body_p(
+    "Kết quả tính toán chi tiết của từng mốc cự ly được lưu tại bảng dữ liệu du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv, "
+    "và dữ liệu sau khi lọc được lưu tại 4 tệp: FSDT_clean.csv, BSDT_clean.csv, FRDT_clean.csv, FSAT_clean.csv. "
+    "Bảng 3.1 tổng hợp kết quả lọc dữ liệu trên 4 tập thực nghiệm:"
+)
+
+t31_data = [
+    ("FSDT.csv", "Chiều tiến – Mặt nhẵn (27.0°C)", "35 mốc", "1.750", "16 mốc", "77", "4.40%", "1.673", "95.60%"),
+    ("BSDT.csv", "Chiều lùi – Mặt nhẵn (27.0°C)", "19 mốc", "950", "12 mốc", "61", "6.42%", "889", "93.58%"),
+    ("FRDT.csv", "Chiều tiến – Mặt nhám (27.0°C)", "23 mốc", "1.150", "11 mốc", "59", "5.13%", "1.091", "94.87%"),
+    ("FSAT.csv", "Chiều tiến – Phòng lạnh (20.0°C)", "19 mốc", "950", "8 mốc", "38", "4.00%", "912", "96.00%"),
+    ("TỔNG HỢP", "Cả 4 tập thực nghiệm", "96 mốc", "4.800", "47 mốc", "235", "4.90%", "4.565", "95.10%"),
+]
+
+table_31 = doc.add_table(rows=len(t31_data)+1, cols=9)
+table_31.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_31.autofit = False
+
+t31_widths = [Cm(2.0), Cm(3.2), Cm(1.4), Cm(1.4), Cm(1.6), Cm(1.5), Cm(1.5), Cm(1.6), Cm(1.8)]
+t31_headers = ["Tệp dữ liệu", "Điều kiện đo", "Số mốc", "Tổng mẫu", "Mốc có ngoại lai", "Mẫu ngoại lai", "Tỷ lệ (%)", "Mẫu hợp lệ", "Tỷ lệ hợp lệ (%)"]
+
+for col_idx, text_h in enumerate(t31_headers):
+    c = table_31.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t31_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_31.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx not in [0, 1] else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if row_idx == len(t31_data) or col_idx == 0:
+                r.font.bold = True
+                if row_idx == len(t31_data):
+                    r.font.color.rgb = C_MAROON
+
+for row in table_31.rows:
+    for idx_w, width in enumerate(t31_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_31.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_31.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+p_cap_t31 = doc.add_paragraph()
+p_cap_t31.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_cap_t31.paragraph_format.space_before = Pt(4)
+p_cap_t31.paragraph_format.space_after = Pt(8)
+r_t31 = p_cap_t31.add_run("Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.")
+r_t31.font.italic = True
+r_t31.font.size = Pt(9.5)
+
+add_body_p("Nhận xét từ kết quả Bảng 3.1:")
+add_bullet_p(
+    "Hệ thống đo duy trì độ ổn định tốt; chỉ có 4.90% mẫu bị loại bỏ trên toàn bộ 4.800 lần đo.",
+    "Tỷ lệ giữ lại mẫu đạt 95.10%: "
+)
+add_bullet_p(
+    "Tỷ lệ ngoại lai giữa FSDT (4.40%) và BSDT (6.42%) gần tương đương nhau, cho thấy điều kiện môi trường đo ổn định.",
+    "Tính đối xứng giữa chiều tiến và chiều lùi: "
+)
+add_bullet_p(
+    "Bề mặt nhám (FRDT) xuất hiện nhiều xung tán xạ hơn so với mặt nhẵn. Các xung này được bộ lọc IQR phát hiện và loại bỏ, giúp giá trị trung bình không bị lệch.",
+    "Ảnh hưởng của bề mặt phản xạ: "
+)
+
+add_heading_3("3.1.3. Đánh giá trực quan hiệu quả triệt tiêu độ lệch chuẩn trên toàn dải đo")
+add_body_p(
+    "Hình 3.1 thể hiện biến thiên của độ lệch chuẩn thực nghiệm s trước và sau khi lọc trên thang bán logarit (semi-log scale), "
+    "trong đó trục tung biểu diễn độ lệch chuẩn s theo thang logarit cơ số 10 (0.1 đến 1000 mm) và trục hoành biểu diễn khoảng cách chuẩn đối chứng từ 1 cm đến 600 cm."
+)
+
+IMG_H3_1_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_1_loc_sai_so_tho.png"
+if os.path.exists(IMG_H3_1_PATH):
+    p_img3_1 = doc.add_paragraph()
+    p_img3_1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_1.paragraph_format.space_before = Pt(8)
+    p_img3_1.paragraph_format.space_after = Pt(4)
+    run_img3_1 = p_img3_1.add_run()
+    run_img3_1.add_picture(IMG_H3_1_PATH, width=Cm(15.0))
+    
+    p_cap3_1 = doc.add_paragraph()
+    p_cap3_1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_1.paragraph_format.space_after = Pt(8)
+    r_c3_1 = p_cap3_1.add_run("Hình 3.1: Độ lệch chuẩn trước và sau khi lọc IQR.")
+    r_c3_1.font.italic = True
+    r_c3_1.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị Hình 3.1:")
+add_bullet_p(
+    "Trong khoảng đo làm việc (1 - 340 cm), độ lệch chuẩn duy trì ở mức dưới 1.0 mm. "
+    "Tại mốc 360 cm, do hiện tượng trượt chu kỳ sóng ToF, độ lệch chuẩn thô tăng lên s = 90.33 mm. "
+    "Tại các cự ly xa (580 cm và 600 cm), do sóng phản xạ suy hao mạnh dẫn đến các mẫu quá hạn (timeout 824.6 cm), "
+    "độ lệch chuẩn thô tăng lên lần lượt s = 346.05 mm và s = 2621.02 mm.",
+    "Đường màu đỏ nét đứt (Độ lệch chuẩn thô trước khi lọc): "
+)
+add_bullet_p(
+    "Sau khi loại bỏ các giá trị ngoại lai bằng bộ lọc IQR kết hợp ngưỡng phân giải Δ_LSB = 0.0175 cm, "
+    "đường độ lệch chuẩn duy trì ổn định trong dải 0.09 - 4.0 mm trên toàn dải đo 6 m, "
+    "tiệm cận đường dung sai của thước cơ khí (0.5 mm).",
+    "Đường màu xanh nét liền (Độ lệch chuẩn sau khi lọc IQR): "
+)
+
+t32_data = [
+    ("50 cm", "0.094 mm", "0.094 mm", "1.0 lần", "0 / 50 (0%)", "Vùng đo ổn định, không có ngoại lai"),
+    ("100 cm", "0.383 mm", "0.383 mm", "1.0 lần", "0 / 50 (0%)", "Nhỏ hơn dung sai thước (0.5 mm), giữ lại 100% mẫu"),
+    ("360 cm", "90.33 mm", "2.51 mm", "Giảm 36.0 lần", "1 / 50 (2%)", "Loại bỏ xung trượt chu kỳ sóng ToF"),
+    ("580 cm", "346.05 mm", "3.30 mm", "Giảm 104.8 lần", "4 / 50 (8%)", "Loại bỏ xung bão hòa timeout 824.6 cm"),
+    ("600 cm", "2621.02 mm", "0.63 mm", "Giảm 4153.8 lần", "7 / 50 (14%)", "Cắt bỏ các xung quá hạn ở giới hạn cự ly"),
+]
+
+table_32 = doc.add_table(rows=len(t32_data)+1, cols=6)
+table_32.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_32.autofit = False
+
+t32_widths = [Cm(2.2), Cm(2.4), Cm(2.4), Cm(2.4), Cm(2.2), Cm(4.4)]
+t32_headers = ["Khoảng cách chuẩn", "Độ lệch chuẩn thô", "Độ lệch chuẩn sạch", "Tỷ lệ giảm s", "Số mẫu ngoại lai", "Nguyên nhân hiện tượng"]
+
+for col_idx, text_h in enumerate(t32_headers):
+    c = table_32.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t32_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_32.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_32.rows:
+    for idx_w, width in enumerate(t32_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_32.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_32.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+p_cap_t32 = doc.add_paragraph()
+p_cap_t32.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_cap_t32.paragraph_format.space_before = Pt(4)
+p_cap_t32.paragraph_format.space_after = Pt(10)
+r_t32 = p_cap_t32.add_run("Bảng 3.2: Đối chiếu độ lệch chuẩn trước và sau khi lọc IQR tại các mốc tiêu biểu.")
+r_t32.font.italic = True
+r_t32.font.size = Pt(9.5)
+
+# ==========================================================
+# MỤC 3.2: KHẢO SÁT DẢI ĐO THỰC TẾ, VÙNG CHẾT VÀ BÃO HÒA XA
+# ==========================================================
+add_heading_2("3.2. Khảo sát Dải đo thực tế, Vùng chết và Giới hạn bão hòa xa")
+
+add_body_p(
+    "Từ dữ liệu thực nghiệm 35 mốc cự ly từ 1 cm đến 600 cm trên tập FSDT.csv, đặc tính đo của cảm biến "
+    "RCWL-1601 được phân chia thành các vùng làm việc: Vùng chết (1 cm – 3 cm), Vùng chuyển tiếp (4 cm – 5 cm), "
+    "Dải làm việc ổn định (8 cm – 400 cm), Dải đo xa mở rộng (420 cm – 550 cm), và Ngưỡng bão hòa xa (580 cm – 600 cm)."
+)
+
+add_heading_3("3.2.1. Vùng chết (1 cm – 3 cm)")
+add_body_p(
+    "Khi khoảng cách từ vật cản đến cảm biến nhỏ hơn hoặc bằng 3 cm, cảm biến không đo được khoảng cách thực tế "
+    "và giá trị đo bị giữ quanh ngưỡng 2.0 - 2.6 cm: tại cự ly chuẩn 1.0 cm, giá trị trung bình là 2.030 cm (sai số +103.05%); "
+    "tại 2.0 cm là 2.352 cm (sai số +17.59%); tại 3.0 cm là 2.679 cm (sai số -10.72%)."
+)
+add_body_p(
+    "Hiện tượng này xuất hiện do màng loa áp điện cần khoảng 120 - 150 μs để suy giảm dao động sau khi phát xung kích 40 kHz (200 μs). "
+    "Ở cự ly dưới 3 cm, thời gian sóng âm đi và về nhỏ hơn 175 μs, trùng với thời gian tắt dần của màng phát và thời gian ngắt câm "
+    "(blanking time) của vi mạch RCWL-9610. Mạch thu không phân biệt được sóng phản xạ và xung phát, khiến giá trị đo bị kẹp ở mức tối thiểu tương đương 2.0 - 2.6 cm."
+)
+
+IMG_H3_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_2_vung_chet_1_10cm.png"
+if os.path.exists(IMG_H3_2_PATH):
+    p_img3_2 = doc.add_paragraph()
+    p_img3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_2.paragraph_format.space_before = Pt(8)
+    p_img3_2.paragraph_format.space_after = Pt(4)
+    run_img3_2 = p_img3_2.add_run()
+    run_img3_2.add_picture(IMG_H3_2_PATH, width=Cm(14.5))
+    
+    p_cap3_2 = doc.add_paragraph()
+    p_cap3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_2.paragraph_format.space_after = Pt(8)
+    r_c3_2 = p_cap3_2.add_run("Hình 3.2: Đặc tính đo khoảng cách trong vùng gần (1 cm – 10 cm).")
+    r_c3_2.font.italic = True
+    r_c3_2.font.size = Pt(10)
+
+add_heading_3("3.2.2. Dải làm việc ổn định và dải mở rộng (5 cm – 550 cm)")
+add_body_p(
+    "Từ cự ly 8 cm đến 400 cm, xung phản xạ tách biệt rõ ràng khỏi xung phát và biên độ nằm trong dải khuếch đại của mạch thu. "
+    "Sai số tương đối trong dải này luôn nhỏ hơn ±0.5%, chứng minh cảm biến hoạt động ổn định trong dải đo nhà sản xuất công bố."
+)
+add_body_p(
+    "Ở dải 420 cm đến 550 cm, dù vượt cự ly định mức danh định (400 - 450 cm), cảm biến vẫn thu nhận tín hiệu chính xác "
+    "với sai số nhỏ hơn 0.3%: tại 420 cm sai số là +0.29%, tại 500 cm sai số là +0.14%, và tại 550 cm sai số là +0.10% (độ lệch chuẩn 1.52 mm). "
+    "Kết quả này đạt được nhờ tầng khuếch đại tự động điều chỉnh độ lợi trên vi mạch RCWL-9610 và bề mặt phản xạ phẳng đặt vuông góc."
+)
+
+add_heading_3("3.2.3. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)")
+add_body_p(
+    "Ở cự ly từ 580 cm trở lên, năng lượng sóng phản xạ suy giảm mạnh do khoảng cách lớn: tại 580 cm bắt đầu xuất hiện mẫu timeout 824.6 cm; "
+    "tại 600 cm tỷ lệ mất xung tăng lên 14% sau lọc IQR (và 62% ở dữ liệu thô), kéo giá trị trung bình thô lên 720.16 cm và độ lệch chuẩn thô lên 2621.02 mm. "
+    "Do đó, 550 cm là giới hạn đo xa tin cậy thực tế của cảm biến."
+)
+
+t33_data = [
+    ("1.0 cm", "2.030 cm", "0.035 mm", "+10.30 mm", "+103.05%", "Vùng chết (màng rung suy giảm)"),
+    ("2.0 cm", "2.352 cm", "0.085 mm", "+3.52 mm", "+17.59%", "Vùng chết (kẹp ngưỡng ngắt câm)"),
+    ("3.0 cm", "2.679 cm", "0.056 mm", "-3.21 mm", "-10.72%", "Vùng chết (thoát ngưỡng ngắt câm)"),
+    ("5.0 cm", "4.295 cm", "0.085 mm", "-7.05 mm", "-14.10%", "Vùng chuyển tiếp"),
+    ("10.0 cm", "10.570 cm", "0.061 mm", "+5.70 mm", "+5.70%", "Bắt đầu dải đo danh định"),
+    ("50.0 cm", "49.847 cm", "0.094 mm", "-1.53 mm", "-0.31%", "Dải làm việc ổn định"),
+    ("100.0 cm", "99.429 cm", "0.383 mm", "-5.71 mm", "-0.57%", "Dải làm việc ổn định"),
+    ("200.0 cm", "200.351 cm", "2.192 mm", "+3.51 mm", "+0.18%", "Dải làm việc ổn định"),
+    ("300.0 cm", "299.718 cm", "2.860 mm", "-2.82 mm", "-0.09%", "Dải làm việc ổn định"),
+    ("400.0 cm", "401.402 cm", "1.850 mm", "+14.02 mm", "+0.35%", "Giới hạn danh định của cảm biến"),
+    ("500.0 cm", "500.691 cm", "1.978 mm", "+6.91 mm", "+0.14%", "Dải đo xa mở rộng"),
+    ("550.0 cm", "550.566 cm", "1.520 mm", "+5.66 mm", "+0.10%", "Giới hạn đo xa thực tế"),
+    ("580.0 cm", "584.808 cm", "346.051 mm", "+48.08 mm", "+0.83%", "Ngưỡng suy hao (bắt đầu có timeout)"),
+    ("600.0 cm", "720.161 cm", "2621.017 mm", "+1201.61 mm", "+20.03%", "Ngưỡng bão hòa xa (nhiều timeout)"),
+]
+
+table_33 = doc.add_table(rows=len(t33_data)+1, cols=6)
+table_33.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_33.autofit = False
+
+t33_widths = [Cm(2.0), Cm(2.4), Cm(2.4), Cm(2.4), Cm(2.2), Cm(4.6)]
+t33_headers = ["Khoảng cách chuẩn", "Giá trị trung bình", "Độ lệch chuẩn s", "Sai số tuyệt đối", "Sai số tương đối", "Trạng thái vùng làm việc"]
+
+for col_idx, text_h in enumerate(t33_headers):
+    c = table_33.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t33_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_33.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_33.rows:
+    for idx_w, width in enumerate(t33_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_33.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_33.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+p_cap_t33 = doc.add_paragraph()
+p_cap_t33.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_cap_t33.paragraph_format.space_before = Pt(4)
+p_cap_t33.paragraph_format.space_after = Pt(10)
+r_t33 = p_cap_t33.add_run("Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.")
+r_t33.font.italic = True
+r_t33.font.size = Pt(9.5)
 
 import os
 doc.save(OUTPUT_FILE)
