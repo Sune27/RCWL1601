@@ -53,7 +53,7 @@ Hệ quả là ở cự ly càng xa (như mốc $150\text{ cm}$ hoặc trên $40
 
 ---
 
-## 1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ DANH ĐỊNH CỦA MODULE RCWL-1601
+## 1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ CỦA MODULE RCWL-1601
 
 Module cảm biến siêu âm **RCWL-1601** là thiết bị đo khoảng cách thế hệ mới được trang bị vi mạch tích hợp chuyên dụng RCWL-9610. Điểm cải tiến của RCWL-1601 so với module HC-SR04 truyền thống là khả năng tương thích nguồn điện kép ($3.3\text{V}$ và $5\text{V}$) với dòng tĩnh rất thấp ($< 3\text{ mA}$), cho phép kết nối trực tiếp với các chân GPIO của vi điều khiển ESP32 ($3.3\text{V}$) mà không cần mạch chuyển đổi mức điện áp.
 
@@ -83,25 +83,25 @@ Vi điều khiển (ESP32)             Module RCWL-1601                Môi trư
 
 ---
 
-### 1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601 (Theo Datasheet)
+### 1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601
 
 Bảng thông số định mức kỹ thuật do nhà sản xuất công bố được tổng hợp làm cơ sở tham chiếu nhằm đối chiếu, đánh giá và kiểm chứng với số liệu khảo sát thực nghiệm ở Chương 3:
 
-| Thông số kỹ thuật | Giá trị định mức danh định (Datasheet) | Đơn vị / Ghi chú |
-| :--- | :---: | :---: |
-| **Điện áp hoạt động** | $3.0 - 5.5$ | $\text{V DC}$ (Hỗ trợ mức $3.3\text{V}$ của ESP32) |
-| **Dòng điện làm việc tĩnh** | $\le 3.0$ | $\text{mA}$ |
-| **Tần số phát sóng siêu âm** | $40 \pm 1$ | $\text{kHz}$ |
-| **Dải đo danh định** | $2.0 - 400.0$ | $\text{cm}$ |
-| **Góc mở bức xạ sóng hiệu dụng** | $\le 15$ | Độ ($^\circ$) |
-| **Độ chính xác công bố** | $\pm 0.5$ | $\text{cm}$ |
-| **Độ phân giải lý thuyết** | $0.1 - 0.3$ | $\text{cm}$ |
-| **Độ rộng xung kích `TRIG` tối thiểu** | $10$ | $\mu\text{s}$ |
-| **Thời gian chu kỳ kích đo khuyến nghị** | $\ge 50$ | $\text{ms}$ (Tránh nhiễu dội âm lặp) |
+| Thông số kỹ thuật | Giá trị định mức danh định (Datasheet) |
+| :--- | :---: |
+| **Điện áp hoạt động** | $3.0 - 5.5\text{ V DC}$ |
+| **Dòng điện làm việc tĩnh** | $\le 3.0\text{ mA}$ |
+| **Tần số phát sóng siêu âm** | $40 \pm 1\text{ kHz}$ |
+| **Dải đo danh định** | $2.0 - 400.0\text{ cm}$ |
+| **Góc mở bức xạ sóng hiệu dụng** | $\le 15^\circ$ |
+| **Độ chính xác công bố** | $\pm 0.5\text{ cm}$ |
+| **Độ phân giải lý thuyết** | $0.1 - 0.3\text{ cm}$ |
+| **Độ rộng xung kích `TRIG` tối thiểu** | $10\text{ }\mu\text{s}$ |
+| **Thời gian chu kỳ kích đo khuyến nghị** | $\ge 50\text{ ms}$ |
 
 ---
 
-## 1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO (ISO/GUM)
+## 1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO
 
 Để chuyển hóa tập dữ liệu mẫu đo thô rời rạc thành các đặc tính kỹ thuật định lượng có độ tin cậy khoa học cao, cần xây dựng một hệ thống công thức toán học đo lường chuẩn mực.
 
@@ -131,16 +131,22 @@ Các đại lượng thống kê mô tả đặc trưng cho xu hướng tập tr
 
 ---
 
-### 1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô
-Trong đo đạc thực nghiệm, các xung nhiễu điện từ, tạp âm môi trường hoặc góc phản xạ dị thường có thể tạo ra các mẫu đo có giá trị sai lệch nghiêm trọng so với bản chất thực. Hai phương pháp lọc sai số thô chuẩn được sử dụng gồm:
+### 1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô bằng Khoảng tứ phân vị (IQR)
+Trong đo đạc thực nghiệm sóng siêu âm, các xung nhiễu điện từ, bọt khí bề mặt, góc phản xạ dị thường hoặc hiện tượng mất xung phản hồi ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai (sai số thô) có giá trị sai lệch nghiêm trọng so với bản chất thực.
 
-1. **Nguyên lý $3\sigma$ (Tiêu chuẩn Chauvenet / 3-Sigma Gauss):**  
-   Dựa trên tính chất của phân phối chuẩn Gauss, một mẫu đo $x_i$ bị coi là sai số thô và bị loại bỏ nếu nằm ngoài dải tin cậy $99.73\%$:
-   $$|x_i - \bar{x}| > 3s \iff x_i \notin [\bar{x} - 3s, \; \bar{x} + 3s]$$
+Hệ thống lựa chọn phương pháp thống kê phi tham số bền vững dựa trên **Khoảng tứ phân vị (Interquartile Range - IQR)** kết hợp hệ hàng rào Tukey (Tukey's Fences) làm giải thuật lọc số chuẩn hóa duy nhất:
 
-2. **Tiêu chuẩn hàng rào Tukey ($\text{IQR}$ / Biểu đồ hộp):**  
-   Phương pháp phi tham số không phụ thuộc vào giả định phân phối chuẩn. Mẫu đo $x_i$ bị loại bỏ nếu rơi ra ngoài hàng rào giới hạn:
-   $$x_i \notin [Q_1 - 1.5 \cdot \text{IQR}, \; Q_3 + 1.5 \cdot \text{IQR}]$$
+$$\text{IQR} = Q_3 - Q_1$$
+
+Cận dưới (Lower Fence) và Cận trên (Upper Fence) được xác định theo:
+
+$$LF = Q_1 - 1.5 \cdot \text{IQR}, \quad UF = Q_3 + 1.5 \cdot \text{IQR}$$
+
+Mẫu đo $x_i$ được chấp nhận là giá trị hợp lệ nếu nằm trong khoảng:
+
+$$x_i \in [LF, \, UF] \iff Q_1 - 1.5 \cdot \text{IQR} \le x_i \le Q_3 + 1.5 \cdot \text{IQR}$$
+
+Mọi mẫu đo nằm ngoài khoảng $[LF, \, UF]$ đều bị loại bỏ hoàn toàn trước khi đưa vào tính toán các chỉ số thống kê đo lường. Phương pháp này có ưu thế vượt trội do tính chất bền vững (robust statistics), hoàn toàn miễn nhiễm với các mẫu tràn thời gian cực trị ($824.6\text{ cm}$) và triệt tiêu triệt để hiện tượng che khuất ngoại lai (masking effect).
 
 ---
 
@@ -211,7 +217,7 @@ Công thức ma trận trên cho phép tính toán trực tiếp hệ số góc 
 
 ---
 
-### 1.3.4. Đánh giá Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM
+### 1.3.4. Đánh giá Độ không đảm bảo đo
 
 Theo hướng dẫn chuẩn quốc tế về đánh giá độ không đảm bảo đo trong kỹ thuật (ISO/GUM), kết quả của một phép đo cự ly phải được biểu diễn kèm theo khoảng không đảm bảo đo tin cậy.
 

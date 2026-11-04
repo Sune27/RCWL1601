@@ -13,7 +13,7 @@ Bố cục báo cáo được chuẩn hóa thành 5 Chương trọng tâm, quy t
 | **Mở đầu & Danh mục** | Trang bìa, Lời nói đầu, Mục lục, Danh mục bảng biểu, Danh mục hình vẽ, Ký hiệu & Quy ước mã hóa tập dữ liệu (`FSDT`, `FRDT`, `BSDT`, `FSAT`) | **2.5 – 3 trang** |
 | **Chương 1** | **Cơ sở lý thuyết đo lường và cảm biến siêu âm:** Mô hình sóng siêu âm ToF, cơ chế bù nhiệt độ Laplace $v(T)$, cấu tạo IC RCWL-9610 và cơ sở lý thuyết xử lý số liệu thực nghiệm | **4 – 4.5 trang** |
 | **Chương 2** | **THIẾT KẾ THỰC NGHIỆM:** Thiết kế phần cứng ESP32 + RCWL-1601, kiến trúc phần mềm OOP (MicroPython/PC), thiết kế ma trận kịch bản đo và nghiên cứu thống kê lựa chọn cỡ mẫu tối ưu $N = 50$ (từ khảo sát mẫu lớn 100 lần) | **6 – 6.5 trang** |
-| **Chương 3** | **PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM:** Tiền xử lý & lọc sai số thô, khảo sát Dải đo & Vùng chết, Đánh giá toàn diện các đặc tính tĩnh (Precision, Accuracy, Linearity, Sensitivity, Resolution, Hysteresis), Phân tích yếu tố ngoại cảnh (Bề mặt phản xạ, Nhiệt độ môi trường), Ngân sách độ không đảm bảo đo và Đối chiếu Datasheet | **12 – 13 trang** |
+| **Chương 3** | **PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM:** Tiền xử lý & lọc sai số thô, khảo sát Dải đo & Vùng chết, Đánh giá toàn diện các đặc tính tĩnh (Precision, Accuracy, Linearity, Sensitivity, Resolution, Hysteresis), Phân tích yếu tố ngoại cảnh (Bề mặt phản xạ, Nhiệt độ môi trường), Đánh giá tổng hợp độ không đảm bảo đo và Đối chiếu Datasheet | **12 – 13 trang** |
 | **Chương 4** | **Xây dựng và triển khai bài toán Ứng dụng thực tế:** Hệ thống đo và giám sát mức chất lỏng bồn chứa thông minh có bù nhiệt độ môi trường và cảnh báo đa ngưỡng trên ESP32 | **4 – 4.5 trang** |
 | **Chương 5** | **Kết luận và Kiến nghị:** Tổng kết các kết quả đạt được, vùng làm việc tin cậy, khuyến nghị kỹ thuật giải pháp xử lý tín hiệu và Tài liệu tham khảo | **1.5 – 2 trang** |
 | **TỔNG CỘNG** | **Toàn văn báo cáo khoa học (A4 chuẩn)** | **30 – 34.5 trang** |
@@ -71,7 +71,7 @@ $$d = \frac{v(T) \cdot t}{2}, \quad v(T) = 331.3 \sqrt{1 + \frac{T}{273.15}} \ap
   - Bảng tổng hợp ma trận 4 kịch bản thực nghiệm (`FSDT`, `BSDT`, `FRDT`, `FSAT`) với đầy đủ các tham số điều kiện ngoại cảnh:
     + Vật liệu bề mặt phản xạ: Bảng foamex phẳng nhẵn vs. Tấm xốp gồ ghề khúc xạ tán xạ.
     + Hướng tiếp cận: Chiều tiến (Forward) vs. Chiều lùi (Backward).
-    + Nhiệt độ môi trường: Phòng tự nhiên ($31 - 32^\circ\text{C}$) vs. Phòng điều hòa ($20^\circ\text{C}$).
+    + Nhiệt độ môi trường: Phòng mặc định ($27.0^\circ\text{C}$) vs. Phòng điều hòa ($20^\circ\text{C}$).
     + Số lượng mốc khoảng cách và cự ly chi tiết của từng kịch bản.
 - **2.5. Cơ sở thống kê và Thực nghiệm xác định Cỡ mẫu tối ưu $N = 50$ (1.5 – 2 trang):**
   *(Phân tích từ 3 file dữ liệu khảo sát 100 lần đo: `100lanforward_smooth_defttemp_050cm.csv`, `100cm.csv`, `150cm.csv`)*
@@ -115,12 +115,12 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
   - Tác động lên Cự ly đo xa: Bề mặt gồ ghề làm triệt tiêu sóng phản xạ ở cự ly xa, khiến dải đo thực tế bị thu hẹp đáng kể (chỉ đạt tối đa $375\text{ cm}$ thay vì $> 550\text{ cm}$).
   - Biểu đồ so sánh Boxplot và Error-bar trực quan giữa hai bề mặt.
 - **3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt (1.5 trang):**
-  *(Đối chiếu tập dữ liệu `FSDT` - Phòng thường $\sim 31^\circ\text{C}$ vs. `FSAT` - Phòng điều hòa $\sim 20^\circ\text{C}$ trên 19 mốc đo)*
+  *(Đối chiếu tập dữ liệu `FSDT` - Phòng mặc định $27.0^\circ\text{C}$ vs. `FSAT` - Phòng điều hòa $20^\circ\text{C}$ trên 19 mốc đo)*
   - So sánh thời gian bay $\bar{t}\text{ }(\mu\text{s})$ tại cùng các cự ly hình học giữa hai mức nhiệt độ (chênh lệch nhiệt độ $\Delta T \approx 11 - 12^\circ\text{C}$ làm thay đổi vận tốc âm thanh $\approx 6.8\text{ m/s}$).
   - Định lượng sai số trôi cự ly (Thermal Drift Error) nếu giả định vận tốc âm thanh cố định không đổi ($v = 340\text{ m/s}$ hoặc $343\text{ m/s}$).
   - Chứng minh hiệu quả của thuật toán bù nhiệt độ Laplace $v(T)$: Giảm sai số trôi cự ly từ hàng centimet xuống dưới mức milimet, giữ độ chính xác đồng nhất ở các điều kiện nhiệt độ khác nhau.
 - **3.8. Đánh giá Độ không đảm bảo đo mở rộng toàn diện (1 trang):**
-  - Lập bảng tổng hợp ngân sách độ không đảm bảo đo (Uncertainty Budget) trên toàn dải đo:
+  - Lập bảng tổng hợp độ không đảm bảo đo trên toàn dải đo:
     + Độ không đảm bảo Loại A ($u_A = s/\sqrt{N}$).
     + Độ không đảm bảo Loại B ($u_B$ gồm: sai số vạch thước chuẩn $\pm 1\text{ mm}$, độ phân giải thời gian ESP32 $1\text{ }\mu\text{s}$, độ không đảm bảo của giá trị nhiệt độ môi trường ghi nhận).
     + Độ không đảm bảo chuẩn tổng hợp: $u_c = \sqrt{u_A^2 + u_B^2}$.
@@ -146,7 +146,7 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
     - Thiết kế chiều cao lắp đặt cảm biến cao hơn mức tràn tối thiểu $5\text{ cm}$ để triệt tiêu hoàn toàn rủi ro rơi vào **Vùng chết $0 - 3\text{ cm}$**.
     - Tích hợp **thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ môi trường bồn chứa** để triệt tiêu trôi sai số nhiệt độ ngày/đêm.
     - Áp dụng chuỗi lọc số: **Lọc trung vị (Median Filter) + Lọc loại thô $3\sigma$ + Lọc trung bình trượt (Moving Average)** để khử sóng gợn bề mặt chất lỏng khi bơm nạp xả.
-    - Ứng dụng ngân sách độ không đảm bảo đo $U_{95\%}$ đã tính ở Mục 3.8 để tính toán sai số thể tích $\Delta V$ và độ không đảm bảo thể tích $U_V$ của toàn bồn chứa!
+    - Ứng dụng kết quả phân tích tổng hợp độ không đảm bảo đo $U_{95\%}$ đã tính ở Mục 3.8 để tính toán sai số thể tích $\Delta V$ và độ không đảm bảo thể tích $U_V$ của toàn bồn chứa!
 - **4.3. Kết quả thử nghiệm / Mô phỏng hoạt động & Đánh giá hiệu năng ứng dụng (1 trang):**
   - Bảng thử nghiệm phân ngưỡng cảnh báo tự động 3 cấp độ (An toàn - Cảnh báo - Tràn / Cạn).
   - Hướng mở rộng kết nối truyền thông IoT: Đẩy dữ liệu mức chất lỏng qua Wi-Fi (giao thức MQTT / HTTP RESTful) hiển thị Dashboard thời gian thực.
