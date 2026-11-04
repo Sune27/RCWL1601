@@ -1820,7 +1820,7 @@ add_bullet_p(
     "3. Độ dịch chuyển sai số hệ thống (Δx và δ%): "
 )
 
-IMG_H3_7A_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7a_do_chum_be_mat.png")
+IMG_H3_7A_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7a_do_lech_chuan_be_mat.png")
 if os.path.exists(IMG_H3_7A_PATH):
     p_img3_7a = doc.add_paragraph()
     p_img3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1833,23 +1833,53 @@ if os.path.exists(IMG_H3_7A_PATH):
     p_cap3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_7a.paragraph_format.space_after = Pt(8)
     r_c3_7a = p_cap3_7a.add_run(
-        "Hình 3.7a: So sánh độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE sau lọc IQR "
+        "Hình 3.7a: So sánh độ lệch chuẩn thực nghiệm s sau lọc IQR "
         "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm."
     )
     r_c3_7a.font.italic = True
     r_c3_7a.font.size = Pt(10)
 
-add_body_p("Đánh giá từ đồ thị Hình 3.7a: Biểu diễn chung trên một trục tung đơn vị mm cho thấy:")
+add_body_p("Đánh giá từ đồ thị Hình 3.7a: Tách riêng đại lượng độ lệch chuẩn mẫu s cho thấy rõ quy luật phân tán xung đơn lẻ giữa hai bề mặt:")
 add_bullet_p(
-    "Nổi rõ hai đỉnh vọt biên độ ở ngay đầu dải (1.620 mm tại 10 cm và 2.240 mm tại 60 cm) do giao thoa tán xạ gần, "
-    "sau đó dao động răng cưa cùng bậc độ lớn ≤ 2.62 mm với pha dịch chuyển dọc trục khoảng cách đến mốc 350 cm.",
-    "Đường màu cam nét đứt (s của mặt gồ ghề FRDT) so với đường màu xanh lam nét liền (s của mặt phẳng nhẵn FSDT): "
+    "Đường màu cam nét đứt (FRDT) vọt lên hai đỉnh tán xạ rõ rệt tại 10 cm (1.620 mm) và 60 cm (2.240 mm), "
+    "trong khi đường xanh lam nét liền (FSDT) nằm phẳng sát đáy dưới 0.10 mm (trừ điểm trượt chu kỳ tại 40 cm).",
+    "Ở vùng cự ly gần (10 – 60 cm): "
 )
 add_bullet_p(
-    "Cả hai đường SE = s/√n đều đi phẳng sát đáy (0.0086 – 0.4491 mm trên FSDT và 0.0071 – 0.3903 mm trên FRDT), "
-    "nằm hoàn toàn dưới ngưỡng tham chiếu dung sai thước 0.5 mm (đường tím chấm gạch) tại toàn bộ 22/22 mốc khảo sát (10 – 350 cm), "
-    "khẳng định phép lấy trung bình N = 50 mẫu kết hợp lọc IQR giữ vững độ chụm ước lượng trung bình trên cả hai bề mặt khi chưa mất xung.",
-    "Hai đường chấm tròn ở tầng đáy (SE của FSDT màu xanh lá vòng tròn rỗng và SE của FRDT màu đỏ ký hiệu tam giác): "
+    "Cả hai đường cùng dao động răng cưa với biên độ đỉnh tương đương (≤ 2.86 mm trên FSDT và ≤ 2.62 mm trên FRDT), "
+    "nhưng vị trí đỉnh – đáy lệch pha nhau dọc theo trục khoảng cách do độ lồi lõm của mặt gạch nhám làm dịch chuyển mặt phẳng phản xạ hiệu dụng.",
+    "Ở dải trung bình – xa (80 – 350 cm): "
+)
+
+IMG_H3_7B_SE_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7b_sai_so_chuan_se_be_mat.png")
+if os.path.exists(IMG_H3_7B_SE_PATH):
+    p_img3_7b_se = doc.add_paragraph()
+    p_img3_7b_se.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7b_se.paragraph_format.space_before = Pt(8)
+    p_img3_7b_se.paragraph_format.space_after = Pt(4)
+    run_img3_7b_se = p_img3_7b_se.add_run()
+    run_img3_7b_se.add_picture(IMG_H3_7B_SE_PATH, width=Cm(15.0))
+
+    p_cap3_7b_se = doc.add_paragraph()
+    p_cap3_7b_se.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7b_se.paragraph_format.space_after = Pt(8)
+    r_c3_7b_se = p_cap3_7b_se.add_run(
+        "Hình 3.7b: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR "
+        "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm."
+    )
+    r_c3_7b_se.font.italic = True
+    r_c3_7b_se.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị Hình 3.7b: Khi phóng đại riêng thang đo cho sai số chuẩn trung bình SE (0 – 0.65 mm):")
+add_bullet_p(
+    "Đều nằm hoàn toàn phía dưới đường dung sai vạch chia thước 0.5 mm (tím chấm gạch) tại trọn vẹn 22/22 mốc khảo sát "
+    "(0.0086 – 0.4491 mm đối với FSDT và 0.0071 – 0.3903 mm đối với FRDT).",
+    "Cả hai đường SE của FSDT (xanh lam vòng tròn nền trắng) và FRDT (cam ký hiệu hình vuông): "
+)
+add_bullet_p(
+    "Phép lấy trung bình trên cỡ mẫu N = 50 kết hợp lọc IQR đủ sức nén biên độ nhiễu pha tán xạ của bề mặt gồ ghề xuống mức dưới nửa milimét "
+    "chừng nào sóng phản hồi còn vượt ngưỡng thu.",
+    "Ý nghĩa thống kê thực nghiệm: "
 )
 
 add_heading_3("3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa")
@@ -1889,7 +1919,7 @@ add_bullet_p(
     "Kết luận thiết kế kỹ thuật: "
 )
 
-IMG_H3_7B_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7b_gioi_han_tam_do_be_mat.png")
+IMG_H3_7B_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7c_gioi_han_tam_do_be_mat.png")
 if os.path.exists(IMG_H3_7B_PATH):
     p_img3_7b = doc.add_paragraph()
     p_img3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1902,13 +1932,13 @@ if os.path.exists(IMG_H3_7B_PATH):
     p_cap3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_7b.paragraph_format.space_after = Pt(8)
     r_c3_7b = p_cap3_7b.add_run(
-        "Hình 3.7b: So sánh đặc tính khoảng cách đo trung bình x̄ và sự thu hẹp giới hạn tầm đo "
+        "Hình 3.7c: So sánh đặc tính khoảng cách đo trung bình x̄ và sự thu hẹp giới hạn tầm đo "
         "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 600 cm."
     )
     r_c3_7b.font.italic = True
     r_c3_7b.font.size = Pt(10)
 
-add_body_p("Đánh giá từ đồ thị Hình 3.7b: Sự phân tách giới hạn hoạt động vật lý giữa hai bề mặt thể hiện rõ nét qua ba đường đặc tính:")
+add_body_p("Đánh giá từ đồ thị Hình 3.7c: Sự phân tách giới hạn hoạt động vật lý giữa hai bề mặt thể hiện rõ nét qua ba đường đặc tính:")
 add_bullet_p(
     "Bám trùng khít lên đường chuẩn lý tưởng y = x suốt từ 10 cm đến 550 cm (và 580 cm sau lọc) trước khi chạm trần tràn bộ đếm ≈ 824.6 cm tại 600 cm.",
     "Đường màu xanh lam nét liền (FSDT sau lọc IQR): "
