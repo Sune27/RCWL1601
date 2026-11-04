@@ -29,9 +29,10 @@ Khi tạo mới hoặc cập nhật các đồ thị phân tích dữ liệu, c�
 ### 1.2. Độ phân giải và Tỷ lệ khung hình (Aspect Ratio)
 * **Độ phân giải xuất bản:** Luôn xuất ảnh với `dpi=300`.
 * **Kích thước khung hình (`figsize`):**
-  * **Đồ thị đơn một trục:** `figsize=(8, 4.5)` hoặc `figsize=(10, 5)`.
-  * **Đồ thị kép 2 cột (Subplots ngang):** `figsize=(11, 4.5)` (dùng cho so sánh tiến/lùi, nhẵn/nhám, 32°C/20°C).
-  * **Đồ thị 2 tầng (Subplots dọc xếp chồng, chung trục X):** `figsize=(10, 6.5)`.
+  * **Bắt buộc vẽ biểu đồ đơn một khung hình:** `figsize=(8.5, 4.8)` hoặc `figsize=(10, 5.2)`. Tuyệt đối không vẽ biểu đồ đôi tách khung (`subplots(1, 2)` hay `subplots(2, 1)`).
+  * Khi hai đại lượng có cùng đơn vị đo (như $s$ và $\text{SE}$ cùng đơn vị $\text{mm}$ tại Hình 3.3), biểu diễn chung trên một trục tung Y để giữ nguyên tỷ lệ vật lý trung thực.
+  * Khi hai đại lượng khác đơn vị nhưng chung trục hoành X (như $\Delta x$ tính bằng $\text{mm}$ và $\delta\%$ tại Hình 3.4), sử dụng **biểu đồ đơn ghép 2 trục tung Y ở hai bên (`ax1.twinx()`)**.
+  * **Căn cứ số liệu vẽ biểu đồ:** Mọi chuỗi dữ liệu đưa lên biểu đồ Chương 3 phải có cột số liệu tương ứng lưu trong `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv` (không cần trình bày bảng số liệu dài lên Word trước biểu đồ trừ khi được yêu cầu).
 
 ### 1.3. Bảng màu khoa học (Scientific Color Palette)
 * **Màu chính (Primary / Dữ liệu chuẩn):** Xanh lam đậm `#1f77b4`
@@ -166,9 +167,8 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
    - Kịch bản phòng điều hòa (`FSAT`) được thiết lập tại **20.0°C** ($v(20.0^\circ\text{C}) = 343.420\text{ m/s}$), tạo độ chênh lệch thực nghiệm $\Delta T = 7.0^\circ\text{C}$ phục vụ đánh giá thuật toán bù nhiệt Laplace.
    - Mọi hàm khởi tạo MicroPython (`rcwl1601.py`, `main.py`) mặc định `temperature_c = 27.0` và `default_temp_c = 27.0`.
 
-5. **Quy tắc An toàn Git:**
-   - **TUYỆT ĐỐI KHÔNG tự ý chạy lệnh `git commit` hoặc `git push`** khi chưa có sự đồng ý trực tiếp từ người dùng.
-   - Luôn đưa ra gợi ý **Suggested Commit Message** ngắn gọn, chuyên nghiệp bằng tiếng Việt ở cuối mỗi câu trả lời.
+5. **Quy tắc Tự động Commit và Đẩy lên GitHub:**
+   - Sau mỗi lần hoàn tất chỉnh sửa tệp trong dự án, tự động thực hiện `git commit` (với thông điệp tiếng Việt ngắn gọn, rõ nghĩa) và `git push` lên nhánh làm việc hiện tại trên GitHub mà không cần chờ người dùng nhắc lại.
 
 6. **Quy chuẩn Mô hình Bố trí Thực nghiệm:**
    - **Tuyệt đối không dùng cụm từ 'gá đặt cơ khí'** (do mang tính gia công cơ khí nặng không phù hợp bối cảnh thí nghiệm điện tử). Sử dụng các cụm từ chuẩn kỹ thuật đo lường tự nhiên: **'Bố trí mô hình và định vị thiết bị đo'** hoặc **'Phương thức bố trí và cố định thiết bị'**.
@@ -183,7 +183,10 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
 
 
 8. **Quy tắc Thao tác Tệp Word (Bắt buộc Tiền tố `docx` & Dừng khi Word mở):**
-
    - Chỉ được phép chỉnh sửa mã nguồn xuất Word hoặc can thiệp tệp Word khi câu lệnh của người dùng bắt đầu bằng chữ `docx`.
-
    - Nếu phát hiện ứng dụng Word đang mở, lập tức dừng lại và thông báo nhắc người dùng tắt Word trước khi tiếp tục.
+
+9. **Quy chuẩn Trình bày Chương 3+, Thống nhất Ký hiệu `x` và Chỉ tiêu Độ chụm `SE`:**
+   - **Không lặp lại lý thuyết từ Mục 3.3 trở đi:** Tuyệt đối không viết lại công thức định nghĩa lý thuyết hay đoạn giải thích biến số đã trình bày ở Chương 1; chỉ dẫn chiếu tên đại lượng và mục tương ứng ở Chương 1 rồi đi thẳng vào phân tích kết quả thực nghiệm.
+   - **Thống nhất ký hiệu khoảng cách `x` xuyên suốt từ Chương 1 đến Chương 5:** Đại lượng khoảng cách đo ký hiệu là $x$, mẫu đo đơn lẻ là $x_i$, giá trị trung bình mẫu là $\bar{x}$, khoảng cách chuẩn đối chứng là $x_{\text{true}}$, sai số tuyệt đối là $\Delta x = \bar{x} - x_{\text{true}}$, giá trị hồi quy tuyến tính là $\hat{x} = a \cdot x_{\text{true}} + b$, giới hạn toàn thang đo là $x_{\text{F.S.}}$ — tuyệt đối không dùng ký hiệu khoảng cách chữ `d`.
+   - **Chỉ tiêu đánh giá Độ chụm chuẩn hóa:** Đồng bộ sử dụng **Độ lệch chuẩn thực nghiệm mẫu $s$** kết hợp với **Sai số chuẩn của giá trị trung bình $\text{SE} = s / \sqrt{N}$** (đơn vị $\text{mm}$, lưu tại cột `se_tho_mm` và `se_sach_mm` trong `thong_ke_chuong_3.csv`) xuyên suốt toàn bộ báo cáo và đề cương.

@@ -7,13 +7,13 @@
 ### 1.1.1. Phương trình lan truyền sóng siêu âm thời gian bay
 Phương pháp đo cự ly bằng sóng siêu âm không tiếp xúc dựa trên nguyên lý thời gian bay (Time-of-Flight - ToF). Khi module cảm biến được kích hoạt, đầu phát phát ra một chùm xung sóng cơ học tần số siêu âm lan truyền dọc theo trục đo trong không khí. Khi gặp bề mặt vật cản đặt vuông góc với phương truyền, sóng âm phản xạ ngược trở lại và được đầu thu tiếp nhận rồi chuyển đổi thành tín hiệu điện.
 
-Khoảng cách hình học từ mặt cảm biến đến bề mặt phản xạ $d$ được xác định thông qua thời gian truyền khứ hồi $t$ của sóng âm theo phương trình:
+Khoảng cách hình học từ mặt cảm biến đến bề mặt phản xạ $x$ được xác định thông qua thời gian truyền khứ hồi $t$ của sóng âm theo phương trình:
 
-$$d = \frac{v \cdot t}{2}$$
+$$x = \frac{v \cdot t}{2}$$
 
 Trong đó:
-- $d$: Khoảng cách một chiều cần đo từ cảm biến đến bề mặt phản xạ (đơn vị: $\text{m}$ hoặc $\text{cm}$).
-- $t$: Tổng thời gian lan truyền khứ hồi của chùm sóng siêu âm từ lúc phát sóng đến lúc nhận lại sóng phản xạ (đơn vị: $\text{s}$ hoặc $\mu\text{s}$). Hệ số chia $2$ xuất hiện do sóng âm phải đi qua quãng đường khứ hồi $2d$.
+- $x$: Khoảng cách một chiều cần đo từ cảm biến đến bề mặt phản xạ (đơn vị: $\text{m}$ hoặc $\text{cm}$).
+- $t$: Tổng thời gian lan truyền khứ hồi của chùm sóng siêu âm từ lúc phát sóng đến lúc nhận lại sóng phản xạ (đơn vị: $\text{s}$ hoặc $\mu\text{s}$). Hệ số chia $2$ xuất hiện do sóng âm phải đi qua quãng đường khứ hồi $2x$.
 - $v$: Vận tốc lan truyền của sóng siêu âm trong môi trường không khí (đơn vị: $\text{m/s}$).
 
 ---
@@ -34,7 +34,7 @@ $$v(T) = v_0 \cdot \sqrt{1 + \frac{T}{273.15}} \approx 331.3 + 0.606 \cdot T \qu
 
 Khi kết hợp mô hình bù nhiệt Laplace vào phương trình ToF, công thức khoảng cách hiệu chỉnh theo nhiệt độ môi trường trở thành:
 
-$$d = \frac{(331.3 + 0.606 \cdot T) \cdot t}{2}$$
+$$x = \frac{(331.3 + 0.606 \cdot T) \cdot t}{2}$$
 
 > **Nhận xét định lượng về sai số trôi nhiệt:**  
 > Cứ mỗi khi nhiệt độ môi trường thay đổi $\Delta T = 1^\circ\text{C}$, vận tốc âm thanh sẽ thay đổi tương ứng khoảng $\Delta v \approx 0.606\text{ m/s}$ (tương đương biến thiên $\sim 0.18\%$).  
@@ -46,8 +46,8 @@ $$d = \frac{(331.3 + 0.606 \cdot T) \cdot t}{2}$$
 
 ### 1.1.3. Sự suy hao năng lượng sóng âm theo cự ly đo
 Khi chùm sóng siêu âm phát ra truyền đi trong không khí, mật độ năng lượng và biên độ áp suất sóng phản xạ tiếp nhận tại đầu thu bị suy giảm mạnh do hai cơ chế vật lý:
-1. **Suy giảm hình học theo cự ly ($I \propto 1/d^2$):** Vì mặt sóng lan tỏa trong không gian ba chiều, mật độ năng lượng sóng phản xạ quay về mặt cảm biến tỷ lệ nghịch với bình phương khoảng cách khứ hồi $1/(2d)^2$.
-2. **Sự hấp thụ âm của môi trường:** Không khí hấp thụ một phần năng lượng sóng cơ chuyển hóa thành nhiệt năng theo định luật hàm mũ $\exp(-2\alpha d)$, trong đó hệ số suy hao $\alpha$ tăng nhanh theo tần số sóng (ở tần số $40\text{ kHz}$, $\alpha \approx 1.2 - 1.4\text{ dB/m}$ tại độ ẩm thông thường).
+1. **Suy giảm hình học theo cự ly ($I \propto 1/x^2$):** Vì mặt sóng lan tỏa trong không gian ba chiều, mật độ năng lượng sóng phản xạ quay về mặt cảm biến tỷ lệ nghịch với bình phương khoảng cách khứ hồi $1/(2x)^2$.
+2. **Sự hấp thụ âm của môi trường:** Không khí hấp thụ một phần năng lượng sóng cơ chuyển hóa thành nhiệt năng theo định luật hàm mũ $\exp(-2\alpha x)$, trong đó hệ số suy hao $\alpha$ tăng nhanh theo tần số sóng (ở tần số $40\text{ kHz}$, $\alpha \approx 1.2 - 1.4\text{ dB/m}$ tại độ ẩm thông thường).
 
 Hệ quả là ở cự ly càng xa (như mốc $150\text{ cm}$ hoặc trên $400\text{ cm}$), biên độ tín hiệu sóng phản xạ dội về đầu thu càng nhỏ. Điều này làm giảm tỷ số tín hiệu trên nhiễu, khiến bộ so sánh điện áp ở đầu thu dễ bị trượt chu kỳ sóng hoặc dẫn tới hiện tượng mất tín hiệu ở cự ly giới hạn trên $580\text{ cm}$.
 
@@ -156,21 +156,21 @@ Các đặc tính kỹ thuật tĩnh của cảm biến RCWL-1601 được đán
 
 #### 1. Độ chụm
 Độ chụm thể hiện mức độ lặp lại nhất quán giữa các kết quả đo độc lập ở cùng một cự ly và điều kiện đo. Được định lượng thông qua:
-- Độ lệch chuẩn thực nghiệm $s$ (càng nhỏ độ chụm càng cao).
-- **Hệ số biến thiên ($\text{CV}\%$):** Chuẩn hóa mức độ tán xạ theo giá trị đo để so sánh độ chụm giữa cự ly gần và cự ly xa:
-  $$\text{CV}\% = \frac{s}{\bar{x}} \times 100\%$$
+- **Độ lệch chuẩn thực nghiệm mẫu ($s$):** Phản ánh mức độ phân tán ngẫu nhiên của từng phép đo đơn lẻ quanh giá trị trung bình mẫu $\bar{x}$ (càng nhỏ độ chụm càng cao).
+- **Sai số chuẩn của giá trị trung bình ($\text{SE}$):** Phản ánh độ chụm của ước lượng trung bình mẫu $\bar{x}$ khi thực hiện $N$ lần đo lặp độc lập tại cùng một mốc cự ly:
+  $$\text{SE} = \frac{s}{\sqrt{N}}$$
 
 #### 2. Độ chính xác và Sai số đo lường
-Độ chính xác thể hiện mức độ sai lệch giữa giá trị trung bình đo được $\bar{d}$ so với giá trị cự ly thực $d_{\text{true}}$ (được xác định bằng thước vạch chuẩn mm cơ khí):
-- **Sai số tuyệt đối ($\Delta d$):**
-  $$\Delta d = \bar{d} - d_{\text{true}}$$
+Độ chính xác thể hiện mức độ sai lệch giữa giá trị trung bình đo được $\bar{x}$ so với giá trị khoảng cách chuẩn đối chứng $x_{\text{true}}$ (được xác định bằng thước vạch chuẩn mm cơ khí):
+- **Sai số tuyệt đối ($\Delta x$):**
+  $$\Delta x = \bar{x} - x_{\text{true}}$$
 - **Sai số tương đối ($\delta\%$):**
-  $$\delta\% = \frac{\Delta d}{d_{\text{true}}} \times 100\% = \frac{\bar{d} - d_{\text{true}}}{d_{\text{true}}} \times 100\%$$
+  $$\delta\% = \frac{\Delta x}{x_{\text{true}}} \times 100\% = \frac{\bar{x} - x_{\text{true}}}{x_{\text{true}}} \times 100\%$$
 
 #### 3. Độ nhạy thực nghiệm
-Độ nhạy $S$ của cảm biến phản ánh tỷ lệ biến thiên của đại lượng ngõ ra (thời gian ToF $\bar{t}$ tính bằng $\mu\text{s}$) trên sự thay đổi của đại lượng ngõ vào (khoảng cách $d_{\text{true}}$ tính bằng $\text{cm}$):
+Độ nhạy $S$ của cảm biến phản ánh tỷ lệ biến thiên của đại lượng ngõ ra (thời gian ToF $\bar{t}$ tính bằng $\mu\text{s}$) trên sự thay đổi của đại lượng ngõ vào (khoảng cách chuẩn $x_{\text{true}}$ tính bằng $\text{cm}$):
 
-$$S_t = \frac{\Delta \bar{t}}{\Delta d_{\text{true}}} \quad (\mu\text{s/cm})$$
+$$S_t = \frac{\Delta \bar{t}}{\Delta x_{\text{true}}} \quad (\mu\text{s/cm})$$
 
 Về mặt lý thuyết, độ nhạy thuần túy của phép đo ToF hai chiều liên hệ trực tiếp với vận tốc sóng âm:
 $$S_{t,\text{theory}} = \frac{2}{v(T)} \times 10^4 \quad (\mu\text{s/cm})$$
@@ -179,40 +179,40 @@ $$S_{t,\text{theory}} = \frac{2}{v(T)} \times 10^4 \quad (\mu\text{s/cm})$$
 #### 4. Độ tuyến tính và Sai số phi tuyến
 Độ tuyến tính đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết thông qua mô hình hồi quy tuyến tính:
 
-$$\hat{y} = a \cdot x + b$$
+$$\hat{x} = a \cdot x_{\text{true}} + b$$
 
-Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận, với $K$ mốc cự ly thực nghiệm $(x_1, y_1), (x_2, y_2), \dots, (x_K, y_K)$, vector các hệ số hồi quy $\hat{\boldsymbol{\beta}} = \begin{bmatrix} a \\ b \end{bmatrix}$ được xác định trực tiếp theo công thức chuẩn tắc:
+Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận, với $K$ mốc cự ly thực nghiệm $(x_{\text{true}, 1}, y_1), (x_{\text{true}, 2}, y_2), \dots, (x_{\text{true}, K}, y_K)$, vector các hệ số hồi quy $\hat{\boldsymbol{\beta}} = \begin{bmatrix} a \\ b \end{bmatrix}$ được xác định trực tiếp theo công thức chuẩn tắc:
 
 $$\hat{\boldsymbol{\beta}} = \begin{bmatrix} a \\ b \end{bmatrix} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$
 
 Trong đó:
-- $\mathbf{X} = \begin{bmatrix} x_1 & 1 \\ x_2 & 1 \\ \vdots & \vdots \\ x_K & 1 \end{bmatrix} \in \mathbb{R}^{K \times 2}$: Ma trận thiết kế, chứa giá trị cự ly đặt chuẩn $d_{\text{true}}$ và cột hệ số tự do.
-- $\mathbf{Y} = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_K \end{bmatrix} \in \mathbb{R}^{K \times 1}$: Vector các giá trị đo thực nghiệm tương ứng (khoảng cách trung bình $\bar{d}$ hoặc thời gian bay $\bar{t}$).
+- $\mathbf{X} = \begin{bmatrix} x_{\text{true}, 1} & 1 \\ x_{\text{true}, 2} & 1 \\ \vdots & \vdots \\ x_{\text{true}, K} & 1 \end{bmatrix} \in \mathbb{R}^{K \times 2}$: Ma trận thiết kế, chứa giá trị khoảng cách đặt chuẩn $x_{\text{true}, k}$ và cột hệ số tự do.
+- $\mathbf{Y} = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_K \end{bmatrix} \in \mathbb{R}^{K \times 1}$: Vector các giá trị đo thực nghiệm tương ứng (khoảng cách trung bình $\bar{x}_k$ hoặc thời gian bay $\bar{t}_k$).
 - Các ma trận thành phần được tính toán theo:
-  $$\mathbf{X}^T \mathbf{X} = \begin{bmatrix} \sum_{k=1}^K x_k^2 & \sum_{k=1}^K x_k \\ \sum_{k=1}^K x_k & K \end{bmatrix}, \quad \mathbf{X}^T \mathbf{Y} = \begin{bmatrix} \sum_{k=1}^K x_k y_k \\ \sum_{k=1}^K y_k \end{bmatrix}$$
-  $$(\mathbf{X}^T \mathbf{X})^{-1} = \frac{1}{K \sum_{k=1}^K x_k^2 - \left(\sum_{k=1}^K x_k\right)^2} \begin{bmatrix} K & -\sum_{k=1}^K x_k \\ -\sum_{k=1}^K x_k & \sum_{k=1}^K x_k^2 \end{bmatrix}$$
+  $$\mathbf{X}^T \mathbf{X} = \begin{bmatrix} \sum_{k=1}^K x_{\text{true}, k}^2 & \sum_{k=1}^K x_{\text{true}, k} \\ \sum_{k=1}^K x_{\text{true}, k} & K \end{bmatrix}, \quad \mathbf{X}^T \mathbf{Y} = \begin{bmatrix} \sum_{k=1}^K x_{\text{true}, k} y_k \\ \sum_{k=1}^K y_k \end{bmatrix}$$
+  $$(\mathbf{X}^T \mathbf{X})^{-1} = \frac{1}{K \sum_{k=1}^K x_{\text{true}, k}^2 - \left(\sum_{k=1}^K x_{\text{true}, k}\right)^2} \begin{bmatrix} K & -\sum_{k=1}^K x_{\text{true}, k} \\ -\sum_{k=1}^K x_{\text{true}, k} & \sum_{k=1}^K x_{\text{true}, k}^2 \end{bmatrix}$$
 
 Công thức ma trận trên cho phép tính toán trực tiếp hệ số góc $a$ (độ nhạy dốc) và hệ số chặn $b$ (độ lệch gốc) trong các script xử lý dữ liệu.
 
 - **Hệ số xác định ($R^2$):** Đánh giá mức độ phù hợp tuyến tính ($0 \le R^2 \le 1$, $R^2 \to 1$ thể hiện tuyến tính tuyệt đối):
-  $$R^2 = 1 - \frac{\sum_{k=1}^K (y_k - \hat{y}_k)^2}{\sum_{k=1}^K (y_k - \bar{y})^2}$$
+  $$R^2 = 1 - \frac{\sum_{k=1}^K (\bar{x}_k - \hat{x}_k)^2}{\sum_{k=1}^K (\bar{x}_k - \bar{x}_{\text{tb}})^2}$$
 - **Sai số phi tuyến cực đại ($\delta_{\text{NL}}\%$):**
-  $$\delta_{\text{NL}}\% = \frac{\max_{k} |\bar{d}_k - \hat{d}_k|}{d_{\text{F.S.}}} \times 100\%$$
-  *(với $d_{\text{F.S.}}$ là giá trị cực đại toàn dải đo)*.
+  $$\delta_{\text{NL}}\% = \frac{\max_{k} |\bar{x}_k - \hat{x}_k|}{x_{\text{F.S.}}} \times 100\%$$
+  *(với $x_{\text{F.S.}}$ là giá trị cực đại toàn dải đo)*.
 
 #### 5. Độ trễ
 Độ trễ phản ánh sự bất đối xứng của giá trị đo tại cùng một điểm cự ly khi tiếp cận theo hai hướng ngược nhau: Chiều tiến và Chiều lùi.
 - Sai lệch trễ tại mốc thứ $k$:
-  $$\Delta H_k = |\bar{d}_{\text{forward}, k} - \bar{d}_{\text{backward}, k}|$$
+  $$\Delta H_k = |\bar{x}_{\text{forward}, k} - \bar{x}_{\text{backward}, k}|$$
 - **Độ trễ cực đại toàn dải ($\Delta H_{\max}$):**
   $$\Delta H_{\max} = \max_{k} \{\Delta H_k\}$$
 - **Sai số trễ tương đối toàn dải ($\gamma_H\%$):**
-  $$\gamma_H\% = \frac{\Delta H_{\max}}{d_{\text{F.S.}}} \times 100\%$$
+  $$\gamma_H\% = \frac{\Delta H_{\max}}{x_{\text{F.S.}}} \times 100\%$$
 
 #### 6. Độ phân giải
 Độ phân giải là đại lượng đo nhỏ nhất mà hệ thống có thể phân biệt và đáp ứng được.
-- **Độ phân giải lý thuyết ($\Delta d_{\text{res}}$):** Bị giới hạn bởi độ phân giải của bộ đếm thời gian vi điều khiển ESP32 ($\Delta t_{\min} = 1\text{ }\mu\text{s}$):
-  $$\Delta d_{\text{res, theory}} = \frac{v \cdot \Delta t_{\min}}{2} \approx \frac{343\text{ m/s} \times 10^{-6}\text{ s}}{2} \approx 0.0172\text{ cm} \quad (\approx 0.172\text{ mm})$$
+- **Độ phân giải lý thuyết ($\Delta x_{\text{res}}$):** Bị giới hạn bởi độ phân giải của bộ đếm thời gian vi điều khiển ESP32 ($\Delta t_{\min} = 1\text{ }\mu\text{s}$):
+  $$\Delta x_{\text{res, theory}} = \frac{v \cdot \Delta t_{\min}}{2} \approx \frac{343\text{ m/s} \times 10^{-6}\text{ s}}{2} \approx 0.0172\text{ cm} \quad (\approx 0.172\text{ mm})$$
 - **Độ phân giải thực nghiệm:** Được đối chiếu với độ phân tán ngẫu nhiên thực tế tại các cự ly gần ($s \approx 0.03\text{ mm} - 0.1\text{ mm}$).
 
 ---
@@ -222,7 +222,7 @@ Công thức ma trận trên cho phép tính toán trực tiếp hệ số góc 
 Theo hướng dẫn chuẩn quốc tế về đánh giá độ không đảm bảo đo trong kỹ thuật (ISO/GUM), kết quả của một phép đo cự ly phải được biểu diễn kèm theo khoảng không đảm bảo đo tin cậy.
 
 #### 1. Độ không đảm bảo đo chuẩn Loại A ($u_A$ - Thành phần ngẫu nhiên)
-Được đánh giá bằng phương pháp thống kê từ tập $N$ lần đo lặp lại tại mỗi cự ly. Đại diện cho độ phân tán của giá trị trung bình $\bar{d}$:
+Được đánh giá bằng phương pháp thống kê từ tập $N$ lần đo lặp lại tại mỗi cự ly. Đại diện cho độ phân tán của giá trị trung bình $\bar{x}$:
 
 $$u_A = \text{SE} = \frac{s}{\sqrt{N}} = \sqrt{\frac{\sum_{i=1}^N (x_i - \bar{x})^2}{N(N - 1)}}$$
 
@@ -238,9 +238,9 @@ $$u_A = \text{SE} = \frac{s}{\sqrt{N}} = \sqrt{\frac{\sum_{i=1}^N (x_i - \bar{x}
    $$u_{B,\text{timer}} = \frac{\Delta_{\text{timer}}}{\sqrt{3}} = \frac{0.0175\text{ cm}}{\sqrt{3}} \approx 0.0101\text{ cm}$$
 
 3. **Thành phần do độ không đảm bảo của giá trị nhiệt độ môi trường ($u_{B,\text{temp}}$):**  
-   Biến thiên nhiệt độ môi trường trong phòng trong suốt ca đo được kiểm soát trong khoảng dung sai $\Delta T = \pm 0.5^\circ\text{C}$. Độ nhạy trôi cự ly theo nhiệt độ là $\frac{\partial d}{\partial T} = \frac{0.606 \cdot t}{2} \approx \frac{0.606}{v} \cdot d \approx 0.00173 \cdot d$.  
-   Độ không đảm bảo chuẩn tương ứng tại mỗi cự ly $d$:
-   $$u_{B,\text{temp}}(d) = \frac{0.00173 \cdot d \cdot \Delta T}{\sqrt{3}}$$
+   Biến thiên nhiệt độ môi trường trong phòng trong suốt ca đo được kiểm soát trong khoảng dung sai $\Delta T = \pm 0.5^\circ\text{C}$. Độ nhạy trôi cự ly theo nhiệt độ là $\frac{\partial x}{\partial T} = \frac{0.606 \cdot t}{2} \approx \frac{0.606}{v} \cdot x \approx 0.00173 \cdot x$.  
+   Độ không đảm bảo chuẩn tương ứng tại mỗi cự ly $x$:
+   $$u_{B,\text{temp}}(x) = \frac{0.00173 \cdot x \cdot \Delta T}{\sqrt{3}}$$
 
 Tổng hợp độ không đảm bảo đo Loại B theo luật lan truyền sai số:
 $$u_B = \sqrt{u_{B,\text{ruler}}^2 + u_{B,\text{timer}}^2 + u_{B,\text{temp}}^2}$$
@@ -256,4 +256,4 @@ $$u_c = \sqrt{u_A^2 + u_B^2}$$
 $$U_{95\%} = k_p \cdot u_c = 2 \cdot u_c$$
 
 Kết quả phép đo cuối cùng được biểu diễn theo chuẩn mực quốc tế:
-$$d = \bar{d} \pm U_{95\%} \quad (\text{với mức xác suất tin cậy } P = 95\%)$$
+$$x = \bar{x} \pm U_{95\%} \quad (\text{với mức xác suất tin cậy } P = 95\%)$$

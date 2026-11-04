@@ -56,8 +56,8 @@ Xét một bồn chứa công nghiệp dạng hình trụ đứng bằng thép k
 ```mermaid
 flowchart TD
     subgraph TankModel["Mô hình Toán học Hình học Bồn chứa"]
-        A["Chiều cao tổng thể: H_tổng = H_tank + H_cổ"] --> B["Cảm biến siêu âm đo khoảng trống: d_comp"]
-        B --> C["Mức chất lỏng: h(t) = H_tổng - d_comp(t)"]
+        A["Chiều cao tổng thể: H_tổng = H_tank + H_cổ"] --> B["Cảm biến siêu âm đo khoảng trống: x_comp"]
+        B --> C["Mức chất lỏng: h(t) = H_tổng - x_comp(t)"]
         C --> D["Thể tích tức thời: V(t) = S_base × h(t) = π R² × h(t)"]
         D --> E["Thể tích tính bằng Lít: V_Lít = V(m³) × 1000"]
     end
@@ -77,7 +77,7 @@ flowchart TD
 
   $$H_{\text{tổng}} = H_{\text{tank}} + H_{\text{cổ}} = 250.0 + 15.0 = 265.0\text{ cm}$$
 
-  Khi bồn nạp đầy $100\%$ dung tích ($h = 250.0\text{ cm}$), khoảng cách từ cảm biến tới mặt nước vẫn đạt $d = 15.0\text{ cm}$. Cự ly này nằm trọn vẹn trong dải đo tuyến tính lý tưởng ($s < 0.15\text{ mm}$, sai số $< 0.3\%$), loại trừ hoàn toàn nguy cơ mặt nước dâng vào vùng chết $3\text{ cm}$.
+  Khi bồn nạp đầy $100\%$ dung tích ($h = 250.0\text{ cm}$), khoảng cách từ cảm biến tới mặt nước vẫn đạt $x = 15.0\text{ cm}$. Cự ly này nằm trọn vẹn trong dải đo tuyến tính lý tưởng ($s < 0.15\text{ mm}$, sai số $< 0.3\%$), loại trừ hoàn toàn nguy cơ mặt nước dâng vào vùng chết $3\text{ cm}$.
 
 #### 2. Tích hợp thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ bồn chứa
 - *Phát hiện ở Mục 3.7:* Nhiệt độ không khí thay đổi giữa ngày và đêm hoặc do chất lỏng tỏa nhiệt làm thay đổi vận tốc sóng âm. Nếu nhiệt độ trôi $7^\circ\text{C}$ (giữa nhiệt độ mặc định $27^\circ\text{C}$ và phòng lạnh $20^\circ\text{C}$) mà không bù nhiệt, sai số đo cự ly ở khoảng cách $2.5\text{ m}$ sẽ bị dội lên thành $+30.9\text{ mm}$ (gây sai lệch thể tích lên tới gần **$24\text{ Lít}$**).
@@ -87,7 +87,7 @@ flowchart TD
 
   Khoảng trống đo được chuẩn hóa theo:
 
-  $$d_{\text{comp}} = \frac{v(T) \cdot t}{2} \quad (\text{m})$$
+  $$x_{\text{comp}} = \frac{v(T) \cdot t}{2} \quad (\text{m})$$
 
 - *Hiệu quả:* Triệt tiêu sai số trôi nhiệt độ xuống dưới $0.5\text{ mm}$, khống chế sai số thể tích do nhiệt độ dưới **$0.4\text{ Lít}$** trên toàn thang đo.
 
@@ -102,17 +102,17 @@ flowchart TD
 - *Hiệu quả:* Khử hoàn toàn độ nhấp nhô sóng gợn $\pm 2.5\text{ cm}$, phục hồi mức nước trung bình tĩnh với sai số chuẩn chỉ $\pm 1.8\text{ mm}$.
 
 #### 4. Lan truyền Độ không đảm bảo đo Thể tích theo tiêu chuẩn ISO/GUM
-- Áp dụng kết quả đánh giá tổng hợp độ không đảm bảo đo ở Mục 3.8: Tại dải khoảng trống $d = 0.15\text{ m} \to 2.50\text{ m}$, độ không đảm bảo đo mở rộng của khoảng cách đo là $U_{95\%}(d) \approx 0.60\text{ mm} \to 2.50\text{ mm}$.
+- Áp dụng kết quả đánh giá tổng hợp độ không đảm bảo đo ở Mục 3.8: Tại dải khoảng trống $x = 0.15\text{ m} \to 2.50\text{ m}$, độ không đảm bảo đo mở rộng của khoảng cách đo là $U_{95\%}(x) \approx 0.60\text{ mm} \to 2.50\text{ mm}$.
 - Theo định luật lan truyền độ không đảm bảo đo:
 
-  $$h = H_{\text{tổng}} - d \implies u_c(h) = \sqrt{u_c^2(H_{\text{tổng}}) + u_c^2(d)}$$
+  $$h = H_{\text{tổng}} - x \implies u_c(h) = \sqrt{u_c^2(H_{\text{tổng}}) + u_c^2(x)}$$
 
-  Coi kích thước cơ khí bồn $H_{\text{tổng}}$ được định cỡ chính xác bằng máy đo laser ($u_c(H_{\text{tổng}}) \approx 0.2\text{ mm}$), suy ra $u_c(h) \approx u_c(d)$.
+  Coi kích thước cơ khí bồn $H_{\text{tổng}}$ được định cỡ chính xác bằng máy đo laser ($u_c(H_{\text{tổng}}) \approx 0.2\text{ mm}$), suy ra $u_c(h) \approx u_c(x)$.
 - Độ không đảm bảo đo mở rộng của thể tích chất lỏng ($k_p = 2$):
 
   $$U_{95\%}(V) = S_{\text{base}} \cdot U_{95\%}(h) = (\pi R^2) \cdot U_{95\%}(h)$$
 
-  Tại mức nước đầy ($h = 2.50\text{ m}$, khoảng trống $d = 0.15\text{ m}$, $U_{95\%}(h) = 0.72\text{ mm}$):
+  Tại mức nước đầy ($h = 2.50\text{ m}$, khoảng trống $x = 0.15\text{ m}$, $U_{95\%}(h) = 0.72\text{ mm}$):
 
   $$U_{95\%}(V) = 0.7854\text{ m}^2 \times 0.00072\text{ m} = 0.000565\text{ m}^3 \approx 0.57\text{ Lít}$$
 
@@ -142,7 +142,7 @@ Quá trình bơm nạp chất lỏng vào bồn được mô phỏng trong thờ
 
 Bảng dưới đây chi tiết hóa giá trị thể tích, khoảng cách đo và độ không đảm bảo đo mở rộng tương ứng trên toàn bộ dải mức nước làm việc của bồn chứa:
 
-| Tỷ lệ nạp bồn (%) | Mức chất lỏng $h$ (cm) | Khoảng trống cảm biến đo $d$ (cm) | Thể tích thực tế $V$ (Lít) | Độ KĐBĐ mức nước $U_{95\%}(h)$ (mm) | Độ KĐBĐ thể tích $U_{95\%}(V)$ (Lít) | Độ KĐBĐ thể tích tương đối (%) |
+| Tỷ lệ nạp bồn (%) | Mức chất lỏng $h$ (cm) | Khoảng trống cảm biến đo $x$ (cm) | Thể tích thực tế $V$ (Lít) | Độ KĐBĐ mức nước $U_{95\%}(h)$ (mm) | Độ KĐBĐ thể tích $U_{95\%}(V)$ (Lít) | Độ KĐBĐ thể tích tương đối (%) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **$10\%$** | $25.0$ | $240.0$ | $196.4$ | $2.52$ | $1.98$ | **$1.008\%$** |
 | **$20\%$** | $50.0$ | $215.0$ | $392.7$ | $2.32$ | $1.82$ | **$0.464\%$** |

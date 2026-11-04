@@ -356,7 +356,7 @@ preface_paragraphs = [
     "và thực hiện đề tài: 'Khảo sát thực nghiệm đặc tính đo lường của cảm biến siêu âm RCWL-1601'. Mục tiêu của báo cáo bao gồm:",
 
     "1. Khảo sát toàn diện đặc tính tĩnh và động học của cảm biến RCWL-1601 trên giàn thực nghiệm chuẩn hóa: xác định dải đo tuyến tính, "
-    "khảo sát chi tiết vùng chết (1 cm – 3 cm), dải đo xa mở rộng vượt định mức (lên đến 550 cm), độ chụm (độ lệch chuẩn, hệ số biến thiên), "
+    "khảo sát chi tiết vùng chết (1 cm – 3 cm), dải đo xa mở rộng vượt định mức (lên đến 550 cm), độ chụm (độ lệch chuẩn thực nghiệm, sai số chuẩn trung bình), "
     "độ chính xác, độ nhạy thời gian bay, và đánh giá độ không đảm bảo đo mở rộng theo tiêu chuẩn quốc tế ISO/GUM.",
 
     "2. Khảo sát các hiện tượng vật lý chuyên sâu ảnh hưởng đến phép đo siêu âm: độ trễ đo giữa chiều tiến và chiều lùi (Hysteresis), "
@@ -538,11 +538,11 @@ add_body_p(
     "Sóng âm lan truyền trong không gian tự do với vận tốc v, gặp mặt phẳng vật cản và phản xạ dội ngược trở lại đầu thu. "
     "Đầu thu áp điện chuyển đổi năng lượng dao động cơ học của sóng âm dội về thành tín hiệu điện áp phản hồi."
 )
-add_body_p("Khoảng cách d từ cảm biến đến vật cản được xác định từ thời gian bay tổng cộng t của sóng âm theo phương trình:")
+add_body_p("Khoảng cách x từ cảm biến đến vật cản được xác định từ thời gian bay tổng cộng t của sóng âm theo phương trình:")
 
-# Native Word Equation 1.1: d = (v · t) / 2
+# Native Word Equation 1.1: x = (v · t) / 2
 add_native_equation(
-    '<m:r><m:t>d</m:t></m:r>'
+    '<m:r><m:t>x</m:t></m:r>'
     '<m:r><m:t> = </m:t></m:r>'
     '<m:f>'
     '<m:num><m:r><m:t>v · t</m:t></m:r></m:num>'
@@ -552,7 +552,7 @@ add_native_equation(
 )
 
 add_body_p(
-    "Trong đó: d là khoảng cách đo từ mặt trước màng rung cảm biến đến bề mặt phản xạ (m); "
+    "Trong đó: x là khoảng cách đo từ mặt trước màng rung cảm biến đến bề mặt phản xạ (m); "
     "v là vận tốc truyền sóng âm trong không khí (m/s); t là thời gian bay khứ hồi từ khi phát xung đến khi thu được xung dội về (s). "
     "Hệ số 2 thể hiện sóng âm phải vượt qua hai lần quãng đường (lượt đi và lượt về)."
 )
@@ -606,11 +606,11 @@ add_body_p(
 )
 
 add_heading_3("1.1.3. Sự suy hao năng lượng sóng âm theo cự ly đo")
-add_body_p("Năng lượng và biên độ áp suất âm p(d) của sóng âm suy giảm mạnh theo khoảng cách truyền dẫn do hai cơ chế vật lý song song:")
-add_bullet_p("Do chùm sóng âm phát đi theo dạng hình nón. Năng lượng sóng âm phân bố trên diện tích mặt cầu tăng dần, khiến mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", "1. Phân kỳ hình học: ")
-add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm làm suy hao biên độ áp suất âm. Ở tần số 40 kHz và nhiệt độ phòng 27 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí: ")
+add_body_p("Năng lượng và biên độ áp suất âm p(x) của sóng âm suy giảm mạnh theo khoảng cách truyền dẫn do hai cơ chế vật lý song song:")
+add_bullet_p("Do chùm sóng âm phát đi theo dạng hình nón. Năng lượng sóng âm phân bố trên diện tích mặt cầu tăng dần, khiến mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(x) ~ 1/x².", "1. Phân kỳ hình học: ")
+add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm. Ở tần số 40 kHz và nhiệt độ phòng 27 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí: ")
 add_body_p(
-    "Tổng suy hao sau hành trình hai chiều (2d) lên tới hàng chục decibel ở cự ly xa (d > 3 m). "
+    "Tổng suy hao sau hành trình hai chiều (2x) lên tới hàng chục decibel ở cự ly xa (x > 3 m). "
     "Vì vậy, ở cự ly trên 5.5 m, biên độ xung phản xạ sẽ tụt xuống dưới ngưỡng nhạy phát hiện của bộ so sánh, dẫn tới việc vi điều khiển "
     "bị tràn thời gian ngắt câm và trả về giá trị lỗi bão hòa."
 )
@@ -815,11 +815,11 @@ add_body_p(
 )
 
 add_heading_3("1.3.3. Hệ thống công thức đánh giá các Đặc tính tĩnh của cảm biến")
-add_bullet_p("Phản ánh độ ổn định tương đối của phép đo, chuẩn hóa độ lệch chuẩn theo giá trị trung bình: CV% = (s / x̄) · 100%.", "1. Hệ số biến thiên (Coefficient of Variation): ")
-add_bullet_p("Đánh giá mức độ sai lệch giữa giá trị đo trung bình và giá trị chuẩn: Sai số tuyệt đối Δd = d̄ - d_true; Sai số tương đối δ% = (Δd / d_true) · 100%.", "2. Sai số đo lường:", )
-add_bullet_p("Tỷ số giữa độ biến thiên tín hiệu đầu ra và độ biến thiên đại lượng đo đầu vào: S_t = Δt / Δd_true (μs/cm).", "3. Độ nhạy (Sensitivity): ")
+add_bullet_p("Đánh giá mức độ lặp lại nhất quán của phép đo thông qua độ lệch chuẩn thực nghiệm mẫu s và sai số chuẩn của giá trị trung bình SE = s / √N (phản ánh độ chụm của ước lượng trung bình mẫu x̄ khi thực hiện N lần đo lặp độc lập).", "1. Độ chụm và Sai số chuẩn trung bình: ")
+add_bullet_p("Đánh giá mức độ sai lệch giữa giá trị đo trung bình và giá trị chuẩn: Sai số tuyệt đối Δx = x̄ - x_true; Sai số tương đối δ% = (Δx / x_true) · 100%.", "2. Sai số đo lường: ")
+add_bullet_p("Tỷ số giữa độ biến thiên tín hiệu đầu ra và độ biến thiên đại lượng đo đầu vào: S_t = Δt / Δx_true (μs/cm).", "3. Độ nhạy (Sensitivity): ")
 add_bullet_p(
-    "Đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết ŷ = a · x + b. "
+    "Đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết x̂ = a · x_true + b. "
     "Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận chuẩn tắc, vector hệ số hồi quy được giải trực tiếp theo:",
     "4. Độ tuyến tính và Sai số phi tuyến (Linearity): "
 )
@@ -837,13 +837,13 @@ add_native_equation(
 )
 
 add_body_p(
-    "Hệ số xác định tương quan R² = 1 - [∑(y_k - ŷ_k)² / ∑(y_k - ȳ)²]. "
-    "Sai số phi tuyến cực đại: δ_NL% = (max_k |d̄_k - d̂_k| / d_FS) · 100%."
+    "Hệ số xác định tương quan R² = 1 - [∑(x̄_k - x̂_k)² / ∑(x̄_k - x̄_tb)²]. "
+    "Sai số phi tuyến cực đại: δ_NL% = (max_k |x̄_k - x̂_k| / x_FS) · 100%."
 )
 add_bullet_p(
     "Phản ánh sự bất đối xứng của giá trị đo tại cùng một điểm cự ly khi tiếp cận theo hai hướng ngược nhau (Chiều tiến Forward và Chiều lùi Backward): "
-    "ΔH_k = |d̄_forward,k - d̄_backward,k|. "
-    "Sai số trễ tương đối toàn dải: γ_H% = (max_k ΔH_k / d_FS) · 100%.",
+    "ΔH_k = |x̄_forward,k - x̄_backward,k|. "
+    "Sai số trễ tương đối toàn dải: γ_H% = (max_k ΔH_k / x_FS) · 100%.",
     "5. Độ trễ (Hysteresis): "
 )
 add_bullet_p(
@@ -856,7 +856,7 @@ add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo")
 add_body_p(
     "Theo hướng dẫn quốc tế ISO/IEC Guide 98-3 (GUM), độ tin cậy của kết quả đo được lượng hóa qua độ không đảm bảo đo toàn diện:"
 )
-add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
+add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = SE = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
 add_bullet_p(
     "Đánh giá bằng các phương pháp phi thống kê (thông số kỹ thuật thiết bị, độ phân giải vi điều khiển, độ chia thước chuẩn cơ khí). "
     "Với giả thiết phân bố xác suất hình chữ nhật, độ không đảm bảo chuẩn thành phần là: u_B = a / √3, "
@@ -867,10 +867,10 @@ add_bullet_p("Kết hợp toàn bộ các thành phần theo định luật lan 
 add_bullet_p("Mở rộng khoảng tin cậy với hệ số phủ k_p = 2 (tương ứng mức tin cậy xấp xỉ 95% đối với bậc tự do lớn): U_95% = k_p · u_c = 2 · u_c.", "• Độ không đảm bảo đo mở rộng (U_95%): ")
 add_body_p("Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn:")
 
-# Native Word Equation 1.10: Y = d_bar +- U_95%
+# Native Word Equation 1.10: x = x_bar +- U_95%
 add_native_equation(
-    '<m:r><m:t>Y = </m:t></m:r>'
-    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
+    '<m:r><m:t>x = </m:t></m:r>'
+    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>x</m:t></m:r></m:e></m:acc>'
     '<m:r><m:t> ± </m:t></m:r>'
     '<m:sSub><m:e><m:r><m:t>U</m:t></m:r></m:e><m:sub><m:r><m:t>95%</m:t></m:r></m:sub></m:sSub>'
     '<m:r><m:t>   (với </m:t></m:r>'
@@ -895,7 +895,7 @@ add_body_p(
     "của module cảm biến siêu âm RCWL-1601 trên nền tảng vi điều khiển ESP32 với các mục tiêu trọng tâm:"
 )
 add_bullet_p("Xác định dải đo tuyến tính ổn định, khảo sát chi tiết vùng chết (1 cm – 3 cm), kiểm tra giới hạn đo xa cực đại vượt định mức (lên đến 550 cm), và ngưỡng bão hòa timeout (580 cm – 600 cm).", "1. Khảo sát dải đo thực tế: ")
-add_bullet_p("Đánh giá độ lặp lại (độ lệch chuẩn thực nghiệm s, hệ số biến thiên CV%), sai số tuyệt đối và sai số tương đối trên toàn dải đo.", "2. Định lượng độ chụm và độ chính xác: ")
+add_bullet_p("Đánh giá độ lặp lại (độ lệch chuẩn thực nghiệm s, sai số chuẩn của giá trị trung bình SE), sai số tuyệt đối và sai số tương đối trên toàn dải đo.", "2. Định lượng độ chụm và độ chính xác: ")
 add_bullet_p("Xác định hàm truyền thời gian bay ToF theo khoảng cách, tìm hệ số góc độ nhạy thực tế St (μs/cm) và đối chiếu với mô hình lý thuyết Laplace.", "3. Đánh giá độ nhạy và độ tuyến tính: ")
 add_bullet_p("Định lượng sai số trôi cự ly do vận tốc sóng âm khi nhiệt độ phòng thay đổi từ 27.0 °C xuống 20.0 °C, chứng minh hiệu quả triệt tiêu sai số của thuật toán bù nhiệt độ Laplace.", "4. Đánh giá ảnh hưởng của nhiệt độ môi trường: ")
 add_bullet_p("So sánh đặc tính phản xạ gương (mặt phẳng nhẵn) và tán xạ khuếch tán (mặt gồ ghề nhấp nhô) ảnh hưởng đến độ chụm và cự ly cực đại.", "5. Đánh giá ảnh hưởng của bề mặt phản xạ: ")
@@ -908,7 +908,7 @@ add_body_p(
 add_bullet_p("Sử dụng thước đo tiêu chuẩn có độ chia milimét tiêu chuẩn (độ không đảm bảo đo u_B1 = 0.289 mm) làm chuẩn chiều dài đối chứng.", "• Phương pháp đo so sánh trực tiếp: ")
 add_bullet_p("Tại mỗi mốc cự ly chuẩn, thực hiện lặp lại N lần đo độc lập trong điều kiện môi trường ổn định để đánh giá độ phân tán ngẫu nhiên và tính toán độ không đảm bảo đo Loại A (u_A).", "• Phương pháp đo lặp thống kê: ")
 add_bullet_p("Nhiệt độ môi trường phòng thực nghiệm được giám sát liên tục bằng nhiệt kế. Dữ liệu nhiệt độ được ghi nhận đồng bộ vào từng mẫu đo để áp dụng thuật toán bù vận tốc sóng âm Laplace.", "• Phương pháp kiểm soát và bù trừ điều kiện môi trường: ")
-add_bullet_p("Toàn bộ dữ liệu thô (thời gian bay t, cự ly đo d, nhiệt độ T) được ESP32 truyền về máy tính tự động ghi lưu thành các tệp định dạng CSV.", "• Phương pháp thu thập dữ liệu tự động hóa: ")
+add_bullet_p("Toàn bộ dữ liệu thô (thời gian bay t, khoảng cách đo x, nhiệt độ T) được ESP32 truyền về máy tính tự động ghi lưu thành các tệp định dạng CSV.", "• Phương pháp thu thập dữ liệu tự động hóa: ")
 
 # 2.2
 add_heading_2("2.2. THIẾT KẾ PHẦN CỨNG VÀ KHÔNG GIAN THỰC NGHIỆM")
@@ -997,7 +997,7 @@ add_body_p(
 )
 add_bullet_p("Module cảm biến RCWL-1601 được cắm cố định vững chắc trên breadboard. Breadboard gắn cảm biến cùng vi điều khiển ESP32 và máy tính thu thập dữ liệu được đặt trên bàn có độ cao khoảng 85 cm so với mặt sàn. Cảm biến được bố trí ở sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.", "1. Cố định cảm biến tại vị trí mốc đo gốc: ")
 add_bullet_p("Vật thể đo chuẩn là một viên gạch kích thước 40 cm × 40 cm có hai mặt với đặc tính bề mặt khác nhau: mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao 85 cm. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện trực diện với trục phát của cảm biến.", "2. Vật thể phản xạ mục tiêu: ")
-add_bullet_p("Khoảng cách chuẩn d_true được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.", "3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: ")
+add_bullet_p("Khoảng cách chuẩn x_true được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.", "3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: ")
 
 # 2.3
 add_heading_2("2.3. CÁC TRƯỜNG HỢP ĐO VÀ ĐIỀU KIỆN THỰC NGHIỆM")
@@ -1078,7 +1078,7 @@ add_heading_2("2.4. XÁC ĐỊNH CỠ MẪU TỐI ƯU")
 add_heading_3("2.4.1. Bản chất bài toán tối ưu cỡ mẫu trong đo lường siêu âm")
 add_body_p(
     "Trong kỹ thuật đo lường, kết quả đo khoảng cách thực nghiệm không thể là một giá trị đơn độc, mà luôn được biểu diễn dưới dạng một khoảng tin cậy: "
-    "d ∈ [d̄ - ε, d̄ + ε] (tương đương d = d̄ ± ε), trong đó d̄ là trung bình mẫu và ε là bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức tin cậy 95%."
+    "x ∈ [x̄ - ε, x̄ + ε] (tương đương x = x̄ ± ε), trong đó x̄ là trung bình mẫu và ε là bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức tin cậy 95%."
 )
 add_body_p(
     "Theo lý thuyết xác suất thống kê và phân phối Student, bán kính sai số ε được xác định bởi mô hình:"
@@ -1617,68 +1617,64 @@ r_t33.font.size = Pt(9.5)
 add_heading_2("3.3. Đánh giá Độ chụm và Độ chính xác")
 
 add_body_p(
-    "Trên cơ sở tập dữ liệu chuẩn chiều tiến mặt nhẵn FSDT đã loại bỏ ngoại lai bằng bộ lọc Khoảng tứ phân vị (IQR) "
-    "tại Mục 3.1, độ chụm và độ chính xác của hệ đo được đánh giá định lượng trên 33 mốc cự ly thuộc dải đo hữu ích "
-    "từ 1 cm đến 550 cm (trước ngưỡng suy hao và bão hòa xa 580 – 600 cm)."
+    "Trên cơ sở tập dữ liệu chuẩn chiều tiến mặt nhẵn FSDT sau khi xử lý ngoại lai tại Mục 3.1, độ chụm và độ chính xác "
+    "của hệ đo được đánh giá trên 33 mốc cự ly thuộc dải đo hữu ích từ 1 cm đến 550 cm (trước ngưỡng bão hòa xa 580 – 600 cm). "
+    "Toàn bộ số liệu gốc phục vụ phân tích và vẽ đồ thị được lưu trữ đầy đủ trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
 )
 
 add_heading_3("3.3.1. Đánh giá độ chụm")
 add_body_p(
-    "Độ chụm phản ánh mức độ phân tán ngẫu nhiên giữa các giá trị đo lặp lại tại cùng một mốc cự ly chuẩn trong điều kiện "
-    "phòng thí nghiệm ổn định (N = 50 mẫu thô, nhiệt độ phòng chuẩn hóa T = 27.0 °C). Hai chỉ số thống kê sử dụng để đánh giá "
-    "độ chụm gồm độ lệch chuẩn thực nghiệm sau lọc s (mm) đã xác định theo phương trình (1.5) và hệ số biến thiên tương đối CV (%):"
+    "Áp dụng độ lệch chuẩn mẫu thực nghiệm s tại Mục 1.3.1 và sai số chuẩn của giá trị trung bình SE tại Mục 1.3.3 (Chương 1), "
+    "chuỗi số liệu của 33 mốc cự ly (1 cm – 550 cm, tại nhiệt độ chuẩn hóa 27.0 °C, N = 50 mẫu thô/mốc, "
+    "cỡ mẫu hợp lệ sau lọc n_hợp_lệ ∈ [40, 50]) được trích xuất trực tiếp từ hai cột std_sach_mm và se_sach_mm "
+    "trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv:"
 )
-
-# Native Word Equation 3.1: CV% = (s / d_bar) * 100%
-add_native_equation(
-    '<m:r><m:t>CV% = </m:t></m:r>'
-    '<m:f>'
-    '<m:num><m:r><m:t>s</m:t></m:r></m:num>'
-    '<m:den>'
-    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
-    '</m:den>'
-    '</m:f>'
-    '<m:r><m:t> × 100%</m:t></m:r>',
-    eq_num="3.1"
+add_bullet_p(
+    "Tại 8/9 mốc khảo sát, s đạt từ 0.035 mm đến 0.094 mm và SE đạt từ 0.0049 mm đến 0.0133 mm "
+    "(nhỏ hơn nhiều so với một bước đếm phần cứng Δ_LSB ≈ 0.174 mm) nhờ biên độ sóng phản xạ mạnh từ mặt phẳng nhẵn của viên gạch chuẩn 40 cm × 40 cm. "
+    "Riêng mốc 40 cm (n_hợp_lệ = 49) ghi nhận s = 3.144 mm và SE = 0.4491 mm.",
+    "1. Vùng cự ly gần (1 cm ≤ x_true ≤ 50 cm, 9 mốc): "
 )
-
+add_bullet_p(
+    "Tại 7/8 mốc, s nằm trong dải 0.088 mm – 0.383 mm và SE nằm trong dải 0.0128 mm – 0.0542 mm; "
+    "riêng mốc 120 cm (n_hợp_lệ = 50) có s = 1.747 mm và SE = 0.2471 mm.",
+    "2. Vùng cự ly trung bình (60 cm ≤ x_true ≤ 180 cm, 8 mốc): "
+)
+add_bullet_p(
+    "Độ lệch chuẩn s dao động từ 0.142 mm (tại 220 cm, n_hợp_lệ = 40) đến 2.860 mm (tại 300 cm, n_hợp_lệ = 50), "
+    "tương ứng SE biến thiên từ 0.0225 mm đến 0.4045 mm (tại 360 cm đạt s = 2.508 mm, SE = 0.3583 mm).",
+    "3. Vùng cự ly xa danh định (200 cm ≤ x_true ≤ 360 cm, 11 mốc): "
+)
+add_bullet_p(
+    "Độ lệch chuẩn s đạt 0.270 mm tại 400 cm (SE = 0.0407 mm), 0.228 mm tại 420 cm (SE = 0.0340 mm), "
+    "tăng lên cực đại toàn dải 4.049 mm tại 450 cm (SE = 0.5726 mm), đạt 1.978 mm tại 500 cm (SE = 0.2797 mm) "
+    "và giảm về 0.319 mm tại mốc giới hạn 550 cm (n_hợp_lệ = 42, SE = 0.0492 mm).",
+    "4. Dải đo xa mở rộng (400 cm ≤ x_true ≤ 550 cm, 5 mốc): "
+)
 add_body_p(
-    "Trong đó: s là độ lệch chuẩn mẫu thực nghiệm sau lọc IQR (quy đổi cùng đơn vị độ dài với d̄); "
-    "d̄ là giá trị khoảng cách đo trung bình sau lọc tại mốc khảo sát (cm).",
-    indent=False
+    "Tính trên toàn bộ 33 mốc khảo sát (1 – 550 cm), cột se_sach_mm xác nhận sai số chuẩn trung bình SE không vượt quá 0.5726 mm; "
+    "trong đó có 32/33 mốc đạt SE < 0.45 mm (nhỏ hơn nửa độ chia nhỏ nhất 0.5 mm của thước chuẩn) và 22/33 mốc đạt SE ≤ 0.10 mm."
 )
-
 add_body_p(
-    "Kết quả phân tích từ bảng dữ liệu thong_ke_chuong_3.csv cho thấy trên toàn dải 1 cm – 550 cm, "
-    "độ lệch chuẩn duy trì trong khoảng 0.035 mm ≤ s ≤ 4.049 mm và phân hóa theo bốn vùng khoảng cách:"
+    "Giải thích cơ chế vật lý và thuật toán của dạng dao động răng cưa trên Hình 3.3: "
+    "Trục hoành của Hình 3.3 biểu diễn sự thay đổi mốc khoảng cách chuẩn x_true (mỗi mốc đều đo độc lập với cỡ mẫu cố định N = 50), "
+    "không phải trục tăng dần kích thước mẫu tích lũy k tại một vị trí cố định như bài toán hội tụ ở Mục 2.4 (Chương 2). "
+    "Dạng lên xuống răng cưa luân phiên của s giữa các mốc cự ly xuất phát từ sự tương tác giữa bước nhảy một chu kỳ sóng mang siêu âm 40 kHz "
+    "và ngưỡng tứ phân vị 25% của bộ lọc IQR (đã nêu tại Mục 1.3.2, Chương 1). Tại T = 27.0 °C (v = 347.66 m/s), một chu kỳ sóng mang T_0 = 25 μs "
+    "ứng với quãng đường khứ hồi nửa bước sóng xấp xỉ 4.35 mm (0.435 cm). Khi biên độ sườn lên của bó xung phản hồi ECHO rơi sát mức điện áp ngưỡng "
+    "so sánh trong vi mạch RCWL-9610, thời điểm kích hoạt bắt xung bị trượt ±1 chu kỳ sóng mang giữa các lần đo trong cùng 50 mẫu:"
 )
 add_bullet_p(
-    "Tại 8/9 mốc khảo sát, độ lệch chuẩn đạt từ s = 0.035 mm đến 0.094 mm (nhỏ hơn một bước đếm phần cứng Δ_LSB ≈ 0.174 mm) "
-    "nhờ biên độ sóng âm phản xạ mạnh từ mặt phẳng nhẵn của viên gạch chuẩn 40 cm × 40 cm. "
-    "Riêng tại mốc 40 cm xuất hiện dao động chuyển tiếp chu kỳ bắt ngưỡng sườn xung thu làm s tăng cục bộ lên 3.144 mm.",
-    "1. Vùng cự ly gần (1 cm ≤ d_true ≤ 50 cm, 9 mốc): "
+    "Tại những mốc cự ly có dưới 25% số mẫu trượt sang chu kỳ kế cận (như 80, 150, 220, 320, 400, 420, 550 cm, với 5 – 10 mẫu ngoại lai bị loại trong thong_ke_chuong_3.csv), "
+    "hai tứ phân vị Q_1 và Q_3 vẫn nằm gọn trong cùng một chu kỳ sóng mang (IQR ≈ 0.018 – 0.066 cm); hàng rào Tukey cắt bỏ hoàn toàn cụm trượt chu kỳ, "
+    "đưa s xuống mức rất thấp (0.142 – 0.395 mm) và SE xuống 0.022 – 0.060 mm.",
+    "• Nhóm mốc lọc sạch cụm trượt chu kỳ: "
 )
 add_bullet_p(
-    "Tại 7/8 mốc, độ lệch chuẩn nằm trong dải 0.088 mm – 0.383 mm (nhỏ hơn dung sai đọc vạch chia thước chuẩn 0.5 mm); "
-    "tại mốc 120 cm ghi nhận s = 1.747 mm.",
-    "2. Vùng cự ly trung bình (60 cm ≤ d_true ≤ 180 cm, 8 mốc): "
-)
-add_bullet_p(
-    "Độ lệch chuẩn dao động từ 0.142 mm (tại 220 cm) đến cực đại 2.860 mm (tại 300 cm; tại 360 cm đạt 2.508 mm sau khi lọc bỏ "
-    "1 xung trượt chu kỳ). Mức phân tán vài milimét ở cự ly trên 2 m bắt nguồn từ suy hao biên độ sóng âm theo khoảng cách "
-    "và dao động đối lưu không khí nhẹ dọc theo hành lang kín gió dài 10 m.",
-    "3. Vùng cự ly xa danh định (200 cm ≤ d_true ≤ 360 cm, 11 mốc): "
-)
-add_bullet_p(
-    "Độ lệch chuẩn biến thiên từ 0.228 mm (tại 420 cm) đến 4.049 mm (tại 450 cm), và đạt 0.319 mm tại giới hạn đo xa thực tế 550 cm.",
-    "4. Dải đo xa mở rộng (400 cm ≤ d_true ≤ 550 cm, 5 mốc): "
-)
-
-add_body_p(
-    "Xét theo hệ số biến thiên tương đối CV (%): trên toàn bộ 25 mốc đo từ 50 cm đến 550 cm, CV (%) luôn nhỏ hơn 0.15% "
-    "(dao động từ 0.005% tại 420 cm đến 0.145% tại 120 cm; tại 550 cm chỉ bằng 0.006%). Nếu xét rộng trên toàn dải làm việc "
-    "từ 10 cm đến 550 cm (28 mốc), có 27/28 mốc đạt CV (%) < 0.15% (duy nhất mốc 40 cm ở mức 0.800%), chứng minh hệ đo "
-    "RCWL-1601 kết hợp bộ đếm phần cứng ESP32 có độ lặp lại thống kê ổn định trên toàn dải."
+    "Tại các mốc cự ly có trên 25% số mẫu phân bố sang chu kỳ kế cận (như 40, 120, 200, 250, 300, 340, 350, 450, 500 cm), "
+    "Q_1 rơi vào chu kỳ dưới còn Q_3 rơi vào chu kỳ trên làm IQR mở rộng lên 0.284 – 0.806 cm; cả hai cụm chu kỳ đều nằm trong hàng rào hợp lệ "
+    "(so_ngoai_lai = 0 ÷ 1), khiến s phản ánh độ tách biệt giữa hai cụm (1.747 – 4.049 mm) và SE đạt 0.247 – 0.573 mm.",
+    "• Nhóm mốc giữ lại hai cụm chu kỳ kế tiếp: "
 )
 
 IMG_H3_3_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_3_do_chum_toan_dai.png")
@@ -1693,66 +1689,52 @@ if os.path.exists(IMG_H3_3_PATH):
     p_cap3_3 = doc.add_paragraph()
     p_cap3_3.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_3.paragraph_format.space_after = Pt(8)
-    r_c3_3 = p_cap3_3.add_run("Hình 3.3: Biến thiên của độ lệch chuẩn thực nghiệm s (mm) và hệ số biến thiên CV (%) sau lọc IQR trên dải đo FSDT (1 cm – 550 cm).")
+    r_c3_3 = p_cap3_3.add_run("Hình 3.3: Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE theo khoảng cách chuẩn (1 cm – 550 cm).")
     r_c3_3.font.italic = True
     r_c3_3.font.size = Pt(10)
 
+add_body_p(
+    "Đánh giá từ đồ thị Hình 3.3: Khi biểu diễn chung trên cùng một trục tung đơn vị mm, sự khác biệt về bản chất thống kê "
+    "giữa độ phân tán mẫu đơn lẻ và độ chụm của trung bình mẫu hiện rõ trực quan:"
+)
+add_bullet_p(
+    "Nằm dưới vạch dung sai thước 0.5 mm tại 22/33 mốc khảo sát và nổi lên các đỉnh răng cưa 1.72 – 4.05 mm "
+    "tại 11 mốc xảy ra phân tách hai cụm chu kỳ sóng mang 40 kHz.",
+    "Đường màu xanh lam nét liền (Độ lệch chuẩn thực nghiệm s): "
+)
+add_bullet_p(
+    "Nhờ phép lấy trung bình trên n_hợp_lệ ∈ [40, 50] mẫu làm giảm biên độ phân tán đi khoảng 6.3 – 7.1 lần, "
+    "đường SE đi phẳng sát trục hoành và nằm hoàn toàn phía dưới đường dung sai vạch chia thước 0.5 mm tại 32/33 mốc đo "
+    "(chỉ nhô nhẹ lên 0.573 mm tại mốc 450 cm), chứng minh ước lượng trung bình mẫu x̄ đạt độ ổn định cao trên toàn dải.",
+    "Đường màu cam nét đứt (Sai số chuẩn trung bình SE = s/√n): "
+)
+
 add_heading_3("3.3.2. Đánh giá độ chính xác")
 add_body_p(
-    "Độ chính xác biểu thị mức độ tiệm cận giữa giá trị đo trung bình sau lọc d̄ và khoảng cách chuẩn đối chứng d_true "
-    "(được xác lập bằng thước dây tiêu chuẩn có độ chia nhỏ nhất 1 mm căng giữa hai mép bàn cao 85 cm). "
-    "Sai số tuyệt đối Δd và sai số tương đối δ (%) tại mỗi mốc cự ly được xác định bởi:"
+    "Sử dụng sai số tuyệt đối Δx và sai số tương đối δ (%) đã định nghĩa tại Mục 1.3.3 (Chương 1), dữ liệu đối chiếu giữa "
+    "giá trị đo trung bình sau lọc x̄ (cột mean_sach_cm) và khoảng cách chuẩn x_true (cột cu_ly_dat_cm) được trích xuất từ hai cột "
+    "sai_so_tuyet_doi_mm và sai_so_tuong_doi_pct trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv:"
 )
-
-# Native Word Equation 3.2: Δd = d_bar - d_true,   δ% = ((d_bar - d_true) / d_true) * 100%
-add_native_equation(
-    '<m:r><m:t>Δd = </m:t></m:r>'
-    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
-    '<m:r><m:t> - </m:t></m:r>'
-    '<m:sSub><m:e><m:r><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>true</m:t></m:r></m:sub></m:sSub>'
-    '<m:r><m:t>,          δ% = </m:t></m:r>'
-    '<m:f>'
-    '<m:num>'
-    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
-    '<m:r><m:t> - </m:t></m:r>'
-    '<m:sSub><m:e><m:r><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>true</m:t></m:r></m:sub></m:sSub>'
-    '</m:num>'
-    '<m:den>'
-    '<m:sSub><m:e><m:r><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>true</m:t></m:r></m:sub></m:sSub>'
-    '</m:den>'
-    '</m:f>'
-    '<m:r><m:t> × 100%</m:t></m:r>',
-    eq_num="3.2"
-)
-
-add_body_p(
-    "Trong đó: Δd là sai số tuyệt đối của phép đo (quy đổi sang đơn vị mm); d_true là khoảng cách chuẩn đặt trên thước đối chứng (cm); "
-    "δ (%) là sai số tương đối phần trăm (%).",
-    indent=False
-)
-
-add_body_p("Phân tích dữ liệu sau lọc IQR trên 33 mốc cự ly cho thấy:")
 add_bullet_p(
-    "Trong dải từ 50 cm đến 550 cm (25 mốc), sai số tuyệt đối nằm trong khoảng từ -14.55 mm (tại 160 cm) đến +19.45 mm (tại 360 cm). "
-    "Tại các mốc kiểm định chính (50, 80, 100, 150, 200, 250, 300, 400, 500, 550 cm), Δd dao động trong dải hẹp từ -5.72 mm đến +13.99 mm "
+    "Trong dải từ 50 cm đến 550 cm (25 mốc), Δx biến thiên trong khoảng từ -14.55 mm (tại 160 cm) đến +19.45 mm (tại 360 cm). "
+    "Tại các mốc kiểm định chính (50, 80, 100, 150, 200, 250, 300, 400, 500, 550 cm), Δx dao động trong dải hẹp từ -5.72 mm đến +13.99 mm "
     "(điển hình tại 150 cm là -0.43 mm, tại 250 cm là +0.03 mm, tại 300 cm là -2.82 mm và tại 550 cm là +6.30 mm).",
-    "Sai số tuyệt đối (Δd): "
+    "Sai số tuyệt đối (Δx): "
 )
 add_bullet_p(
-    "Ở vùng đầu dải đo (10 cm – 40 cm), do mẫu số d_true nhỏ nên độ lệch vài milimét tạo ra sai số tương đối từ -3.36% (tại 20 cm) "
-    "đến +5.70% (tại 10 cm). Trên dải từ 80 cm đến 550 cm (23 mốc), có 22/23 mốc đạt |δ%| ≤ 0.57% (riêng mốc 160 cm là -0.91%). "
-    "Trong dải từ 200 cm đến 550 cm (16 mốc), 15/16 mốc nằm trong phạm vi ±0.45% (mốc 360 cm đạt +0.54%; các mốc xa 300 cm, 500 cm "
-    "và 550 cm đạt lần lượt -0.09%, +0.14% và +0.12%), tốt hơn so với mức dung sai danh định ±1% của nhà sản xuất.",
+    "Ở vùng đầu dải đo danh định (10 cm – 40 cm), do mẫu số x_true nhỏ nên độ lệch vài milimét tạo ra sai số tương đối từ -3.36% (tại 20 cm) "
+    "đến +5.70% (tại 10 cm) — các mốc vùng chết và chuyển tiếp dưới 10 cm đã được phân tích riêng tại Mục 3.2. "
+    "Trên dải từ 80 cm đến 550 cm (23 mốc), có 22/23 mốc đạt |δ%| ≤ 0.57% (riêng mốc 160 cm là -0.91%). "
+    "Đặc biệt trong dải từ 200 cm đến 550 cm (16 mốc), 15/16 mốc nằm gọn trong phạm vi ±0.45% (mốc 360 cm đạt +0.54%; "
+    "các mốc 300 cm, 500 cm và 550 cm đạt lần lượt -0.09%, +0.14% và +0.12%), tốt hơn mức dung sai danh định ±1% của nhà sản xuất.",
     "Sai số tương đối (δ%): "
 )
-
 add_body_p(
-    "Nguồn gốc sai số hệ thống: Độ lệch tuyệt đối cỡ vài milimét xuất hiện trên đồ thị bắt nguồn từ hai yếu tố vật lý trong mô hình "
-    "bố trí thiết bị: (1) Mặt phẳng màng gốm áp điện phát – thu nằm thụt sâu khoảng 5 – 6 mm bên trong ống bảo vệ kim loại so với mặt trước "
-    "bo mạch thử nghiệm đặt tại mép bàn mốc 0 mm, tạo ra một độ lệch gốc tọa độ cố định; (2) Tại một số mốc cự ly trung gian "
-    "(60 cm, 160 cm, 320 cm, 360 cm), thao tác dịch chuyển bàn đỡ viên gạch thứ hai dọc hành lang dài 10 m và căng thước dây thủ công "
-    "giữa hai mép bàn gây ra sai lệch định vị cỡ vài milimét. Thành phần độ lệch gốc cố định sẽ được lượng hóa bằng hệ số chặn "
-    "hồi quy tuyến tính tại Mục 3.4 và có thể bù trừ trực tiếp bằng phần mềm trên vi điều khiển."
+    "Nguồn gốc sai số hệ thống: Độ lệch tuyệt đối cỡ vài milimét bắt nguồn từ hai yếu tố thực tế trong bố trí mô hình đo: "
+    "(1) Mặt phẳng màng gốm áp điện phát – thu nằm thụt sâu khoảng 5 – 6 mm bên trong ống bảo vệ kim loại so với mép trước bo mạch "
+    "thử nghiệm đặt tại vạch gốc 0 mm, tạo ra một độ lệch gốc tọa độ cố định; (2) Tại một số mốc cự ly trung gian (60, 160, 320, 360 cm), "
+    "thao tác dịch chuyển bàn đỡ viên gạch dọc hành lang dài 10 m và căng thước dây thủ công giữa hai mép bàn phát sinh sai lệch định vị cỡ vài milimét. "
+    "Thành phần độ lệch gốc cố định sẽ được lượng hóa bằng hệ số chặn hồi quy tuyến tính tại Mục 3.4 để bù trừ trực tiếp bằng phần mềm trên ESP32."
 )
 
 IMG_H3_4_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_4_do_chinh_xac_sai_so.png")
@@ -1767,80 +1749,23 @@ if os.path.exists(IMG_H3_4_PATH):
     p_cap3_4 = doc.add_paragraph()
     p_cap3_4.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_4.paragraph_format.space_after = Pt(8)
-    r_c3_4 = p_cap3_4.add_run("Hình 3.4: Phân bố sai số tuyệt đối Δd (mm) và sai số tương đối δ (%) sau lọc IQR theo khoảng cách chuẩn.")
+    r_c3_4 = p_cap3_4.add_run("Hình 3.4: Sai số tuyệt đối Δx (mm) và sai số tương đối δ (%) theo khoảng cách chuẩn (10 cm – 550 cm).")
     r_c3_4.font.italic = True
     r_c3_4.font.size = Pt(10)
 
-t34_data = [
-    ("1 – 3 cm (3 mốc)", "0.035 – 0.085", "0.172 – 0.361%", "-3.21 đến +10.30", "-10.72 đến +103.05%", "Vùng chết (kẹp ngưỡng ngắt câm, sai lệch lớn)"),
-    ("5 – 8 cm (2 mốc)", "0.079 – 0.085", "0.109 – 0.198%", "-7.68 đến -7.05", "-14.10 đến -9.61%", "Vùng chuyển tiếp gần (chịu ảnh hưởng độ lệch gốc)"),
-    ("10 – 40 cm (3 mốc)", "0.061 – 3.144", "0.040 – 0.799%", "-6.75 đến +5.70", "-3.36 đến +5.70%", "Đầu dải danh định (dao động sườn xung tại 40 cm)"),
-    ("50 – 180 cm (9 mốc)", "0.088 – 1.747", "0.009 – 0.145%", "-14.55 đến +1.60", "-1.58 đến +0.13%", "Cự ly trung bình (CV < 0.15%, độ lặp lại cao)"),
-    ("200 – 360 cm (11 mốc)", "0.142 – 2.860", "0.006 – 0.109%", "-4.50 đến +19.45", "-0.13 đến +0.54%", "Cự ly xa danh định (10/11 mốc đạt |δ%| ≤ 0.44%)"),
-    ("400 – 550 cm (5 mốc)", "0.228 – 4.049", "0.005 – 0.090%", "+4.83 đến +13.99", "+0.12 đến +0.35%", "Dải đo xa mở rộng (CV ≤ 0.09%, |δ%| ≤ 0.35%)"),
-]
-
-table_34 = doc.add_table(rows=len(t34_data)+1, cols=6)
-table_34.alignment = WD_TABLE_ALIGNMENT.CENTER
-table_34.autofit = False
-
-# Lặp lại dòng tiêu đề khi bảng ngắt trang
-trPr_34 = table_34.rows[0]._tr.get_or_add_trPr()
-trPr_34.append(parse_xml(f'<w:tblHeader {nsdecls("w")}/>'))
-
-t34_widths = [Cm(2.5), Cm(2.1), Cm(2.1), Cm(2.3), Cm(2.4), Cm(4.6)]
-t34_headers = ["Phân vùng cự ly", "Độ lệch chuẩn s (mm)", "Hệ số biến thiên CV", "Sai số tuyệt đối (mm)", "Sai số tương đối (%)", "Đánh giá đặc tính đo lường"]
-
-for col_idx, text_h in enumerate(t34_headers):
-    c = table_34.rows[0].cells[col_idx]
-    c.text = text_h
-    set_cell_background(c, "D9E1F2")
-    p = c.paragraphs[0]
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_before = Pt(3)
-    p.paragraph_format.space_after = Pt(3)
-    p.paragraph_format.line_spacing = 1.05
-    for r in p.runs:
-        r.font.name = 'Times New Roman'
-        r.font.size = Pt(8.5)
-        r.font.bold = True
-        r.font.color.rgb = C_NAVY
-
-for row_idx, row_vals in enumerate(t34_data, start=1):
-    for col_idx, text_val in enumerate(row_vals):
-        c = table_34.rows[row_idx].cells[col_idx]
-        c.text = text_val
-        p = c.paragraphs[0]
-        p.paragraph_format.space_before = Pt(2)
-        p.paragraph_format.space_after = Pt(2)
-        p.paragraph_format.line_spacing = 1.05
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.LEFT
-        for r in p.runs:
-            r.font.name = 'Times New Roman'
-            r.font.size = Pt(8.5)
-            if col_idx == 0:
-                r.font.bold = True
-
-for row in table_34.rows:
-    for idx_w, width in enumerate(t34_widths):
-        row.cells[idx_w].width = width
-        set_cell_border(row.cells[idx_w],
-            top=dict(sz=4, val='single', color='B0C4DE'),
-            bottom=dict(sz=4, val='single', color='B0C4DE'),
-            left=dict(val='none'), right=dict(val='none'))
-
-for c in table_34.rows[0].cells:
-    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
-for c in table_34.rows[-1].cells:
-    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
-
-p_cap_t34 = doc.add_paragraph()
-p_cap_t34.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_cap_t34.paragraph_format.space_before = Pt(4)
-p_cap_t34.paragraph_format.space_after = Pt(10)
-r_t34 = p_cap_t34.add_run("Bảng 3.4: Tổng hợp các chỉ tiêu độ chụm và độ chính xác theo từng phân vùng cự ly trên tập FSDT (sau lọc IQR).")
-r_t34.font.italic = True
-r_t34.font.size = Pt(9.5)
+add_body_p(
+    "Đánh giá từ đồ thị Hình 3.4: Biểu đồ đơn ghép hai trục tung Y (đồng bộ đường chuẩn gốc 0 giữa trục trái mm và trục phải %) "
+    "trên dải làm việc 10 cm – 550 cm cho thấy:"
+)
+add_bullet_p(
+    "Dao động quanh trục 0 mm trong biên độ hẹp ở cự ly dưới 150 cm và có xu hướng dương nhẹ (+4.83 mm đến +13.99 mm) ở dải xa 400 – 550 cm.",
+    "Đường màu xanh lá nét liền (Sai số tuyệt đối Δx, trục trái): "
+)
+add_bullet_p(
+    "Hội tụ rất nhanh từ ngưỡng +5.70% (tại 10 cm) vào bên trong dải tham chiếu màu đỏ ±0.5% ngay từ mốc 80 cm trở đi "
+    "và duy trì bám sát đường chuẩn 0% đến hết mốc 550 cm.",
+    "Đường màu xanh lam nét đứt (Sai số tương đối δ%, trục phải): "
+)
 
 import os
 doc.save(OUTPUT_FILE)

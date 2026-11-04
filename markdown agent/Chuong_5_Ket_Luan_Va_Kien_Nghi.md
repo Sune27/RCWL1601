@@ -11,10 +11,10 @@
    - Tối ưu hóa giao tiếp phần cứng giữa RCWL-1601 và ESP32 chạy trực tiếp ở điện áp $3.3\text{ V}$, cấu hình bộ định thời phần cứng đếm xung thời gian bay với chu kỳ $1\text{ }\mu\text{s}$ (độ phân giải tương đương $0.175\text{ mm}$).
    - Chứng minh về mặt giải tích toán học cỡ mẫu $N = 50$ lần đo là tối ưu tuyệt đối, cân bằng hoàn hảo giữa việc thu hẹp bán kính khoảng tin cậy Student $95\%$ ($\varepsilon_{95\%} \le 0.05\text{ mm}$) và tốc độ quét thời gian thực.
 2. **Khảo sát định lượng toàn diện các đặc tính tĩnh và động của cảm biến:**
-   - **Dải đo tuyến tính ổn định ($5\text{ cm} \to 400\text{ cm}$):** Phương trình hồi quy bình phương bé nhất dạng ma trận đạt $\hat{d} = 1.002791 \cdot d_{\text{true}} - 0.607344\text{ cm}$ với hệ số xác định $R^2 = 0.999988$ và sai số phi tuyến cực đại chỉ $\delta_{\text{NL}} = 0.2355\%$ FS.
-   - **Tầm đo mở rộng vượt định mức ($420\text{ cm} \to 550\text{ cm}$):** Nhờ tầng tiền khuếch đại tự động điều chỉnh độ lợi của vi mạch tích hợp RCWL-9610, cảm biến bắt tốt tín hiệu phản xạ phẳng tới $550\text{ cm}$ ($\bar{d} = 550.57\text{ cm}$, sai số $+0.10\%$, độ lệch chuẩn $s = 1.52\text{ mm}$), vượt $22\%$ so với thông số công bố tối đa của nhà sản xuất ($450\text{ cm}$).
+   - **Dải đo tuyến tính ổn định ($5\text{ cm} \to 400\text{ cm}$):** Phương trình hồi quy bình phương bé nhất dạng ma trận đạt $\hat{x} = 1.002791 \cdot x_{\text{true}} - 0.607344\text{ cm}$ với hệ số xác định $R^2 = 0.999988$ và sai số phi tuyến cực đại chỉ $\delta_{\text{NL}} = 0.2355\%$ FS.
+   - **Tầm đo mở rộng vượt định mức ($420\text{ cm} \to 550\text{ cm}$):** Nhờ tầng tiền khuếch đại tự động điều chỉnh độ lợi của vi mạch tích hợp RCWL-9610, cảm biến bắt tốt tín hiệu phản xạ phẳng tới $550\text{ cm}$ ($\bar{x} = 550.57\text{ cm}$, sai số $+0.10\%$, độ lệch chuẩn $s = 0.319\text{ mm}$ sau lọc IQR), vượt $22\%$ so với thông số công bố tối đa của nhà sản xuất ($450\text{ cm}$).
    - **Xác định chính xác Vùng chết ($1\text{ cm} \to 3\text{ cm}$):** Làm rõ cơ chế thời gian dao động suy giảm cơ học của màng gốm ($150\text{ }\mu\text{s}$) và mạch ngắt câm nội của IC khiến giá trị đo bị kẹp cố định tại $2.0 - 2.6\text{ cm}$.
-   - **Độ chụm và Độ chính xác cao:** Độ lệch chuẩn lặp lại đạt $s < 0.4\text{ mm}$ ở cự ly gần và duy trì hệ số biến thiên $\text{CV}\% < 0.11\%$ trên toàn dải đo; sai số tương đối luôn nằm dưới ngưỡng $\pm 0.35\%$ trên dải làm việc hiệu dụng.
+   - **Độ chụm và Độ chính xác cao:** Độ lệch chuẩn lặp lại đạt $s < 0.4\text{ mm}$ ở phần lớn cự ly gần – trung bình và duy trì sai số chuẩn của giá trị trung bình $\text{SE} < 0.45\text{ mm}$ tại $32/33$ mốc khảo sát (cực đại $0.573\text{ mm}$ tại $450\text{ cm}$); sai số tương đối nằm trong ngưỡng $\pm 0.45\%$ trên phần lớn dải đo xa.
    - **Độ nhạy thời gian bay ToF:** Thực nghiệm ghi nhận $S_t = 57.2438\text{ }\mu\text{s/cm}$, bám sát tuyệt đối độ nhạy lý thuyết sóng âm Laplace tại nhiệt độ mặc định $27.0^\circ\text{C}$ ($57.5271\text{ }\mu\text{s/cm}$, chênh lệch chỉ $-0.49\%$).
 3. **Làm rõ các hiện tượng vật lý đo lường chuyên sâu:**
    - **Độ trễ Hysteresis:** Xác định độ trễ cực đại $\Delta H_{\max} = 1.66\text{ cm}$ ($\gamma_H = 0.553\%$), chứng minh bản chất sóng âm không có trễ nội tại mà sai số phát sinh từ độ rơ gá trượt cơ khí và biến thiên vi khí hậu phòng.
@@ -61,7 +61,7 @@ flowchart TD
 Để khai thác tối đa độ chính xác của RCWL-1601 trong môi trường sản xuất công nghiệp, nhóm nghiên cứu đề xuất các khuyến nghị kỹ thuật:
 1. **Lắp đặt cơ khí:**
    - Luôn sử dụng cổ nối hình trụ (mounting chimney) nâng cao cảm biến tối thiểu $10 - 15\text{ cm}$ so với mức chất lỏng tối đa để triệt tiêu hoàn toàn rủi ro rơi vào vùng chết.
-   - Bố trí cảm biến cách xa thành bồn và cửa nạp liệu một khoảng tối thiểu bằng $R_{\text{cone}} = d \cdot \tan(7.5^\circ) \approx 0.13 \cdot d$ để tránh phản xạ phụ từ vách bồn hoặc dòng chảy nạp.
+   - Bố trí cảm biến cách xa thành bồn và cửa nạp liệu một khoảng tối thiểu bằng $R_{\text{cone}} = x \cdot \tan(7.5^\circ) \approx 0.13 \cdot x$ để tránh phản xạ phụ từ vách bồn hoặc dòng chảy nạp.
    - Lắp đặt thêm ống dẫn sóng âm tĩnh (still-pipe / calming tube) có đục lỗ cân bằng áp suất nếu chất lỏng bị xao động quá dữ dội hoặc có bọt khí sủi mạnh.
 2. **Xử lý tín hiệu và Phần mềm:**
    - Luôn trang bị đầu dò nhiệt độ gắn sát vị trí cảm biến để bù vận tốc sóng âm Laplace theo thời gian thực ($v = 331.3 + 0.606 \cdot T$).

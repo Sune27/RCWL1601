@@ -127,43 +127,33 @@ plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.2 tại: {h3_2_p1} và {h3_2_p2}")
 
 # ==========================================================
-# 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Độ lệch chuẩn s và CV% sau lọc IQR)
+# 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Đồ thị đơn chung trục Y mm: s và SE sau lọc IQR)
 # ==========================================================
-print("Tạo Hình 3.3 (Độ lệch chuẩn s và Hệ số biến thiên CV% sau lọc IQR, 1 cm – 550 cm)...")
+print("Tạo Hình 3.3 (Đồ thị đơn chung trục Y mm: s và SE từ thong_ke_chuong_3.csv)...")
 fsdt_550 = [r for r in fsdt_stat if float(r['cu_ly_dat_cm']) <= 550.0]
-fsdt_550.sort(key=lambda x: float(x['cu_ly_dat_cm']))
+fsdt_550.sort(key=lambda r_item: float(r_item['cu_ly_dat_cm']))
 
-d_550 = [float(r['cu_ly_dat_cm']) for r in fsdt_550]
+x_550 = [float(r['cu_ly_dat_cm']) for r in fsdt_550]
 s_550 = [float(r['std_sach_mm']) for r in fsdt_550]
-cv_550 = [(float(r['std_sach_mm']) / 10.0) / float(r['mean_sach_cm']) * 100.0 for r in fsdt_550]
+se_550 = [float(r['se_sach_mm']) for r in fsdt_550]
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6.5), dpi=300, sharex=True)
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax.plot(x_550, s_550, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
+        label='Độ lệch chuẩn thực nghiệm s (mm)')
+ax.plot(x_550, se_550, color='#ff7f0e', linestyle='--', linewidth=1.7, marker='s', markersize=4.2,
+        label='Sai số chuẩn trung bình SE = s/√n (mm)')
+ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
+           label='Dung sai vạch chia thước (0.5 mm)')
 
-ax1.plot(d_550, s_550, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4,
-         label='Độ lệch chuẩn thực nghiệm s (sau lọc IQR)')
-ax1.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
-            label='Dung sai vạch chia thước (0.5 mm)')
-ax1.set_title("Độ lệch chuẩn thực nghiệm s theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=10)
-ax1.set_ylabel("Độ lệch chuẩn s (mm)", fontweight='bold')
-ax1.set_ylim(-0.25, 5.0)
-ax1.set_yticks([0, 1, 2, 3, 4, 5])
-ax1.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
-ax1.grid(axis='x', visible=False)
-ax1.legend(loc='upper left', framealpha=0.95)
-
-ax2.plot(d_550, cv_550, color='#ff7f0e', linestyle='-', linewidth=1.8, marker='s', markersize=4,
-         label='Hệ số biến thiên CV (%)')
-ax2.axhline(0.2, color='#d62728', linestyle='--', linewidth=1.2,
-            label='Ngưỡng tham chiếu độ chụm cao (0.2%)')
-ax2.set_title("Hệ số biến thiên CV (%) theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=10)
-ax2.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax2.set_ylabel("Hệ số biến thiên CV (%)", fontweight='bold')
-ax2.set_xlim(-10, 565)
-ax2.set_ylim(-0.04, 0.90)
-ax2.set_yticks([0.0, 0.2, 0.4, 0.6, 0.8])
-ax2.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
-ax2.grid(axis='x', visible=False)
-ax2.legend(loc='upper right', framealpha=0.95)
+ax.set_title("Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE theo khoảng cách chuẩn", fontweight='bold', pad=12)
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_ylabel("Độ phân tán / Sai số chuẩn (mm)", fontweight='bold')
+ax.set_xlim(-10, 565)
+ax.set_ylim(-0.2, 4.6)
+ax.set_yticks([0, 0.5, 1, 2, 3, 4])
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.grid(axis='x', visible=False)
+ax.legend(loc='upper left', framealpha=0.95)
 
 plt.tight_layout()
 h3_3_p1 = GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png"
@@ -174,44 +164,51 @@ plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.3 tại: {h3_3_p1} và {h3_3_p2}")
 
 # ==========================================================
-# 4. HÌNH 3.4: Độ chính xác toàn dải đo (Sai số tuyệt đối & Sai số tương đối sau lọc IQR)
+# 4. HÌNH 3.4: Độ chính xác (Đồ thị đơn ghép 2 trục Y: Δx và δ% từ 10 cm – 550 cm)
 # ==========================================================
-print("Tạo Hình 3.4 (Sai số tuyệt đối Δd và Sai số tương đối δ% sau lọc IQR)...")
-err_550 = [float(r['sai_so_tuyet_doi_mm']) for r in fsdt_550]
-rel_550 = [float(r['sai_so_tuong_doi_pct']) for r in fsdt_550]
+print("Tạo Hình 3.4 (Đồ thị đơn ghép 2 trục Y: Δx và δ% sau lọc IQR, 10 cm – 550 cm)...")
+fsdt_10 = [r for r in fsdt_550 if float(r['cu_ly_dat_cm']) >= 10.0]
+x_10 = [float(r['cu_ly_dat_cm']) for r in fsdt_10]
+err_10 = [float(r['sai_so_tuyet_doi_mm']) for r in fsdt_10]
+rel_10 = [float(r['sai_so_tuong_doi_pct']) for r in fsdt_10]
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6.5), dpi=300, sharex=True)
+fig, ax1 = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax2 = ax1.twinx()
 
-ax1.plot(d_550, err_550, color='#2ca02c', linestyle='-', linewidth=1.8, marker='o', markersize=4,
-         label='Sai số tuyệt đối Δd (sau lọc IQR)')
-ax1.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.1,
-            label='Đường chuẩn sai số bằng 0')
-ax1.set_title("Sai số tuyệt đối Δd theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=10)
-ax1.set_ylabel("Sai số tuyệt đối Δd (mm)", fontweight='bold')
-ax1.set_ylim(-17.5, 22.5)
-ax1.set_yticks([-15, -10, -5, 0, 5, 10, 15, 20])
+c_err = '#2ca02c'
+c_rel = '#1f77b4'
+
+l_e1 = ax1.plot(x_10, err_10, color=c_err, linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
+                label='Sai số tuyệt đối Δx (mm) [Trục trái]')
+l_zero = ax1.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.1,
+                     label='Đường chuẩn sai số bằng 0')
+l_e2 = ax2.plot(x_10, rel_10, color=c_rel, linestyle='--', linewidth=1.6, marker='s', markersize=4.5,
+                label='Sai số tương đối δ (%) [Trục phải]')
+l_band = ax2.axhline(0.5, color='#d62728', linestyle=':', linewidth=1.2,
+                     label='Ngưỡng tham chiếu ±0.5% [Trục phải]')
+ax2.axhline(-0.5, color='#d62728', linestyle=':', linewidth=1.2)
+
+ax1.set_title("Sai số tuyệt đối Δx và sai số tương đối δ (%) theo khoảng cách chuẩn (10 cm – 550 cm)", fontweight='bold', pad=12)
+ax1.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax1.set_ylabel("Sai số tuyệt đối Δx (mm)", fontweight='bold', color=c_err)
+ax2.set_ylabel("Sai số tương đối δ (%)", fontweight='bold', color=c_rel)
+
+ax1.tick_params(axis='y', labelcolor=c_err)
+ax2.tick_params(axis='y', labelcolor=c_rel)
+
+ax1.set_xlim(0, 565)
+ax1.set_ylim(-22, 33)
+ax1.set_yticks([-20, -10, 0, 10, 20, 30])
+
+ax2.set_ylim(-4.4, 6.6)
+ax2.set_yticks([-4, -2, 0, 2, 4, 6])
+
 ax1.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
 ax1.grid(axis='x', visible=False)
-ax1.legend(loc='lower right', framealpha=0.95)
+ax2.grid(False)
 
-idx_10 = [i for i, d in enumerate(d_550) if d >= 10.0]
-d_10 = [d_550[i] for i in idx_10]
-rel_10 = [rel_550[i] for i in idx_10]
-
-ax2.plot(d_10, rel_10, color='#1f77b4', linestyle='-', linewidth=1.8, marker='s', markersize=4,
-         label='Sai số tương đối δ (%)')
-ax2.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.0)
-ax2.axhline(0.5, color='#d62728', linestyle=':', linewidth=1.3, label='Dải sai số tham chiếu (±0.5%)')
-ax2.axhline(-0.5, color='#d62728', linestyle=':', linewidth=1.3)
-ax2.set_title("Sai số tương đối δ (%) trong dải đo từ 10 cm đến 550 cm", fontweight='bold', pad=10)
-ax2.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax2.set_ylabel("Sai số tương đối δ (%)", fontweight='bold')
-ax2.set_xlim(-10, 565)
-ax2.set_ylim(-4.5, 6.5)
-ax2.set_yticks([-4, -2, 0, 2, 4, 6])
-ax2.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
-ax2.grid(axis='x', visible=False)
-ax2.legend(loc='upper right', framealpha=0.95)
+lines_34 = l_e1 + l_e2 + [l_band, l_zero]
+ax1.legend(lines_34, [l.get_label() for l in lines_34], loc='upper left', bbox_to_anchor=(0.12, 0.99), framealpha=0.95)
 
 plt.tight_layout()
 h3_4_p1 = GRAPH_DIR / "hinh_3_4_do_chinh_xac_sai_so.png"
@@ -249,7 +246,7 @@ ax1.plot(d_reg_x, d_reg_y, 'o', color='#1f77b4', markersize=4, label='Dữ liệ
 ax1.plot(d_reg_x, [a_d * x + b_d for x in d_reg_x], '-', color='#d62728', linewidth=1.5,
          label=f'Hồi quy: y = {a_d:.4f}x - {abs(b_d):.3f}\nR² = {r2_d:.6f}')
 ax1.set_title('Đặc tính tĩnh tuyến tính khoảng cách (5 – 550 cm)')
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax1.set_xlabel('Khoảng cách chuẩn (cm)')
 ax1.set_ylabel('Khoảng cách đo trung bình (cm)')
 ax1.grid(True, linestyle=':', alpha=0.6)
 ax1.legend(loc='lower right')
@@ -272,7 +269,7 @@ ax2.plot(d_reg_x, t_reg_y, 's', color='#2ca02c', markersize=4, label='Thời gia
 ax2.plot(d_reg_x, [S_t * x + t_0 for x in d_reg_x], '-', color='#ff7f0e', linewidth=1.5,
          label=f'Hồi quy: t = {S_t:.2f}x - {abs(t_0):.1f} μs\nĐộ nhạy St = {S_t:.2f} μs/cm\n(Lý thuyết: 57.03 μs/cm)')
 ax2.set_title('Đặc tính hàm truyền Thời gian bay ToF theo Cự ly')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax2.set_xlabel('Khoảng cách chuẩn (cm)')
 ax2.set_ylabel('Thời gian bay trung bình t (μs)')
 ax2.grid(True, linestyle=':', alpha=0.6)
 ax2.legend(loc='lower right')
@@ -296,7 +293,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
 ax1.plot(common_h, f_means, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='Chiều tiến (Forward)')
 ax1.plot(common_h, b_means, 's--', color='#d62728', linewidth=1.5, markersize=4, label='Chiều lùi (Backward)')
 ax1.set_title('Đường đặc tính đo Chiều tiến vs Chiều lùi')
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax1.set_xlabel('Khoảng cách chuẩn (cm)')
 ax1.set_ylabel('Khoảng cách đo (cm)')
 ax1.grid(True, linestyle=':', alpha=0.6)
 ax1.legend(loc='lower right')
@@ -305,7 +302,7 @@ ax1.legend(loc='lower right')
 ax2.bar(common_h, h_diffs, width=8, color='#9467bd', alpha=0.85, edgecolor='black', linewidth=0.5)
 ax2.axhline(max(h_diffs), color='red', linestyle='--', label=f'Độ trễ cực đại: ΔH_max = {max(h_diffs):.2f} mm')
 ax2.set_title('Phân bố Độ lệch trễ ΔH_k theo cự ly đo')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax2.set_xlabel('Khoảng cách chuẩn (cm)')
 ax2.set_ylabel('Độ lệch trễ ΔH (mm)')
 ax2.grid(True, linestyle=':', alpha=0.6)
 ax2.legend(loc='upper right')
@@ -332,7 +329,7 @@ s_rough_sub = [statistics.stdev(frdt[f"{int(d):03d}cm"]) * 10 for d in common_r_
 ax1.plot(common_r_sub, s_smooth_sub, 'o-', color='#1f77b4', label='Mặt phẳng nhẵn (FSDT)', linewidth=1.5, markersize=4)
 ax1.plot(common_r_sub, s_rough_sub, 's-', color='#ff7f0e', label='Mặt gồ ghề tán xạ (FRDT)', linewidth=1.5, markersize=4)
 ax1.set_title('So sánh Độ tán xạ dữ liệu đo (Độ lệch chuẩn s)')
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax1.set_xlabel('Khoảng cách chuẩn (cm)')
 ax1.set_ylabel('Độ lệch chuẩn s (mm)')
 ax1.grid(True, linestyle=':', alpha=0.6)
 ax1.legend(loc='upper left')
@@ -346,7 +343,7 @@ ax2.plot(all_frdt_d, f_sub_means, 'o-', color='#1f77b4', label='Mặt phẳng nh
 ax2.plot(all_frdt_d, r_means, 's--', color='#d62728', label='Mặt gồ ghề (suy hao bão hòa tại ≥350 cm)', linewidth=1.5, markersize=4)
 ax2.axvspan(345, 380, color='#ff9999', alpha=0.35, label='Vùng suy giảm tín hiệu mạnh')
 ax2.set_title('Giới hạn tầm đo trên bề mặt gồ ghề')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
+ax2.set_xlabel('Khoảng cách chuẩn (cm)')
 ax2.set_ylabel('Khoảng cách đo được (cm)')
 ax2.grid(True, linestyle=':', alpha=0.6)
 ax2.legend(loc='lower right')
@@ -383,8 +380,8 @@ ax1.plot(common_t, err_uncomp, '^-', color='#d62728', label='Chưa bù nhiệt �
 ax1.plot(common_t, err_comp_20, 'o-', color='#2ca02c', label='Đã bù nhiệt độ Laplace (20°C thực)', linewidth=1.5)
 ax1.axhline(0, color='black', linestyle='--', linewidth=0.8)
 ax1.set_title('Sai số đo khoảng cách khi Có bù vs Không bù nhiệt')
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax1.set_ylabel('Sai số đo Δd (mm)')
+ax1.set_xlabel('Khoảng cách chuẩn (cm)')
+ax1.set_ylabel('Sai số đo Δx (mm)')
 ax1.grid(True, linestyle=':', alpha=0.6)
 ax1.legend(loc='upper left')
 
@@ -393,8 +390,8 @@ diff_compensated = [(m27 - m20) * 10 for m27, m20 in zip(d_comp_27, d_comp_20)]
 ax2.bar(common_t, diff_compensated, width=8, color='#17becf', alpha=0.85, edgecolor='black', linewidth=0.5)
 ax2.axhline(0, color='black', linestyle='--', linewidth=0.8)
 ax2.set_title('Chênh lệch khoảng cách sau khi bù giữa 27°C và 20°C')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax2.set_ylabel('Chênh lệch d_27°C - d_20°C (mm)')
+ax2.set_xlabel('Khoảng cách chuẩn (cm)')
+ax2.set_ylabel('Chênh lệch x_27°C - x_20°C (mm)')
 ax2.set_ylim(-1.5, 1.5)
 ax2.grid(True, linestyle=':', alpha=0.6)
 

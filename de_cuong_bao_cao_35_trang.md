@@ -38,17 +38,17 @@ Bố cục báo cáo được chuẩn hóa thành 5 Chương trọng tâm, quy t
 - **1.1. Nguyên lý đo khoảng cách Time-of-Flight (ToF) và Mô hình bù nhiệt độ môi trường (1.5 trang):**
   - Phương trình lan truyền sóng siêu âm ToF và công thức thực nghiệm Laplace bù nhiệt độ môi trường:
 
-$$d = \frac{v(T) \cdot t}{2}, \quad v(T) = 331.3 \sqrt{1 + \frac{T}{273.15}} \approx 331.3 + 0.606 \cdot T \quad (\text{m/s})$$
+$$x = \frac{v(T) \cdot t}{2}, \quad v(T) = 331.3 \sqrt{1 + \frac{T}{273.15}} \approx 331.3 + 0.606 \cdot T \quad (\text{m/s})$$
 
-  - Phân tích cơ chế suy hao năng lượng sóng âm theo quy luật bình phương khoảng cách ($I \propto 1/d^2$), hiện tượng suy giảm tín hiệu theo độ ẩm, và đặc tính hướng tính chùm tia phản xạ (góc mở búp sóng $\pm 15^\circ$).
+  - Phân tích cơ chế suy hao năng lượng sóng âm theo quy luật bình phương khoảng cách ($I \propto 1/x^2$), hiện tượng suy giảm tín hiệu theo độ ẩm, và đặc tính hướng tính chùm tia phản xạ (góc mở búp sóng $\pm 15^\circ$).
 - **1.2. Cấu tạo phần cứng và nguyên lý hoạt động của module RCWL-1601 (1 trang):**
   - Sơ đồ khối tích hợp vi mạch RCWL-9610 (bộ tạo dao động $40\text{ kHz}$, khuếch đại tín hiệu phản hồi, bộ so sánh điện áp).
   - Giản đồ thời gian phát xung kích hoạt `TRIG` ($10\text{ }\mu\text{s}$) và độ rộng xung phản hồi `ECHO` tỷ lệ thuận với ToF.
   - Thông số kỹ thuật định mức theo Datasheet của nhà sản xuất (Dải đo lý thuyết 2 cm – 400 cm, độ chính xác danh định 0.5 cm).
 - **1.3. Cơ sở lý thuyết xử lý số liệu thực nghiệm và Đánh giá độ không đảm bảo đo (1.5 – 2 trang):**
-  - Hệ thống công thức thống kê mô tả: Kỳ vọng mẫu $\bar{x}$, Trung vị $\text{Med}$, Độ lệch chuẩn thực nghiệm $s$, Khoảng tứ phân vị $\text{IQR} = Q_3 - Q_1$.
-  - Tiêu chuẩn phát hiện và loại trừ sai số thô: Nguyên lý $3\sigma$ (phân phối chuẩn Gauss) và hàng rào $1.5 \cdot \text{IQR}$ (Boxplot).
-  - Định nghĩa toán học các đặc tính đo lường tĩnh: Độ chụm ($\text{CV}\%$), Độ chính xác ($\Delta d$, $\delta\%$), Hồi quy tuyến tính bằng phương pháp bình phương bé nhất ($\hat{y} = ax + b$, hệ số xác định $R^2$, độ nhạy thực nghiệm $S_t$, sai số phi tuyến $\delta_{\text{NL}}\%$), Độ phân giải ($\Delta d_{\min}$), Độ trễ ($\Delta H_{\max}$, $\gamma_H\%$).
+  - Hệ thống công thức thống kê mô tả: Trung bình mẫu $\bar{x}$, Trung vị $\text{Med}$, Độ lệch chuẩn thực nghiệm $s$, Khoảng tứ phân vị $\text{IQR} = Q_3 - Q_1$.
+  - Tiêu chuẩn phát hiện và loại trừ sai số thô: Hàng rào tứ phân vị Tukey $1.5 \cdot \text{IQR}$ (Boxplot).
+  - Định nghĩa toán học các đặc tính đo lường tĩnh: Độ chụm ($s$ và sai số chuẩn của giá trị trung bình $\text{SE} = s/\sqrt{N}$), Độ chính xác ($\Delta x$, $\delta\%$), Hồi quy tuyến tính bằng phương pháp bình phương bé nhất ($\hat{x} = a \cdot x_{\text{true}} + b$, hệ số xác định $R^2$, độ nhạy thực nghiệm $S_t$, sai số phi tuyến $\delta_{\text{NL}}\%$), Độ phân giải ($\Delta x_{\min}$), Độ trễ ($\Delta H_{\max}$, $\gamma_H\%$).
   - Phương pháp đánh giá Độ không đảm bảo đo theo tiêu chuẩn quốc tế ISO/GUM: Độ không đảm bảo chuẩn Loại A ($u_A$), Loại B ($u_B$), Độ không đảm bảo chuẩn tổng hợp ($u_c$) và Độ không đảm bảo đo mở rộng ($U_{95\%}$).
 
 ---
@@ -60,7 +60,7 @@ $$d = \frac{v(T) \cdot t}{2}, \quad v(T) = 331.3 \sqrt{1 + \frac{T}{273.15}} \ap
   - Xác lập mục tiêu khảo sát: Đánh giá độ tin cậy thực tế, kiểm chứng dải đo ngoài Datasheet, xác định ngưỡng làm việc tối ưu và định lượng các yếu tố gây nhiễu môi trường.
 - **2.2. Thiết kế hệ thống phần cứng và Mô hình gá đặt đo lường (1.5 trang):**
   - Sơ đồ nguyên lý đấu nối cảm biến RCWL-1601 với vi điều khiển ESP32 30-Pin (`TRIG` nối `GPIO 5`, `ECHO` nối `GPIO 18`, nguồn cấp `3.3V` và `GND`).
-  - Thiết kế đồ gá thực nghiệm: Ray trượt cơ khí căn chỉnh trục đo thẳng hàng vuông góc với vật cản, vạch chuẩn milimet đối chiếu cự ly thực $d_{\text{true}}$.
+  - Bố trí mô hình và định vị thiết bị đo: Căn chỉnh trục đo thẳng hàng vuông góc với viên gạch chuẩn, thước vạch milimet đối chiếu khoảng cách chuẩn $x_{\text{true}}$.
   - Ảnh chụp mô hình thực nghiệm thực tế và giải pháp chống rung cơ học cho cảm biến.
 - **2.3. Kiến trúc phần mềm OOP và Giải thuật thu thập dữ liệu (1.5 trang):**
   - Kiến trúc phần mềm hướng đối tượng OOP chia module rõ ràng:
@@ -80,7 +80,7 @@ $$d = \frac{v(T) \cdot t}{2}, \quad v(T) = 331.3 \sqrt{1 + \frac{T}{273.15}} \ap
 $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
 
   - Đồ thị đường cong hội tụ tại 3 mốc cự ly tiêu biểu (gần, trung bình, xa: 50 cm, 100 cm, 150 cm).
-  - Luận giải khoa học việc chốt cỡ mẫu $N = 50$ mẫu/mốc: Sau điểm khuỷu tay ($k \approx 30 - 35$), giá trị $\bar{x}$ và $s$ dao động tiệm cận dưới $\pm 0.05\%$, bán kính sai số $\varepsilon_{95\%}$ đạt mức cực nhỏ; việc đo 50 lần vừa đảm bảo độ tin cậy thống kê cao ($> 95\%$), vừa giảm thiểu $50\%$ thời gian và khối lượng thao tác cho toàn bộ gần 100 lượt thí nghiệm sau.
+  - Luận giải khoa học việc chốt cỡ mẫu $N = 50$ mẫu/mốc: Sau điểm dừng bão hòa sai số ($k \approx 30 - 35$), giá trị $\bar{x}$ và $s$ dao động tiệm cận dưới $\pm 0.05\%$, bán kính sai số $\varepsilon_{95\%}$ đạt mức cực nhỏ; việc đo 50 lần vừa đảm bảo độ tin cậy thống kê cao ($> 95\%$), vừa giảm thiểu $50\%$ thời gian và khối lượng thao tác cho toàn bộ gần 100 lượt thí nghiệm sau.
 
 ---
 
@@ -88,25 +88,25 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
 *(Trụ cột trọng tâm của báo cáo: Toàn bộ quá trình xử lý, phân tích số liệu từ các tập dữ liệu tổng hợp `FSDT.csv`, `BSDT.csv`, `FRDT.csv`, `FSAT.csv`)*
 
 - **3.1. Tiền xử lý dữ liệu và Đánh giá hiệu quả lọc sai số thô (1.5 trang):**
-  - So sánh trực quan dữ liệu thô trước và sau khi áp dụng thuật toán lọc sai số thô ($3\sigma$ và $\text{IQR}$).
-  - Đánh giá khả năng loại trừ nhiễu đột biến (outliers) do phản xạ phụ, đối chiếu giá trị Mean $\bar{x}$ và Median $\text{Med}$ chứng minh độ tin cậy của tập mẫu sau lọc.
+  - So sánh trực quan dữ liệu thô trước và sau khi áp dụng thuật toán lọc sai số thô bằng Khoảng tứ phân vị ($\text{IQR}$).
+  - Đánh giá khả năng loại trừ nhiễu đột biến (outliers) do phản xạ phụ, đối chiếu giá trị trung bình $\bar{x}$ và trung vị $\text{Med}$ chứng minh độ tin cậy của tập mẫu sau lọc.
 - **3.2. Khảo sát Dải đo thực tế, Vùng chết (Blind Zone) và Giới hạn bão hòa xa (1.5 trang):**
   - **Vùng chết (1 cm – 3 cm):** Phân tích dữ liệu thực tế tại `001cm`, `002cm`, `003cm` (hiện tượng đầu thu bị bão hòa năng lượng, phản xạ nhiều lần giữa mặt cảm biến và vật thể, khiến kết quả đo bị sai lệch cố định lên $\sim 2.0 - 2.6\text{ cm}$).
   - **Dải đo tuyến tính ổn định (5 cm – 400 cm):** Tín hiệu phản hồi rõ ràng, ổn định cao.
   - **Giới hạn đo xa vượt định mức (420 cm – 550 cm):** Phân tích hiện tượng cảm biến vẫn đo tốt vượt ngưỡng $400\text{ cm}$ của Datasheet lên đến $550\text{ cm}$ trên bề mặt nhẵn phẳng (lợi thế của vi mạch RCWL-9610 khuếch đại nhạy).
   - **Ngưỡng suy hao & bão hòa (580 cm – 600 cm):** Sóng âm phản xạ bị suy giảm vượt quá ngưỡng phát hiện của IC, dẫn đến hiện tượng timeout và tràn thời gian bay (trả về giá trị bão hòa $\sim 825\text{ cm}$).
 - **3.3. Đánh giá Độ chụm (Precision) và Độ chính xác (Accuracy) (2 trang):**
-  - **Độ chụm (Precision):** Biểu diễn biến thiên của Độ lệch chuẩn $s$, Khoảng tứ phân vị $\text{IQR}$ và Hệ số biến thiên $\text{CV}\%$ theo khoảng cách ($d_{\text{true}} = 1\text{ cm} \to 550\text{ cm}$). Chứng minh $\text{CV}\% < 0.2\%$ trên phần lớn dải đo.
-  - **Độ chính xác (Accuracy):** Tính toán Sai số tuyệt đối $\Delta d = \bar{d} - d_{\text{true}}$ và Sai số tương đối $\delta\% = (\Delta d / d_{\text{true}}) \cdot 100\%$. Phân tích thành phần sai số hệ thống (Systematic Error) do offset lắp đặt và trôi vận tốc sóng âm.
+  - **Độ chụm (Precision):** Biểu diễn biến thiên của Độ lệch chuẩn thực nghiệm $s$ và Sai số chuẩn của giá trị trung bình $\text{SE} = s/\sqrt{n_{\text{hợp lệ}}}$ theo khoảng cách ($x_{\text{true}} = 1\text{ cm} \to 550\text{ cm}$) trên cùng một trục tung $\text{mm}$; giải thích cơ chế trượt $\pm 1$ chu kỳ sóng mang siêu âm $40\text{ kHz}$ ($\lambda/2 \approx 4.35\text{ mm}$) tương tác với ngưỡng tứ phân vị $\text{IQR}$ và chứng minh $\text{SE} < 0.45\text{ mm}$ tại $32/33$ mốc khảo sát.
+  - **Độ chính xác (Accuracy):** Đánh giá Sai số tuyệt đối $\Delta x = \bar{x} - x_{\text{true}}$ và Sai số tương đối $\delta\% = (\Delta x / x_{\text{true}}) \cdot 100\%$ trên biểu đồ đơn ghép hai trục tung Y ($10\text{ cm} \to 550\text{ cm}$). Phân tích thành phần sai số hệ thống do độ lệch gốc lắp đặt.
 - **3.4. Đánh giá Độ tuyến tính (Linearity), Độ nhạy (Sensitivity) và Độ phân giải (Resolution) (2 trang):**
-  - Phương trình hồi quy khoảng cách đo thực nghiệm: $\bar{d} = a \cdot d_{\text{true}} + b$ với hệ số tương quan $R^2 \approx 0.9999$.
-  - Phương trình hồi quy thời gian bay thực nghiệm: $\bar{t} = S_t \cdot d_{\text{true}} + t_0$. Tính ra **Độ nhạy thực tế** $S_t\text{ }(\mu\text{s/cm})$ và đối chiếu với độ nhạy lý thuyết ($S_{t,\text{theory}} = 2/v \approx 57.1\text{ }\mu\text{s/cm}$).
+  - Phương trình hồi quy khoảng cách đo thực nghiệm: $\hat{x} = a \cdot x_{\text{true}} + b$ với hệ số tương quan $R^2 \approx 0.9999$.
+  - Phương trình hồi quy thời gian bay thực nghiệm: $\hat{t} = S_t \cdot x_{\text{true}} + t_0$. Tính ra **Độ nhạy thực tế** $S_t\text{ }(\mu\text{s/cm})$ và đối chiếu với độ nhạy lý thuyết ($S_{t,\text{theory}} = 2/v \approx 57.5\text{ }\mu\text{s/cm}$).
   - Sai số phi tuyến cực đại $\delta_{\text{NL}}\%$ trên toàn dải làm việc.
-  - Đánh giá **Độ phân giải thực nghiệm** dựa trên độ biến thiên nhỏ nhất của bộ đếm thời gian vi điều khiển ($1\text{ }\mu\text{s} \to \Delta d_{\min} \approx 0.0175\text{ cm}$) so với độ tán xạ thực tế của cảm biến.
+  - Đánh giá **Độ phân giải thực nghiệm** dựa trên độ biến thiên nhỏ nhất của bộ đếm thời gian vi điều khiển ($1\text{ }\mu\text{s} \to \Delta x_{\min} \approx 0.0174\text{ cm}$) so với độ tán xạ thực tế của cảm biến.
 - **3.5. Phân tích Độ trễ (Hysteresis) giữa Chiều tiến và Chiều lùi (1.5 trang):**
   *(Đối chiếu tập dữ liệu `FSDT` và `BSDT` trên 19 mốc đo chung từ 10 cm đến 300 cm)*
-  - Lập bảng sai lệch chiều đo: $\Delta H_k = |\bar{d}_{\text{forward}} - \bar{d}_{\text{backward}}|$.
-  - Xác định độ trễ cực đại $\Delta H_{\max}$ và Sai số trễ tương đối $\gamma_H\% = (\Delta H_{\max} / d_{\text{F.S.}}) \cdot 100\%$.
+  - Lập bảng sai lệch chiều đo: $\Delta H_k = |\bar{x}_{\text{forward}} - \bar{x}_{\text{backward}}|$.
+  - Xác định độ trễ cực đại $\Delta H_{\max}$ và Sai số trễ tương đối $\gamma_H\% = (\Delta H_{\max} / x_{\text{F.S.}}) \cdot 100\%$.
   - Vẽ và phân tích đồ thị **Vòng trễ (Hysteresis Loop)**; kết luận bản chất không có trễ cơ học trong cảm biến siêu âm (sai lệch chủ yếu do rơ lắc ray trượt cơ khí hoặc biến thiên nhỏ của nhiệt độ môi trường theo thời gian).
 - **3.6. Phân tích ảnh hưởng của Bề mặt phản xạ (Reflective Surface) (1.5 trang):**
   *(Đối chiếu tập dữ liệu `FSDT` - Mặt nhẵn vs. `FRDT` - Mặt gồ ghề trên 23 mốc đo từ 10 cm đến 375 cm)*
@@ -140,12 +140,12 @@ $$\varepsilon_{95\%}(k) = t_{0.975, k-1} \cdot \frac{s(k)}{\sqrt{k}}$$
     3. Trạm tự động đo kích thước kiện hàng/thể tích bao bì trên băng tải logistics.
 - **4.2. Thiết kế chi tiết Bài toán tiêu biểu: "Hệ thống giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32" (2 – 2.5 trang):**
   - **Mô hình toán học và Sơ đồ nguyên lý ứng dụng:**
-    - Tính chiều cao mức chất lỏng: $h = H_{\text{tank}} - d_{\text{compensated}}$.
+    - Tính chiều cao mức chất lỏng: $h = H_{\text{tank}} - x_{\text{compensated}}$.
     - Tính thể tích tức thời: $V = S_{\text{base}} \cdot h$.
   - **Ứng dụng trực tiếp các phát hiện thực nghiệm ở Chương 3 vào thiết kế hệ thống:**
     - Thiết kế chiều cao lắp đặt cảm biến cao hơn mức tràn tối thiểu $5\text{ cm}$ để triệt tiêu hoàn toàn rủi ro rơi vào **Vùng chết $0 - 3\text{ cm}$**.
     - Tích hợp **thuật toán bù vận tốc sóng âm Laplace theo nhiệt độ môi trường bồn chứa** để triệt tiêu trôi sai số nhiệt độ ngày/đêm.
-    - Áp dụng chuỗi lọc số: **Lọc trung vị (Median Filter) + Lọc loại thô $3\sigma$ + Lọc trung bình trượt (Moving Average)** để khử sóng gợn bề mặt chất lỏng khi bơm nạp xả.
+    - Áp dụng chuỗi lọc số: **Lọc khoảng tứ phân vị (IQR Filter) + Lọc trung bình trượt (Moving Average)** để khử sóng gợn bề mặt chất lỏng khi bơm nạp xả.
     - Ứng dụng kết quả phân tích tổng hợp độ không đảm bảo đo $U_{95\%}$ đã tính ở Mục 3.8 để tính toán sai số thể tích $\Delta V$ và độ không đảm bảo thể tích $U_V$ của toàn bồn chứa!
 - **4.3. Kết quả thử nghiệm / Mô phỏng hoạt động & Đánh giá hiệu năng ứng dụng (1 trang):**
   - Bảng thử nghiệm phân ngưỡng cảnh báo tự động 3 cấp độ (An toàn - Cảnh báo - Tràn / Cạn).

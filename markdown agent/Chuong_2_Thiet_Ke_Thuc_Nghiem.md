@@ -15,9 +15,9 @@ Mục tiêu cốt lõi của Chương 2 là thiết kế và chuẩn hóa toàn 
 
 ### 2.1.2. Phương pháp luận thực nghiệm
 Phương pháp luận được áp dụng là **phương pháp đo so sánh trực tiếp với vật chuẩn (Direct Comparison with Standard)**:
-- **Chuẩn so sánh (Reference Standard):** Khoảng cách thực $d_{\text{true}}$ được xác lập bằng thước đo tiêu chuẩn có độ chia nhỏ nhất đến milimet với sai số giới hạn $\Delta_{\text{ruler}} = \pm 1\text{ mm}$ ($\pm 0.1\text{ cm}$).
-- **Đối tượng đo (Measurement Object):** Khoảng cách đo được $d$ suy ra từ thời gian bay ToF của chùm sóng siêu âm phát ra từ cảm biến RCWL-1601, được vi điều khiển ESP32 số hóa với độ phân giải thời gian $1\text{ }\mu\text{s}$ và cập nhật thuật toán bù nhiệt độ môi trường Laplace $v(T) = 331.3 + 0.606 \cdot T$.
-- **Nguyên tắc lặp lại:** Tại mỗi mốc cự ly đặt chuẩn $d_{\text{true}}$, phép đo được kích hoạt lặp lại nhiều lần trong cùng một trạng thái ổn định cơ khí và nhiệt độ để phục vụ phân tích thống kê ngẫu nhiên.
+- **Chuẩn so sánh (Reference Standard):** Khoảng cách chuẩn $x_{\text{true}}$ được xác lập bằng thước đo tiêu chuẩn có độ chia nhỏ nhất đến milimet với sai số giới hạn $\Delta_{\text{ruler}} = \pm 1\text{ mm}$ ($\pm 0.1\text{ cm}$).
+- **Đối tượng đo (Measurement Object):** Khoảng cách đo được $x$ suy ra từ thời gian bay ToF của chùm sóng siêu âm phát ra từ cảm biến RCWL-1601, được vi điều khiển ESP32 số hóa với độ phân giải thời gian $1\text{ }\mu\text{s}$ và cập nhật thuật toán bù nhiệt độ môi trường Laplace $v(T) = 331.3 + 0.606 \cdot T$.
+- **Nguyên tắc lặp lại:** Tại mỗi mốc cự ly đặt chuẩn $x_{\text{true}}$, phép đo được kích hoạt lặp lại nhiều lần trong cùng một trạng thái ổn định cơ khí và nhiệt độ để phục vụ phân tích thống kê ngẫu nhiên.
 
 ```
        [ Thước đo chuẩn vạch milimet căng giữa hai mép bàn ]
@@ -59,7 +59,7 @@ Sơ đồ kết nối phần cứng chi tiết:
 Để đảm bảo phép đo đạt độ chính xác cao và hạn chế tối đa sai số góc lệch trục, mô hình thực nghiệm được bố trí khoa học và chắc chắn:
 1. **Cố định cảm biến tại vị trí mốc đo gốc:** Module cảm biến RCWL-1601 được cắm cố định vững chắc trên breadboard. Breadboard gắn cảm biến cùng vi điều khiển ESP32 và máy tính thu thập dữ liệu được đặt trên bàn có độ cao khoảng $85	ext{ cm}$ so với mặt sàn. Cảm biến được bố trí ở sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.
 2. **Vật thể phản xạ mục tiêu:** Vật thể đo chuẩn là một viên gạch kích thước $40 	imes 40	ext{ cm}$ có hai mặt với đặc tính bề mặt khác nhau: mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao $85	ext{ cm}$. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện trực diện với trục phát của cảm biến.
-3. **Căn chỉnh cự ly bằng thước đo tiêu chuẩn:** Khoảng cách chuẩn $d_{	ext{true}}$ được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.
+3. **Căn chỉnh cự ly bằng thước đo tiêu chuẩn:** Khoảng cách chuẩn $x_{\text{true}}$ được xác định thủ công bằng thước dây đo chuẩn có độ chia nhỏ nhất đến milimet. Thước được căng thẳng giữa hai mép bàn để định vị chính xác từng mốc cự ly đo trước khi người thực nghiệm phát lệnh kích hoạt cảm biến đo và ghi nhận chuỗi dữ liệu trên máy tính.
 
 ---
 
@@ -86,9 +86,9 @@ Sơ đồ kết nối phần cứng chi tiết:
 ### 2.4.1. Bản chất bài toán tối ưu cỡ mẫu trong đo lường siêu âm
 Trong kỹ thuật đo lường, kết quả đo khoảng cách thực nghiệm không thể là một giá trị đơn độc, mà luôn được biểu diễn dưới dạng một khoảng tin cậy:
 
-$$d \in [\bar{d} - \varepsilon, \, \bar{d} + \varepsilon] \iff d = \bar{d} \pm \varepsilon$$
+$$x \in [\bar{x} - \varepsilon, \, \bar{x} + \varepsilon] \iff x = \bar{x} \pm \varepsilon$$
 
-Trong đó $\bar{d}$ là trung bình mẫu và $\varepsilon$ là bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức tin cậy $95\%$. Theo phân phối Student, bán kính sai số $\varepsilon$ được xác định theo mô hình:
+Trong đó $\bar{x}$ là trung bình mẫu và $\varepsilon$ là bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức tin cậy $95\%$. Theo phân phối Student, bán kính sai số $\varepsilon$ được xác định theo mô hình:
 
 $$\varepsilon(N) = t_{0.975, \, N-1} \cdot \frac{s}{\sqrt{N}}$$
 
