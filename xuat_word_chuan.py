@@ -24,9 +24,10 @@ from docx.oxml.ns import nsdecls, qn
 if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-OUTPUT_FILE = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\Bao_Cao_Thuc_Nghiem_RCWL1601.docx"
-IMG_H2_1_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_2\hinh_2_1_hoi_tu_sai_so_N.png"
-IMG_H2_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_2\hinh_2_2_dao_ham_diem_khuyu_tay.png"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_FILE = os.path.join(BASE_DIR, "Bao_Cao_Thuc_Nghiem_RCWL1601.docx")
+IMG_H2_1_PATH = os.path.join(BASE_DIR, "graph", "chuong_2", "hinh_2_1_hoi_tu_sai_so_N.png")
+IMG_H2_2_PATH = os.path.join(BASE_DIR, "graph", "chuong_2", "hinh_2_2_dao_ham_diem_khuyu_tay.png")
 
 doc = Document()
 
@@ -1381,7 +1382,7 @@ add_body_p(
     "trong đó trục tung biểu diễn độ lệch chuẩn s theo thang logarit cơ số 10 (0.1 đến 1000 mm) và trục hoành biểu diễn khoảng cách chuẩn đối chứng từ 1 cm đến 600 cm."
 )
 
-IMG_H3_1_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_1_loc_sai_so_tho.png"
+IMG_H3_1_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_1_loc_sai_so_tho.png")
 if os.path.exists(IMG_H3_1_PATH):
     p_img3_1 = doc.add_paragraph()
     p_img3_1.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1501,7 +1502,7 @@ add_body_p(
     "(blanking time) của vi mạch RCWL-9610. Mạch thu không phân biệt được sóng phản xạ và xung phát, khiến giá trị đo bị kẹp ở mức tối thiểu tương đương 2.0 - 2.6 cm."
 )
 
-IMG_H3_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_2_vung_chet_1_10cm.png"
+IMG_H3_2_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_2_vung_chet_1_10cm.png")
 if os.path.exists(IMG_H3_2_PATH):
     p_img3_2 = doc.add_paragraph()
     p_img3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1609,6 +1610,237 @@ p_cap_t33.paragraph_format.space_after = Pt(10)
 r_t33 = p_cap_t33.add_run("Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.")
 r_t33.font.italic = True
 r_t33.font.size = Pt(9.5)
+
+# ==========================================================
+# MỤC 3.3: ĐÁNH GIÁ ĐỘ CHỤM VÀ ĐỘ CHÍNH XÁC
+# ==========================================================
+add_heading_2("3.3. Đánh giá Độ chụm và Độ chính xác")
+
+add_body_p(
+    "Trên cơ sở tập dữ liệu chuẩn chiều tiến mặt nhẵn FSDT đã loại bỏ ngoại lai bằng bộ lọc Khoảng tứ phân vị (IQR) "
+    "tại Mục 3.1, độ chụm và độ chính xác của hệ đo được đánh giá định lượng trên 33 mốc cự ly thuộc dải đo hữu ích "
+    "từ 1 cm đến 550 cm (trước ngưỡng suy hao và bão hòa xa 580 – 600 cm)."
+)
+
+add_heading_3("3.3.1. Đánh giá độ chụm")
+add_body_p(
+    "Độ chụm phản ánh mức độ phân tán ngẫu nhiên giữa các giá trị đo lặp lại tại cùng một mốc cự ly chuẩn trong điều kiện "
+    "phòng thí nghiệm ổn định (N = 50 mẫu thô, nhiệt độ phòng chuẩn hóa T = 27.0 °C). Hai chỉ số thống kê sử dụng để đánh giá "
+    "độ chụm gồm độ lệch chuẩn thực nghiệm sau lọc s (mm) đã xác định theo phương trình (1.5) và hệ số biến thiên tương đối CV (%):"
+)
+
+# Native Word Equation 3.1: CV% = (s / d_bar) * 100%
+add_native_equation(
+    '<m:r><m:t>CV% = </m:t></m:r>'
+    '<m:f>'
+    '<m:num><m:r><m:t>s</m:t></m:r></m:num>'
+    '<m:den>'
+    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
+    '</m:den>'
+    '</m:f>'
+    '<m:r><m:t> × 100%</m:t></m:r>',
+    eq_num="3.1"
+)
+
+add_body_p(
+    "Trong đó: s là độ lệch chuẩn mẫu thực nghiệm sau lọc IQR (quy đổi cùng đơn vị độ dài với d̄); "
+    "d̄ là giá trị khoảng cách đo trung bình sau lọc tại mốc khảo sát (cm).",
+    indent=False
+)
+
+add_body_p(
+    "Kết quả phân tích từ bảng dữ liệu thong_ke_chuong_3.csv cho thấy trên toàn dải 1 cm – 550 cm, "
+    "độ lệch chuẩn duy trì trong khoảng 0.035 mm ≤ s ≤ 4.049 mm và phân hóa theo bốn vùng khoảng cách:"
+)
+add_bullet_p(
+    "Tại 8/9 mốc khảo sát, độ lệch chuẩn đạt từ s = 0.035 mm đến 0.094 mm (nhỏ hơn một bước đếm phần cứng Δ_LSB ≈ 0.174 mm) "
+    "nhờ biên độ sóng âm phản xạ mạnh từ mặt phẳng nhẵn của viên gạch chuẩn 40 cm × 40 cm. "
+    "Riêng tại mốc 40 cm xuất hiện dao động chuyển tiếp chu kỳ bắt ngưỡng sườn xung thu làm s tăng cục bộ lên 3.144 mm.",
+    "1. Vùng cự ly gần (1 cm ≤ d_true ≤ 50 cm, 9 mốc): "
+)
+add_bullet_p(
+    "Tại 7/8 mốc, độ lệch chuẩn nằm trong dải 0.088 mm – 0.383 mm (nhỏ hơn dung sai đọc vạch chia thước chuẩn 0.5 mm); "
+    "tại mốc 120 cm ghi nhận s = 1.747 mm.",
+    "2. Vùng cự ly trung bình (60 cm ≤ d_true ≤ 180 cm, 8 mốc): "
+)
+add_bullet_p(
+    "Độ lệch chuẩn dao động từ 0.142 mm (tại 220 cm) đến cực đại 2.860 mm (tại 300 cm; tại 360 cm đạt 2.508 mm sau khi lọc bỏ "
+    "1 xung trượt chu kỳ). Mức phân tán vài milimét ở cự ly trên 2 m bắt nguồn từ suy hao biên độ sóng âm theo khoảng cách "
+    "và dao động đối lưu không khí nhẹ dọc theo hành lang kín gió dài 10 m.",
+    "3. Vùng cự ly xa danh định (200 cm ≤ d_true ≤ 360 cm, 11 mốc): "
+)
+add_bullet_p(
+    "Độ lệch chuẩn biến thiên từ 0.228 mm (tại 420 cm) đến 4.049 mm (tại 450 cm), và đạt 0.319 mm tại giới hạn đo xa thực tế 550 cm.",
+    "4. Dải đo xa mở rộng (400 cm ≤ d_true ≤ 550 cm, 5 mốc): "
+)
+
+add_body_p(
+    "Xét theo hệ số biến thiên tương đối CV (%): trên toàn bộ 25 mốc đo từ 50 cm đến 550 cm, CV (%) luôn nhỏ hơn 0.15% "
+    "(dao động từ 0.005% tại 420 cm đến 0.145% tại 120 cm; tại 550 cm chỉ bằng 0.006%). Nếu xét rộng trên toàn dải làm việc "
+    "từ 10 cm đến 550 cm (28 mốc), có 27/28 mốc đạt CV (%) < 0.15% (duy nhất mốc 40 cm ở mức 0.800%), chứng minh hệ đo "
+    "RCWL-1601 kết hợp bộ đếm phần cứng ESP32 có độ lặp lại thống kê ổn định trên toàn dải."
+)
+
+IMG_H3_3_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_3_do_chum_toan_dai.png")
+if os.path.exists(IMG_H3_3_PATH):
+    p_img3_3 = doc.add_paragraph()
+    p_img3_3.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_3.paragraph_format.space_before = Pt(8)
+    p_img3_3.paragraph_format.space_after = Pt(4)
+    run_img3_3 = p_img3_3.add_run()
+    run_img3_3.add_picture(IMG_H3_3_PATH, width=Cm(15.0))
+
+    p_cap3_3 = doc.add_paragraph()
+    p_cap3_3.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_3.paragraph_format.space_after = Pt(8)
+    r_c3_3 = p_cap3_3.add_run("Hình 3.3: Biến thiên của độ lệch chuẩn thực nghiệm s (mm) và hệ số biến thiên CV (%) sau lọc IQR trên dải đo FSDT (1 cm – 550 cm).")
+    r_c3_3.font.italic = True
+    r_c3_3.font.size = Pt(10)
+
+add_heading_3("3.3.2. Đánh giá độ chính xác")
+add_body_p(
+    "Độ chính xác biểu thị mức độ tiệm cận giữa giá trị đo trung bình sau lọc d̄ và khoảng cách chuẩn đối chứng d_true "
+    "(được xác lập bằng thước dây tiêu chuẩn có độ chia nhỏ nhất 1 mm căng giữa hai mép bàn cao 85 cm). "
+    "Sai số tuyệt đối Δd và sai số tương đối δ (%) tại mỗi mốc cự ly được xác định bởi:"
+)
+
+# Native Word Equation 3.2: Δd = d_bar - d_true,   δ% = ((d_bar - d_true) / d_true) * 100%
+add_native_equation(
+    '<m:r><m:t>Δd = </m:t></m:r>'
+    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
+    '<m:r><m:t> - </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>true</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t>,          δ% = </m:t></m:r>'
+    '<m:f>'
+    '<m:num>'
+    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
+    '<m:r><m:t> - </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>true</m:t></m:r></m:sub></m:sSub>'
+    '</m:num>'
+    '<m:den>'
+    '<m:sSub><m:e><m:r><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>true</m:t></m:r></m:sub></m:sSub>'
+    '</m:den>'
+    '</m:f>'
+    '<m:r><m:t> × 100%</m:t></m:r>',
+    eq_num="3.2"
+)
+
+add_body_p(
+    "Trong đó: Δd là sai số tuyệt đối của phép đo (quy đổi sang đơn vị mm); d_true là khoảng cách chuẩn đặt trên thước đối chứng (cm); "
+    "δ (%) là sai số tương đối phần trăm (%).",
+    indent=False
+)
+
+add_body_p("Phân tích dữ liệu sau lọc IQR trên 33 mốc cự ly cho thấy:")
+add_bullet_p(
+    "Trong dải từ 50 cm đến 550 cm (25 mốc), sai số tuyệt đối nằm trong khoảng từ -14.55 mm (tại 160 cm) đến +19.45 mm (tại 360 cm). "
+    "Tại các mốc kiểm định chính (50, 80, 100, 150, 200, 250, 300, 400, 500, 550 cm), Δd dao động trong dải hẹp từ -5.72 mm đến +13.99 mm "
+    "(điển hình tại 150 cm là -0.43 mm, tại 250 cm là +0.03 mm, tại 300 cm là -2.82 mm và tại 550 cm là +6.30 mm).",
+    "Sai số tuyệt đối (Δd): "
+)
+add_bullet_p(
+    "Ở vùng đầu dải đo (10 cm – 40 cm), do mẫu số d_true nhỏ nên độ lệch vài milimét tạo ra sai số tương đối từ -3.36% (tại 20 cm) "
+    "đến +5.70% (tại 10 cm). Trên dải từ 80 cm đến 550 cm (23 mốc), có 22/23 mốc đạt |δ%| ≤ 0.57% (riêng mốc 160 cm là -0.91%). "
+    "Trong dải từ 200 cm đến 550 cm (16 mốc), 15/16 mốc nằm trong phạm vi ±0.45% (mốc 360 cm đạt +0.54%; các mốc xa 300 cm, 500 cm "
+    "và 550 cm đạt lần lượt -0.09%, +0.14% và +0.12%), tốt hơn so với mức dung sai danh định ±1% của nhà sản xuất.",
+    "Sai số tương đối (δ%): "
+)
+
+add_body_p(
+    "Nguồn gốc sai số hệ thống: Độ lệch tuyệt đối cỡ vài milimét xuất hiện trên đồ thị bắt nguồn từ hai yếu tố vật lý trong mô hình "
+    "bố trí thiết bị: (1) Mặt phẳng màng gốm áp điện phát – thu nằm thụt sâu khoảng 5 – 6 mm bên trong ống bảo vệ kim loại so với mặt trước "
+    "bo mạch thử nghiệm đặt tại mép bàn mốc 0 mm, tạo ra một độ lệch gốc tọa độ cố định; (2) Tại một số mốc cự ly trung gian "
+    "(60 cm, 160 cm, 320 cm, 360 cm), thao tác dịch chuyển bàn đỡ viên gạch thứ hai dọc hành lang dài 10 m và căng thước dây thủ công "
+    "giữa hai mép bàn gây ra sai lệch định vị cỡ vài milimét. Thành phần độ lệch gốc cố định sẽ được lượng hóa bằng hệ số chặn "
+    "hồi quy tuyến tính tại Mục 3.4 và có thể bù trừ trực tiếp bằng phần mềm trên vi điều khiển."
+)
+
+IMG_H3_4_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_4_do_chinh_xac_sai_so.png")
+if os.path.exists(IMG_H3_4_PATH):
+    p_img3_4 = doc.add_paragraph()
+    p_img3_4.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_4.paragraph_format.space_before = Pt(8)
+    p_img3_4.paragraph_format.space_after = Pt(4)
+    run_img3_4 = p_img3_4.add_run()
+    run_img3_4.add_picture(IMG_H3_4_PATH, width=Cm(15.0))
+
+    p_cap3_4 = doc.add_paragraph()
+    p_cap3_4.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_4.paragraph_format.space_after = Pt(8)
+    r_c3_4 = p_cap3_4.add_run("Hình 3.4: Phân bố sai số tuyệt đối Δd (mm) và sai số tương đối δ (%) sau lọc IQR theo khoảng cách chuẩn.")
+    r_c3_4.font.italic = True
+    r_c3_4.font.size = Pt(10)
+
+t34_data = [
+    ("1 – 3 cm (3 mốc)", "0.035 – 0.085", "0.172 – 0.361%", "-3.21 đến +10.30", "-10.72 đến +103.05%", "Vùng chết (kẹp ngưỡng ngắt câm, sai lệch lớn)"),
+    ("5 – 8 cm (2 mốc)", "0.079 – 0.085", "0.109 – 0.198%", "-7.68 đến -7.05", "-14.10 đến -9.61%", "Vùng chuyển tiếp gần (chịu ảnh hưởng độ lệch gốc)"),
+    ("10 – 40 cm (3 mốc)", "0.061 – 3.144", "0.040 – 0.799%", "-6.75 đến +5.70", "-3.36 đến +5.70%", "Đầu dải danh định (dao động sườn xung tại 40 cm)"),
+    ("50 – 180 cm (9 mốc)", "0.088 – 1.747", "0.009 – 0.145%", "-14.55 đến +1.60", "-1.58 đến +0.13%", "Cự ly trung bình (CV < 0.15%, độ lặp lại cao)"),
+    ("200 – 360 cm (11 mốc)", "0.142 – 2.860", "0.006 – 0.109%", "-4.50 đến +19.45", "-0.13 đến +0.54%", "Cự ly xa danh định (10/11 mốc đạt |δ%| ≤ 0.44%)"),
+    ("400 – 550 cm (5 mốc)", "0.228 – 4.049", "0.005 – 0.090%", "+4.83 đến +13.99", "+0.12 đến +0.35%", "Dải đo xa mở rộng (CV ≤ 0.09%, |δ%| ≤ 0.35%)"),
+]
+
+table_34 = doc.add_table(rows=len(t34_data)+1, cols=6)
+table_34.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_34.autofit = False
+
+# Lặp lại dòng tiêu đề khi bảng ngắt trang
+trPr_34 = table_34.rows[0]._tr.get_or_add_trPr()
+trPr_34.append(parse_xml(f'<w:tblHeader {nsdecls("w")}/>'))
+
+t34_widths = [Cm(2.5), Cm(2.1), Cm(2.1), Cm(2.3), Cm(2.4), Cm(4.6)]
+t34_headers = ["Phân vùng cự ly", "Độ lệch chuẩn s (mm)", "Hệ số biến thiên CV", "Sai số tuyệt đối (mm)", "Sai số tương đối (%)", "Đánh giá đặc tính đo lường"]
+
+for col_idx, text_h in enumerate(t34_headers):
+    c = table_34.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t34_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_34.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_34.rows:
+    for idx_w, width in enumerate(t34_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_34.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_34.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+p_cap_t34 = doc.add_paragraph()
+p_cap_t34.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_cap_t34.paragraph_format.space_before = Pt(4)
+p_cap_t34.paragraph_format.space_after = Pt(10)
+r_t34 = p_cap_t34.add_run("Bảng 3.4: Tổng hợp các chỉ tiêu độ chụm và độ chính xác theo từng phân vùng cự ly trên tập FSDT (sau lọc IQR).")
+r_t34.font.italic = True
+r_t34.font.size = Pt(9.5)
 
 import os
 doc.save(OUTPUT_FILE)

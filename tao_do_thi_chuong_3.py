@@ -15,7 +15,7 @@ plt.rcParams['ytick.labelsize'] = 9
 plt.rcParams['legend.fontsize'] = 9
 plt.rcParams['figure.titlesize'] = 12
 
-BASE_DIR = Path(r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601")
+BASE_DIR = Path(__file__).resolve().parent
 RESULT_DIR = BASE_DIR / "result"
 GRAPH_DIR = BASE_DIR / "graph"
 AGG_DIR = BASE_DIR / "du_lieu_tong_hop"
@@ -127,67 +127,102 @@ plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.2 tại: {h3_2_p1} và {h3_2_p2}")
 
 # ==========================================================
-# 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Độ lệch chuẩn s và CV%)
+# 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Độ lệch chuẩn s và CV% sau lọc IQR)
 # ==========================================================
-print("Tạo Hình 3.3...")
-all_cols_fsdt = [c for c in fsdt.keys() if float(c.replace('cm', '')) <= 550]
-all_true_fsdt = [float(c.replace('cm', '')) for c in all_cols_fsdt]
-all_stdev_fsdt = [statistics.stdev(fsdt[c]) * 10 for c in all_cols_fsdt] # mm
-all_cv_fsdt = [(statistics.stdev(fsdt[c]) / statistics.mean(fsdt[c])) * 100 for c in all_cols_fsdt]
+print("Tạo Hình 3.3 (Độ lệch chuẩn s và Hệ số biến thiên CV% sau lọc IQR, 1 cm – 550 cm)...")
+fsdt_550 = [r for r in fsdt_stat if float(r['cu_ly_dat_cm']) <= 550.0]
+fsdt_550.sort(key=lambda x: float(x['cu_ly_dat_cm']))
 
-fig, ax1 = plt.subplots(figsize=(10, 4.5), dpi=300)
-color1 = '#1f77b4'
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax1.set_ylabel('Độ lệch chuẩn s (mm)', color=color1)
-line1 = ax1.plot(all_true_fsdt, all_stdev_fsdt, 'o-', color=color1, linewidth=1.5, markersize=4, label='Độ lệch chuẩn s (mm)')
-ax1.tick_params(axis='y', labelcolor=color1)
-ax1.grid(True, linestyle=':', alpha=0.6)
-
-ax2 = ax1.twinx()
-color2 = '#d62728'
-ax2.set_ylabel('Hệ số biến thiên CV (%)', color=color2)
-line2 = ax2.plot(all_true_fsdt, all_cv_fsdt, 's--', color=color2, linewidth=1.5, markersize=4, label='Hệ số biến thiên CV (%)')
-ax2.tick_params(axis='y', labelcolor=color2)
-
-lines = line1 + line2
-labels = [l.get_label() for l in lines]
-ax1.legend(lines, labels, loc='upper left')
-ax1.set_title('Đánh giá Độ chụm toàn dải đo thực nghiệm (FSDT: 1 cm – 550 cm)')
-
-plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png", dpi=300)
-plt.close()
-
-# ==========================================================
-# 4. HÌNH 3.4: Độ chính xác toàn dải đo (Sai số tuyệt đối & Sai số tương đối)
-# ==========================================================
-print("Tạo Hình 3.4...")
-all_err_fsdt = [(statistics.mean(fsdt[c]) - float(c.replace('cm', ''))) * 10 for c in all_cols_fsdt] # mm
-all_rel_err_fsdt = [((statistics.mean(fsdt[c]) - float(c.replace('cm', ''))) / float(c.replace('cm', ''))) * 100 for c in all_cols_fsdt]
+d_550 = [float(r['cu_ly_dat_cm']) for r in fsdt_550]
+s_550 = [float(r['std_sach_mm']) for r in fsdt_550]
+cv_550 = [(float(r['std_sach_mm']) / 10.0) / float(r['mean_sach_cm']) * 100.0 for r in fsdt_550]
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6.5), dpi=300, sharex=True)
 
-ax1.plot(all_true_fsdt, all_err_fsdt, 'o-', color='#2ca02c', linewidth=1.5, markersize=4)
-ax1.axhline(0, color='black', linestyle='--', linewidth=0.8)
-ax1.set_ylabel('Sai số tuyệt đối Δd (mm)')
-ax1.set_title('Sai số tuyệt đối thực nghiệm theo khoảng cách (FSDT)')
-ax1.grid(True, linestyle=':', alpha=0.6)
+ax1.plot(d_550, s_550, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4,
+         label='Độ lệch chuẩn thực nghiệm s (sau lọc IQR)')
+ax1.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
+            label='Dung sai vạch chia thước (0.5 mm)')
+ax1.set_title("Độ lệch chuẩn thực nghiệm s theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=10)
+ax1.set_ylabel("Độ lệch chuẩn s (mm)", fontweight='bold')
+ax1.set_ylim(-0.25, 5.0)
+ax1.set_yticks([0, 1, 2, 3, 4, 5])
+ax1.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax1.grid(axis='x', visible=False)
+ax1.legend(loc='upper left', framealpha=0.95)
 
-# Relative error (omitting 1-3cm for y-scale clarity, or clipping)
-stable_idx = [i for i, d in enumerate(all_true_fsdt) if d >= 5.0]
-ax2.plot([all_true_fsdt[i] for i in stable_idx], [all_rel_err_fsdt[i] for i in stable_idx], 's-', color='#ff7f0e', linewidth=1.5, markersize=4)
-ax2.axhline(0, color='black', linestyle='--', linewidth=0.8)
-ax2.axhline(0.5, color='red', linestyle=':', label='Ngưỡng chuẩn ±0.5%')
-ax2.axhline(-0.5, color='red', linestyle=':')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax2.set_ylabel('Sai số tương đối δ (%)')
-ax2.set_title('Sai số tương đối trong dải làm việc hiệu dụng (5 cm – 550 cm)')
-ax2.legend(loc='lower right')
-ax2.grid(True, linestyle=':', alpha=0.6)
+ax2.plot(d_550, cv_550, color='#ff7f0e', linestyle='-', linewidth=1.8, marker='s', markersize=4,
+         label='Hệ số biến thiên CV (%)')
+ax2.axhline(0.2, color='#d62728', linestyle='--', linewidth=1.2,
+            label='Ngưỡng tham chiếu độ chụm cao (0.2%)')
+ax2.set_title("Hệ số biến thiên CV (%) theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=10)
+ax2.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax2.set_ylabel("Hệ số biến thiên CV (%)", fontweight='bold')
+ax2.set_xlim(-10, 565)
+ax2.set_ylim(-0.04, 0.90)
+ax2.set_yticks([0.0, 0.2, 0.4, 0.6, 0.8])
+ax2.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax2.grid(axis='x', visible=False)
+ax2.legend(loc='upper right', framealpha=0.95)
 
 plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_4_do_chinh_xac_sai_so.png", dpi=300)
-plt.close()
+h3_3_p1 = GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png"
+h3_3_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_3_do_chum_toan_dai.png"
+fig.savefig(h3_3_p1, dpi=300)
+fig.savefig(h3_3_p2, dpi=300)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.3 tại: {h3_3_p1} và {h3_3_p2}")
+
+# ==========================================================
+# 4. HÌNH 3.4: Độ chính xác toàn dải đo (Sai số tuyệt đối & Sai số tương đối sau lọc IQR)
+# ==========================================================
+print("Tạo Hình 3.4 (Sai số tuyệt đối Δd và Sai số tương đối δ% sau lọc IQR)...")
+err_550 = [float(r['sai_so_tuyet_doi_mm']) for r in fsdt_550]
+rel_550 = [float(r['sai_so_tuong_doi_pct']) for r in fsdt_550]
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6.5), dpi=300, sharex=True)
+
+ax1.plot(d_550, err_550, color='#2ca02c', linestyle='-', linewidth=1.8, marker='o', markersize=4,
+         label='Sai số tuyệt đối Δd (sau lọc IQR)')
+ax1.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.1,
+            label='Đường chuẩn sai số bằng 0')
+ax1.set_title("Sai số tuyệt đối Δd theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=10)
+ax1.set_ylabel("Sai số tuyệt đối Δd (mm)", fontweight='bold')
+ax1.set_ylim(-17.5, 22.5)
+ax1.set_yticks([-15, -10, -5, 0, 5, 10, 15, 20])
+ax1.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax1.grid(axis='x', visible=False)
+ax1.legend(loc='lower right', framealpha=0.95)
+
+idx_10 = [i for i, d in enumerate(d_550) if d >= 10.0]
+d_10 = [d_550[i] for i in idx_10]
+rel_10 = [rel_550[i] for i in idx_10]
+
+ax2.plot(d_10, rel_10, color='#1f77b4', linestyle='-', linewidth=1.8, marker='s', markersize=4,
+         label='Sai số tương đối δ (%)')
+ax2.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.0)
+ax2.axhline(0.5, color='#d62728', linestyle=':', linewidth=1.3, label='Dải sai số tham chiếu (±0.5%)')
+ax2.axhline(-0.5, color='#d62728', linestyle=':', linewidth=1.3)
+ax2.set_title("Sai số tương đối δ (%) trong dải đo từ 10 cm đến 550 cm", fontweight='bold', pad=10)
+ax2.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax2.set_ylabel("Sai số tương đối δ (%)", fontweight='bold')
+ax2.set_xlim(-10, 565)
+ax2.set_ylim(-4.5, 6.5)
+ax2.set_yticks([-4, -2, 0, 2, 4, 6])
+ax2.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax2.grid(axis='x', visible=False)
+ax2.legend(loc='upper right', framealpha=0.95)
+
+plt.tight_layout()
+h3_4_p1 = GRAPH_DIR / "hinh_3_4_do_chinh_xac_sai_so.png"
+h3_4_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_4_do_chinh_xac_sai_so.png"
+fig.savefig(h3_4_p1, dpi=300)
+fig.savefig(h3_4_p2, dpi=300)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.4 tại: {h3_4_p1} và {h3_4_p2}")
+
+# Khởi tạo biến tương thích cho các mục 3.4 trở về sau
+all_cols_fsdt = [c for c in fsdt.keys() if float(c.replace('cm', '')) <= 550]
 
 # ==========================================================
 # 5. HÌNH 3.5: Hồi quy tuyến tính & Độ nhạy thời gian bay (ToF)

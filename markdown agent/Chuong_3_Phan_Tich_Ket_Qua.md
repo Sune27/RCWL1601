@@ -141,35 +141,59 @@ Bảng 3.3 tổng hợp các vùng làm việc tiêu biểu trên toàn dải đ
 
 ## 3.3. Đánh giá Độ chụm và Độ chính xác
 
-### 3.3.1. Đánh giá Độ chụm (Precision)
+Trên cơ sở tập dữ liệu chuẩn chiều tiến mặt nhẵn `FSDT` đã loại bỏ ngoại lai bằng bộ lọc Khoảng tứ phân vị (IQR) tại Mục 3.1, độ chụm và độ chính xác của hệ đo được đánh giá định lượng trên 33 mốc cự ly thuộc dải đo hữu ích từ $1\text{ cm}$ đến $550\text{ cm}$ (trước ngưỡng bão hòa xa $580 - 600\text{ cm}$).
 
-Độ chụm phản ánh mức độ phân tán ngẫu nhiên giữa các lần đo lặp lại tại cùng một điểm cự ly trong điều kiện phòng thí nghiệm ổn định ($N = 50$). Hai chỉ số định lượng then chốt được phân tích:
-1. **Độ lệch chuẩn thực nghiệm ($s$):** Biểu diễn bằng đơn vị milimét ($\text{mm}$).
-   - Trong cự ly gần ($1\text{ cm} \le d \le 50\text{ cm}$): Độ lệch chuẩn cực nhỏ, dao động từ $s = 0.035\text{ mm}$ đến $0.094\text{ mm}$. Tín hiệu âm phản xạ rất mạnh và tỷ số tín hiệu trên nhiễu ($S/N$) đạt cực đại.
-   - Trong cự ly trung bình ($60\text{ cm} \le d \le 180\text{ cm}$): Độ lệch chuẩn tăng nhẹ lên khoảng $s = 0.15\text{ mm} - 0.40\text{ mm}$.
-   - Trong cự ly xa ($200\text{ cm} \le d \le 360\text{ cm}$): Độ lệch chuẩn biến thiên trong khoảng $s = 1.8\text{ mm} - 2.8\text{ mm}$. Sự gia tăng này là hệ quả tất yếu của hiện tượng nhiễu động vi khí hậu đối lưu không khí dọc theo hành lang đo dài $7\text{ m}$.
-   - Trong dải đo xa mở rộng ($400\text{ cm} \le d \le 550\text{ cm}$): Độ lệch chuẩn duy trì ổn định ở mức $s \approx 1.5 - 2.0\text{ mm}$ nhờ kích thước bia phản xạ lớn tập trung năng lượng tốt.
-2. **Hệ số biến thiên ($\text{CV}\%$):** Được tính theo công thức $\text{CV}\% = (s / \bar{d}) \cdot 100\%$.
-   - Trên toàn bộ dải đo làm việc hữu ích từ $10\text{ cm}$ đến $550\text{ cm}$, hệ số biến thiên $\text{CV}\%$ luôn duy trì dưới ngưỡng **$0.11\%$**.
-   - Tại các cự ly trung bình và xa ($50\text{ cm} \to 550\text{ cm}$), $\text{CV}\%$ đạt mức lý tưởng từ **$0.019\%$ đến $0.046\%$**. Đây là minh chứng rõ nét cho thấy hệ thống đo RCWL-1601 kết hợp ESP32 có độ lặp lại và độ ổn định thống kê hoàn toàn đáp ứng các tiêu chuẩn quan trắc kỹ thuật khắt khe.
+### 3.3.1. Đánh giá độ chụm
 
-![Độ chụm toàn dải đo](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_3_do_chum_toan_dai.png)
-*Hình 3.3: Biến thiên của Độ lệch chuẩn thực nghiệm $s$ (mm) và Hệ số biến thiên $\text{CV}\%$ trên toàn dải đo FSDT từ 1 cm đến 550 cm.*
+Độ chụm phản ánh mức độ phân tán ngẫu nhiên giữa các giá trị đo lặp lại tại cùng một mốc cự ly chuẩn trong điều kiện phòng thí nghiệm ổn định ($N = 50$ mẫu thô, nhiệt độ phòng chuẩn hóa $T = 27.0^\circ\text{C}$). Hai chỉ số thống kê sử dụng để đánh giá độ chụm gồm độ lệch chuẩn thực nghiệm sau lọc $s$ ($\text{mm}$) và hệ số biến thiên tương đối $\text{CV}\%$:
 
-### 3.3.2. Đánh giá Độ chính xác (Accuracy)
+$$\text{CV}\% = \frac{s}{\bar{d}} \times 100\%$$
 
-Độ chính xác thể hiện mức độ sai lệch giữa giá trị đo trung bình $\bar{d}$ và giá trị cự ly thực tế đặt chuẩn $d_{\text{true}}$ (được xác định bằng thước thép chuẩn có độ chia $1\text{ mm}$):
-- **Sai số tuyệt đối ($\Delta d = \bar{d} - d_{\text{true}}$):** Trên toàn bộ dải đo danh định từ $50\text{ cm}$ đến $550\text{ cm}$, sai số tuyệt đối dao động trong dải hẹp từ $-5.71\text{ mm}$ đến $+14.02\text{ mm}$.
-- **Sai số tương đối ($\delta\% = (\Delta d / d_{\text{true}}) \cdot 100\%$):** 
-  + Ngoại trừ vùng chết và vùng cự ly cực gần ($< 10\text{ cm}$), sai số tương đối trên toàn bộ dải làm việc ($50\text{ cm} \le d \le 550\text{ cm}$) hoàn toàn **nằm trong phạm vi $\pm 0.57\%$**, trong đó phần lớn các điểm đo đạt độ chính xác dưới **$\pm 0.35\%$**.
-  + Tại các cự ly $300\text{ cm}$, $500\text{ cm}$ và $550\text{ cm}$, sai số tương đối chỉ đạt lần lượt là $-0.09\%$, $+0.14\%$ và $+0.10\%$.
+Trong đó: $s$ là độ lệch chuẩn mẫu thực nghiệm sau lọc IQR (quy đổi cùng đơn vị độ dài với $\bar{d}$); $\bar{d}$ là giá trị khoảng cách đo trung bình sau lọc tại mốc khảo sát ($\text{cm}$).
 
-**Phân tích bản chất sai số hệ thống:**
-Sự tồn tại của độ lệch tuyệt đối khoảng vài milimét có tính chất dịch chuyển đều (offset) bắt nguồn từ khoảng cách cơ khí giữa mặt phẳng màng gốm áp điện nằm thụt sâu bên trong ống kim loại cảm biến so với mép bo mạch và mép bàn đo ($offset \approx 5 - 6\text{ mm}$). Thành phần sai số hệ thống này hoàn toàn có thể được hiệu chuẩn triệt tiêu bằng phần mềm thông qua hệ số hiệu chỉnh dịch gốc toạ độ.
+Kết quả phân tích từ bảng dữ liệu `thong_ke_chuong_3.csv` cho thấy quy luật biến thiên của độ chụm theo 4 phân vùng khoảng cách:
+1. **Độ lệch chuẩn thực nghiệm ($s$):** Trên toàn dải $1\text{ cm} - 550\text{ cm}$, độ lệch chuẩn duy trì trong khoảng $0.035\text{ mm} \le s \le 4.049\text{ mm}$:
+   - **Vùng cự ly gần ($1\text{ cm} \le d_{\text{true}} \le 50\text{ cm}$, 9 mốc):** Tại $8/9$ mốc khảo sát, độ lệch chuẩn đạt giá trị rất nhỏ từ $s = 0.035\text{ mm}$ đến $0.094\text{ mm}$ (nhỏ hơn một bước đếm phần cứng $\Delta_{\text{LSB}} \approx 0.174\text{ mm}$) do biên độ sóng âm phản xạ từ mặt phẳng nhẵn của viên gạch chuẩn $40\text{ cm} \times 40\text{ cm}$ rất lớn. Riêng tại mốc $40\text{ cm}$ xuất hiện dao động chuyển tiếp chu kỳ bắt ngưỡng sườn xung thu làm $s$ tăng cục bộ lên $3.144\text{ mm}$.
+   - **Vùng cự ly trung bình ($60\text{ cm} \le d_{\text{true}} \le 180\text{ cm}$, 8 mốc):** Tại $7/8$ mốc, độ lệch chuẩn nằm trong dải $0.088\text{ mm} - 0.383\text{ mm}$ (nhỏ hơn dung sai đọc vạch chia thước chuẩn $0.5\text{ mm}$); tại mốc $120\text{ cm}$ ghi nhận $s = 1.747\text{ mm}$.
+   - **Vùng cự ly xa danh định ($200\text{ cm} \le d_{\text{true}} \le 360\text{ cm}$, 11 mốc):** Độ lệch chuẩn dao động từ $0.142\text{ mm}$ (tại $220\text{ cm}$) đến cực đại $2.860\text{ mm}$ (tại $300\text{ cm}$; tại $360\text{ cm}$ đạt $2.508\text{ mm}$ sau khi lọc bỏ 1 xung trượt chu kỳ). Mức phân tán vài milimét ở cự ly trên $2\text{ m}$ bắt nguồn từ suy hao biên độ sóng âm theo khoảng cách và dao động đối lưu không khí nhẹ dọc theo hành lang kín gió dài $10\text{ m}$.
+   - **Dải đo xa mở rộng ($400\text{ cm} \le d_{\text{true}} \le 550\text{ cm}$, 5 mốc):** Độ lệch chuẩn biến thiên từ $0.228\text{ mm}$ (tại $420\text{ cm}$) đến $4.049\text{ mm}$ (tại $450\text{ cm}$), và đạt $0.319\text{ mm}$ tại giới hạn thực tế $550\text{ cm}$.
+2. **Hệ số biến thiên ($\text{CV}\%$):**
+   - Trên toàn bộ $25$ mốc đo từ $50\text{ cm}$ đến $550\text{ cm}$, hệ số biến thiên $\text{CV}\%$ luôn nhỏ hơn **$0.15\%$** (dao động từ $0.005\%$ tại $420\text{ cm}$ đến $0.145\%$ tại $120\text{ cm}$; tại $550\text{ cm}$ chỉ bằng $0.006\%$).
+   - Nếu xét rộng trên toàn dải làm việc từ $10\text{ cm}$ đến $550\text{ cm}$ ($28$ mốc), có $27/28$ mốc đạt $\text{CV}\% < 0.15\%$ (duy nhất mốc $40\text{ cm}$ ở mức $0.800\%$), khẳng định hệ đo RCWL-1601 kết hợp bộ đếm phần cứng ESP32 có độ lặp lại thống kê ổn định.
 
-![Độ chính xác và Sai số toàn dải](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_4_do_chinh_xac_sai_so.png)
-*Hình 3.4: Phân bố Sai số tuyệt đối $\Delta d$ (mm) và Sai số tương đối $\delta\%$ trên dải làm việc hiệu dụng.*
+![Độ chụm toàn dải đo](../graph/chuong_3/hinh_3_3_do_chum_toan_dai.png)
+*Hình 3.3: Biến thiên của độ lệch chuẩn thực nghiệm $s$ (mm) và hệ số biến thiên $\text{CV}$ (%) sau lọc IQR trên dải đo FSDT (1 cm – 550 cm).*
 
+### 3.3.2. Đánh giá độ chính xác
+
+Độ chính xác biểu thị mức độ tiệm cận giữa giá trị đo trung bình sau lọc $\bar{d}$ và khoảng cách chuẩn đối chứng $d_{\text{true}}$ (xác lập bằng thước dây tiêu chuẩn có độ chia nhỏ nhất $1\text{ mm}$ căng giữa hai mép bàn cao $85\text{ cm}$). Sai số tuyệt đối $\Delta d$ và sai số tương đối $\delta\%$ tại mỗi mốc đo được xác định bởi:
+
+$$\Delta d = \bar{d} - d_{\text{true}}, \qquad \delta\% = \frac{\bar{d} - d_{\text{true}}}{d_{\text{true}}} \times 100\%$$
+
+Trong đó: $\Delta d$ là sai số tuyệt đối của phép đo (quy đổi sang đơn vị $\text{mm}$); $d_{\text{true}}$ là khoảng cách chuẩn đặt trên thước đối chứng ($\text{cm}$); $\delta\%$ là sai số tương đối phần trăm ($\%$).
+
+Phân tích dữ liệu sau lọc IQR trên 33 mốc cự ly cho thấy:
+- **Sai số tuyệt đối ($\Delta d$):** Trong dải từ $50\text{ cm}$ đến $550\text{ cm}$ ($25$ mốc), sai số tuyệt đối nằm trong khoảng từ $-14.55\text{ mm}$ (tại $160\text{ cm}$) đến $+19.45\text{ mm}$ (tại $360\text{ cm}$). Tại các mốc kiểm định chính ($50, 80, 100, 150, 200, 250, 300, 400, 500, 550\text{ cm}$), $\Delta d$ chỉ dao động trong dải hẹp từ $-5.72\text{ mm}$ đến $+13.99\text{ mm}$ (điển hình tại $150\text{ cm}$ là $-0.43\text{ mm}$, tại $250\text{ cm}$ là $+0.03\text{ mm}$, tại $300\text{ cm}$ là $-2.82\text{ mm}$ và tại $550\text{ cm}$ là $+6.30\text{ mm}$).
+- **Sai số tương đối ($\delta\%$):**
+  + Ở vùng đầu dải đo ($10\text{ cm} - 40\text{ cm}$), do mẫu số $d_{\text{true}}$ nhỏ nên một độ lệch vài milimét tạo ra sai số tương đối từ $-3.36\%$ (tại $20\text{ cm}$) đến $+5.70\%$ (tại $10\text{ cm}$).
+  + Trên dải từ $80\text{ cm}$ đến $550\text{ cm}$ ($23$ mốc), có **$22/23$ mốc đạt $|\delta\%| \le 0.57\%$** (riêng mốc $160\text{ cm}$ là $-0.91\%$). Đặc biệt từ $200\text{ cm}$ đến $550\text{ cm}$ ($16$ mốc), $15/16$ mốc nằm gọn trong dải **$\pm 0.45\%$** (mốc $360\text{ cm}$ đạt $+0.54\%$; các mốc xa $300\text{ cm}$, $500\text{ cm}$ và $550\text{ cm}$ đạt lần lượt $-0.09\%$, $+0.14\%$ và $+0.12\%$), tốt hơn so với mức dung sai danh định $\pm 1\%$ của nhà sản xuất.
+
+**Phân tích nguồn gốc sai số hệ thống:**
+Độ lệch tuyệt đối cỡ vài milimét xuất hiện trên đồ thị bắt nguồn từ hai yếu tố vật lý trong mô hình bố trí thiết bị: (1) Mặt phẳng màng gốm áp điện phát – thu nằm thụt sâu khoảng $5 - 6\text{ mm}$ bên trong ống bảo vệ kim loại so với mặt trước bo mạch thử nghiệm đặt tại mép bàn mốc $0\text{ mm}$, tạo ra một độ lệch gốc tọa độ không đổi; (2) Tại một số mốc cự ly trung gian ($60\text{ cm}$, $160\text{ cm}$, $320\text{ cm}$, $360\text{ cm}$), thao tác dịch chuyển bàn đỡ viên gạch thứ hai dọc hành lang dài $10\text{ m}$ và căng thước dây thủ công giữa hai mép bàn gây ra sai lệch định vị cỡ vài milimét. Thành phần độ lệch gốc cố định sẽ được lượng hóa chính xác bằng hệ số chặn hồi quy tuyến tính tại Mục 3.4 và có thể bù trừ trực tiếp trong phần mềm vi điều khiển.
+
+![Độ chính xác và Sai số toàn dải](../graph/chuong_3/hinh_3_4_do_chinh_xac_sai_so.png)
+*Hình 3.4: Phân bố sai số tuyệt đối $\Delta d$ (mm) và sai số tương đối $\delta$ (%) sau lọc IQR theo khoảng cách chuẩn.*
+
+**Bảng 3.4: Tổng hợp các chỉ tiêu độ chụm và độ chính xác theo từng phân vùng cự ly trên tập FSDT (sau lọc IQR).**
+
+| Phân vùng cự ly (Số mốc) | Độ lệch chuẩn $s$ (mm) | Hệ số biến thiên $\text{CV}$ (%) | Sai số tuyệt đối $\Delta d$ (mm) | Sai số tương đối $\delta$ (%) | Đánh giá đặc tính đo lường |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| **$1 - 3\text{ cm}$ (3 mốc)** | $0.035 - 0.085$ | $0.172 - 0.361\%$ | $-3.21 \to +10.30$ | $-10.72 \to +103.05\%$ | Vùng chết (kẹp ngưỡng ngắt câm, sai lệch lớn) |
+| **$5 - 8\text{ cm}$ (2 mốc)** | $0.079 - 0.085$ | $0.109 - 0.198\%$ | $-7.68 \to -7.05$ | $-14.10 \to -9.61\%$ | Vùng chuyển tiếp gần (chịu ảnh hưởng độ lệch gốc) |
+| **$10 - 40\text{ cm}$ (3 mốc)** | $0.061 - 3.144$ | $0.040 - 0.799\%$ | $-6.75 \to +5.70$ | $-3.36 \to +5.70\%$ | Đầu dải danh định (dao động sườn xung tại $40\text{ cm}$) |
+| **$50 - 180\text{ cm}$ (9 mốc)** | $0.088 - 1.747$ | $0.009 - 0.145\%$ | $-14.55 \to +1.60$ | $-1.58 \to +0.13\%$ | Cự ly trung bình ($\text{CV} < 0.15\%$, độ lặp lại cao) |
+| **$200 - 360\text{ cm}$ (11 mốc)** | $0.142 - 2.860$ | $0.006 - 0.109\%$ | $-4.50 \to +19.45$ | $-0.13 \to +0.54\%$ | Cự ly xa danh định ($10/11$ mốc đạt $|\delta\%| \le 0.44\%$) |
+| **$400 - 550\text{ cm}$ (5 mốc)** | $0.228 - 4.049$ | $0.005 - 0.090\%$ | $+4.83 \to +13.99$ | $+0.12 \to +0.35\%$ | Dải đo xa mở rộng ($\text{CV} \le 0.09\%$, $|\delta\%| \le 0.35\%$) |
 ---
 
 ## 3.4. Đánh giá Độ tuyến tính, Độ nhạy và Độ phân giải
