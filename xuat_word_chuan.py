@@ -1846,9 +1846,10 @@ add_bullet_p(
     "Đường màu cam nét đứt (s của mặt gồ ghề FRDT) so với đường màu xanh lam nét liền (s của mặt phẳng nhẵn FSDT): "
 )
 add_bullet_p(
-    "Duy trì phẳng sát đáy và nằm hoàn toàn dưới ngưỡng tham chiếu dung sai thước 0.5 mm (đường tím chấm gạch) trên suốt dải 10 – 350 cm, "
-    "khẳng định phép lấy trung bình N = 50 mẫu kết hợp lọc IQR khử hiệu quả nhiễu pha tán xạ khi chưa mất xung.",
-    "Đường màu xanh lá chấm tròn (SE = s/√n của mặt gồ ghề FRDT): "
+    "Cả hai đường SE = s/√n đều đi phẳng sát đáy (0.0086 – 0.4491 mm trên FSDT và 0.0071 – 0.3903 mm trên FRDT), "
+    "nằm hoàn toàn dưới ngưỡng tham chiếu dung sai thước 0.5 mm (đường tím chấm gạch) tại toàn bộ 22/22 mốc khảo sát (10 – 350 cm), "
+    "khẳng định phép lấy trung bình N = 50 mẫu kết hợp lọc IQR giữ vững độ chụm ước lượng trung bình trên cả hai bề mặt khi chưa mất xung.",
+    "Hai đường chấm tròn ở tầng đáy (SE của FSDT màu xanh lá vòng tròn rỗng và SE của FRDT màu đỏ ký hiệu tam giác): "
 )
 
 add_heading_3("3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa")
@@ -2008,9 +2009,10 @@ add_bullet_p(
     "Đường màu đỏ nét liền ký hiệu tam giác (FSAT chưa bù nhiệt): "
 )
 add_bullet_p(
-    "Hai đường nằm chồng khít lên nhau gần như tuyệt đối trên suốt chiều dài đồ thị từ 10 cm đến 300 cm và bám sát đường chuẩn 0 mm, "
+    "Từng điểm vuông xanh lá nằm lọt chính tâm vòng tròn xanh lam trên toàn bộ 19 mốc cự ly từ 10 cm đến 300 cm "
+    "(do độ lệch giữa hai đường chỉ từ 0.002 mm đến 0.183 mm) và cùng bám sát đường chuẩn 0 mm, "
     "khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.",
-    "Đường màu xanh lá nét đứt ký hiệu hình vuông (FSAT đã bù Laplace tại 20.0 °C) và đường màu xanh lam nét liền ký hiệu hình tròn (FSDT đối chứng tại 27.0 °C): "
+    "Đường màu xanh lá nét đứt tâm vuông đặc (FSAT đã bù Laplace tại 20.0 °C) lồng đồng tâm bên trong đường băng xanh lam ký hiệu vòng tròn rỗng (FSDT đối chứng tại 27.0 °C): "
 )
 
 import os

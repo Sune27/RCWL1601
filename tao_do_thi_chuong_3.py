@@ -323,14 +323,19 @@ frdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].star
 common_surf_x = sorted(set(fsdt_map.keys()).intersection(frdt_map.keys()))
 s_fsdt_surf = [float(fsdt_map[x]['std_sach_mm']) for x in common_surf_x]
 s_frdt_surf = [float(frdt_map[x]['std_sach_mm']) for x in common_surf_x]
+se_fsdt_surf = [float(fsdt_map[x]['se_sach_mm']) for x in common_surf_x]
 se_frdt_surf = [float(frdt_map[x]['se_sach_mm']) for x in common_surf_x]
 
-fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+fig, ax = plt.subplots(figsize=(10, 5.4), dpi=300)
 ax.plot(common_surf_x, s_fsdt_surf, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
         label='Mặt phẳng nhẵn FSDT – Độ lệch chuẩn s (mm)')
 ax.plot(common_surf_x, s_frdt_surf, color='#ff7f0e', linestyle='--', linewidth=1.8, marker='s', markersize=4.5,
         label='Mặt gồ ghề FRDT – Độ lệch chuẩn s (mm)')
-ax.plot(common_surf_x, se_frdt_surf, color='#2ca02c', linestyle=':', linewidth=1.7, marker='^', markersize=4.2,
+ax.plot(common_surf_x, se_fsdt_surf, color='#2ca02c', linestyle=':', linewidth=1.6,
+        marker='o', markersize=6.2, markerfacecolor='none', markeredgecolor='#2ca02c', markeredgewidth=1.5,
+        label='Mặt phẳng nhẵn FSDT – Sai số chuẩn SE = s/√n (mm)')
+ax.plot(common_surf_x, se_frdt_surf, color='#d62728', linestyle=':', linewidth=1.6,
+        marker='^', markersize=4.2, markerfacecolor='#d62728', markeredgecolor='#d62728',
         label='Mặt gồ ghề FRDT – Sai số chuẩn SE = s/√n (mm)')
 ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
            label='Dung sai vạch chia thước (0.5 mm)')
@@ -339,8 +344,8 @@ ax.set_title("So sánh độ chụm (s và SE sau lọc IQR) giữa mặt phẳn
 ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
 ax.set_ylabel("Độ phân tán / Sai số chuẩn (mm)", fontweight='bold')
 ax.set_xlim(0, 365)
-ax.set_ylim(-0.15, 4.35)
-ax.set_yticks([0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0])
+ax.set_ylim(-0.18, 4.75)
+ax.set_yticks([0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5])
 ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
 ax.grid(axis='x', visible=False)
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.95)

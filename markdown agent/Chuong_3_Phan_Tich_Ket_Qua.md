@@ -313,7 +313,7 @@ Khác với cảm biến biến dạng áp điện hoặc cảm biến từ trư
 
 **Đánh giá từ đồ thị Hình 3.7a:** Biểu diễn chung trên một trục tung đơn vị $\text{mm}$ cho thấy:
 - **Đường màu cam nét đứt ($s$ của mặt gồ ghề `FRDT`) so với đường màu xanh lam nét liền ($s$ của mặt phẳng nhẵn `FSDT`):** Nổi rõ hai đỉnh vọt biên độ ở ngay đầu dải ($1.620\text{ mm}$ tại $10\text{ cm}$ và $2.240\text{ mm}$ tại $60\text{ cm}$) do giao thoa tán xạ gần, sau đó dao động răng cưa cùng bậc độ lớn $\le 2.62\text{ mm}$ với pha dịch chuyển dọc trục khoảng cách đến mốc $350\text{ cm}$.
-- **Đường màu xanh lá chấm tròn ($\text{SE}$ của mặt gồ ghề `FRDT`):** Duy trì phẳng sát đáy và nằm hoàn toàn dưới ngưỡng tham chiếu dung sai thước $0.5\text{ mm}$ (đường tím chấm gạch) trên suốt dải $10 - 350\text{ cm}$, khẳng định phép lấy trung bình $N = 50$ mẫu kết hợp lọc $\text{IQR}$ khử hiệu quả nhiễu pha tán xạ khi chưa mất xung.
+- **Hai đường chấm tròn ở tầng đáy ($\text{SE}$ của `FSDT` màu xanh lá vòng tròn rỗng và $\text{SE}$ của `FRDT` màu đỏ ký hiệu tam giác):** Cả hai đường $\text{SE} = s/\sqrt{n}$ đều đi phẳng sát đáy ($0.0086 - 0.4491\text{ mm}$ trên `FSDT` và $0.0071 - 0.3903\text{ mm}$ trên `FRDT`), nằm hoàn toàn dưới ngưỡng tham chiếu dung sai thước $0.5\text{ mm}$ (đường tím chấm gạch) tại toàn bộ $22/22$ mốc khảo sát ($10 - 350\text{ cm}$), khẳng định phép lấy trung bình $N = 50$ mẫu kết hợp lọc $\text{IQR}$ giữ vững độ chụm ước lượng trung bình trên cả hai bề mặt khi chưa mất xung.
 
 ### 3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa
 
