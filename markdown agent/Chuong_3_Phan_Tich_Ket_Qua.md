@@ -332,62 +332,31 @@ Tác động bất lợi nghiêm trọng nhất của bề mặt gồ ghề khô
 - **Đường màu cam chấm tròn và đường màu đỏ nét đứt (`FRDT` trước và sau lọc $\text{IQR}$):** Tại mốc $350\text{ cm}$, đường thô màu cam nhô nhẹ lên $360.65\text{ cm}$ do chớm xuất hiện xung tràn đầu tiên ($824.40\text{ cm}$) nhưng được bộ lọc $\text{IQR}$ (đường đỏ) kéo trở lại đúng đường chuẩn $y = x$ ($351.09\text{ cm}$). Ngay sau đó tại mốc $375\text{ cm}$, cả hai đường đồng loạt vọt thẳng lên $672.50\text{ cm}$ hướng về ngưỡng trần bão hòa $824.6\text{ cm}$ khi $66\%$ số mẫu mất sóng phản hồi, đánh dấu ranh giới tắt dần tín hiệu của bề mặt tán xạ.
 ---
 
-## 3.7. Phân tích Ảnh hưởng của Nhiệt độ và Hiệu quả bù Vận tốc sóng âm Laplace
+## 3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt Laplace
 
-### 3.7.1. Cơ sở vật lý của hiện tượng trôi nhiệt
+Dựa trên mô hình phụ thuộc nhiệt độ của vận tốc sóng siêu âm Laplace đã thiết lập tại **Mục 1.1.2 (Chương 1)**, thí nghiệm đối chứng được tiến hành trên cùng mặt trước phẳng nhẵn của viên gạch chuẩn dọc $19$ mốc cự ly chung từ $10\text{ cm}$ đến $300\text{ cm}$ (**Mục 2.3, Chương 2**) giữa hai chế độ nhiệt: **Trường hợp 1 (`FSDT`)** tại điều kiện phòng mặc định $T_1 = 27.0^\circ\text{C}$ ($v_1 = 347.662\text{ m/s}$) và **Trường hợp 4 (`FSAT`)** trong phòng điều hòa làm lạnh $T_2 = 20.0^\circ\text{C}$ ($v_2 = 343.420\text{ m/s}$, có dao động vi khí hậu nhẹ lên $21.0^\circ\text{C}$ ở một số mẫu thuộc mốc $200, 250, 300\text{ cm}$ được cảm biến nhiệt ghi nhận trực tiếp). Toàn bộ dữ liệu thời gian bay trung bình sau lọc (`tof_sach_us`), kết quả đo khi chưa bù nhiệt (`mean_chua_bu_27c_cm`, `sai_so_chua_bu_27c_mm`) và kết quả sau khi bù nhiệt Laplace (`mean_sach_cm`, `sai_so_tuyet_doi_mm`, `std_sach_mm`, `se_sach_mm`) được lưu trữ đầy đủ trong tệp `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`.
 
-Vận tốc truyền sóng âm trong chất khí phụ thuộc trực tiếp vào căn bậc hai của nhiệt độ tuyệt đối theo mô hình Laplace:
+### 3.7.1. Sự giãn dài thời gian bay và độ ổn định độ chụm khi hạ nhiệt độ môi trường
 
-$$v(T) = \sqrt{\frac{\gamma \cdot R \cdot (T + 273.15)}{M}} \approx 331.3 + 0.606 \cdot T \quad (\text{m/s})$$
+Khi hạ nhiệt độ không khí xuống $20.0^\circ\text{C}$, mật độ phân tử khí tăng làm giảm vận tốc lan truyền sóng siêu âm một lượng $\Delta v = -4.242\text{ m/s}$ ($-1.220\%$ so với mức chuẩn hóa $27.0^\circ\text{C}$), kéo dài thời gian bay khứ hồi $t$ của xung siêu âm trên cùng một khoảng cách hình học $x_{\text{true}}$:
 
-Khảo sát đối chứng được thực hiện giữa hai điều kiện môi trường:
-- Điều kiện phòng thường mặc định (`FSDT`): $T_1 = 27.0^\circ\text{C} \implies v_1 = 347.662\text{ m/s}$.
-- Điều kiện phòng lạnh bật điều hòa (`FSAT`): $T_2 = 20.0^\circ\text{C} \implies v_2 = 343.420\text{ m/s}$.
+- **Độ giãn thời gian bay thực nghiệm (`tof_sach_us`):** Trích xuất trực tiếp từ bộ đếm phần cứng $1\text{ }\mu\text{s}$ của ESP32 sau lọc $\text{IQR}$ cho thấy thời gian bay trung bình của tập `FSAT` lớn hơn `FSDT` một cách nhất quán và tăng tuyến tính theo cự ly với tốc độ xấp xỉ $+120.5\text{ }\mu\text{s}$ trên mỗi mét khoảng cách: tại $x_{\text{true}} = 100\text{ cm}$, $\bar{t}$ tăng từ $5670.42\text{ }\mu\text{s}$ lên **$5790.42\text{ }\mu\text{s}$** ($\Delta \bar{t} = +120.00\text{ }\mu\text{s}$); tại $x_{\text{true}} = 200\text{ cm}$, tăng từ $11413.42\text{ }\mu\text{s}$ lên **$11654.78\text{ }\mu\text{s}$** ($\Delta \bar{t} = +241.36\text{ }\mu\text{s}$); và tại $x_{\text{true}} = 300\text{ cm}$, tăng từ $17083.52\text{ }\mu\text{s}$ lên **$17445.24\text{ }\mu\text{s}$** ($\Delta \bar{t} = +361.72\text{ }\mu\text{s}$).
+- **Tính bất biến của độ chụm đối với nhiệt độ:** Trong môi trường phòng điều hòa kín gió $20.0^\circ\text{C}$, tổng tỷ lệ ngoại lai bị loại bởi $\text{IQR}$ của tập `FSAT` là $38/950$ mẫu ($4.00\%$), tương đương hoàn toàn với $39/950$ mẫu ($4.11\%$) trên $19$ mốc đối ứng của `FSDT`. Độ lệch chuẩn sau lọc $s$ của `FSAT` dao động trong dải $0.060 - 3.381\text{ mm}$ và sai số chuẩn trung bình $\text{SE}$ đạt **$0.0085 - 0.4781\text{ mm}$** (nằm dưới dung sai thước $0.5\text{ mm}$ tại cả $19/19$ mốc), chứng minh việc hạ nhiệt độ môi trường chỉ làm dịch chuyển hệ thống vận tốc truyền âm chứ không làm suy giảm độ chụm lặp lại của vi mạch `RCWL-9610`.
 
-Độ chênh lệch vận tốc sóng âm là:
+### 3.7.2. Định lượng sai số trôi nhiệt khi không bù và hiệu quả khử trôi của thuật toán Laplace
 
-$$\Delta v = v_1 - v_2 = 347.662 - 343.420 = 4.242\text{ m/s} \quad (+1.235\%)$$
+Để đánh giá định lượng rủi ro trong các hệ thống nhúng giá rẻ thường gán cứng hằng số vận tốc âm mặc định $v(27.0^\circ\text{C}) = 347.662\text{ m/s}$ (`default_temp_c = 27.0`), khoảng cách chưa bù nhiệt tại $20.0^\circ\text{C}$ được tính đối chứng từ cột `tof_sach_us` theo $\bar{x}_{\text{chưa bù}} = 0.5 \cdot v(27.0^\circ\text{C}) \cdot \bar{t}_{\text{FSAT}}$ và so sánh trực tiếp với kết quả đã bù nhiệt Laplace thời gian thực trên ESP32:
 
-Do vận tốc sóng âm giảm ở nhiệt độ thấp, thời gian bay ToF cần thiết để sóng truyền qua cùng một khoảng cách $x$ sẽ kéo dài hơn:
+- **Trường hợp không bù nhiệt độ (`sai_so_chua_bu_27c_mm`):** Do thời gian bay kéo dài hơn trong không khí lạnh nhưng phần mềm vẫn nhân với vận tốc lớn của $27.0^\circ\text{C}$, kết quả đo bị phóng đại giả tạo với tỷ lệ lý thuyết $+1.235\%$ quãng đường ($\approx +12.35\text{ mm/m}$ ở $20.0^\circ\text{C}$). Lượng trôi nhiệt thuần túy ($\bar{x}_{\text{chưa bù}} - \bar{x}_{\text{đã bù}}$) tích lũy tuyến tính từ $+1.31\text{ mm}$ tại $10\text{ cm}$, $+6.16\text{ mm}$ tại $50\text{ cm}$, **$+12.28\text{ mm}$** tại $100\text{ cm}$, **$+18.52\text{ mm}$** tại $150\text{ cm}$, **$+22.46\text{ mm}$** tại $200\text{ cm}$, **$+28.20\text{ mm}$** tại $250\text{ cm}$, lên tới **$+34.65\text{ mm}$** tại $280\text{ cm}$ và **$+35.31\text{ mm}$** tại $300\text{ cm}$. Hệ quả là sai số tuyệt đối $\Delta x$ khi chưa bù bị đẩy vọt lên mức dương lớn: đạt **$+25.96\text{ mm}$** tại $200\text{ cm}$, đỉnh **`+39.92 mm` ($\approx +4.0\text{ cm}$)** tại $280\text{ cm}$ và **$+32.52\text{ mm}$** tại $300\text{ cm}$.
+- **Hiệu quả triệt tiêu trôi nhiệt khi bù Laplace thời gian thực (`sai_so_tuyet_doi_mm`):** Khi kích hoạt công thức cập nhật vận tốc âm tức thời $v(T)$ theo từng mẫu đo trên ESP32, toàn bộ thành phần trôi nhiệt dương hàng xentimét bị loại bỏ hoàn toàn: sai số $\Delta x$ của `FSAT` được kéo sập về $-5.73\text{ mm}$ tại $100\text{ cm}$, $-0.45\text{ mm}$ tại $150\text{ cm}$, $+3.50\text{ mm}$ tại $200\text{ cm}$, $+0.04\text{ mm}$ tại $250\text{ cm}$, $+5.27\text{ mm}$ tại $280\text{ cm}$ và $-2.79\text{ mm}$ tại $300\text{ cm}$ ($14/14$ mốc từ $80 - 300\text{ cm}$ trừ mốc $160\text{ cm}$ đều đạt $|\delta\%| \le 0.57\%$).
+- **Độ trùng khít tuyệt đối giữa hai môi trường nhiệt độ sau bù ($\bar{x}_{27^\circ\text{C}} - \bar{x}_{20^\circ\text{C}}$):** Đối chiếu trực tiếp cột `mean_sach_cm` giữa `FSDT` ($27.0^\circ\text{C}$) và `FSAT` ($20.0^\circ\text{C}$) trên toàn bộ $19$ mốc cự ly xác nhận độ lệch trung bình tuyệt đối giữa hai chế độ nhiệt chỉ là **$0.037\text{ mm}$** (biến thiên trong dải siêu hẹp từ $-0.048\text{ mm}$ đến $+0.183\text{ mm}$; có **$18/19$ mốc lệch dưới $0.085\text{ mm}$** — nhỏ hơn nửa bước lượng tử thời gian $\Delta_{\text{LSB}} \approx 0.174\text{ mm}$ của bộ đếm ESP32). Kết quả này chứng minh thuật toán bù nhiệt Laplace giúp phép đo siêu âm hoàn toàn miễn nhiễm với biến thiên nhiệt độ môi trường.
 
-$$\frac{t_2}{t_1} = \frac{v_1}{v_2} = \frac{347.662}{343.420} \approx 1.01235 \quad (+1.235\%)$$
+![Ảnh hưởng Nhiệt độ và Hiệu quả bù Laplace](../graph/chuong_3/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
+*Hình 3.8: So sánh sai số tuyệt đối $\Delta x$ tại phòng lạnh 20.0 °C khi chưa bù nhiệt độ, sau khi bù nhiệt độ Laplace (`FSAT`) và chuẩn đối chứng tại 27.0 °C (`FSDT`) trên dải 10 cm – 300 cm.*
 
-### 3.7.2. Minh chứng thực nghiệm trên thời gian bay ToF
-
-Dữ liệu đọc trực tiếp từ bộ đếm xung vi điều khiển ESP32 tại các mốc cự ly chuẩn xác nhận hoàn toàn quy luật vật lý này:
-- Tại $x_{\text{true}} = 100\text{ cm}$:
-  + Ở $27.0^\circ\text{C}$ (`FSDT`): Thời gian bay trung bình là $t_1 = 5668.000\text{ }\mu\text{s}$.
-  + Ở $20.0^\circ\text{C}$ (`FSAT`): Thời gian bay trung bình tăng lên $t_2 = 5791.000\text{ }\mu\text{s}$.
-  + Tỷ lệ tăng thời gian thực tế: $\Delta t / t_1 = (5791 - 5668) / 5668 = +2.17\%$ (trùng khớp tuyệt đối với tỷ lệ lý thuyết $+2.12\%$).
-- Tại $x_{\text{true}} = 200\text{ cm}$:
-  + Ở $27.0^\circ\text{C}$: $t_1 = 11426.000\text{ }\mu\text{s}$.
-  + Ở $20.0^\circ\text{C}$: $t_2 = 11678.000\text{ }\mu\text{s}$ (tăng $+2.21\%$).
-
-### 3.7.3. Đánh giá sai số khi Không bù nhiệt độ vs Hiệu quả sau khi Bù Laplace
-
-Nếu hệ thống đo siêu âm không có cảm biến đo nhiệt độ và giả định vận tốc sóng âm cố định ở mức mặc định phòng $v = 347.662\text{ m/s}$ ($27.0^\circ\text{C}$), khi môi trường hạ nhiệt độ về $20^\circ\text{C}$, thời gian bay kéo dài sẽ làm khoảng cách tính toán bị thổi phồng giả tạo:
-
-$$x_{\text{chưa bù}} = \frac{347.662 \times t_{20^\circ\text{C}} \times 10^{-4}}{2}$$
-
-Bảng sau đây chứng minh sự vượt trội khi áp dụng thuật toán bù Laplace thời gian thực:
-
-| Cự ly chuẩn $x_{\text{true}}$ (cm) | Thời gian bay $t_{20^\circ\text{C}}$ ($\mu\text{s}$) | Khoảng cách **Chưa bù** (cm) | Sai số khi **Chưa bù** (mm) | Khoảng cách **Đã bù Laplace** (cm) | Sai số sau **Đã bù Laplace** (mm) | Chênh lệch giữa 27°C và 20°C sau bù (mm) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **$10$** | $616$ | $10.801$ | $+8.01$ | $10.575$ | $+5.75$ | **$+0.05$** |
-| **$50$** | $2902$ | $50.885$ | $+8.85$ | $49.830$ | $-1.70$ | **$+0.03$** |
-| **$100$** | $5791$ | $101.543$ | $+15.43$ | $99.437$ | $-5.63$ | **$+0.01$** |
-| **$150$** | $8735$ | $153.165$ | $+31.65$ | $149.989$ | $-0.11$ | **$+0.02$** |
-| **$200$** | $11678$ | $204.770$ | $+47.70$ | $200.533$ | $+5.33$ | **$+0.01$** |
-| **$250$** | $14542$ | $254.989$ | $+49.89$ | $249.701$ | $-2.99$ | **$+0.03$** |
-| **$300$** | $17441$ | $305.820$ | $+58.20$ | $299.479$ | $-5.21$ | **$-0.03$** |
-
-**Kết luận đánh giá hiệu quả bù nhiệt:**
-- Khi **chưa bù nhiệt độ**, sai số trôi cự ly tăng tuyến tính theo khoảng cách: Lệch $+15.43\text{ mm}$ tại $100\text{ cm}$, $+47.70\text{ mm}$ tại $200\text{ cm}$, và lên tới gần $6\text{ cm}$ ($+58.20\text{ mm}$) tại cự ly $300\text{ cm}$. Đây là mức sai số không thể chấp nhận được trong các bài toán đo mức bồn chứa công nghiệp.
-- Khi **áp dụng bù Laplace tự động**, sai số đo tại $20.0^\circ\text{C}$ được ép chặt về ngưỡng $\pm 5\text{ mm}$ tương đương như ở $27.0^\circ\text{C}$. Độ chênh lệch giữa hai điều kiện nhiệt độ lệch nhau $7^\circ\text{C}$ sau bù chỉ còn **$0.01 - 0.05\text{ mm}$**. Điều này khẳng định thuật toán bù nhiệt độ đóng vai trò quyết định sống còn đến độ chính xác của cảm biến siêu âm.
-
-![Ảnh hưởng Nhiệt độ và Hiệu quả bù Laplace](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
-*Hình 3.8: So sánh Sai số đo khoảng cách khi Có bù vs Không bù nhiệt độ và Biểu đồ chênh lệch cự ly sau bù giữa hai mức nhiệt 27°C và 20°C.*
-
+**Đánh giá từ đồ thị Hình 3.8:** Biểu diễn ba chuỗi sai số trên cùng một trục tung đơn vị $\text{mm}$ cho thấy sự tương phản trực quan:
+- **Đường màu đỏ nét liền ký hiệu tam giác (`FSAT` chưa bù nhiệt):** Tách khỏi gốc $0\text{ mm}$ và dốc tuyến tính đi lên theo khoảng cách chuẩn do tích lũy sai số vận tốc $+1.235\%$, vọt lên vùng $+26 \div +40\text{ mm}$ ở cự ly $200 - 300\text{ cm}$.
+- **Đường màu xanh lá nét đứt ký hiệu hình vuông (`FSAT` đã bù Laplace tại $20.0^\circ\text{C}$) và đường màu xanh lam nét liền ký hiệu hình tròn (`FSDT` đối chứng tại $27.0^\circ\text{C}$):** Hai đường nằm chồng khít lên nhau gần như tuyệt đối trên suốt chiều dài đồ thị từ $10\text{ cm}$ đến $300\text{ cm}$ và bám sát đường chuẩn $0\text{ mm}$, khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.
 ---
 
 ## 3.8. Phân tích Tổng hợp Độ không đảm bảo đo mở rộng toàn diện (ISO/GUM)

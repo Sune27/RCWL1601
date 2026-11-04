@@ -394,52 +394,45 @@ fig.savefig(h3_7b_p2, dpi=300)
 plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.7b tại: {h3_7b_p1} và {h3_7b_p2}")
 # ==========================================================
-# 8. HÌNH 3.8: Ảnh hưởng Nhiệt độ và Hiệu quả bù Vận tốc Laplace
+# 8. HÌNH 3.8 (Mục 3.7): Ảnh hưởng Nhiệt độ và Hiệu quả bù Vận tốc Laplace
+#    Đồ thị đơn 1 khung hình (dpi=300), chung trục Y (mm), trích xuất từ thong_ke_chuong_3.csv
 # ==========================================================
-print("Tạo Hình 3.8...")
-common_t = sorted([float(c.replace('cm', '')) for c in fsat.keys()])
+print("Tạo Hình 3.8 (Mục 3.7 - Bù nhiệt độ Laplace từ thong_ke_chuong_3.csv)...")
+fsdt_t_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSDT_')}
+fsat_t_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSAT_')}
 
-# Tính khoảng cách không bù tại 20C sử dụng vận tốc chuẩn của 27C (Default Temp)
-# v(27C) = 347.662 m/s, v(20C) = 343.420 m/s
-t_20_vals = []
-for d in common_t:
-    with open(RESULT_DIR / f"FSAT_{int(d):03d}cm.csv", 'r') as rf:
-        rr = csv.DictReader(rf)
-        t_20_vals.append(statistics.mean([float(row['t']) for row in rr]))
+common_temp_x = sorted(fsat_t_map.keys())
+err_uncomp_20 = [float(fsat_t_map[x]['sai_so_chua_bu_27c_mm']) for x in common_temp_x]
+err_comp_27 = [float(fsdt_t_map[x]['sai_so_tuyet_doi_mm']) for x in common_temp_x]
+err_comp_20 = [float(fsat_t_map[x]['sai_so_tuyet_doi_mm']) for x in common_temp_x]
 
-d_uncomp_20 = [(347.662 * t * 1e-4) / 2.0 for t in t_20_vals]
-d_comp_20 = [statistics.mean(fsat[f"{int(d):03d}cm"]) for d in common_t]
-d_comp_27 = [statistics.mean(fsdt[f"{int(d):03d}cm"]) for d in common_t]
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.1,
+           label='Đường chuẩn sai số bằng 0 (0 mm)')
+ax.plot(common_temp_x, err_uncomp_20, color='#d62728', linestyle='-', linewidth=1.8, marker='^', markersize=4.8,
+        label='Phòng lạnh 20.0 °C (FSAT) – Chưa bù nhiệt (giữ cứng v ở 27.0 °C)')
+ax.plot(common_temp_x, err_comp_27, color='#1f77b4', linestyle='-', linewidth=2.0, marker='o', markersize=5.0,
+        label='Phòng mặc định 27.0 °C (FSDT) – Chuẩn đối chứng')
+ax.plot(common_temp_x, err_comp_20, color='#2ca02c', linestyle='--', linewidth=1.7, marker='s', markersize=4.2,
+        label='Phòng lạnh 20.0 °C (FSAT) – Đã bù nhiệt độ Laplace thời gian thực')
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
-
-# Sai lệch khoảng cách nếu không bù
-err_uncomp = [(u - d) * 10 for u, d in zip(d_uncomp_20, common_t)] # mm
-err_comp_20 = [(c - d) * 10 for c, d in zip(d_comp_20, common_t)] # mm
-
-ax1.plot(common_t, err_uncomp, '^-', color='#d62728', label='Chưa bù nhiệt độ (giả định 27°C tại 20°C)', linewidth=1.5)
-ax1.plot(common_t, err_comp_20, 'o-', color='#2ca02c', label='Đã bù nhiệt độ Laplace (20°C thực)', linewidth=1.5)
-ax1.axhline(0, color='black', linestyle='--', linewidth=0.8)
-ax1.set_title('Sai số đo khoảng cách khi Có bù vs Không bù nhiệt')
-ax1.set_xlabel('Khoảng cách chuẩn (cm)')
-ax1.set_ylabel('Sai số đo Δx (mm)')
-ax1.grid(True, linestyle=':', alpha=0.6)
-ax1.legend(loc='upper left')
-
-# Đối chiếu kết quả đã bù giữa 2 mức nhiệt độ (27C vs 20C)
-diff_compensated = [(m27 - m20) * 10 for m27, m20 in zip(d_comp_27, d_comp_20)]
-ax2.bar(common_t, diff_compensated, width=8, color='#17becf', alpha=0.85, edgecolor='black', linewidth=0.5)
-ax2.axhline(0, color='black', linestyle='--', linewidth=0.8)
-ax2.set_title('Chênh lệch khoảng cách sau khi bù giữa 27°C và 20°C')
-ax2.set_xlabel('Khoảng cách chuẩn (cm)')
-ax2.set_ylabel('Chênh lệch x_27°C - x_20°C (mm)')
-ax2.set_ylim(-1.5, 1.5)
-ax2.grid(True, linestyle=':', alpha=0.6)
+ax.set_title("So sánh sai số tuyệt đối Δx khi chưa bù và sau khi bù nhiệt độ Laplace (10 cm – 300 cm)", fontweight='bold', pad=12)
+ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_ylabel("Sai số tuyệt đối Δx (mm)", fontweight='bold')
+ax.set_xlim(0, 315)
+ax.set_ylim(-20, 52)
+ax.set_yticks([-20, -10, 0, 10, 20, 30, 40, 50])
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.grid(axis='x', visible=False)
+ax.legend(loc='upper left', framealpha=0.95)
 
 plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png", dpi=300)
-plt.close()
-
+h3_8_p1 = GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
+h3_8_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
+fig.savefig(h3_8_p1, dpi=300)
+fig.savefig(h3_8_p2, dpi=300)
+plt.close(fig)
+print(f"Đã xuất đồ thị Hình 3.8 tại: {h3_8_p1} và {h3_8_p2}")
 # ==========================================================
 # 9. HÌNH 3.9: Phân tích tổng hợp Độ không đảm bảo đo mở rộng ISO/GUM
 # ==========================================================
