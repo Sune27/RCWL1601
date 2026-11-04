@@ -312,10 +312,10 @@ plt.savefig(GRAPH_DIR / "hinh_3_6_vong_tre_hysteresis.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 7. HÌNH 3.7a, 3.7b & 3.7c (Mục 3.6): Ảnh hưởng của Bề mặt phản xạ (Nhẵn FSDT vs Gồ ghề FRDT)
+# 7. HÌNH 3.7a & 3.7b (Mục 3.6): Ảnh hưởng của Bề mặt phản xạ (Nhẵn FSDT vs Gồ ghề FRDT)
 #    Tách riêng đồ thị đơn s (3.7a), SE (3.7b) và Giới hạn tầm đo (3.7c) (dpi=300)
 # ==========================================================
-print("Tạo Hình 3.7a, 3.7b & 3.7c (Mục 3.6 - Bề mặt phản xạ từ thong_ke_chuong_3.csv)...")
+print("Tạo Hình 3.7a & 3.7b (Mục 3.6 - Bề mặt phản xạ từ thong_ke_chuong_3.csv)...")
 fsdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSDT_')}
 frdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FRDT_')}
 
@@ -381,44 +381,7 @@ fig.savefig(h3_7b_p2, dpi=300)
 plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.7b tại: {h3_7b_p1} và {h3_7b_p2}")
 
-# --- Hình 3.7c: So sánh đặc tính khoảng cách trung bình và giới hạn tầm đo (10 cm – 600 cm) ---
-x_fsdt_range = sorted([x for x in fsdt_map.keys() if x >= 10.0])
-y_fsdt_sach = [float(fsdt_map[x]['mean_sach_cm']) for x in x_fsdt_range]
 
-x_frdt_range = sorted(frdt_map.keys())
-y_frdt_tho = [float(frdt_map[x]['mean_tho_cm']) for x in x_frdt_range]
-y_frdt_sach = [float(frdt_map[x]['mean_sach_cm']) for x in x_frdt_range]
-
-fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
-ax.plot([0, 600], [0, 600], color='#7f7f7f', linestyle='--', linewidth=1.1,
-        label='Đường chuẩn lý tưởng (y = x)')
-ax.plot(x_fsdt_range, y_fsdt_sach, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
-        label='Mặt phẳng nhẵn FSDT (sau lọc IQR, ổn định đến 550 cm)')
-ax.plot(x_frdt_range, y_frdt_tho, color='#ff7f0e', linestyle=':', linewidth=1.5, marker='^', markersize=4.2,
-        label='Mặt gồ ghề FRDT (trước lọc IQR, chớm mất xung tại 350 cm)')
-ax.plot(x_frdt_range, y_frdt_sach, color='#d62728', linestyle='--', linewidth=1.8, marker='s', markersize=4.5,
-        label='Mặt gồ ghề FRDT (sau lọc IQR, tràn bão hòa tại 375 cm)')
-ax.axhline(824.6, color='#9467bd', linestyle='-.', linewidth=1.1,
-           label='Ngưỡng tràn bộ đếm thời gian bay (~824.6 cm)')
-
-ax.set_title("So sánh đặc tính khoảng cách trung bình và giới hạn tầm đo giữa hai bề mặt (10 cm – 600 cm)", fontweight='bold', pad=12)
-ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax.set_ylabel("Khoảng cách đo trung bình (cm)", fontweight='bold')
-ax.set_xlim(0, 620)
-ax.set_ylim(0, 910)
-ax.set_yticks([0, 100, 200, 300, 400, 500, 600, 700, 824.6])
-ax.set_yticklabels(['0', '100', '200', '300', '400', '500', '600', '700', '824.6'])
-ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
-ax.grid(axis='x', visible=False)
-ax.legend(loc='upper left', bbox_to_anchor=(0.015, 0.88), framealpha=0.95)
-
-plt.tight_layout()
-h3_7c_p1 = GRAPH_DIR / "hinh_3_7c_gioi_han_tam_do_be_mat.png"
-h3_7c_p2 = GRAPH_DIR / "hinh_3_7c_gioi_han_tam_do_be_mat.png"
-fig.savefig(h3_7c_p1, dpi=300)
-fig.savefig(h3_7c_p2, dpi=300)
-plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.7c tại: {h3_7c_p1} và {h3_7c_p2}")
 # ==========================================================
 # 8. HÌNH 3.8 (Mục 3.7): Ảnh hưởng Nhiệt độ và Hiệu quả bù Vận tốc Laplace
 #    Đồ thị đơn 1 khung hình (dpi=300), chung trục Y (mm), trích xuất từ thong_ke_chuong_3.csv
