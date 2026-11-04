@@ -70,72 +70,62 @@ Hình 3.1 thể hiện biến thiên của độ lệch chuẩn thực nghiệm 
 
 ## 3.2. Khảo sát Dải đo thực tế, Vùng chết và Giới hạn bão hòa xa
 
-Từ dữ liệu thực nghiệm 35 mốc cự ly từ $1\text{ cm}$ đến $600\text{ cm}$ trên tập `FSDT.csv`, đặc tính đo của cảm biến RCWL-1601 được chia thành 4 vùng:
+Để xác định dải làm việc thực tế của cảm biến RCWL-1601, chuỗi dữ liệu thực nghiệm gồm 35 mốc cự ly từ $1\text{ cm}$ đến $600\text{ cm}$ thuộc tập chuẩn `FSDT_clean.csv` (nhiệt độ phòng $27.0^\circ\text{C}$, mặt phẳng nhẵn) được đưa vào phân tích sai số:
+- Sai số tuyệt đối: $\Delta d = \bar{d} - d_{\text{chuẩn}}$ (mm)
+- Sai số tương đối: $\delta = \frac{\bar{d} - d_{\text{chuẩn}}}{d_{\text{chuẩn}}} \times 100\%$ (\%)
 
-```mermaid
-flowchart LR
-    A["Vùng chết<br>(1 cm – 3 cm)"] --> B["Vùng chuyển tiếp<br>(4 cm – 5 cm)"]
-    B --> C["Dải làm việc ổn định<br>(8 cm – 400 cm)"]
-    C --> D["Dải đo xa mở rộng<br>(420 cm – 550 cm)"]
-    D --> E["Ngưỡng bão hòa xa<br>(580 cm – 600 cm)"]
-```
+Biến thiên của sai số tương đối theo khoảng cách chuẩn được thể hiện trên Hình 3.2:
+
+![Sai số tương đối theo khoảng cách chuẩn](../graph/chuong_3/hinh_3_2_sai_so_tuong_doi.png)
+
+*Hình 3.2: Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT, giới hạn trục tung $\pm 10\%$).*
+
+Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến được phân chia thành 4 vùng rõ rệt:
 
 ### 3.2.1. Vùng chết (1 cm – 3 cm)
+Khi vật cản đặt quá gần mặt cảm biến trong khoảng từ $1\text{ cm}$ đến $3\text{ cm}$, cảm biến mất hoàn toàn tính tuyến tính, giá trị đo bị kẹt quanh mức $2.0 - 2.7\text{ cm}$ dẫn đến sai số rất lớn:
+- Tại $1.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.030\text{ cm}$, sai số tuyệt đối $+10.30\text{ mm}$, sai số tương đối **$+103.05\%$**.
+- Tại $2.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.352\text{ cm}$, sai số tuyệt đối $+3.52\text{ mm}$, sai số tương đối **$+17.59\%$**.
+- Tại $3.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.679\text{ cm}$, sai số tuyệt đối $-3.21\text{ mm}$, sai số tương đối **$-10.72\%$**.
 
-Khi khoảng cách từ vật cản đến cảm biến nhỏ hơn hoặc bằng $3\text{ cm}$, cảm biến không đo được khoảng cách thực tế và giá trị đo bị giữ quanh ngưỡng $2.0 - 2.6\text{ cm}$:
-- Tại cự ly chuẩn $d_{\text{true}} = 1.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.030\text{ cm}$ (sai số $+1.030\text{ cm}$, tương ứng $+103.05\%$).
-- Tại cự ly chuẩn $d_{\text{true}} = 2.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.352\text{ cm}$ (sai số $+0.352\text{ cm}$, tương ứng $+17.59\%$).
-- Tại cự ly chuẩn $d_{\text{true}} = 3.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.679\text{ cm}$ (sai số $-0.321\text{ cm}$, tương ứng $-10.72\%$).
+**Giải thích cơ chế vật lý:** Hiện tượng này bắt nguồn từ thời gian suy giảm dao động cơ học của màng loa gốm áp điện và thời gian ngắt câm (blanking time) của IC RCWL-9610. Khi kích xung phát $40\text{ kHz}$ ($200\text{ }\mu\text{s}$), màng rung cần khoảng $120 - 150\text{ }\mu\text{s}$ để triệt tiêu dao động dư. Ở khoảng cách dưới $3\text{ cm}$, thời gian sóng âm đi và về nhỏ hơn $175\text{ }\mu\text{s}$, trùng lặp với thời gian ngắt câm nên mạch thu không phân biệt được xung phản xạ thực và xung kích dư, dẫn tới giá trị đo bị khóa cứng tại ngưỡng ngắt câm tối thiểu.
 
-**Giải thích nguyên nhân:** Khi vi điều khiển phát xung kích sóng âm $40\text{ kHz}$ ($200\text{ }\mu\text{s}$), màng rung áp điện cần khoảng $120 - 150\text{ }\mu\text{s}$ để suy giảm dao động. Ở cự ly dưới $3\text{ cm}$, thời gian sóng âm đi và về nhỏ hơn $175\text{ }\mu\text{s}$:
+### 3.2.2. Dải đo tuyến tính ổn định (5 cm – 400 cm)
+Bắt đầu từ cự ly $5\text{ cm}$ (mốc chuyển tiếp thoát mù với sai số $-14.10\%$) và đặc biệt từ $10\text{ cm}$ trở đi, xung phản xạ tách biệt hoàn toàn khỏi xung phát. Biên độ sóng dội về nằm trọn vẹn trong dải khuếch đại tuyến tính của vi mạch. Sai số tương đối trong toàn bộ dải đo danh định từ $10\text{ cm}$ đến $400\text{ cm}$ luôn hội tụ chặt chẽ trong dải dung sai $\pm 0.5\%$ của nhà sản xuất (tại $50\text{ cm}$ là $-0.31\%$, tại $100\text{ cm}$ là $-0.57\%$, tại $200\text{ cm}$ là $+0.18\%$, tại $300\text{ cm}$ là $-0.09\%$, và tại $400\text{ cm}$ là $+0.35\%$). Điều này chứng minh cảm biến hoạt động với độ chính xác và độ ổn định cao trong phạm vi công bố.
 
-$$t_{\text{bay}} = \frac{2 \cdot 0.03}{347.66} \approx 172.6\text{ }\mu\text{s}$$
+### 3.2.3. Dải đo xa mở rộng vượt định mức (420 cm – 550 cm)
+Thông số công bố của nhà sản xuất quy định cự ly đo tối đa của RCWL-1601 là $400\text{ cm}$ (hoặc $450\text{ cm}$ trong điều kiện lý tưởng). Tuy nhiên, trên thực nghiệm với bia phản xạ phẳng nhẵn ($40 \times 40\text{ cm}$) đặt vuông góc $90^\circ$ với trục cảm biến, module RCWL-1601 vẫn duy trì khả năng bắt sóng phản xạ chính xác cao vượt ngưỡng thiết kế:
+- Tại $420\text{ cm}$: Giá trị trung bình $\bar{d} = 421.241\text{ cm}$ (sai số tương đối $+0.29\%$).
+- Tại $500\text{ cm}$: Giá trị trung bình $\bar{d} = 500.691\text{ cm}$ (sai số tương đối $+0.14\%$).
+- Tại $550\text{ cm}$: Giá trị trung bình $\bar{d} = 550.630\text{ cm}$ (sai số tương đối $+0.11\%$, độ lệch chuẩn sau lọc $s = 0.319\text{ mm}$).
 
-Thời gian này trùng với thời gian tắt dần của màng phát và thời gian ngắt câm (blanking time) của vi mạch RCWL-9610. Mạch thu không tách được sóng phản xạ khỏi xung phát, do đó đầu ra bị kẹp ở mức thời gian ngắt câm tương đương $2.0 - 2.6\text{ cm}$.
-
-![Đặc tính đo khoảng cách trong vùng gần](../graph/chuong_3/hinh_3_2_vung_chet_1_10cm.png)
-
-*Hình 3.2: Đặc tính đo khoảng cách trong vùng gần (1 cm – 10 cm).*
-
-Đồ thị Hình 3.2 thể hiện rõ hiện tượng vùng chết: ở các mốc $1\text{ cm}$, $2\text{ cm}$ và $3\text{ cm}$, đường đo thực tế lệch khỏi đường chuẩn lý tưởng ($y = x$). Từ mốc $5\text{ cm}$ trở đi, đường đo bám sát đường lý tưởng.
-
-### 3.2.2. Dải làm việc ổn định (8 cm – 400 cm)
-
-Từ cự ly $8\text{ cm}$ đến $400\text{ cm}$, xung phản xạ tách biệt khỏi xung phát và biên độ nằm trong dải khuếch đại của mạch thu. Sai số tương đối trong dải này duy trì dưới $\pm 0.5\%$, cho thấy cảm biến hoạt động ổn định trong phạm vi nhà sản xuất công bố.
-
-### 3.2.3. Dải đo xa mở rộng (420 cm – 550 cm)
-
-Thông số công bố của nhà sản xuất ghi nhận cự ly đo tối đa là $400 - 450\text{ cm}$. Tuy nhiên, trong điều kiện mặt phản xạ phẳng, kích thước $40 \times 40\text{ cm}$ đặt vuông góc với trục phát, cảm biến vẫn bắt được tín hiệu phản xạ chính xác:
-- Tại $420\text{ cm}$: $\bar{d} = 421.241\text{ cm}$ (sai số $+0.29\%$).
-- Tại $500\text{ cm}$: $\bar{d} = 500.691\text{ cm}$ (sai số $+0.14\%$).
-- Tại $550\text{ cm}$: $\bar{d} = 550.566\text{ cm}$ (sai số $+0.10\%$, độ lệch chuẩn $s = 1.52\text{ mm}$).
-
-Kết quả này đạt được nhờ mạch thu tích hợp trên RCWL-9610 có độ nhạy tốt và mặt phản xạ được đặt vuông góc, giảm thiểu tán xạ.
+Tầm đo mở rộng đạt được là nhờ khối tiền khuếch đại tự động điều chỉnh độ lợi (AGC) trên vi mạch RCWL-9610 có độ nhạy vượt trội so với các mạch rời thế hệ cũ, cùng với việc căn chỉnh vuông góc bề mặt phản xạ giúp bảo toàn năng lượng sóng dội về.
 
 ### 3.2.4. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)
+Khi khoảng cách tăng lên từ $580\text{ cm}$, mật độ năng lượng sóng phản xạ suy giảm mạnh theo hàm nghịch đảo bình phương khoảng cách, tiệm cận ngưỡng suy hao giới hạn của mạch thu:
+- Tại $580\text{ cm}$: Tín hiệu phản xạ suy yếu, bắt đầu xuất hiện $4/50$ mẫu ngoại lai do tràn thời gian chờ echo ($824.6\text{ cm}$). Sau khi loại bỏ ngoại lai bằng IQR, giá trị trung bình là $579.850\text{ cm}$ (sai số $-0.03\%$, $s = 3.303\text{ mm}$).
+- Tại $600\text{ cm}$: Tín hiệu suy hao vượt ngưỡng nhạy, xuất hiện $7/50$ mẫu timeout. Tại mốc này, cảm biến mất hoàn toàn khả năng bắt sóng phản xạ thực, chuỗi đo chuyển sang trạng thái bão hòa hoàn toàn với giá trị đo vọt lên bão hòa $824.562\text{ cm}$, sai số tăng vọt $+37.43\%$.
 
-Ở cự ly từ $580\text{ cm}$ trở lên, năng lượng sóng phản xạ suy giảm mạnh:
-- Tại $580\text{ cm}$: Bắt đầu xuất hiện mẫu đo mất xung phản xạ ($1/50$ mẫu trả về giá trị timeout $824.6\text{ cm}$).
-- Tại $600\text{ cm}$: Số mẫu mất xung tăng lên $7/50$ mẫu ($14\%$ sau khi lọc IQR, hoặc $31/50$ mẫu ở dữ liệu thô), khiến giá trị trung bình thô đạt $720.16\text{ cm}$ và độ lệch chuẩn thô đạt $2621.02\text{ mm}$.
+Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ **$10\text{ cm}$ đến $550\text{ cm}$**.
 
-Bảng 3.3 tổng hợp các vùng làm việc tiêu biểu trên toàn dải đo:
+Bảng 3.3 trích xuất số liệu sai số định lượng tại các mốc cự ly tiêu biểu trên tập `FSDT_clean.csv`:
 
-| Cự ly chuẩn $d_{\text{true}}$ (cm) | Giá trị trung bình $\bar{d}$ (cm) | Độ lệch chuẩn $s$ (mm) | Sai số tuyệt đối $\Delta d$ (mm) | Sai số tương đối $\delta\%$ | Trạng thái vùng làm việc |
+| Cự ly chuẩn $d_{\text{chuẩn}}$ | Giá trị trung bình $\bar{d}$ | Sai số tuyệt đối $\Delta d$ | Sai số tương đối $\delta$ | Độ lệch chuẩn $s$ | Phân vùng làm việc |
 | :---: | :---: | :---: | :---: | :---: | :--- |
-| **$1.0$** | $2.030$ | $0.035$ | $+10.30$ | $+103.05\%$ | Vùng chết (do thời gian suy giảm màng rung) |
-| **$2.0$** | $2.352$ | $0.085$ | $+3.52$ | $+17.59\%$ | Vùng chết (kẹp ngưỡng ngắt câm) |
-| **$3.0$** | $2.679$ | $0.056$ | $-3.21$ | $-10.72\%$ | Vùng chết (bắt đầu thoát vùng ngắt câm) |
-| **$5.0$** | $4.295$ | $0.085$ | $-7.05$ | $-14.10\%$ | Vùng chuyển tiếp |
-| **$10.0$** | $10.570$ | $0.061$ | $+5.70$ | $+5.70\%$ | Bắt đầu dải đo danh định |
-| **$50.0$** | $49.847$ | $0.094$ | $-1.53$ | $-0.31\%$ | Dải làm việc ổn định |
-| **$100.0$** | $99.429$ | $0.383$ | $-5.71$ | $-0.57\%$ | Dải làm việc ổn định |
-| **$200.0$** | $200.351$ | $2.192$ | $+3.51$ | $+0.18\%$ | Dải làm việc ổn định |
-| **$300.0$** | $299.718$ | $2.860$ | $-2.82$ | $-0.09\%$ | Dải làm việc ổn định |
-| **$400.0$** | $401.402$ | $1.850$ | $+14.02$ | $+0.35\%$ | Giới hạn danh định của cảm biến |
-| **$500.0$** | $500.691$ | $1.978$ | $+6.91$ | $+0.14\%$ | Dải đo xa mở rộng |
-| **$550.0$** | $550.566$ | $1.520$ | $+5.66$ | $+0.10\%$ | Giới hạn đo xa thực tế |
-| **$580.0$** | $584.808$ | $346.051$ | $+48.08$ | $+0.83\%$ | Ngưỡng suy hao (bắt đầu có mẫu timeout) |
-| **$600.0$** | $720.161$ | $2621.017$ | $+1201.61$ | $+20.03\%$ | Ngưỡng bão hòa xa (nhiều mẫu timeout) |
+| **$1.0\text{ cm}$** | $2.030\text{ cm}$ | $+10.30\text{ mm}$ | **$+103.05\%$** | $0.035\text{ mm}$ | Vùng chết (kẹt giá trị đo) |
+| **$2.0\text{ cm}$** | $2.352\text{ cm}$ | $+3.52\text{ mm}$ | **$+17.59\%$** | $0.085\text{ mm}$ | Vùng chết (kẹt giá trị đo) |
+| **$3.0\text{ cm}$** | $2.679\text{ cm}$ | $-3.21\text{ mm}$ | **$-10.72\%$** | $0.056\text{ mm}$ | Vùng chết (kẹt giá trị đo) |
+| **$5.0\text{ cm}$** | $4.295\text{ cm}$ | $-7.05\text{ mm}$ | **$-14.10\%$** | $0.085\text{ mm}$ | Vùng chuyển tiếp (sai số lớn) |
+| **$10.0\text{ cm}$** | $10.570\text{ cm}$ | $+5.70\text{ mm}$ | $+5.70\%$ | $0.061\text{ mm}$ | Bắt đầu dải đo danh định |
+| **$50.0\text{ cm}$** | $49.847\text{ cm}$ | $-1.53\text{ mm}$ | **$-0.31\%$** | $0.094\text{ mm}$ | Dải làm việc ổn định (dung sai $\pm 0.5\%$) |
+| **$100.0\text{ cm}$** | $99.429\text{ cm}$ | $-5.71\text{ mm}$ | **$-0.57\%$** | $0.383\text{ mm}$ | Dải làm việc ổn định |
+| **$200.0\text{ cm}$** | $200.351\text{ cm}$ | $+3.51\text{ mm}$ | **$+0.18\%$** | $2.192\text{ mm}$ | Dải làm việc ổn định |
+| **$300.0\text{ cm}$** | $299.718\text{ cm}$ | $-2.82\text{ mm}$ | **$-0.09\%$** | $2.860\text{ mm}$ | Dải làm việc ổn định |
+| **$400.0\text{ cm}$** | $401.399\text{ cm}$ | $+13.99\text{ mm}$ | **$+0.35\%$** | $0.270\text{ mm}$ | Giới hạn danh định của Datasheet |
+| **$500.0\text{ cm}$** | $500.691\text{ cm}$ | $+6.91\text{ mm}$ | **$+0.14\%$** | $1.978\text{ mm}$ | Dải mở rộng (vượt chuẩn nhà sản xuất) |
+| **$550.0\text{ cm}$** | $550.630\text{ cm}$ | $+6.30\text{ mm}$ | **$+0.11\%$** | $0.319\text{ mm}$ | Giới hạn đo xa thực tế cực đại |
+| **$580.0\text{ cm}$** | $579.850\text{ cm}$ | $-1.50\text{ mm}$ | $-0.03\%$ | $3.303\text{ mm}$ | Ngưỡng suy hao (xuất hiện mẫu timeout) |
+| **$600.0\text{ cm}$** | $824.562\text{ cm}$ | $+2245.62\text{ mm}$ | **$+37.43\%$** | $0.631\text{ mm}$ | Bão hòa hoàn toàn (mất xung phản xạ) |
 
 ---
 

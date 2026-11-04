@@ -87,44 +87,58 @@ plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.1 tại: {h3_1_p1} và {h3_1_p2}")
 
 # ==========================================================
-# 2. HÌNH 3.2: Khảo sát Vùng chết (1 cm – 10 cm)
+# 2. HÌNH 3.2: Sai số tương đối theo khoảng cách chuẩn (FSDT)
 # ==========================================================
-print("Tạo Hình 3.2 (Đồ thị đơn khảo sát vùng gần 1-10cm)...")
+print("Tạo Hình 3.2 (Sai số tương đối theo khoảng cách chuẩn, y_lim = [-10.5, 10.5])...")
 
-bz_d = [1.0, 2.0, 3.0, 5.0, 8.0, 10.0]
-fsdt_bz = [r for r in rows_stat if r['ten_file'].startswith('FSDT') and float(r['cu_ly_dat_cm']) in bz_d]
-fsdt_bz.sort(key=lambda x: float(x['cu_ly_dat_cm']))
+fsdt_stat = [r for r in rows_stat if r['ten_file'].startswith('FSDT')]
+d_list_32 = [float(r['cu_ly_dat_cm']) for r in fsdt_stat]
+err_rel_32 = [float(r['sai_so_tuong_doi_pct']) for r in fsdt_stat]
 
-d_true_bz = [float(r['cu_ly_dat_cm']) for r in fsdt_bz]
-d_meas_bz = [float(r['mean_sach_cm']) for r in fsdt_bz]
+fig, ax = plt.subplots(figsize=(10.5, 5.2), dpi=300)
 
-fig, ax = plt.subplots(figsize=(8.5, 4.8), dpi=300)
+y_clamped_32 = []
+for val in err_rel_32:
+    if val > 10.0:
+        y_clamped_32.append(10.0)
+    elif val < -10.0:
+        y_clamped_32.append(-10.0)
+    else:
+        y_clamped_32.append(val)
 
-ax.plot(d_true_bz, d_meas_bz, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=6, label='Khoảng cách đo thực tế')
-ax.plot([0, 11], [0, 11], color='#d62728', linestyle='--', linewidth=1.4, marker='s', markersize=4, label='Đường chuẩn lý tưởng (y = x)')
+ax.plot(d_list_32, y_clamped_32, color='#1f77b4', linestyle='-', linewidth=1.6, marker='o', markersize=4.5, label='Sai số tương đối thực nghiệm')
 
-ax.set_xlim(0, 11)
-ax.set_ylim(0, 12)
-ax.set_xticks([1, 2, 3, 5, 8, 10])
-ax.set_yticks([0, 2, 4, 6, 8, 10, 12])
+ax.axhline(0, color='black', linestyle='-', linewidth=0.8, alpha=0.8)
+ax.axhline(0.5, color='#d62728', linestyle='--', linewidth=1.2, label='Ngưỡng dung sai quy định (±0.5%)')
+ax.axhline(-0.5, color='#d62728', linestyle='--', linewidth=1.2)
 
-# Chỉ hiển thị lưới ngang tại các mốc chính trục Y
-ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
+ax.set_ylim(-10.5, 10.5)
+ax.set_xlim(-10, 615)
+ax.set_yticks([-10, -7.5, -5, -2.5, 0, 2.5, 5, 7.5, 10])
+
+ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.5)
 ax.grid(axis='x', visible=False)
 
-ax.set_title("Đặc tính đo khoảng cách trong vùng gần (1 cm – 10 cm)", fontweight='bold', pad=12)
+ax.set_title("Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT)", fontweight='bold', pad=12)
 ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax.set_ylabel("Khoảng cách đo được (cm)", fontweight='bold')
+ax.set_ylabel("Sai số tương đối δ (%)", fontweight='bold')
+
+ax.text(2.0, 9.2, "1cm: +103.1% ↑\n2cm: +17.6% ↑", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='left',
+        bbox=dict(boxstyle='square,pad=0.25', facecolor='white', edgecolor='#1f77b4', alpha=0.9))
+
+ax.text(6.0, -9.2, "3cm: -10.7% ↓\n5cm: -14.1% ↓", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='left',
+        bbox=dict(boxstyle='square,pad=0.25', facecolor='white', edgecolor='#1f77b4', alpha=0.9))
+
+ax.text(600.0, 9.2, "600cm: +37.4% ↑", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='right',
+        bbox=dict(boxstyle='square,pad=0.25', facecolor='white', edgecolor='#1f77b4', alpha=0.9))
 
 ax.legend(loc='lower right', framealpha=0.95)
 plt.tight_layout()
 
-h3_2_p1 = GRAPH_DIR / "hinh_3_2_vung_chet_va_gioi_han_xa.png"
-h3_2_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_2_vung_chet_1_10cm.png"
-fig.savefig(h3_2_p1)
-fig.savefig(h3_2_p2)
+h3_2_path = GRAPH_DIR / "chuong_3" / "hinh_3_2_sai_so_tuong_doi.png"
+fig.savefig(h3_2_path)
 plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.2 tại: {h3_2_p1} và {h3_2_p2}")
+print(f"Đã xuất đồ thị Hình 3.2 tại: {h3_2_path}")
 
 # ==========================================================
 # 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Độ lệch chuẩn s và CV%)

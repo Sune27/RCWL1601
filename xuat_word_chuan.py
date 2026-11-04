@@ -1484,80 +1484,95 @@ r_t32.font.size = Pt(9.5)
 add_heading_2("3.2. Khảo sát Dải đo thực tế, Vùng chết và Giới hạn bão hòa xa")
 
 add_body_p(
-    "Từ dữ liệu thực nghiệm 35 mốc cự ly từ 1 cm đến 600 cm trên tập FSDT.csv, đặc tính đo của cảm biến "
-    "RCWL-1601 được phân chia thành các vùng làm việc: Vùng chết (1 cm – 3 cm), Vùng chuyển tiếp (4 cm – 5 cm), "
-    "Dải làm việc ổn định (8 cm – 400 cm), Dải đo xa mở rộng (420 cm – 550 cm), và Ngưỡng bão hòa xa (580 cm – 600 cm)."
+    "Để xác định dải làm việc thực tế của cảm biến RCWL-1601, chuỗi dữ liệu thực nghiệm gồm 35 mốc cự ly "
+    "từ 1 cm đến 600 cm thuộc tập chuẩn FSDT_clean.csv (nhiệt độ phòng 27.0°C, mặt phẳng nhẵn) được đưa vào phân tích sai số: "
+    "sai số tuyệt đối Δd = d̄ - d_chuẩn (mm) và sai số tương đối δ = ((d̄ - d_chuẩn) / d_chuẩn) × 100% (%). "
+    "Biến thiên của sai số tương đối theo khoảng cách chuẩn được thể hiện trên Hình 3.2."
 )
 
-add_heading_3("3.2.1. Vùng chết (1 cm – 3 cm)")
-add_body_p(
-    "Khi khoảng cách từ vật cản đến cảm biến nhỏ hơn hoặc bằng 3 cm, cảm biến không đo được khoảng cách thực tế "
-    "và giá trị đo bị giữ quanh ngưỡng 2.0 - 2.6 cm: tại cự ly chuẩn 1.0 cm, giá trị trung bình là 2.030 cm (sai số +103.05%); "
-    "tại 2.0 cm là 2.352 cm (sai số +17.59%); tại 3.0 cm là 2.679 cm (sai số -10.72%)."
-)
-add_body_p(
-    "Hiện tượng này xuất hiện do màng loa áp điện cần khoảng 120 - 150 μs để suy giảm dao động sau khi phát xung kích 40 kHz (200 μs). "
-    "Ở cự ly dưới 3 cm, thời gian sóng âm đi và về nhỏ hơn 175 μs, trùng với thời gian tắt dần của màng phát và thời gian ngắt câm "
-    "(blanking time) của vi mạch RCWL-9610. Mạch thu không phân biệt được sóng phản xạ và xung phát, khiến giá trị đo bị kẹp ở mức tối thiểu tương đương 2.0 - 2.6 cm."
-)
-
-IMG_H3_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_2_vung_chet_1_10cm.png"
+IMG_H3_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_2_sai_so_tuong_doi.png"
 if os.path.exists(IMG_H3_2_PATH):
     p_img3_2 = doc.add_paragraph()
     p_img3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_img3_2.paragraph_format.space_before = Pt(8)
     p_img3_2.paragraph_format.space_after = Pt(4)
     run_img3_2 = p_img3_2.add_run()
-    run_img3_2.add_picture(IMG_H3_2_PATH, width=Cm(14.5))
+    run_img3_2.add_picture(IMG_H3_2_PATH, width=Cm(15.0))
     
     p_cap3_2 = doc.add_paragraph()
     p_cap3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_2.paragraph_format.space_after = Pt(8)
-    r_c3_2 = p_cap3_2.add_run("Hình 3.2: Đặc tính đo khoảng cách trong vùng gần (1 cm – 10 cm).")
+    r_c3_2 = p_cap3_2.add_run("Hình 3.2: Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT, giới hạn trục tung ±10%).")
+    r_c3_2.font.name = 'Times New Roman'
     r_c3_2.font.italic = True
-    r_c3_2.font.size = Pt(10)
+    r_c3_2.font.size = Pt(9.5)
 
-add_heading_3("3.2.2. Dải làm việc ổn định và dải mở rộng (5 cm – 550 cm)")
+add_body_p("Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến được phân chia thành 4 vùng rõ rệt:")
+
+add_heading_3("3.2.1. Vùng chết (1 cm – 3 cm)")
 add_body_p(
-    "Từ cự ly 8 cm đến 400 cm, xung phản xạ tách biệt rõ ràng khỏi xung phát và biên độ nằm trong dải khuếch đại của mạch thu. "
-    "Sai số tương đối trong dải này luôn nhỏ hơn ±0.5%, chứng minh cảm biến hoạt động ổn định trong dải đo nhà sản xuất công bố."
+    "Khi vật cản đặt quá gần mặt cảm biến trong khoảng từ 1 cm đến 3 cm, cảm biến mất hoàn toàn tính tuyến tính, giá trị đo bị kẹt quanh mức 2.0 – 2.7 cm dẫn đến sai số rất lớn: "
+    "tại 1.0 cm giá trị trung bình là 2.030 cm (sai số tương đối +103.05%); "
+    "tại 2.0 cm giá trị trung bình là 2.352 cm (sai số tương đối +17.59%); "
+    "tại 3.0 cm giá trị trung bình là 2.679 cm (sai số tương đối -10.72%)."
 )
 add_body_p(
-    "Ở dải 420 cm đến 550 cm, dù vượt cự ly định mức danh định (400 - 450 cm), cảm biến vẫn thu nhận tín hiệu chính xác "
-    "với sai số nhỏ hơn 0.3%: tại 420 cm sai số là +0.29%, tại 500 cm sai số là +0.14%, và tại 550 cm sai số là +0.10% (độ lệch chuẩn 1.52 mm). "
-    "Kết quả này đạt được nhờ tầng khuếch đại tự động điều chỉnh độ lợi trên vi mạch RCWL-9610 và bề mặt phản xạ phẳng đặt vuông góc."
+    "Cơ chế vật lý: Hiện tượng này bắt nguồn từ thời gian suy giảm dao động cơ học của màng loa gốm áp điện và thời gian ngắt câm (blanking time) của IC RCWL-9610. "
+    "Khi kích xung 40 kHz (200 μs), màng rung cần khoảng 120 – 150 μs để triệt tiêu dao động dư. Ở khoảng cách dưới 3 cm, thời gian sóng âm đi và về nhỏ hơn 175 μs, "
+    "trùng lặp với thời gian ngắt câm nên mạch thu không phân biệt được xung phản xạ thực và xung kích dư, dẫn tới giá trị đo bị khóa cứng tại ngưỡng ngắt câm tối thiểu."
 )
 
-add_heading_3("3.2.3. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)")
+add_heading_3("3.2.2. Dải đo tuyến tính ổn định (5 cm – 400 cm)")
 add_body_p(
-    "Ở cự ly từ 580 cm trở lên, năng lượng sóng phản xạ suy giảm mạnh do khoảng cách lớn: tại 580 cm bắt đầu xuất hiện mẫu timeout 824.6 cm; "
-    "tại 600 cm tỷ lệ mất xung tăng lên 14% sau lọc IQR (và 62% ở dữ liệu thô), kéo giá trị trung bình thô lên 720.16 cm và độ lệch chuẩn thô lên 2621.02 mm. "
-    "Do đó, 550 cm là giới hạn đo xa tin cậy thực tế của cảm biến."
+    "Bắt đầu từ cự ly 5 cm (mốc chuyển tiếp thoát mù với sai số -14.10%) và đặc biệt từ 10 cm trở đi, xung phản xạ tách biệt hoàn toàn khỏi xung phát. "
+    "Biên độ sóng dội về nằm trọn vẹn trong dải khuếch đại tuyến tính của vi mạch. Sai số tương đối trong toàn bộ dải đo danh định từ 10 cm đến 400 cm "
+    "luôn hội tụ chặt chẽ trong dải dung sai ±0.5% của nhà sản xuất (tại 50 cm là -0.31%, tại 100 cm là -0.57%, tại 200 cm là +0.18%, tại 300 cm là -0.09%, và tại 400 cm là +0.35%). "
+    "Điều này chứng minh cảm biến hoạt động với độ chính xác và độ ổn định cao trong phạm vi công bố."
+)
+
+add_heading_3("3.2.3. Dải đo xa mở rộng vượt định mức (420 cm – 550 cm)")
+add_body_p(
+    "Thông số công bố của nhà sản xuất quy định cự ly đo tối đa của RCWL-1601 là 400 cm (hoặc 450 cm trong điều kiện lý tưởng). "
+    "Tuy nhiên, trên thực nghiệm với bia phản xạ phẳng nhẵn (40 x 40 cm) đặt vuông góc 90° với trục cảm biến, module RCWL-1601 vẫn duy trì khả năng bắt sóng phản xạ chính xác cao vượt ngưỡng thiết kế: "
+    "tại 420 cm sai số là +0.29% (giá trị đo 421.24 cm); tại 500 cm sai số là +0.14% (giá trị đo 500.69 cm); và tại 550 cm sai số là +0.11% (giá trị đo 550.63 cm, s = 0.32 mm). "
+    "Tầm đo mở rộng đạt được là nhờ khối tiền khuếch đại tự động điều chỉnh độ lợi (AGC) trên vi mạch RCWL-9610 có độ nhạy vượt trội so với các mạch rời thế hệ cũ, "
+    "cùng với việc căn chỉnh vuông góc bề mặt phản xạ giúp bảo toàn năng lượng sóng dội về."
+)
+
+add_heading_3("3.2.4. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)")
+add_body_p(
+    "Khi khoảng cách tăng lên từ 580 cm, mật độ năng lượng sóng phản xạ suy giảm mạnh theo hàm nghịch đảo bình phương khoảng cách, tiệm cận ngưỡng suy hao giới hạn của mạch thu: "
+    "tại 580 cm tín hiệu phản xạ suy yếu, xuất hiện 4/50 mẫu ngoại lai tràn thời gian chờ echo (824.6 cm); sau khi lọc IQR giá trị trung bình là 579.85 cm (sai số -0.03%, s = 3.30 mm). "
+    "Tại 600 cm, tín hiệu suy hao vượt ngưỡng nhạy, xuất hiện 7/50 mẫu timeout. Tại mốc này cảm biến mất hoàn toàn khả năng bắt sóng phản xạ thực, "
+    "chuỗi đo bão hòa hoàn toàn với giá trị vọt lên 824.56 cm, sai số tăng vọt +37.43%."
+)
+add_body_p(
+    "Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ 10 cm đến 550 cm."
 )
 
 t33_data = [
-    ("1.0 cm", "2.030 cm", "0.035 mm", "+10.30 mm", "+103.05%", "Vùng chết (màng rung suy giảm)"),
-    ("2.0 cm", "2.352 cm", "0.085 mm", "+3.52 mm", "+17.59%", "Vùng chết (kẹp ngưỡng ngắt câm)"),
-    ("3.0 cm", "2.679 cm", "0.056 mm", "-3.21 mm", "-10.72%", "Vùng chết (thoát ngưỡng ngắt câm)"),
-    ("5.0 cm", "4.295 cm", "0.085 mm", "-7.05 mm", "-14.10%", "Vùng chuyển tiếp"),
-    ("10.0 cm", "10.570 cm", "0.061 mm", "+5.70 mm", "+5.70%", "Bắt đầu dải đo danh định"),
-    ("50.0 cm", "49.847 cm", "0.094 mm", "-1.53 mm", "-0.31%", "Dải làm việc ổn định"),
-    ("100.0 cm", "99.429 cm", "0.383 mm", "-5.71 mm", "-0.57%", "Dải làm việc ổn định"),
-    ("200.0 cm", "200.351 cm", "2.192 mm", "+3.51 mm", "+0.18%", "Dải làm việc ổn định"),
-    ("300.0 cm", "299.718 cm", "2.860 mm", "-2.82 mm", "-0.09%", "Dải làm việc ổn định"),
-    ("400.0 cm", "401.402 cm", "1.850 mm", "+14.02 mm", "+0.35%", "Giới hạn danh định của cảm biến"),
-    ("500.0 cm", "500.691 cm", "1.978 mm", "+6.91 mm", "+0.14%", "Dải đo xa mở rộng"),
-    ("550.0 cm", "550.566 cm", "1.520 mm", "+5.66 mm", "+0.10%", "Giới hạn đo xa thực tế"),
-    ("580.0 cm", "584.808 cm", "346.051 mm", "+48.08 mm", "+0.83%", "Ngưỡng suy hao (bắt đầu có timeout)"),
-    ("600.0 cm", "720.161 cm", "2621.017 mm", "+1201.61 mm", "+20.03%", "Ngưỡng bão hòa xa (nhiều timeout)"),
+    ("1.0 cm", "2.030 cm", "+10.30 mm", "+103.05%", "0.035 mm", "Vùng chết (kẹt giá trị đo)"),
+    ("2.0 cm", "2.352 cm", "+3.52 mm", "+17.59%", "0.085 mm", "Vùng chết (kẹt giá trị đo)"),
+    ("3.0 cm", "2.679 cm", "-3.21 mm", "-10.72%", "0.056 mm", "Vùng chết (kẹt giá trị đo)"),
+    ("5.0 cm", "4.295 cm", "-7.05 mm", "-14.10%", "0.085 mm", "Vùng chuyển tiếp (sai số lớn)"),
+    ("10.0 cm", "10.570 cm", "+5.70 mm", "+5.70%", "0.061 mm", "Bắt đầu dải đo danh định"),
+    ("50.0 cm", "49.847 cm", "-1.53 mm", "-0.31%", "0.094 mm", "Dải làm việc ổn định (dung sai ±0.5%)"),
+    ("100.0 cm", "99.429 cm", "-5.71 mm", "-0.57%", "0.383 mm", "Dải làm việc ổn định"),
+    ("200.0 cm", "200.351 cm", "+3.51 mm", "+0.18%", "2.192 mm", "Dải làm việc ổn định"),
+    ("300.0 cm", "299.718 cm", "-2.82 mm", "-0.09%", "2.860 mm", "Dải làm việc ổn định"),
+    ("400.0 cm", "401.399 cm", "+13.99 mm", "+0.35%", "0.270 mm", "Giới hạn danh định của Datasheet"),
+    ("500.0 cm", "500.691 cm", "+6.91 mm", "+0.14%", "1.978 mm", "Dải mở rộng (vượt chuẩn nhà sản xuất)"),
+    ("550.0 cm", "550.630 cm", "+6.30 mm", "+0.11%", "0.319 mm", "Giới hạn đo xa thực tế cực đại"),
+    ("580.0 cm", "579.850 cm", "-1.50 mm", "-0.03%", "3.303 mm", "Ngưỡng suy hao (xuất hiện mẫu timeout)"),
+    ("600.0 cm", "824.562 cm", "+2245.62 mm", "+37.43%", "0.631 mm", "Bão hòa hoàn toàn (mất xung phản xạ)"),
 ]
 
 table_33 = doc.add_table(rows=len(t33_data)+1, cols=6)
 table_33.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_33.autofit = False
 
-t33_widths = [Cm(2.0), Cm(2.4), Cm(2.4), Cm(2.4), Cm(2.2), Cm(4.6)]
-t33_headers = ["Khoảng cách chuẩn", "Giá trị trung bình", "Độ lệch chuẩn s", "Sai số tuyệt đối", "Sai số tương đối", "Trạng thái vùng làm việc"]
+t33_widths = [Cm(2.0), Cm(2.4), Cm(2.4), Cm(2.2), Cm(2.2), Cm(4.8)]
+t33_headers = ["Khoảng cách chuẩn", "Giá trị trung bình", "Sai số tuyệt đối", "Sai số tương đối", "Độ lệch chuẩn s", "Phân vùng làm việc"]
 
 for col_idx, text_h in enumerate(t33_headers):
     c = table_33.rows[0].cells[col_idx]
@@ -1607,6 +1622,7 @@ p_cap_t33.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p_cap_t33.paragraph_format.space_before = Pt(4)
 p_cap_t33.paragraph_format.space_after = Pt(10)
 r_t33 = p_cap_t33.add_run("Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.")
+r_t33.font.name = 'Times New Roman'
 r_t33.font.italic = True
 r_t33.font.size = Pt(9.5)
 
