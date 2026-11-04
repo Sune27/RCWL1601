@@ -1919,36 +1919,6 @@ add_bullet_p(
     "Kết luận thiết kế kỹ thuật: "
 )
 
-IMG_H3_7B_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7c_gioi_han_tam_do_be_mat.png")
-if os.path.exists(IMG_H3_7B_PATH):
-    p_img3_7b = doc.add_paragraph()
-    p_img3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_img3_7b.paragraph_format.space_before = Pt(8)
-    p_img3_7b.paragraph_format.space_after = Pt(4)
-    run_img3_7b = p_img3_7b.add_run()
-    run_img3_7b.add_picture(IMG_H3_7B_PATH, width=Cm(15.0))
-
-    p_cap3_7b = doc.add_paragraph()
-    p_cap3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap3_7b.paragraph_format.space_after = Pt(8)
-    r_c3_7b = p_cap3_7b.add_run(
-        "Hình 3.7c: So sánh đặc tính khoảng cách đo trung bình x̄ và sự thu hẹp giới hạn tầm đo "
-        "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 600 cm."
-    )
-    r_c3_7b.font.italic = True
-    r_c3_7b.font.size = Pt(10)
-
-add_body_p("Đánh giá từ đồ thị Hình 3.7c: Sự phân tách giới hạn hoạt động vật lý giữa hai bề mặt thể hiện rõ nét qua ba đường đặc tính:")
-add_bullet_p(
-    "Bám trùng khít lên đường chuẩn lý tưởng y = x suốt từ 10 cm đến 550 cm (và 580 cm sau lọc) trước khi chạm trần tràn bộ đếm ≈ 824.6 cm tại 600 cm.",
-    "Đường màu xanh lam nét liền (FSDT sau lọc IQR): "
-)
-add_bullet_p(
-    "Tại mốc 350 cm, đường thô màu cam nhô nhẹ lên 360.65 cm do chớm xuất hiện xung tràn đầu tiên (824.40 cm) nhưng được bộ lọc IQR (đường đỏ) kéo trở lại đúng "
-    "đường chuẩn y = x (351.09 cm). Ngay sau đó tại mốc 375 cm, cả hai đường đồng loạt vọt thẳng lên 672.50 cm hướng về ngưỡng trần bão hòa "
-    "824.6 cm khi 66% số mẫu mất sóng phản hồi, đánh dấu ranh giới tắt dần tín hiệu của bề mặt tán xạ.",
-    "Đường màu cam chấm tròn và đường màu đỏ nét đứt (FRDT trước và sau lọc IQR): "
-)
 
 # ==========================================================
 # MỤC 3.7: PHÂN TÍCH ẢNH HƯỞNG CỦA NHIỆT ĐỘ VÀ BÙ LAPLACE
