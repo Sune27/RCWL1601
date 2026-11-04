@@ -356,7 +356,7 @@ Khi hạ nhiệt độ không khí xuống $20.0^\circ\text{C}$, mật độ ph�
 
 **Đánh giá từ đồ thị Hình 3.8:** Biểu diễn ba chuỗi sai số trên cùng một trục tung đơn vị $\text{mm}$ cho thấy sự tương phản trực quan:
 - **Đường màu đỏ nét liền ký hiệu tam giác (`FSAT` chưa bù nhiệt):** Tách khỏi gốc $0\text{ mm}$ và dốc tuyến tính đi lên theo khoảng cách chuẩn do tích lũy sai số vận tốc $+1.235\%$, vọt lên vùng $+26 \div +40\text{ mm}$ ở cự ly $200 - 300\text{ cm}$.
-- **Đường màu xanh lá nét đứt ký hiệu hình vuông (`FSAT` đã bù Laplace tại $20.0^\circ\text{C}$) và đường màu xanh lam nét liền ký hiệu hình tròn (`FSDT` đối chứng tại $27.0^\circ\text{C}$):** Hai đường nằm chồng khít lên nhau gần như tuyệt đối trên suốt chiều dài đồ thị từ $10\text{ cm}$ đến $300\text{ cm}$ và bám sát đường chuẩn $0\text{ mm}$, khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.
+- **Đường màu xanh lá nét đứt tâm vuông đặc (`FSAT` đã bù Laplace tại $20.0^\circ\text{C}$) lồng đồng tâm bên trong đường băng xanh lam ký hiệu vòng tròn rỗng (`FSDT` đối chứng tại $27.0^\circ\text{C}$):** Từng điểm vuông xanh lá nằm lọt chính tâm vòng tròn xanh lam trên toàn bộ $19$ mốc (do độ lệch giữa hai đường chỉ $0.002 - 0.183\text{ mm}$) trên suốt chiều dài đồ thị từ $10\text{ cm}$ đến $300\text{ cm}$ và bám sát đường chuẩn $0\text{ mm}$, khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.
 ---
 
 ## 3.8. Phân tích Tổng hợp Độ không đảm bảo đo mở rộng toàn diện (ISO/GUM)

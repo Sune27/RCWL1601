@@ -411,9 +411,11 @@ ax.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.1,
            label='Đường chuẩn sai số bằng 0 (0 mm)')
 ax.plot(common_temp_x, err_uncomp_20, color='#d62728', linestyle='-', linewidth=1.8, marker='^', markersize=4.8,
         label='Phòng lạnh 20.0 °C (FSAT) – Chưa bù nhiệt (giữ cứng v ở 27.0 °C)')
-ax.plot(common_temp_x, err_comp_27, color='#1f77b4', linestyle='-', linewidth=2.0, marker='o', markersize=5.0,
+ax.plot(common_temp_x, err_comp_27, color='#1f77b4', linestyle='-', linewidth=3.4, alpha=0.55,
+        marker='o', markersize=8.5, markerfacecolor='none', markeredgecolor='#1f77b4', markeredgewidth=1.8,
         label='Phòng mặc định 27.0 °C (FSDT) – Chuẩn đối chứng')
-ax.plot(common_temp_x, err_comp_20, color='#2ca02c', linestyle='--', linewidth=1.7, marker='s', markersize=4.2,
+ax.plot(common_temp_x, err_comp_20, color='#2ca02c', linestyle='--', linewidth=1.5,
+        marker='s', markersize=3.8, markerfacecolor='#2ca02c', markeredgecolor='#2ca02c',
         label='Phòng lạnh 20.0 °C (FSAT) – Đã bù nhiệt độ Laplace thời gian thực')
 
 ax.set_title("So sánh sai số tuyệt đối Δx khi chưa bù và sau khi bù nhiệt độ Laplace (10 cm – 300 cm)", fontweight='bold', pad=12)
