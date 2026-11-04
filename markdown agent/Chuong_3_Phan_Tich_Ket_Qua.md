@@ -249,7 +249,7 @@ Mức sai lệch cực nhỏ $+0.37\%$ chứng minh mô hình lan truyền sóng
 
 2. **Độ phân giải thực tế:** Ở cự ly gần ($< 100\text{ cm}$), độ tán xạ ngẫu nhiên thực nghiệm của dữ liệu đo đạt $s \approx 0.06 - 0.38\text{ mm}$, tương đương độ rộng $1 - 2$ xung đếm thời gian. Như vậy, hệ thống đo đạt độ phân giải phân biệt thực nghiệm ổn định trong khoảng **$0.2\text{ mm} - 0.5\text{ mm}$**.
 
-![Hồi quy tuyến tính và Độ nhạy ToF](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_5_hoi_quy_tuyen_tinh_va_nhay.png)
+![Hồi quy tuyến tính và Độ nhạy ToF](../graph/chuong_3/hinh_3_5_hoi_quy_tuyen_tinh_va_nhay.png)
 *Hình 3.5: Đường đặc tính tĩnh hồi quy tuyến tính khoảng cách và hàm truyền Thời gian bay ToF theo cự ly.*
 
 ---
@@ -291,7 +291,7 @@ Khác với cảm biến biến dạng áp điện hoặc cảm biến từ trư
 1. **Độ rơ cơ khí của cữ trượt:** Khi đổi chiều dịch chuyển con trỏ từ tiến sang lùi trên ray định hướng, lực tỳ đảo chiều làm lệch góc nghiêng của tấm bia phản xạ đi một góc nhỏ khoảng $\pm 0.5^\circ$, gây biến thiên nhẹ quãng đường truyền sóng âm.
 2. **Trôi nhiệt độ vi khí hậu phòng:** Quá trình đo bài lùi `BSDT` diễn ra sau bài đo tiến `FSDT` khoảng 20 phút. Nhiệt độ phòng có sự thay đổi nhẹ khoảng $0.3^\circ\text{C}$, làm biến động vận tốc sóng âm một lượng nhỏ khoảng $0.18\text{ m/s}$.
 
-![Vòng trễ Hysteresis](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_6_vong_tre_hysteresis.png)
+![Vòng trễ Hysteresis](../graph/chuong_3/hinh_3_6_vong_tre_hysteresis.png)
 *Hình 3.6: Đặc tính đo Chiều tiến vs Chiều lùi và Biểu đồ phân bố độ lệch trễ $\Delta H_k$ trên 19 mốc cự ly.*
 
 ---
@@ -415,7 +415,7 @@ Các thành phần không đảm bảo đo bao gồm:
 - Khi cự ly tăng dần lên $300\text{ cm} - 500\text{ cm}$, thành phần $u_{B3}$ (sự lan truyền sai số nhiệt độ) tăng tuyến tính và trở thành thành phần chủ đạo chi phối toàn bộ độ không đảm bảo đo tổng hợp (chiếm trên $85\%$ tỷ trọng phương sai).
 - Độ không đảm bảo đo mở rộng toàn dải $U_{95\%}$ luôn duy trì dưới ngưỡng **$\pm 5.1\text{ mm}$** ở cự ly $5\text{ m}$ và dưới **$\pm 1.2\text{ mm}$** ở cự ly $1\text{ m}$, chứng minh giá trị đo có độ tin cậy khoa học cao.
 
-![Phân tích tổng hợp Độ không đảm bảo đo ISO/GUM](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_9_ngan_sach_do_khong_dam_bao_do.png)
+![Phân tích tổng hợp Độ không đảm bảo đo ISO/GUM](../graph/chuong_3/hinh_3_9_ngan_sach_do_khong_dam_bao_do.png)
 *Hình 3.9: Biểu đồ phân rã các thành phần độ không đảm bảo đo Loại A, Loại B và Độ không đảm bảo đo mở rộng $U_{95\%}$ theo tiêu chuẩn ISO/GUM.*
 
 ---

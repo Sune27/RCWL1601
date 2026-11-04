@@ -17,7 +17,7 @@ plt.rcParams['figure.titlesize'] = 12
 
 BASE_DIR = Path(__file__).resolve().parent
 RESULT_DIR = BASE_DIR / "result"
-GRAPH_DIR = BASE_DIR / "graph"
+GRAPH_DIR = BASE_DIR / "graph" / "chuong_3"
 AGG_DIR = BASE_DIR / "du_lieu_tong_hop"
 
 GRAPH_DIR.mkdir(parents=True, exist_ok=True)
@@ -79,7 +79,7 @@ ax.legend(loc='upper left', framealpha=0.95)
 plt.tight_layout()
 
 h3_1_p1 = GRAPH_DIR / "hinh_3_1_loc_sai_so_tho.png"
-h3_1_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_1_loc_sai_so_tho.png"
+h3_1_p2 = GRAPH_DIR / "hinh_3_1_loc_sai_so_tho.png"
 (GRAPH_DIR / "chuong_3").mkdir(parents=True, exist_ok=True)
 fig.savefig(h3_1_p1)
 fig.savefig(h3_1_p2)
@@ -120,7 +120,7 @@ ax.legend(loc='lower right', framealpha=0.95)
 plt.tight_layout()
 
 h3_2_p1 = GRAPH_DIR / "hinh_3_2_vung_chet_va_gioi_han_xa.png"
-h3_2_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_2_vung_chet_1_10cm.png"
+h3_2_p2 = GRAPH_DIR / "hinh_3_2_vung_chet_1_10cm.png"
 fig.savefig(h3_2_p1)
 fig.savefig(h3_2_p2)
 plt.close(fig)
@@ -157,7 +157,7 @@ ax.legend(loc='upper left', framealpha=0.95)
 
 plt.tight_layout()
 h3_3_p1 = GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png"
-h3_3_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_3_do_chum_toan_dai.png"
+h3_3_p2 = GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png"
 fig.savefig(h3_3_p1, dpi=300)
 fig.savefig(h3_3_p2, dpi=300)
 plt.close(fig)
@@ -212,7 +212,7 @@ ax1.legend(lines_34, [l.get_label() for l in lines_34], loc='upper left', bbox_t
 
 plt.tight_layout()
 h3_4_p1 = GRAPH_DIR / "hinh_3_4_do_chinh_xac_sai_so.png"
-h3_4_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_4_do_chinh_xac_sai_so.png"
+h3_4_p2 = GRAPH_DIR / "hinh_3_4_do_chinh_xac_sai_so.png"
 fig.savefig(h3_4_p1, dpi=300)
 fig.savefig(h3_4_p2, dpi=300)
 plt.close(fig)
@@ -346,11 +346,9 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.9
 
 plt.tight_layout()
 h3_7a_p1 = GRAPH_DIR / "hinh_3_7a_do_lech_chuan_be_mat.png"
-h3_7a_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_7a_do_lech_chuan_be_mat.png"
-h3_7_legacy = GRAPH_DIR / "hinh_3_7_anh_huong_be_mat.png"
+h3_7a_p2 = GRAPH_DIR / "hinh_3_7a_do_lech_chuan_be_mat.png"
 fig.savefig(h3_7a_p1, dpi=300)
 fig.savefig(h3_7a_p2, dpi=300)
-fig.savefig(h3_7_legacy, dpi=300)
 plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.7a tại: {h3_7a_p1} và {h3_7a_p2}")
 
@@ -377,7 +375,7 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.9
 
 plt.tight_layout()
 h3_7b_p1 = GRAPH_DIR / "hinh_3_7b_sai_so_chuan_se_be_mat.png"
-h3_7b_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_7b_sai_so_chuan_se_be_mat.png"
+h3_7b_p2 = GRAPH_DIR / "hinh_3_7b_sai_so_chuan_se_be_mat.png"
 fig.savefig(h3_7b_p1, dpi=300)
 fig.savefig(h3_7b_p2, dpi=300)
 plt.close(fig)
@@ -416,7 +414,7 @@ ax.legend(loc='upper left', bbox_to_anchor=(0.015, 0.88), framealpha=0.95)
 
 plt.tight_layout()
 h3_7c_p1 = GRAPH_DIR / "hinh_3_7c_gioi_han_tam_do_be_mat.png"
-h3_7c_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_7c_gioi_han_tam_do_be_mat.png"
+h3_7c_p2 = GRAPH_DIR / "hinh_3_7c_gioi_han_tam_do_be_mat.png"
 fig.savefig(h3_7c_p1, dpi=300)
 fig.savefig(h3_7c_p2, dpi=300)
 plt.close(fig)
@@ -458,7 +456,7 @@ ax.legend(loc='upper left', framealpha=0.95)
 
 plt.tight_layout()
 h3_8_p1 = GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
-h3_8_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
+h3_8_p2 = GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
 fig.savefig(h3_8_p1, dpi=300)
 fig.savefig(h3_8_p2, dpi=300)
 plt.close(fig)
