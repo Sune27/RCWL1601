@@ -123,13 +123,13 @@ ax.set_title("Sai số tương đối theo khoảng cách chuẩn (Tập dữ li
 ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
 ax.set_ylabel("Sai số tương đối δ (%)", fontweight='bold')
 
-ax.text(2.0, 9.2, "1cm: +103.1% ↑\n2cm: +17.6% ↑", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='left',
+ax.text(2.0, 9.2, "1cm: +103.1%\n2cm: +17.6%", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='left',
         bbox=dict(boxstyle='square,pad=0.25', facecolor='white', edgecolor='#1f77b4', alpha=0.9))
 
-ax.text(6.0, -9.2, "3cm: -10.7% ↓\n5cm: -14.1% ↓", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='left',
+ax.text(6.0, -9.2, "3cm: -10.7%\n5cm: -14.1%", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='left',
         bbox=dict(boxstyle='square,pad=0.25', facecolor='white', edgecolor='#1f77b4', alpha=0.9))
 
-ax.text(600.0, 9.2, "600cm: +37.4% ↑", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='right',
+ax.text(600.0, 9.2, "600cm: +37.4%", color='#1f77b4', fontsize=8.2, fontweight='bold', ha='right',
         bbox=dict(boxstyle='square,pad=0.25', facecolor='white', edgecolor='#1f77b4', alpha=0.9))
 
 ax.legend(loc='lower right', framealpha=0.95)
@@ -382,11 +382,13 @@ plt.savefig(GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 9. HÌNH 3.9: Phân tích tổng hợp Độ không đảm bảo đo mở rộng ISO/GUM
+# 9. HÌNH 3.9 & HÌNH 3.10: Phân tích Độ không đảm bảo đo ISO/GUM
 # ==========================================================
-print("Tạo Hình 3.9...")
-target_ds = [10.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 500.0]
+print("Tạo Hình 3.9 và Hình 3.10...")
+target_ds = [10.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 500.0, 550.0]
 u_a_list = []
+u_b1_list = []
+u_b3_list = []
 u_b_list = []
 u_c_list = []
 U_95_list = []
@@ -404,26 +406,71 @@ for d in target_ds:
     u_b = math.sqrt(u_b1**2 + u_b2**2 + u_b3**2)
     u_c = math.sqrt(u_a**2 + u_b**2)
     U_95 = 2.0 * u_c
+    
     u_a_list.append(u_a * 10) # mm
+    u_b1_list.append(u_b1 * 10) # mm
+    u_b3_list.append(u_b3 * 10) # mm
     u_b_list.append(u_b * 10) # mm
     u_c_list.append(u_c * 10) # mm
     U_95_list.append(U_95 * 10) # mm
 
-fig, ax = plt.subplots(figsize=(10, 5), dpi=300)
+# --- HÌNH 3.9: Độ không đảm bảo đo Loại A và Loại B ---
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax.plot(target_ds, u_a_list, 'o:', color='#1f77b4', label='Độ KĐBĐ Loại A $u_A$ (Độ phân tán ngẫu nhiên)', linewidth=1.5, markersize=5)
+ax.plot(target_ds, u_b1_list, '--', color='#7f7f7f', label='Thành phần $u_{B1}$ (Vạch chia thước chuẩn: 0.289 mm)', linewidth=1.2)
+ax.plot(target_ds, u_b3_list, '-.', color='#9467bd', label=r'Thành phần $u_{B3}$ (Nhiệt độ môi trường: $c_T \cdot u_T$)', linewidth=1.2)
+ax.plot(target_ds, u_b_list, 's-', color='#ff7f0e', label='Độ KĐBĐ Loại B tổng $u_B$ (mm)', linewidth=2.0, markersize=5)
 
+ax.set_title('Độ không đảm bảo đo Loại A ($u_A$) và Loại B ($u_B$) theo khoảng cách chuẩn', fontweight='bold', pad=12)
+ax.set_xlabel('Khoảng cách chuẩn (cm)', fontweight='bold')
+ax.set_ylabel('Độ không đảm bảo đo (mm)', fontweight='bold')
+ax.grid(True, linestyle=':', alpha=0.6)
+ax.legend(loc='upper left', framealpha=0.95)
+plt.tight_layout()
+
+h3_9_p1 = GRAPH_DIR / "hinh_3_9_do_khong_dam_bao_do_loai_a_b.png"
+h3_9_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_9_do_khong_dam_bao_do_loai_a_b.png"
+fig.savefig(h3_9_p1)
+if h3_9_p2.parent.exists():
+    fig.savefig(h3_9_p2)
+plt.close(fig)
+
+# --- HÌNH 3.10: Độ không đảm bảo đo chuẩn tổng hợp và mở rộng ---
+fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
+ax.plot(target_ds, u_c_list, 'o-', color='#2ca02c', label=r'Độ KĐBĐ chuẩn tổng hợp $u_c = \sqrt{u_A^2 + u_B^2}$ (mm)', linewidth=1.8, markersize=5)
+ax.plot(target_ds, U_95_list, 'D-', color='#d62728', label=r'Độ KĐBĐ mở rộng $U_{95\%}$ ($k=2$, độ tin cậy 95%) (mm)', linewidth=2.2, markersize=5)
+ax.fill_between(target_ds, 0, U_95_list, color='#d62728', alpha=0.08, label=r'Dải không đảm bảo đo mở rộng (0 đến $U_{95\%}$)')
+
+ax.set_title(r'Độ không đảm bảo đo chuẩn tổng hợp ($u_c$) và mở rộng ($U_{95\%}$, k=2) theo ISO/GUM', fontweight='bold', pad=12)
+ax.set_xlabel('Khoảng cách chuẩn (cm)', fontweight='bold')
+ax.set_ylabel('Độ không đảm bảo đo (mm)', fontweight='bold')
+ax.grid(True, linestyle=':', alpha=0.6)
+ax.legend(loc='upper left', framealpha=0.95)
+plt.tight_layout()
+
+h3_10_p1 = GRAPH_DIR / "hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png"
+h3_10_p2 = GRAPH_DIR / "chuong_3" / "hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png"
+fig.savefig(h3_10_p1)
+if h3_10_p2.parent.exists():
+    fig.savefig(h3_10_p2)
+plt.close(fig)
+
+# Giữ cả file cũ hinh_3_9_ngan_sach_do_khong_dam_bao_do.png nếu có module khác cần
+h3_old = GRAPH_DIR / "chuong_3" / "hinh_3_9_ngan_sach_do_khong_dam_bao_do.png"
+fig, ax = plt.subplots(figsize=(10, 5), dpi=300)
 ax.plot(target_ds, u_a_list, 'o:', color='#1f77b4', label='Độ không đảm bảo Loại A u_A (mm)', linewidth=1.2)
 ax.plot(target_ds, u_b_list, 's:', color='#ff7f0e', label='Độ không đảm bảo Loại B u_B (mm)', linewidth=1.2)
-ax.plot(target_ds, u_c_list, '^-', color='#2ca02c', label='Độ KĐBĐ chuẩn tổng hợp u_c (mm)', linewidth=1.5)
-ax.plot(target_ds, U_95_list, 'd-', color='#d62728', label='Độ KĐBĐ mở rộng U_95% (k=2) (mm)', linewidth=2.0)
-
+ax.plot(target_ds, u_c_list, 'o-', color='#2ca02c', label='Độ KĐBĐ chuẩn tổng hợp u_c (mm)', linewidth=1.5)
+ax.plot(target_ds, U_95_list, 'D-', color='#d62728', label='Độ KĐBĐ mở rộng U_95% (k=2) (mm)', linewidth=2.0)
 ax.set_title('Phân tích tổng hợp Độ không đảm bảo đo mở rộng theo chuẩn ISO/GUM')
-ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
+ax.set_xlabel('Khoảng cách chuẩn (cm)', fontweight='bold')
 ax.set_ylabel('Độ không đảm bảo đo (mm)')
 ax.grid(True, linestyle=':', alpha=0.6)
 ax.legend(loc='upper left')
-
 plt.tight_layout()
-plt.savefig(GRAPH_DIR / "hinh_3_9_ngan_sach_do_khong_dam_bao_do.png", dpi=300)
-plt.close()
+fig.savefig(GRAPH_DIR / "hinh_3_9_ngan_sach_do_khong_dam_bao_do.png", dpi=300)
+if h3_old.parent.exists():
+    fig.savefig(h3_old, dpi=300)
+plt.close(fig)
 
-print("Hoàn tất tạo toàn bộ 9 đồ thị Chương 3 thành công!")
+print("Hoàn tất tạo toàn bộ đồ thị Chương 3 thành công!")

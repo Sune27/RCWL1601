@@ -187,3 +187,26 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
    - Chỉ được phép chỉnh sửa mã nguồn xuất Word hoặc can thiệp tệp Word khi câu lệnh của người dùng bắt đầu bằng chữ `docx`.
 
    - Nếu phát hiện ứng dụng Word đang mở, lập tức dừng lại và thông báo nhắc người dùng tắt Word trước khi tiếp tục.
+
+9. **Quy chuẩn Đồ thị Độ không đảm bảo đo (ISO/GUM):**
+   - Tách thành **2 đồ thị riêng biệt** để đảm bảo tỷ lệ quan sát trực quan (do thành phần $u_A$ rất nhỏ từ $0.008\text{ mm}$ so với $U_{95\%}$ lên tới $5.57\text{ mm}$):
+     * Đồ thị 1 ([Hình 3.9](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_9_do_khong_dam_bao_do_loai_a_b.png)): Biểu đồ phân rã độ không đảm bảo đo Loại A ($u_A$) và Loại B ($u_B$) theo khoảng cách chuẩn.
+     * Đồ thị 2 ([Hình 3.10](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png)): Biểu đồ độ không đảm bảo đo chuẩn tổng hợp ($u_c$) và độ không đảm bảo đo mở rộng ($U_{95\%}$, $k=2$) theo ISO/GUM.
+   - **Tuyệt đối không vẽ mũi tên:** Không chèn ký hiệu mũi tên (`↑`, `↓`) vào các hộp văn bản ghi chú và không dùng marker tam giác nhọn (dễ nhầm với mũi tên).
+
+10. **Quy chuẩn Bảng Đối sánh Datasheet vs Thực nghiệm (Bảng 3.7):**
+   - Chỉ đối chiếu các **chỉ tiêu kỹ thuật đo lường thực tế** mà nhà sản xuất có công bố định mức (Dải đo, Vùng chết, Độ chính xác, Độ phân giải ToF, Khả năng bù nhiệt độ).
+   - **Xóa bỏ các thông số điện nguồn** không liên quan và không đo kiểm: Điện áp hoạt động ($V_{\text{CC}}$), Dòng điện tiêu thụ ($I$).
+   - **Xóa bỏ toàn bộ các hàng ghi "Không công bố":** Tuyệt đối không đưa vào bảng các dòng như $R^2$, Độ phi tuyến, Độ lệch chuẩn $s$, Độ trễ $\gamma_H$, Tầm đo mặt xốp khi Datasheet không cung cấp thông số đối chứng.
+
+11. **Quy chuẩn Cố định Nội dung Lời nói đầu (Preface):**
+   - Nội dung phần **LỜI NÓI ĐẦU** đã được tinh chỉnh cô đọng và cố định chuẩn mực như sau (tuyệt đối không tự ý thêm bớt hay ghi đè lại văn phong cũ):
+     * **Đoạn 1:** Khái quát vai trò đo cự ly không tiếp xúc trong công nghiệp (AGV, băng tải logistics, bồn chứa ăn mòn, vận hành liên tục 24/7).
+     * **Đoạn 2:** Đánh giá ưu thế của cảm biến siêu âm (chi phí cực thấp, bền cơ học, không phụ thuộc màu sắc, an toàn).
+     * **Đoạn 3:** Giới thiệu module RCWL-1601 tương thích logic 3.3V ESP32 và ảnh hưởng nhiệt độ môi trường gây trôi cự ly tại Việt Nam.
+     * **Đoạn 4:** Tuyên bố đề tài học phần.
+     * **3 Mục tiêu cốt lõi:**
+       1. Khảo sát toàn diện đặc tính tĩnh và động học của cảm biến RCWL-1601 trên giàn thực nghiệm chuẩn hóa: xác định dải đo, độ chụm, độ chính xác, đánh giá độ không đảm bảo đo mở rộng.
+       2. Khảo sát các hiện tượng vật lý chuyên sâu ảnh hưởng đến phép đo siêu âm: độ trễ (Hysteresis), hiện tượng tán xạ trên bề mặt gồ ghề, và hiệu quả bù trôi vận tốc sóng âm Laplace theo nhiệt độ.
+       3. Xây dựng chuỗi lọc số (Khoảng tứ phân vị IQR) và thiết kế hệ thống: 'Giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32'.
+     * (Không liệt kê 5 chương ở cuối Lời nói đầu nhằm giữ bố cục súc tích, trang trọng).

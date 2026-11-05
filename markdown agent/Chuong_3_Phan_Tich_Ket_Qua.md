@@ -367,78 +367,64 @@ Khi hạ nhiệt độ không khí xuống 20.0 °C, mật độ phân tử khí
 
 ---
 
-## 3.8. Phân tích Tổng hợp Độ không đảm bảo đo mở rộng toàn diện (ISO/GUM)
+---
 
-Theo tiêu chuẩn quốc tế ISO/IEC Guide 98-3 (GUM), mọi kết quả đo lường khoa học phải được công bố kèm theo khoảng độ không đảm bảo đo mở rộng.
+## 3.8. Tổng hợp Độ không đảm bảo đo (ISO/GUM) và Đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet
 
-### 3.8.1. Phân loại và Mô hình hóa các thành phần không đảm bảo đo
+### 3.8.1. Đánh giá và Phân rã Độ không đảm bảo đo mở rộng toàn dải (ISO/GUM)
 
-Mô hình hàm đo khoảng cách có bù nhiệt độ:
+Theo tiêu chuẩn quốc tế ISO/IEC Guide 98-3 (GUM), hàm đo khoảng cách ToF có bù nhiệt độ được mô hình hóa theo:
 
 $$d = f(t, T) = \frac{(331.3 + 0.606 \cdot T) \cdot t}{2}$$
 
 Các thành phần không đảm bảo đo bao gồm:
-1. **Độ không đảm bảo đo Loại A ($u_A$):** Đánh giá sự phân tán ngẫu nhiên qua $N = 50$ lần đo:
+1. **Độ không đảm bảo đo Loại A ($u_A$):** Đánh giá độ phân tán ngẫu nhiên qua $N = 50$ lần đo: $u_A = s / \sqrt{N}$.
+2. **Độ không đảm bảo đo Loại B ($u_B$):** Đánh giá theo phân bố xác suất chữ nhật ($a / \sqrt{3}$):
+   - $u_{B1}$ (Sai số vạch chia thước cơ khí chuẩn $1\text{ mm}$, $a_1 = 0.5\text{ mm}$): $u_{B1} = 0.5 / \sqrt{3} \approx 0.289\text{ mm}$.
+   - $u_{B2}$ (Sai số lượng tử hóa Timer ESP32 $1\text{ }\mu\text{s} \to \Delta d_{\text{LSB}} \approx 0.174\text{ mm}$, $a_2 = 0.087\text{ mm}$): $u_{B2} = 0.087 / \sqrt{3} \approx 0.050\text{ mm}$.
+   - $u_{B3}$ (Nhiệt độ môi trường $\pm 0.5^\circ\text{C} \to u_T = 0.289^\circ\text{C}$): Lan truyền qua hệ số nhạy $c_T = \partial d/\partial T \approx 0.00174 \cdot d \implies u_{B3}(d) = c_T \cdot u_T \approx 0.000503 \cdot d\text{ (mm)}$.
+3. **Độ KĐBĐ chuẩn tổng hợp và Mở rộng ($k=2$, độ tin cậy 95%):**
+   $$u_c = \sqrt{u_A^2 + u_{B1}^2 + u_{B2}^2 + u_{B3}^2}, \quad U_{95\%} = 2 \cdot u_c$$
 
-   $$u_A = \frac{s}{\sqrt{N}} = \frac{s}{\sqrt{50}}$$
+#### Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM
 
-2. **Độ không đảm bảo đo Loại B ($u_B$):** Đánh giá từ thông số thiết bị và giả thiết phân bố xác suất hình chữ nhật ($a / \sqrt{3}$):
-   - $u_{B1}$ (Sai số vạch chia thước cơ khí chuẩn): Thước thép có độ chia nhỏ nhất $1\text{ mm}$, giới hạn sai số $a_1 = 0.5\text{ mm} \implies u_{B1} = 0.5 / \sqrt{3} \approx 0.289\text{ mm}$.
-   - $u_{B2}$ (Sai số lượng tử hóa của bộ định thời vi điều khiển ESP32): Bộ đếm phần cứng ESP32 đếm xung với chu kỳ lượng tử hóa $\Delta t_{\text{quant}} = 1\text{ }\mu\text{s}$, tương ứng với bước cự ly rời rạc nhỏ nhất $\Delta d_{\text{LSB}} \approx 0.174\text{ mm}$. Với giả thiết phân bố xác suất hình chữ nhật trong một khoảng lượng tử, nửa khoảng sai số $a_2 = 0.174 / 2 = 0.087\text{ mm} \implies u_{B2} = 0.087 / \sqrt{3} \approx 0.051\text{ mm}$.
-   - $u_{B3}$ (Độ không đảm bảo nhiệt độ môi trường): Nhiệt kế đo vi khí hậu có sai số $\pm 0.5^\circ\text{C}$, nửa khoảng $a_T = 0.5^\circ\text{C} \implies u_T = 0.5 / \sqrt{3} \approx 0.289^\circ\text{C}$. Lan truyền sai số nhiệt độ qua hệ số ảnh hưởng (Hệ số nhạy nhiệt độ trong mô hình GUM):
-
-     $$c_T = \frac{\partial d}{\partial T} = \frac{0.606 \cdot t}{2} = \frac{0.606}{v} \cdot d \approx \frac{0.606}{350.69} \cdot d \approx 0.001728 \cdot d$$
-
-     $$\implies u_{B3}(d) = c_T \cdot u_T = (0.001728 \cdot d) \cdot 0.289 = 0.000499 \cdot d \quad (\text{mm})$$
-
-3. **Độ không đảm bảo đo chuẩn tổng hợp ($u_c$):**
-
-   $$u_c = \sqrt{u_A^2 + u_{B1}^2 + u_{B2}^2 + u_{B3}^2}$$
-
-4. **Độ không đảm bảo đo mở rộng ($U_{95\%}$):** Với mức tin cậy xấp xỉ 95%, hệ số phủ sinh viên cho bậc tự do lớn ($k_p = 2$):
-
-   $$U_{95\%} = 2 \cdot u_c$$
-
-### 3.8.2. Bảng tổng hợp Độ không đảm bảo đo
-
-| Cự ly chuẩn $d$ (cm) | Độ lệch chuẩn $s$ (mm) | $u_A$ (mm) | $u_{B1}$ (Thước) (mm) | $u_{B2}$ (Timer) (mm) | $u_{B3}$ (Nhiệt độ) (mm) | $u_B$ tổng hợp (mm) | $u_c$ tổng hợp (mm) | **$U_{95\%}$ ($k=2$) (mm)** | Biểu diễn kết quả đo chuẩn $Y = \bar{d} \pm U_{95\%}$ (cm) |
+| Cự ly chuẩn $d$ (cm) | Độ lệch chuẩn $s$ (mm) | $u_A$ (mm) | $u_{B1}$ (Thước) (mm) | $u_{B2}$ (Timer) (mm) | $u_{B3}$ (Nhiệt độ) (mm) | $u_B$ tổng (mm) | $u_c$ tổng (mm) | **$U_{95\%}$ ($k=2$) (mm)** | Biểu diễn kết quả đo chuẩn $Y = \bar{d} \pm U_{95\%}$ (cm) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **$10$** | $0.061$ | $0.009$ | $0.289$ | $0.051$ | $0.050$ | $0.297$ | $0.297$ | **$0.60$** | $10.57 \pm 0.06$ |
-| **$50$** | $0.094$ | $0.013$ | $0.289$ | $0.051$ | $0.249$ | $0.385$ | $0.385$ | **$0.77$** | $49.85 \pm 0.08$ |
-| **$100$** | $0.383$ | $0.054$ | $0.289$ | $0.051$ | $0.499$ | $0.580$ | $0.581$ | **$1.16$** | $99.43 \pm 0.12$ |
-| **$200$** | $2.192$ | $0.310$ | $0.289$ | $0.051$ | $0.998$ | $1.040$ | $1.085$ | **$2.17$** | $200.35 \pm 0.22$ |
-| **$300$** | $2.860$ | $0.404$ | $0.289$ | $0.051$ | $1.497$ | $1.526$ | $1.578$ | **$3.16$** | $299.72 \pm 0.32$ |
-| **$400$** | $1.850$ | $0.262$ | $0.289$ | $0.051$ | $1.995$ | $2.017$ | $2.034$ | **$4.07$** | $401.40 \pm 0.41$ |
-| **$500$** | $1.978$ | $0.280$ | $0.289$ | $0.051$ | $2.494$ | $2.511$ | $2.527$ | **$5.05$** | $500.69 \pm 0.51$ |
+| **10** | 0.060 | 0.008 | 0.289 | 0.050 | 0.050 | 0.297 | 0.297 | **0.59** | 10.57 ± 0.06 cm |
+| **50** | 0.092 | 0.013 | 0.289 | 0.050 | 0.252 | 0.386 | 0.386 | **0.77** | 49.84 ± 0.08 cm |
+| **100** | 0.375 | 0.053 | 0.289 | 0.050 | 0.503 | 0.582 | 0.585 | **1.17** | 99.43 ± 0.12 cm |
+| **150** | 0.284 | 0.043 | 0.289 | 0.050 | 0.755 | 0.810 | 0.811 | **1.62** | 149.96 ± 0.16 cm |
+| **200** | 2.135 | 0.302 | 0.289 | 0.050 | 1.006 | 1.048 | 1.091 | **2.18** | 200.35 ± 0.22 cm |
+| **250** | 2.057 | 0.291 | 0.289 | 0.050 | 1.258 | 1.292 | 1.324 | **2.65** | 250.00 ± 0.26 cm |
+| **300** | 2.837 | 0.401 | 0.289 | 0.050 | 1.510 | 1.538 | 1.589 | **3.18** | 299.72 ± 0.32 cm |
+| **350** | 2.618 | 0.390 | 0.289 | 0.050 | 1.761 | 1.785 | 1.828 | **3.65** | 351.09 ± 0.37 cm |
+| **400** | 0.270 | 0.041 | 0.289 | 0.050 | 2.013 | 2.034 | 2.034 | **4.07** | 401.40 ± 0.41 cm |
+| **450** | 4.049 | 0.573 | 0.289 | 0.050 | 2.264 | 2.283 | 2.354 | **4.71** | 450.74 ± 0.47 cm |
+| **500** | 1.978 | 0.280 | 0.289 | 0.050 | 2.516 | 2.533 | 2.548 | **5.10** | 500.69 ± 0.51 cm |
+| **550** | 0.319 | 0.049 | 0.289 | 0.050 | 2.768 | 2.783 | 2.783 | **5.57** | 550.63 ± 0.56 cm |
 
-**Nhận xét phân tích tổng hợp:**
-- Ở cự ly gần ($10\text{ cm} \le d \le 50\text{ cm}$), độ không đảm bảo đo mở rộng rất nhỏ ($U_{95\%} \le 0.77\text{ mm}$), bị chi phối chủ yếu bởi độ không đảm bảo của vạch chia thước chuẩn $u_{B1} = 0.289\text{ mm}$.
-- Khi cự ly tăng dần lên $300\text{ cm} - 500\text{ cm}$, thành phần $u_{B3}$ (sự lan truyền sai số nhiệt độ) tăng tuyến tính và trở thành thành phần chủ đạo chi phối toàn bộ độ không đảm bảo đo tổng hợp (chiếm trên $85\%$ tỷ trọng phương sai).
-- Độ không đảm bảo đo mở rộng toàn dải $U_{95\%}$ luôn duy trì dưới ngưỡng **$\pm 5.1\text{ mm}$** ở cự ly $5\text{ m}$ và dưới **$\pm 1.2\text{ mm}$** ở cự ly $1\text{ m}$, chứng minh giá trị đo có độ tin cậy khoa học cao.
+![Độ không đảm bảo đo Loại A và Loại B](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_9_do_khong_dam_bao_do_loai_a_b.png)
+*Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A ($u_A$) và Loại B ($u_B$) theo khoảng cách chuẩn.*
 
-![Phân tích tổng hợp Độ không đảm bảo đo ISO/GUM](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_9_ngan_sach_do_khong_dam_bao_do.png)
-*Hình 3.9: Biểu đồ phân rã các thành phần độ không đảm bảo đo Loại A, Loại B và Độ không đảm bảo đo mở rộng $U_{95\%}$ theo tiêu chuẩn ISO/GUM.*
+![Độ không đảm bảo đo chuẩn tổng hợp và mở rộng ISO/GUM](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png)
+*Hình 3.10: Biểu đồ độ không đảm bảo đo chuẩn tổng hợp ($u_c$) và độ không đảm bảo đo mở rộng ($U_{95\%}$, $k=2$) theo ISO/GUM.*
 
----
+**Nhận xét ngắn gọn:**
+- Ở cự ly gần ($d \le 50\text{ cm}$), $U_{95\%} \le 0.77\text{ mm}$, thành phần sai số vạch chia thước chuẩn $u_{B1} = 0.289\text{ mm}$ chiếm ưu thế chủ đạo.
+- Khi cự ly tăng lên $300 \div 550\text{ cm}$, thành phần lan truyền sai số nhiệt độ $u_{B3}$ tăng tuyến tính và chiếm trên 85% phương sai tổng hợp.
+- Trên toàn bộ dải đo hữu ích đến $5.5\text{ m}$, $U_{95\%}$ luôn duy trì dưới ngưỡng **$\pm 5.57\text{ mm}$** (dưới $\pm 0.56\text{ cm}$), khẳng định độ tin cậy khoa học cao của phép đo.
 
-## 3.9. Bảng tổng hợp đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet Nhà sản xuất
+### 3.8.2. Bảng tổng hợp đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet Nhà sản xuất
 
-Bảng đối chiếu tổng kết toàn diện các thông số kỹ thuật cốt lõi giữa bản công bố của Nhà sản xuất (Datasheet RCWL-1601) và Kết quả kiểm chứng thực nghiệm trên nền tảng vi điều khiển ESP32:
+#### Bảng 3.7: Bảng đối chiếu các chỉ tiêu kỹ thuật cốt lõi giữa Datasheet và Thực nghiệm
 
 | Chỉ tiêu kỹ thuật đo lường | Thông số công bố (Datasheet) | Kết quả kiểm chứng thực nghiệm | Đánh giá & Ghi chú kỹ thuật |
 | :--- | :---: | :---: | :--- |
-| **Điện áp hoạt động ($V_{\text{CC}}$)** | $2.8\text{ V} - 5.5\text{ V}$ | $3.3\text{ V}$ (cấp trực tiếp từ ESP32) | Hoạt động hoàn hảo, tương thích mức logic $3.3\text{ V}$ không cần IC đệm |
-| **Dòng điện tiêu thụ tĩnh** | $< 2\text{ mA}$ | $\approx 2.2\text{ mA}$ | Phù hợp triển khai các thiết bị quan trắc dùng pin/ắc quy |
-| **Dải đo danh định** | $2\text{ cm} - 400\text{ cm}$ (hoặc $450\text{ cm}$) | **$5\text{ cm} - 550\text{ cm}$** | **Vượt định mức:** Tầm đo mở rộng thêm $100\text{ cm}$ ($+22\%$) trên mặt nhẵn |
-| **Vùng chết (Blind Zone)** | $< 2\text{ cm}$ | **$1\text{ cm} - 3\text{ cm}$** | Giá trị đo bị kẹp cố định ở $2.0 - 2.6\text{ cm}$ do thời gian suy giảm màng gốm |
-| **Độ chính xác công bố** | $\pm 0.5\text{ cm} \pm 1\%$ | **$\pm 0.35\%$ (cự ly $> 1\text{ m}$)** | Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace |
-| **Hệ số xác định tuyến tính ($R^2$)** | Không công bố | **$R^2 = 0.999988$** | Đặc tính bám sát tuyến tính tuyệt đối |
-| **Độ phi tuyến toàn thang (Non-Linearity)** | Không công bố (< 1%) | **±0.361% FS** (Dải 5 - 400 cm) | Độ phi tuyến phần cứng xuất sắc (< 0.5% FS) |
-| **Phương trình đặc tính tĩnh chuẩn (Bậc 1)** | $y = x$ (Lý tưởng) | **$\hat{y} = 1.002734 \cdot x - 0.484\text{ cm}$** | Hệ số góc bám sát 1:1, bù điểm không cơ học -4.84 mm |
-| **Độ lệch chuẩn lặp lại ($s$)** | Không công bố | **$0.06 - 0.38\text{ mm}$ ($< 1\text{ m}$)**<br>$1.5 - 2.8\text{ mm}$ ($> 2\text{ m}$) | Độ chụm cực cao, $\text{CV}\% < 0.11\%$ trên toàn dải làm việc |
-| **Độ trễ tương đối ($\gamma_H$)** | Không công bố | **$0.553\%$** | Do sai số căn chỉnh dịch chuyển bàn đo và vi khí hậu phòng |
-| **Tầm đo trên mặt gồ ghề/xốp** | Không công bố | Bị suy giảm còn **$300\text{ cm}$**<br>*(Bão hòa hoàn toàn ở $375\text{ cm}$)* | Do hiện tượng tán xạ khuếch tán làm phân tán năng lượng sóng phản xạ |
-| **Khả năng thích ứng nhiệt độ** | Bù nhiệt nội bộ trên IC | Bù Laplace bằng phần mềm trên ESP32 | Giảm sai số trôi nhiệt từ $5.8\text{ cm}$ xuống dưới $0.5\text{ mm}$ trên dải $3\text{ m}$ |
+| **Dải đo danh định** | $2.0\text{ cm} - 400.0\text{ cm}$ (hoặc $450\text{ cm}$) | **$5.0\text{ cm} - 550.0\text{ cm}$** | **Vượt định mức:** Tầm đo mở rộng thêm $100\text{ cm}$ ($+22\%$) trên mặt nhẵn |
+| **Vùng chết (Blind Zone)** | $< 2.0\text{ cm}$ | **$1.0\text{ cm} - 3.0\text{ cm}$** | Giá trị đo bị kẹp cố định ở $2.0 - 2.6\text{ cm}$ do thời gian suy giảm dao động màng gốm |
+| **Độ chính xác công bố** | $\pm 0.5\text{ cm} \pm 1\%$ | **$|\Delta x| \le 0.43\text{ cm}$ ($< 2.5\text{ m}$)**<br>**$\pm 0.35\%$ ($> 2.5\text{ m}$)** | Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace |
+| **Độ phân giải (Resolution)** | $0.1 - 0.3\text{ cm}$ ($1 - 3\text{ mm}$) | **$1\text{ }\mu\text{s} \to \approx 0.174\text{ mm}$ ($0.017\text{ cm}$)** | Độ phân giải thời gian bay vượt trội nhờ bộ định thời phần cứng của ESP32 |
+| **Khả năng thích ứng nhiệt độ** | Bù nhiệt nội bộ trên IC (cố định) | Bù Laplace thời gian thực qua cảm biến ngoài | Triệt tiêu sai số trôi nhiệt từ $5.8\text{ cm}$ xuống dưới $0.5\text{ mm}$ trên dải $3\text{ m}$ |
 
 **Kết luận đánh giá tổng quát:**
 Module cảm biến siêu âm RCWL-1601 khi kết hợp với bộ đếm thời gian vi điều khiển ESP32 và giải thuật bù nhiệt Laplace đã thể hiện các đặc tính kỹ thuật vượt trội so với các thông số công bố tối thiểu của nhà sản xuất. Đây là tiền đề lý thuyết và thực nghiệm vững chắc để triển khai hệ thống vào bài toán thực tế: **"Hệ thống giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ"** trong Chương 4.

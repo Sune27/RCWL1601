@@ -334,42 +334,32 @@ doc.add_page_break()
 add_heading_1("LỜI NÓI ĐẦU")
 
 preface_paragraphs = [
-    "Trong tiến trình tự động hóa công nghiệp và phát triển các hệ thống điều khiển thông minh "
-    "(Công nghiệp 4.0, Robotics, Internet vạn vật - IoT), bài toán đo lường cự ly, vị trí và mức chất lỏng "
-    "không tiếp xúc đóng vai trò mang tính sống còn. Các hệ thống cảnh báo va chạm của xe tự hành AGV trong nhà máy, "
-    "trạm phân loại kích thước bao bì kiện hàng trên băng tải logistics, hay các bồn chứa hóa chất ăn mòn đều đòi hỏi "
-    "phương pháp đo đạc không tiếp xúc vật lý nhằm tránh hỏng hóc cơ học, tránh gây nhiễm bẩn dung dịch và bảo đảm khả năng "
-    "vận hành liên tục 24/7.",
+    "Trong tiến trình tự động hóa công nghiệp và phát triển các hệ thống điều khiển thông minh, "
+    "bài toán đo lường cự ly, vị trí và mức chất lỏng không tiếp xúc đóng vai trò mang tính sống còn. "
+    "Các hệ thống cảnh báo va chạm của xe tự hành AGV trong nhà máy, trạm phân loại kích thước bao bì kiện hàng "
+    "trên băng tải logistics, hay các bồn chứa hóa chất ăn mòn đều đòi hỏi phương pháp đo đạc không tiếp xúc vật lý "
+    "nhằm tránh hỏng hóc cơ học, tránh gây nhiễm bẩn dung dịch và bảo đảm khả năng vận hành liên tục 24/7.",
 
     "Trong số các công nghệ đo khoảng cách hiện nay (Laser LiDAR, Radar sóng milimét, Cảm biến quang học hồng ngoại và Siêu âm), "
-    "cảm biến siêu âm nổi bật lên như một giải pháp cân bằng tối ưu giữa chi phí sản xuất cực thấp, độ bền cơ học cao, không phụ thuộc "
-    "vào màu sắc hay độ trong suốt của vật thể phản xạ, và đặc biệt an toàn tuyệt đối cho người vận hành.",
+    "cảm biến siêu âm nổi lên như một giải pháp cân bằng tối ưu giữa chi phí sản xuất cực thấp, độ bền cơ học cao, "
+    "không phụ thuộc vào màu sắc hay độ trong suốt của vật thể phản xạ, và đặc biệt an toàn cho người vận hành.",
 
     "Module cảm biến siêu âm RCWL-1601 thế hệ mới là phiên bản nâng cấp phần cứng vượt trội so với dòng cảm biến kinh điển HC-SR04. "
-    "Được tích hợp vi mạch điều khiển chuyên dụng RCWL-9610, RCWL-1601 cho phép cấp nguồn và giao tiếp trực tiếp với vi điều khiển "
-    "ở dải điện áp rộng từ 2.8 V đến 5.5 V, hoàn toàn tương thích mức logic 3.3 V của vi điều khiển ESP32 mà không cần mạch chuyển mức điện áp. "
-    "Bên cạnh đó, việc vận tốc lan truyền sóng âm trong không khí phụ thuộc phi tuyến vào nhiệt độ môi trường theo phương trình Laplace "
-    "là nguồn gốc của sai số trôi cự ly lớn trong điều kiện khí hậu nóng ẩm tại Việt Nam nếu không có giải thuật bù trừ thích hợp.",
+    "Được tích hợp vi mạch điều khiển chuyên dụng RCWL-9610, RCWL-1601 hoàn toàn tương thích mức logic 3.3 V của vi điều khiển ESP32. "
+    "Bên cạnh đó, việc vận tốc lan truyền sóng âm trong không khí phụ thuộc vào nhiệt độ môi trường là nguồn gốc của sai số trôi cự ly "
+    "lớn trong điều kiện khí hậu nóng ẩm tại Việt Nam.",
 
     "Xuất phát từ yêu cầu thực tiễn của học phần Kỹ thuật Đo lường và Cảm biến, nhóm sinh viên đã lựa chọn "
     "và thực hiện đề tài: 'Khảo sát thực nghiệm đặc tính đo lường của cảm biến siêu âm RCWL-1601'. Mục tiêu của báo cáo bao gồm:",
 
-    "1. Khảo sát toàn diện đặc tính tĩnh và động học của cảm biến RCWL-1601 trên giàn thực nghiệm chuẩn hóa: xác định dải đo tuyến tính, "
-    "khảo sát chi tiết vùng chết (1 cm – 3 cm), dải đo xa mở rộng vượt định mức (lên đến 550 cm), độ chụm (độ lệch chuẩn, hệ số biến thiên), "
-    "độ chính xác, độ nhạy thời gian bay, và đánh giá độ không đảm bảo đo mở rộng theo tiêu chuẩn quốc tế ISO/GUM.",
+    "1. Khảo sát toàn diện đặc tính tĩnh và động học của cảm biến RCWL-1601 trên giàn thực nghiệm chuẩn hóa: xác định dải đo, "
+    "độ chụm, độ chính xác, đánh giá độ không đảm bảo đo mở rộng.",
 
-    "2. Khảo sát các hiện tượng vật lý chuyên sâu ảnh hưởng đến phép đo siêu âm: độ trễ đo giữa chiều tiến và chiều lùi (Hysteresis), "
-    "hiện tượng tán xạ khuếch tán trên bề mặt gồ ghề (Diffuse Scattering), và định lượng hiệu quả bù trôi vận tốc sóng âm Laplace theo nhiệt độ.",
+    "2. Khảo sát các hiện tượng vật lý chuyên sâu ảnh hưởng đến phép đo siêu âm: độ trễ (Hysteresis), hiện tượng tán xạ trên "
+    "bề mặt gồ ghề, và hiệu quả bù trôi vận tốc sóng âm Laplace theo nhiệt độ.",
 
-    "3. Xây dựng chuỗi lọc số thích nghi (Khoảng tứ phân vị IQR) và thiết kế hệ thống hoàn chỉnh: "
-    "'Giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32', giải quyết triệt để vấn đề vùng chết và sóng gợn mặt nước.",
-
-    "Nội dung bản báo cáo được bố cục chặt chẽ thành 5 chương chính:\n"
-    "• Chương 1: Cơ sở lý thuyết về cảm biến siêu âm và phương pháp đánh giá đo lường.\n"
-    "• Chương 2: Thiết kế và bố trí hệ thống thực nghiệm.\n"
-    "• Chương 3: Phân tích kết quả thực nghiệm và xử lý số liệu.\n"
-    "• Chương 4: Xây dựng và phân tích bài toán ứng dụng thực tế.\n"
-    "• Chương 5: Kết luận và kiến nghị kỹ thuật."
+    "3. Xây dựng chuỗi lọc số (Khoảng tứ phân vị IQR) và thiết kế hệ thống: "
+    "'Giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32'."
 ]
 
 for para_text in preface_paragraphs:
@@ -2477,43 +2467,43 @@ add_body_p(
 )
 
 # ==============================================================================
-# MỤC 3.8: PHÂN TÍCH TỔNG HỢP ĐỘ KHÔNG ĐẢM BẢO ĐO (ISO/GUM)
+
 # ==============================================================================
-add_heading_2("3.8. Phân tích Tổng hợp Độ không đảm bảo đo mở rộng toàn diện (ISO/GUM)")
+# MỤC 3.8: TỔNG HỢP ĐỘ KHÔNG ĐẢM BẢO ĐO (ISO/GUM) VÀ ĐỐI CHIẾU DATASHEET
+# ==============================================================================
+add_heading_2("3.8. Tổng hợp Độ không đảm bảo đo (ISO/GUM) và Đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet")
+
+add_heading_3("3.8.1. Đánh giá và Phân rã Độ không đảm bảo đo mở rộng toàn dải (ISO/GUM)")
 
 add_body_p(
-    "Theo tiêu chuẩn quốc tế ISO/IEC Guide 98-3 (GUM), mọi kết quả đo lường khoa học phải được công bố kèm theo khoảng "
-    "độ không đảm bảo đo mở rộng để khẳng định độ tin cậy của phép đo."
+    "Theo tiêu chuẩn quốc tế ISO/IEC Guide 98-3 (GUM), hàm đo khoảng cách thời gian bay có bù nhiệt độ được mô hình hóa theo:\n"
+    "d = f(t, T) = (331.3 + 0.606 · T) · t / 2"
 )
 
-add_heading_3("3.8.1. Phân loại và Mô hình hóa các thành phần không đảm bảo đo")
-
-add_body_p("Mô hình hàm đo khoảng cách có bù nhiệt độ:")
-add_body_p("d = f(t, T) = (331.3 + 0.606 · T) · t / 2")
-
-add_body_p("Các thành phần không đảm bảo đo bao gồm:")
-add_body_p("1. Độ không đảm bảo đo Loại A (u_A): Đánh giá sự phân tán ngẫu nhiên qua N = 50 lần đo: u_A = s / √50.")
 add_body_p(
-    "2. Độ không đảm bảo đo Loại B (u_B): Đánh giá từ thông số thiết bị và giả thiết phân bố xác suất hình chữ nhật (a / √3):\n"
-    "• u_B1 (Sai số vạch chia thước cơ khí chuẩn): Thước thép có độ chia 1 mm, giới hạn sai số a₁ = 0.5 mm ⇒ u_B1 = 0.5 / √3 ≈ 0.289 mm.\n"
-    "• u_B2 (Sai số lượng tử hóa của Timer ESP32): Chu kỳ lượng tử hóa 1 μs, tương ứng bước cự ly Δd_LSB ≈ 0.174 mm, "
-    "nửa khoảng a₂ = 0.087 mm ⇒ u_B2 = 0.087 / √3 ≈ 0.051 mm.\n"
-    "• u_B3 (Độ không đảm bảo nhiệt độ môi trường): Sai số nhiệt kế ±0.5 °C, a_T = 0.5 °C ⇒ u_T = 0.289 °C. "
-    "Lan truyền qua hệ số nhạy c_T = ∂d/∂T ≈ 0.001728 · d ⇒ u_B3(d) = 0.000499 · d (mm)."
+    "Các thành phần độ không đảm bảo đo bao gồm:\n"
+    "1. Độ không đảm bảo đo Loại A (u_A): Đánh giá độ phân tán ngẫu nhiên qua N = 50 lần đo: u_A = s / √N.\n"
+    "2. Độ không đảm bảo đo Loại B (u_B): Đánh giá theo phân bố xác suất hình chữ nhật (a / √3):\n"
+    "• u_B1 (Vạch chia thước chuẩn 1 mm, a₁ = 0.5 mm): u_B1 = 0.5 / √3 ≈ 0.289 mm.\n"
+    "• u_B2 (Lượng tử hóa Timer ESP32 1 μs ⇒ Δd_LSB ≈ 0.174 mm, a₂ = 0.087 mm): u_B2 = 0.087 / √3 ≈ 0.050 mm.\n"
+    "• u_B3 (Nhiệt độ môi trường ±0.5 °C ⇒ u_T = 0.289 °C): Lan truyền qua hệ số nhạy c_T = ∂d/∂T ≈ 0.00174 · d ⇒ u_B3(d) = c_T · u_T ≈ 0.000503 · d (mm).\n"
+    "3. Độ không đảm bảo đo chuẩn tổng hợp và Mở rộng (k = 2, độ tin cậy 95%):\n"
+    "u_c = √(u_A² + u_B1² + u_B2² + u_B3²),    U_95% = 2 · u_c"
 )
-add_body_p("3. Độ không đảm bảo đo chuẩn tổng hợp: u_c = √(u_A² + u_B1² + u_B2² + u_B3²).")
-add_body_p("4. Độ không đảm bảo đo mở rộng (U_95%): Với hệ số phủ k_p = 2: U_95% = 2 · u_c.")
-
-add_heading_3("3.8.2. Bảng tổng hợp Độ không đảm bảo đo")
 
 table_gum_data = [
-    ("10 cm", "0.061 mm", "0.009 mm", "0.289 mm", "0.051 mm", "0.050 mm", "0.297 mm", "0.297 mm", "0.60 mm", "10.57 ± 0.06 cm"),
-    ("50 cm", "0.094 mm", "0.013 mm", "0.289 mm", "0.051 mm", "0.249 mm", "0.385 mm", "0.385 mm", "0.77 mm", "49.85 ± 0.08 cm"),
-    ("100 cm", "0.383 mm", "0.054 mm", "0.289 mm", "0.051 mm", "0.499 mm", "0.580 mm", "0.581 mm", "1.16 mm", "99.43 ± 0.12 cm"),
-    ("200 cm", "2.192 mm", "0.310 mm", "0.289 mm", "0.051 mm", "0.998 mm", "1.040 mm", "1.085 mm", "2.17 mm", "200.35 ± 0.22 cm"),
-    ("300 cm", "2.860 mm", "0.404 mm", "0.289 mm", "0.051 mm", "1.497 mm", "1.526 mm", "1.578 mm", "3.16 mm", "299.72 ± 0.32 cm"),
-    ("400 cm", "1.850 mm", "0.262 mm", "0.289 mm", "0.051 mm", "1.995 mm", "2.017 mm", "2.034 mm", "4.07 mm", "401.40 ± 0.41 cm"),
-    ("500 cm", "1.978 mm", "0.280 mm", "0.289 mm", "0.051 mm", "2.494 mm", "2.511 mm", "2.527 mm", "5.05 mm", "500.69 ± 0.51 cm"),
+    ("10 cm", "0.060 mm", "0.008 mm", "0.289 mm", "0.050 mm", "0.050 mm", "0.297 mm", "0.297 mm", "0.59 mm", "10.57 ± 0.06 cm"),
+    ("50 cm", "0.092 mm", "0.013 mm", "0.289 mm", "0.050 mm", "0.252 mm", "0.386 mm", "0.386 mm", "0.77 mm", "49.84 ± 0.08 cm"),
+    ("100 cm", "0.375 mm", "0.053 mm", "0.289 mm", "0.050 mm", "0.503 mm", "0.582 mm", "0.585 mm", "1.17 mm", "99.43 ± 0.12 cm"),
+    ("150 cm", "0.284 mm", "0.043 mm", "0.289 mm", "0.050 mm", "0.755 mm", "0.810 mm", "0.811 mm", "1.62 mm", "149.96 ± 0.16 cm"),
+    ("200 cm", "2.135 mm", "0.302 mm", "0.289 mm", "0.050 mm", "1.006 mm", "1.048 mm", "1.091 mm", "2.18 mm", "200.35 ± 0.22 cm"),
+    ("250 cm", "2.057 mm", "0.291 mm", "0.289 mm", "0.050 mm", "1.258 mm", "1.292 mm", "1.324 mm", "2.65 mm", "250.00 ± 0.26 cm"),
+    ("300 cm", "2.837 mm", "0.401 mm", "0.289 mm", "0.050 mm", "1.510 mm", "1.538 mm", "1.589 mm", "3.18 mm", "299.72 ± 0.32 cm"),
+    ("350 cm", "2.618 mm", "0.390 mm", "0.289 mm", "0.050 mm", "1.761 mm", "1.785 mm", "1.828 mm", "3.65 mm", "351.09 ± 0.37 cm"),
+    ("400 cm", "0.270 mm", "0.041 mm", "0.289 mm", "0.050 mm", "2.013 mm", "2.034 mm", "2.034 mm", "4.07 mm", "401.40 ± 0.41 cm"),
+    ("450 cm", "4.049 mm", "0.573 mm", "0.289 mm", "0.050 mm", "2.264 mm", "2.283 mm", "2.354 mm", "4.71 mm", "450.74 ± 0.47 cm"),
+    ("500 cm", "1.978 mm", "0.280 mm", "0.289 mm", "0.050 mm", "2.516 mm", "2.533 mm", "2.548 mm", "5.10 mm", "500.69 ± 0.51 cm"),
+    ("550 cm", "0.319 mm", "0.049 mm", "0.289 mm", "0.050 mm", "2.768 mm", "2.783 mm", "2.783 mm", "5.57 mm", "550.63 ± 0.56 cm"),
 ]
 
 gum_headers = ["Cự ly chuẩn d", "Độ lệch chuẩn s", "u_A", "u_B1 (Thước)", "u_B2 (Timer)", "u_B3 (Nhiệt độ)", "u_B tổng", "u_c tổng", "U_95% (k=2)", "Kết quả đo chuẩn Y"]
@@ -2567,20 +2557,16 @@ p_cap_gum = doc.add_paragraph()
 p_cap_gum.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p_cap_gum.paragraph_format.space_before = Pt(4)
 p_cap_gum.paragraph_format.space_after = Pt(8)
-r_gum = p_cap_gum.add_run("Bảng 3.6: Bảng tổng hợp Độ không đảm bảo đo mở rộng theo tiêu chuẩn ISO/GUM.")
+r_gum = p_cap_gum.add_run("Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM.")
 r_gum.font.name = 'Times New Roman'
 r_gum.font.italic = True
 r_gum.font.size = Pt(9.5)
 
-add_body_p(
-    "Nhận xét phân tích tổng hợp: Ở cự ly gần (10 cm ≤ d ≤ 50 cm), độ không đảm bảo đo mở rộng rất nhỏ (U_95% ≤ 0.77 mm), "
-    "bị chi phối chủ yếu bởi độ không đảm bảo của vạch chia thước chuẩn u_B1 = 0.289 mm. Khi cự ly tăng dần lên 300 cm – 500 cm, "
-    "thành phần u_B3 (lan truyền sai số nhiệt độ) tăng tuyến tính và trở thành thành phần chủ đạo chi phối toàn bộ độ không đảm bảo đo "
-    "tổng hợp (chiếm trên 85% tỷ trọng phương sai). Độ không đảm bảo đo mở rộng toàn dải U_95% luôn duy trì dưới ngưỡng ±5.1 mm ở cự ly 5 m "
-    "và dưới ±1.2 mm ở cự ly 1 m, chứng minh giá trị đo có độ tin cậy khoa học cao."
-)
+# --- HÌNH 3.9: Loại A và Loại B ---
+IMG_H3_9_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_9_do_khong_dam_bao_do_loai_a_b.png"
+if not os.path.exists(IMG_H3_9_PATH):
+    IMG_H3_9_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\hinh_3_9_do_khong_dam_bao_do_loai_a_b.png"
 
-IMG_H3_9_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\hinh_3_9_ngan_sach_do_khong_dam_bao_do.png"
 if os.path.exists(IMG_H3_9_PATH):
     p_img3_9 = doc.add_paragraph()
     p_img3_9.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -2592,33 +2578,44 @@ if os.path.exists(IMG_H3_9_PATH):
     p_cap3_9 = doc.add_paragraph()
     p_cap3_9.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_9.paragraph_format.space_after = Pt(8)
-    r_c3_9 = p_cap3_9.add_run("Hình 3.9: Biểu đồ phân rã các thành phần độ không đảm bảo đo Loại A, Loại B và Độ không đảm bảo đo mở rộng U_95% theo tiêu chuẩn ISO/GUM.")
+    r_c3_9 = p_cap3_9.add_run("Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A (u_A) và Loại B (u_B) theo khoảng cách chuẩn.")
     r_c3_9.font.italic = True
     r_c3_9.font.size = Pt(10)
 
-# ==============================================================================
-# MỤC 3.9: BẢNG TỔNG HỢP ĐỐI CHIẾU ĐẶC TÍNH KỸ THUẬT VS DATASHEET
-# ==============================================================================
-add_heading_2("3.9. Bảng tổng hợp đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet Nhà sản xuất")
+# --- HÌNH 3.10: Chuẩn tổng hợp và Mở rộng ---
+IMG_H3_10_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png"
+if not os.path.exists(IMG_H3_10_PATH):
+    IMG_H3_10_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png"
+
+if os.path.exists(IMG_H3_10_PATH):
+    p_img3_10 = doc.add_paragraph()
+    p_img3_10.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_10.paragraph_format.space_before = Pt(8)
+    p_img3_10.paragraph_format.space_after = Pt(4)
+    run_img3_10 = p_img3_10.add_run()
+    run_img3_10.add_picture(IMG_H3_10_PATH, width=Cm(15.0))
+    
+    p_cap3_10 = doc.add_paragraph()
+    p_cap3_10.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_10.paragraph_format.space_after = Pt(8)
+    r_c3_10 = p_cap3_10.add_run("Hình 3.10: Biểu đồ độ không đảm bảo đo chuẩn tổng hợp (u_c) và độ không đảm bảo đo mở rộng (U_95%, k=2) theo ISO/GUM.")
+    r_c3_10.font.italic = True
+    r_c3_10.font.size = Pt(10)
 
 add_body_p(
-    "Bảng đối chiếu tổng kết toàn diện các thông số kỹ thuật cốt lõi giữa bản công bố của Nhà sản xuất "
-    "(Datasheet RCWL-1601) và Kết quả kiểm chứng thực nghiệm trên nền tảng vi điều khiển ESP32:"
+    "Nhận xét ngắn gọn: Ở cự ly gần (d ≤ 50 cm), U_95% ≤ 0.77 mm, thành phần sai số vạch chia thước chuẩn u_B1 = 0.289 mm chiếm ưu thế chủ đạo. "
+    "Khi cự ly tăng lên 300 – 550 cm, thành phần lan truyền sai số nhiệt độ u_B3 tăng tuyến tính và chiếm trên 85% phương sai tổng hợp. "
+    "Trên toàn bộ dải đo hữu ích đến 5.5 m, U_95% luôn duy trì dưới ngưỡng ±5.57 mm (dưới ±0.56 cm), khẳng định độ tin cậy khoa học cao của phép đo."
 )
 
+add_heading_3("3.8.2. Bảng tổng hợp đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet Nhà sản xuất")
+
 table_ds_data = [
-    ("Điện áp hoạt động (V_CC)", "2.8 V - 5.5 V", "3.3 V (cấp từ ESP32)", "Hoạt động hoàn hảo, tương thích logic 3.3 V"),
-    ("Dòng điện tiêu thụ tĩnh", "< 2 mA", "≈ 2.2 mA", "Phù hợp quan trắc dùng pin/ắc quy"),
-    ("Dải đo danh định", "2 cm - 400 cm (hoặc 450 cm)", "5 cm - 550 cm", "Vượt định mức: Mở rộng thêm 100 cm (+22%)"),
-    ("Vùng chết (Blind Zone)", "< 2 cm", "1 cm - 3 cm", "Kẹt cố định ở 2.0 - 2.6 cm do suy giảm màng gốm"),
-    ("Độ chính xác công bố", "± 0.5 cm ± 1%", "± 0.35% (cự ly > 1 m)", "Tốt hơn công bố nhờ tích hợp bù Laplace"),
-    ("Hệ số xác định tuyến tính (R²)", "Không công bố", "R² = 0.999988", "Đặc tính bám sát tuyến tính tuyệt đối"),
-    ("Độ phi tuyến toàn thang (Non-Linearity)", "Không công bố (< 1%)", "±0.361% FS (Dải 5 - 400 cm)", "Độ phi tuyến phần cứng xuất sắc (< 0.5% FS)"),
-    ("Phương trình đặc tính tĩnh chuẩn (Bậc 1)", "y = x (Lý tưởng)", "y = 1.002734 · x - 0.484 cm", "Hệ số góc bám sát 1:1, bù điểm không -4.84 mm"),
-    ("Độ lệch chuẩn lặp lại (s)", "Không công bố", "0.06 - 0.38 mm (< 1 m), 1.5 - 2.8 mm (> 2 m)", "Độ chụm cực cao, CV% < 0.11% toàn dải"),
-    ("Độ trễ tương đối (γ_H)", "Không công bố", "0.553%", "Do sai số căn chỉnh dịch chuyển bàn đo và vi khí hậu"),
-    ("Tầm đo trên mặt gồ ghề/xốp", "Không công bố", "Bị suy giảm còn 300 cm (Bão hòa tại 375 cm)", "Do tán xạ khuếch tán làm phân tán năng lượng sóng"),
-    ("Khả năng thích ứng nhiệt độ", "Bù nhiệt nội bộ trên IC", "Bù Laplace phần mềm trên ESP32", "Giảm sai số trôi nhiệt từ 5.8 cm xuống < 0.5 mm trên dải 3 m"),
+    ("Dải đo danh định", "2.0 cm - 400.0 cm (hoặc 450 cm)", "5.0 cm - 550.0 cm", "Vượt định mức: Mở rộng thêm 100 cm (+22%) trên mặt nhẵn"),
+    ("Vùng chết (Blind Zone)", "< 2.0 cm", "1.0 cm - 3.0 cm", "Kẹt cố định ở 2.0 - 2.6 cm do suy giảm dao động màng gốm"),
+    ("Độ chính xác công bố", "± 0.5 cm ± 1%", "|Δx| ≤ 0.43 cm (< 2.5 m)\n± 0.35% (> 2.5 m)", "Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace"),
+    ("Độ phân giải (Resolution)", "0.1 - 0.3 cm (1 - 3 mm)", "1 μs → ≈ 0.174 mm (0.017 cm)", "Độ phân giải ToF vượt trội nhờ bộ định thời phần cứng ESP32"),
+    ("Khả năng thích ứng nhiệt độ", "Bù nhiệt nội bộ trên IC (cố định)", "Bù Laplace thời gian thực qua cảm biến ngoài", "Triệt tiêu sai số trôi nhiệt từ 5.8 cm xuống < 0.5 mm trên dải 3 m"),
 ]
 
 ds_headers = ["Chỉ tiêu kỹ thuật đo lường", "Thông số công bố (Datasheet)", "Kết quả kiểm chứng thực nghiệm", "Đánh giá & Ghi chú kỹ thuật"]
@@ -2626,7 +2623,7 @@ tbl_ds = doc.add_table(rows=len(table_ds_data)+1, cols=len(ds_headers))
 tbl_ds.alignment = WD_TABLE_ALIGNMENT.CENTER
 tbl_ds.autofit = False
 
-ds_widths = [Cm(3.5), Cm(3.2), Cm(3.5), Cm(4.8)]
+ds_widths = [Cm(3.5), Cm(3.5), Cm(3.8), Cm(4.2)]
 for col_idx, h_text in enumerate(ds_headers):
     c = tbl_ds.rows[0].cells[col_idx]
     c.text = h_text
