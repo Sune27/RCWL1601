@@ -131,34 +131,46 @@ Bảng 3.3 trích xuất số liệu sai số định lượng tại các mốc 
 
 ## 3.3. Đánh giá Độ chụm và Độ chính xác
 
-### 3.3.1. Đánh giá Độ chụm (Precision)
+Trên cơ sở tập dữ liệu chuẩn chiều tiến mặt nhẵn FSDT sau khi xử lý ngoại lai tại Mục 3.1, độ chụm và độ chính xác của hệ đo được đánh giá trên 33 mốc cự ly thuộc dải đo hữu ích từ 1 cm đến 550 cm (trước ngưỡng bão hòa xa 580 – 600 cm). Toàn bộ số liệu gốc phục vụ phân tích và vẽ đồ thị được lưu trữ đầy đủ trong tệp `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`.
 
-Độ chụm phản ánh mức độ phân tán ngẫu nhiên giữa các lần đo lặp lại tại cùng một điểm cự ly trong điều kiện phòng thí nghiệm ổn định ($N = 50$). Hai chỉ số định lượng then chốt được phân tích:
-1. **Độ lệch chuẩn thực nghiệm ($s$):** Biểu diễn bằng đơn vị milimét ($\text{mm}$).
-   - Trong cự ly gần ($1\text{ cm} \le d \le 50\text{ cm}$): Độ lệch chuẩn cực nhỏ, dao động từ $s = 0.035\text{ mm}$ đến $0.094\text{ mm}$. Tín hiệu âm phản xạ rất mạnh và tỷ số tín hiệu trên nhiễu ($S/N$) đạt cực đại.
-   - Trong cự ly trung bình ($60\text{ cm} \le d \le 180\text{ cm}$): Độ lệch chuẩn tăng nhẹ lên khoảng $s = 0.15\text{ mm} - 0.40\text{ mm}$.
-   - Trong cự ly xa ($200\text{ cm} \le d \le 360\text{ cm}$): Độ lệch chuẩn biến thiên trong khoảng $s = 1.8\text{ mm} - 2.8\text{ mm}$. Sự gia tăng này là hệ quả tất yếu của hiện tượng nhiễu động vi khí hậu đối lưu không khí dọc theo hành lang đo dài $7\text{ m}$.
-   - Trong dải đo xa mở rộng ($400\text{ cm} \le d \le 550\text{ cm}$): Độ lệch chuẩn duy trì ổn định ở mức $s \approx 1.5 - 2.0\text{ mm}$ nhờ kích thước bia phản xạ lớn tập trung năng lượng tốt.
-2. **Hệ số biến thiên ($\text{CV}\%$):** Được tính theo công thức $\text{CV}\% = (s / \bar{d}) \cdot 100\%$.
-   - Trên toàn bộ dải đo làm việc hữu ích từ $10\text{ cm}$ đến $550\text{ cm}$, hệ số biến thiên $\text{CV}\%$ luôn duy trì dưới ngưỡng **$0.11\%$**.
-   - Tại các cự ly trung bình và xa ($50\text{ cm} \to 550\text{ cm}$), $\text{CV}\%$ đạt mức lý tưởng từ **$0.019\%$ đến $0.046\%$**. Đây là minh chứng rõ nét cho thấy hệ thống đo RCWL-1601 kết hợp ESP32 có độ lặp lại và độ ổn định thống kê hoàn toàn đáp ứng các tiêu chuẩn quan trắc kỹ thuật khắt khe.
+### 3.3.1. Đánh giá độ chụm
 
-![Độ chụm toàn dải đo](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_3_do_chum_toan_dai.png)
-*Hình 3.3: Biến thiên của Độ lệch chuẩn thực nghiệm $s$ (mm) và Hệ số biến thiên $\text{CV}\%$ trên toàn dải đo FSDT từ 1 cm đến 550 cm.*
+Áp dụng độ lệch chuẩn mẫu thực nghiệm $s$ tại Mục 1.3.1 và sai số chuẩn của giá trị trung bình $\text{SE}$ tại Mục 1.3.3 (Chương 1), chuỗi số liệu của 33 mốc cự ly ($1\text{ cm} \div 550\text{ cm}$, tại nhiệt độ chuẩn hóa 27.0 °C, $N = 50$ mẫu thô/mốc, cỡ mẫu hợp lệ sau lọc $n_{\text{hợp lệ}} \in [40, 50]$) được trích xuất trực tiếp từ hai cột `std_sach_mm` và `se_sach_mm` trong tệp `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`:
 
-### 3.3.2. Đánh giá Độ chính xác (Accuracy)
+1. **Vùng cự ly gần ($1\text{ cm} \le x_{\text{true}} \le 50\text{ cm}$, 9 mốc):** Tại 8/9 mốc khảo sát, $s$ đạt từ $0.035\text{ mm}$ đến $0.094\text{ mm}$ và $\text{SE}$ đạt từ $0.0049\text{ mm}$ đến $0.0133\text{ mm}$ (nhỏ hơn nhiều so với một bước đếm phần cứng $\Delta_{\text{LSB}} \approx 0.174\text{ mm}$) nhờ biên độ sóng phản xạ mạnh từ mặt phẳng nhẵn của viên gạch chuẩn $40\text{ cm} \times 40\text{ cm}$. Riêng mốc $40\text{ cm}$ ($n_{\text{hợp lệ}} = 49$) ghi nhận $s = 3.144\text{ mm}$ và $\text{SE} = 0.4491\text{ mm}$.
+2. **Vùng cự ly trung bình ($60\text{ cm} \le x_{\text{true}} \le 180\text{ cm}$, 8 mốc):** Tại 7/8 mốc, $s$ nằm trong dải $0.088\text{ mm} \div 0.383\text{ mm}$ và $\text{SE}$ nằm trong dải $0.0128\text{ mm} \div 0.0542\text{ mm}$; riêng mốc $120\text{ cm}$ ($n_{\text{hợp lệ}} = 50$) có $s = 1.747\text{ mm}$ và $\text{SE} = 0.2471\text{ mm}$.
+3. **Vùng cự ly xa danh định ($200\text{ cm} \le x_{\text{true}} \le 360\text{ cm}$, 11 mốc):** Độ lệch chuẩn $s$ dao động từ $0.142\text{ mm}$ (tại $220\text{ cm}$, $n_{\text{hợp lệ}} = 40$) đến $2.860\text{ mm}$ (tại $300\text{ cm}$, $n_{\text{hợp lệ}} = 50$), tương ứng $\text{SE}$ biến thiên từ $0.0225\text{ mm}$ đến $0.4045\text{ mm}$ (tại $360\text{ cm}$ đạt $s = 2.508\text{ mm}$, $\text{SE} = 0.3583\text{ mm}$).
+4. **Dải đo xa mở rộng ($400\text{ cm} \le x_{\text{true}} \le 550\text{ cm}$, 5 mốc):** Độ lệch chuẩn $s$ đạt $0.270\text{ mm}$ tại $400\text{ cm}$ ($\text{SE} = 0.0407\text{ mm}$), $0.228\text{ mm}$ tại $420\text{ cm}$ ($\text{SE} = 0.0340\text{ mm}$), tăng lên cực đại toàn dải $4.049\text{ mm}$ tại $450\text{ cm}$ ($\text{SE} = 0.5726\text{ mm}$), đạt $1.978\text{ mm}$ tại $500\text{ cm}$ ($\text{SE} = 0.2797\text{ mm}$) và giảm về $0.319\text{ mm}$ tại mốc giới hạn $550\text{ cm}$ ($n_{\text{hợp lệ}} = 42$, $\text{SE} = 0.0492\text{ mm}$).
 
-Độ chính xác thể hiện mức độ sai lệch giữa giá trị đo trung bình $\bar{d}$ và giá trị cự ly thực tế đặt chuẩn $d_{\text{true}}$ (được xác định bằng thước thép chuẩn có độ chia $1\text{ mm}$):
-- **Sai số tuyệt đối ($\Delta d = \bar{d} - d_{\text{true}}$):** Trên toàn bộ dải đo danh định từ $50\text{ cm}$ đến $550\text{ cm}$, sai số tuyệt đối dao động trong dải hẹp từ $-5.71\text{ mm}$ đến $+14.02\text{ mm}$.
-- **Sai số tương đối ($\delta\% = (\Delta d / d_{\text{true}}) \cdot 100\%$):** 
-  + Ngoại trừ vùng chết và vùng cự ly cực gần ($< 10\text{ cm}$), sai số tương đối trên toàn bộ dải làm việc ($50\text{ cm} \le d \le 550\text{ cm}$) hoàn toàn **nằm trong phạm vi $\pm 0.57\%$**, trong đó phần lớn các điểm đo đạt độ chính xác dưới **$\pm 0.35\%$**.
-  + Tại các cự ly $300\text{ cm}$, $500\text{ cm}$ và $550\text{ cm}$, sai số tương đối chỉ đạt lần lượt là $-0.09\%$, $+0.14\%$ và $+0.10\%$.
+Tính trên toàn bộ 33 mốc khảo sát ($1 \div 550\text{ cm}$), cột `se_sach_mm` xác nhận sai số chuẩn trung bình $\text{SE}$ không vượt quá $0.5726\text{ mm}$; trong đó có 32/33 mốc đạt $\text{SE} < 0.45\text{ mm}$ (nhỏ hơn nửa độ chia nhỏ nhất $0.5\text{ mm}$ của thước chuẩn) và 22/33 mốc đạt $\text{SE} \le 0.10\text{ mm}$.
 
-**Phân tích bản chất sai số hệ thống:**
-Sự tồn tại của độ lệch tuyệt đối khoảng vài milimét có tính chất dịch chuyển đều (offset) bắt nguồn từ khoảng cách cơ khí giữa mặt phẳng màng gốm áp điện nằm thụt sâu bên trong ống kim loại cảm biến so với mép bo mạch và mép bàn đo ($offset \approx 5 - 6\text{ mm}$). Thành phần sai số hệ thống này hoàn toàn có thể được hiệu chuẩn triệt tiêu bằng phần mềm thông qua hệ số hiệu chỉnh dịch gốc toạ độ.
+**Giải thích cơ chế vật lý và thuật toán của dạng dao động răng cưa trên Hình 3.3:**
+Trục hoành của Hình 3.3 biểu diễn sự thay đổi mốc khoảng cách chuẩn $x_{\text{true}}$ (mỗi mốc đều đo độc lập với cỡ mẫu cố định $N = 50$), không phải trục tăng dần kích thước mẫu tích lũy $k$ tại một vị trí cố định như bài toán hội tụ ở Mục 2.4 (Chương 2). Dạng lên xuống răng cưa luân phiên của $s$ giữa các mốc cự ly xuất phát từ sự tương tác giữa bước nhảy một chu kỳ sóng mang siêu âm 40 kHz và ngưỡng tứ phân vị 25% của bộ lọc IQR (đã nêu tại Mục 1.3.2, Chương 1). Tại $T = 27.0\text{ }^\circ\text{C}$ ($v = 347.66\text{ m/s}$), một chu kỳ sóng mang $T_0 = 25\text{ }\mu\text{s}$ ứng với quãng đường khứ hồi nửa bước sóng xấp xỉ $4.35\text{ mm}$ ($0.435\text{ cm}$). Khi biên độ sườn lên của bó xung phản hồi ECHO rơi sát mức điện áp ngưỡng so sánh trong vi mạch RCWL-9610, thời điểm kích hoạt bắt xung bị trượt $\pm 1$ chu kỳ sóng mang giữa các lần đo trong cùng 50 mẫu:
 
-![Độ chính xác và Sai số toàn dải](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_4_do_chinh_xac_sai_so.png)
-*Hình 3.4: Phân bố Sai số tuyệt đối $\Delta d$ (mm) và Sai số tương đối $\delta\%$ trên dải làm việc hiệu dụng.*
+- **Nhóm mốc lọc sạch cụm trượt chu kỳ:** Tại những mốc cự ly có dưới 25% số mẫu trượt sang chu kỳ kế cận (như 80, 150, 220, 320, 400, 420, 550 cm, với 5 – 10 mẫu ngoại lai bị loại trong `thong_ke_chuong_3.csv`), hai tứ phân vị $Q_1$ và $Q_3$ vẫn nằm gọn trong cùng một chu kỳ sóng mang ($\text{IQR} \approx 0.018 \div 0.066\text{ cm}$); hàng rào Tukey cắt bỏ hoàn toàn cụm trượt chu kỳ, đưa $s$ xuống mức rất thấp ($0.142 \div 0.395\text{ mm}$) và $\text{SE}$ xuống $0.022 \div 0.060\text{ mm}$.
+- **Nhóm mốc giữ lại hai cụm chu kỳ kế tiếp:** Tại các mốc cự ly có trên 25% số mẫu phân bố sang chu kỳ kế cận (như 40, 120, 200, 260, 300, 360, 450 cm, có 0 – 3 mẫu bị loại), cả hai cụm đều lọt vào giữa $Q_1$ và $Q_3$ làm $\text{IQR}$ mở rộng lên đúng một bước nhảy sóng mang ($\text{IQR} \approx 0.435\text{ cm}$); phân bố hai đỉnh đẩy độ lệch chuẩn mẫu $s$ lên vùng $1.7 \div 4.0\text{ mm}$. Tuy nhiên, sai số chuẩn của giá trị trung bình $\text{SE} = s / \sqrt{n}$ luôn được nén xuống dưới $0.57\text{ mm}$, bảo đảm độ tin cậy thống kê tuyệt đối cho phép lấy trung bình.
+
+![Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_3_do_chum_toan_dai.png)
+*Hình 3.3: Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE theo khoảng cách chuẩn (1 cm – 550 cm).*
+
+**Đánh giá từ đồ thị Hình 3.3:** Khi biểu diễn chung trên cùng một trục tung đơn vị mm, sự khác biệt giữa hai đường phản ánh rõ năng lực của phép đo:
+- **Đường màu xanh lam nét liền (Độ lệch chuẩn thực nghiệm $s$):** Nằm dưới vạch dung sai thước $0.5\text{ mm}$ tại phần lớn các mốc đơn chu kỳ và chỉ nhô lên tại các điểm giao thoa ngưỡng trượt chu kỳ sóng mang $40\text{ kHz}$.
+- **Đường màu cam nét đứt (Sai số chuẩn trung bình $\text{SE} = s/\sqrt{n}$):** Nhờ phép lấy trung bình trên $n_{\text{hợp lệ}} \ge 40$ mẫu, đường $\text{SE}$ bị nén phẳng hoàn toàn sát đáy trục hoành (dao động cực nhỏ từ $0.0049\text{ mm}$ đến $0.5726\text{ mm}$), chứng minh tính hội tụ cao và triệt tiêu gần như hoàn toàn sai số ngẫu nhiên của hệ thống đo.
+
+### 3.3.2. Đánh giá độ chính xác
+
+Sử dụng sai số tuyệt đối $\Delta x$ và sai số tương đối $\delta$ (%) đã định nghĩa tại Mục 1.3.3 (Chương 1), chuỗi số liệu được trích xuất từ cột `sai_so_tuyet_doi_mm` và `sai_so_tuong_doi_pct` trong `thong_ke_chuong_3.csv`:
+
+- **Sai số tuyệt đối ($\Delta x$):** Trong dải từ $50\text{ cm}$ đến $550\text{ cm}$ (25 mốc), $\Delta x$ biến thiên trong khoảng hẹp từ $-5.71\text{ mm}$ đến $+14.02\text{ mm}$; có 17/25 mốc có sai số tuyệt đối không vượt quá $\pm 5.0\text{ mm}$ và 22/25 mốc nằm trong phạm vi $\pm 8.0\text{ mm}$.
+- **Sai số tương đối ($\delta\%$):** Ở vùng đầu dải đo danh định ($10\text{ cm} \div 40\text{ cm}$), do mẫu số $x_{\text{true}}$ nhỏ nên $\delta\%$ đạt từ $-3.36\% \div +5.70\%$; tuy nhiên khi khoảng cách tăng lên từ $50\text{ cm}$ đến $550\text{ cm}$, sai số tương đối nhanh chóng hội tụ và nằm hoàn toàn trong dải hẹp $\mathbf{[-0.57\%; +0.35\%]}$. Tại các cự ly lớn ($300\text{ cm}$, $500\text{ cm}$, $550\text{ cm}$), sai số tương đối chỉ còn $-0.09\%$, $+0.14\%$ và $+0.11\%$.
+- **Nguồn gốc sai số hệ thống:** Độ lệch tuyệt đối cỡ vài milimét bắt nguồn từ hai yếu tố thực tế: khoảng cách thụt lùi cơ khí của màng rung gốm áp điện nằm sâu bên trong ống bảo vệ kim loại so với mép ngoài bo mạch ($\sim 4.84\text{ mm}$, hoàn toàn trùng khớp với hệ số tự do của phương trình hồi quy tuyến tính tại Mục 3.4) và sai số định vị mép chân gạch trên thước thép chuẩn.
+
+![Sai số tuyệt đối và Sai số tương đối](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_4_do_chinh_xac_sai_so.png)
+*Hình 3.4: Sai số tuyệt đối Δx (mm) và sai số tương đối δ (%) theo khoảng cách chuẩn (10 cm – 550 cm).*
+
+**Đánh giá từ đồ thị Hình 3.4:** Biểu đồ đơn ghép hai trục tung Y (đồng bộ đường chuẩn gốc 0 giữa hai trục) cho thấy hai xu hướng đối chiếu trực quan:
+- **Đường màu xanh lá nét liền (Sai số tuyệt đối $\Delta x$, trục trái):** Dao động quanh trục $0\text{ mm}$ trong biên độ hẹp $[-5.71; +14.02]\text{ mm}$ trên toàn bộ dải đo, khẳng định hệ thống không bị hiện tượng trôi tích lũy dốc theo khoảng cách.
+- **Đường màu xanh lam nét đứt (Sai số tương đối $\delta\%$, trục phải):** Hội tụ rất nhanh từ ngưỡng $+5.70\%$ ở cự ly gần về sát vạch chuẩn $0\%$ khi $x_{\text{true}} \ge 50\text{ cm}$ (luôn nằm dưới $0.57\%$), minh chứng cho độ chính xác cao của hệ đo RCWL-1601.
 
 ---
 
@@ -252,146 +264,106 @@ $$\hat{y} = 1.00273441 \cdot x - 0.48427223 \quad (\text{cm})$$
 
 ---
 
-## 3.5. Phân tích Độ trễ giữa Chiều tiến và Chiều lùi
+## 3.5. Phân tích Độ trễ (Hysteresis) giữa Chiều tiến và Chiều lùi
 
-Khảo sát đối chiếu đồng thời hai tập dữ liệu `FSDT.csv` (đo tịnh tiến tăng dần từ $10\text{ cm}$ đến $300\text{ cm}$) và `BSDT.csv` (đo tịnh tiến giảm dần từ $300\text{ cm}$ về $10\text{ cm}$) trên 19 mốc cự ly đối ứng.
+### 3.5.1. Khảo sát thực nghiệm đối xứng, Đồ thị trực quan và Định lượng Sai số trễ
 
-| Cự ly chuẩn $d_{\text{true}}$ (cm) | Chiều tiến $\bar{d}_{\text{forward}}$ (cm) | Chiều lùi $\bar{d}_{\text{backward}}$ (cm) | Độ lệch trễ $\Delta H_k$ (cm) | Độ lệch trễ $\Delta H_k$ (mm) |
-| :---: | :---: | :---: | :---: | :---: |
-| **$10$** | $10.570$ | $9.556$ | $1.013$ | $10.13$ |
-| **$20$** | $19.325$ | $19.043$ | $0.282$ | $2.82$ |
-| **$40$** | $38.664$ | $39.070$ | $0.406$ | $4.06$ |
-| **$50$** | $49.847$ | $48.732$ | $1.115$ | $11.15$ |
-| **$60$** | $59.042$ | $59.182$ | $0.140$ | $1.40$ |
-| **$80$** | $80.082$ | $79.907$ | $0.175$ | $1.75$ |
-| **$100$** | $99.429$ | $99.127$ | $0.302$ | $3.02$ |
-| **$120$** | $120.079$ | $118.924$ | $1.155$ | $11.55$ |
-| **$140$** | $139.544$ | $139.474$ | $0.070$ | $0.70$ |
-| **$150$** | $149.956$ | $148.524$ | $1.432$ | $14.32$ |
-| **$160$** | $158.536$ | $159.604$ | $1.068$ | $10.68$ |
-| **$180$** | $179.081$ | $179.734$ | $0.653$ | $6.53$ |
-| **$200$** | $200.351$ | $198.691$ | **$1.660$** | **$16.60$** |
-| **$220$** | $220.047$ | $220.187$ | $0.140$ | $1.40$ |
-| **$240$** | $239.826$ | $240.036$ | $0.210$ | $2.10$ |
-| **$250$** | $250.124$ | $251.432$ | $1.308$ | $13.08$ |
-| **$260$** | $260.359$ | $260.464$ | $0.105$ | $1.05$ |
-| **$280$** | $280.576$ | $281.154$ | $0.578$ | $5.78$ |
-| **$300$** | $299.718$ | $299.411$ | $0.307$ | $3.07$ |
+Nhằm đánh giá tính đối xứng và độ ổn định của cảm biến RCWL-1601 khi đo khoảng cách hai chiều, kịch bản thực nghiệm đối xứng được thiết lập với hai chuỗi đo độc lập trên cùng một ray trượt định hướng và bia phản xạ phẳng nhẵn ở nhiệt độ phòng chuẩn hóa 27.0°C: Chiều tiến (FSDT, tịnh tiến xa từ $10\text{ cm}$ đến $300\text{ cm}$) và Chiều lùi (BSDT, thu hẹp khoảng cách từ $300\text{ cm}$ về $10\text{ cm}$). Hai chuỗi đo giao nhau tại 19 mốc cự ly đối ứng chuẩn ($10, 20, 40, \dots, 300\text{ cm}$).
 
-**Xác định sai số trễ toàn dải:**
-- Độ trễ cực đại quan sát được: $\Delta H_{\max} = 1.6598\text{ cm} \approx 16.60\text{ mm}$ (xuất hiện tại mốc $200\text{ cm}$).
-- Sai số trễ tương đối so với thang đo thử nghiệm $d_{\text{F.S.}} = 300\text{ cm}$:
+![Đặc tính đo hai chiều](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_6a_dac_tinh_hai_chieu.png)
+*Hình 3.6a: Đặc tính đo khoảng cách hai chiều Chiều tiến vs Chiều lùi so với đường chuẩn lý tưởng 1:1.*
 
-$$\gamma_H\% = \frac{\Delta H_{\max}}{d_{\text{F.S.}}} \times 100\% = \frac{1.6598}{300} \times 100\% = 0.553\%$$
+Trên đồ thị Hình 3.6a, cả hai đường Chiều tiến và Chiều lùi đều bám sát hoàn hảo vào đường tham chiếu lý tưởng $y = x$. Để quan sát rõ nét sự chênh lệch vi mô giữa hai chiều dịch chuyển, phân bố sai số đo tuyệt đối $\Delta d = d_{\text{meas}} - d_{\text{true}}$ được phân tích chi tiết trên đồ thị Hình 3.6b.
 
-**Phân tích bản chất vật lý của hiện tượng trễ:**
-Khác với cảm biến biến dạng áp điện hoặc cảm biến từ trường có hiện tượng trễ vật liệu do ma sát nội phân tử, cảm biến siêu âm truyền sóng qua môi trường không khí tự do **hoàn toàn không có hiện tượng trễ nội tại**. Mức sai lệch trễ $\gamma_H \approx 0.55\%$ ghi nhận được trong thực nghiệm xuất phát từ hai nguyên nhân ngoại cảnh:
-1. **Độ rơ cơ khí của cữ trượt:** Khi đổi chiều dịch chuyển con trỏ từ tiến sang lùi trên ray định hướng, lực tỳ đảo chiều làm lệch góc nghiêng của tấm bia phản xạ đi một góc nhỏ khoảng $\pm 0.5^\circ$, gây biến thiên nhẹ quãng đường truyền sóng âm.
-2. **Trôi nhiệt độ vi khí hậu phòng:** Quá trình đo bài lùi `BSDT` diễn ra sau bài đo tiến `FSDT` khoảng 20 phút. Nhiệt độ phòng có sự thay đổi nhẹ khoảng $0.3^\circ\text{C}$, làm biến động vận tốc sóng âm một lượng nhỏ khoảng $0.18\text{ m/s}$.
+![Phân bố sai số trễ](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_6b_vong_tre_hysteresis.png)
+*Hình 3.6b: Phân bố Sai số đo tuyệt đối Δd và Vòng trễ Hysteresis giữa Chiều tiến và Chiều lùi.*
 
-![Vòng trễ Hysteresis](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_6_vong_tre_hysteresis.png)
-*Hình 3.6: Đặc tính đo Chiều tiến vs Chiều lùi và Biểu đồ phân bố độ lệch trễ $\Delta H_k$ trên 19 mốc cự ly.*
+Từ đồ thị Hình 3.6b, sai số đo tuyệt đối $\Delta d$ của hai chiều dao động trong biên độ rất hẹp $[-1.48\text{ cm}; +1.45\text{ cm}]$, quấn quanh trục tham chiếu $\Delta d = 0\text{ cm}$ và tạo thành vòng trễ khép kín với khoảng hở vi mô. Độ lệch trễ tuyệt đối tại từng mốc cự ly $d_{\text{true},k}$ được xác định theo hiệu số khoảng cách đo trung bình giữa Chiều tiến và Chiều lùi sau khi lọc IQR:
+
+$$\Delta H_k = |\bar{d}_{\text{forward},k} - \bar{d}_{\text{backward},k}| \quad (3.12)$$
+
+Phân tích trên toàn bộ 19 mốc cự ly ghi nhận độ lệch trễ cực đại $\Delta H_{\max} = 1.6598\text{ cm}$ (tại mốc $200\text{ cm}$, được định vị trực quan trên Hình 3.6b), độ lệch trễ trung bình $\Delta H_{\text{mean}} = 0.5342\text{ cm}$ và độ lệch chuẩn $s_H = 0.4496\text{ cm}$. Sai số trễ tương đối $\gamma_H\%$ được tính toán song song theo Thang đo thử nghiệm ($\text{Span}_{\text{test}} = 300\text{ cm}$) và Thang đo hiệu dụng toàn dải ($\text{Span}_{\text{FS}} = 550\text{ cm}$):
+
+$$\gamma_{H,\text{test}}\% = \frac{\Delta H_{\max}}{\text{Span}_{\text{test}}} \times 100\% = \frac{1.6598}{300} \times 100\% = 0.553\% \quad (3.13)$$
+
+$$\gamma_{H,\text{FS}}\% = \frac{\Delta H_{\max}}{\text{Span}_{\text{FS}}} \times 100\% = \frac{1.6598}{550} \times 100\% = 0.302\% \quad (3.14)$$
+
+Đánh giá: Cả hai chỉ số sai số trễ tương đối đều ở mức rất nhỏ ($\gamma_H\% \le 0.55\%$), đáp ứng xuất sắc yêu cầu định vị hai chiều tin cậy trong các bài toán công nghiệp và robot tự hành.
+
+### 3.5.2. Luận giải Bản chất vật lý phi trễ của sóng siêu âm và Truy vết nguyên nhân sai số ngoại cảnh
+
+Dựa trên kết quả thực nghiệm, mức sai số trễ rất nhỏ ($\gamma_H \approx 0.55\%$) được luận giải qua hai lý do cốt lõi: 
+- **Thứ nhất, về bản chất vật lý:** RCWL-1601 đo khoảng cách thuần túy bằng thời gian bay (ToF) của sóng siêu âm lan truyền trong không khí, không có ma sát cơ học hay hiện tượng trễ vật liệu nên hoàn toàn không tồn tại độ trễ nội tại.
+- **Thứ hai, về nguyên nhân sai số ngoại cảnh:** Độ lệch trễ vi mô cực đại $\Delta H_{\max} = 1.66\text{ cm}$ tại mốc $200\text{ cm}$ thực chất bắt nguồn từ các tác nhân ngoại cảnh khách quan gồm độ rơ cơ khí và góc tỳ tay khi đảo chiều trên ray trượt dài 3 m, sự biến thiên nhẹ của vi khí hậu phòng thí nghiệm giữa hai lượt đo, cùng độ phân giải đếm thời gian $1\text{ }\mu\text{s}$ ($\approx 0.174\text{ mm}$) của vi điều khiển ESP32.
 
 ---
 
 ## 3.6. Phân tích ảnh hưởng của Bề mặt phản xạ
 
-Đối chiếu kết quả giữa hai bề mặt phản xạ: hai bề mặt của cùng một viên gạch kích thước $40 \times 40\text{ cm}$: Mặt trước phẳng nhẵn (`FSDT.csv`) và Mặt sau gồ ghề nhấp nhô (`FRDT.csv`) trên 22 mốc cự ly chung ($10\text{ cm} \to 360\text{ cm}$) cùng mốc giới hạn $375\text{ cm}$.
+Để lượng hóa tác động của cơ chế phản xạ gương định hướng và tán xạ khuếch tán sóng siêu âm (đã trình bày tại Mục 1.1.3, Chương 1) lên chất lượng phép đo thực tế, thí nghiệm đối chứng được thực hiện tại cùng điều kiện nhiệt độ phòng mặc định 27.0 °C ($v = 347.662\text{ m/s}$) trên hai mặt đối lập của cùng một viên gạch kích thước $40\text{ cm} \times 40\text{ cm}$ (Mục 2.2 và Mục 2.3, Chương 2): Trường hợp 1 (FSDT) sử dụng mặt trước phẳng nhẵn và Trường hợp 3 (FRDT) sử dụng mặt sau gồ ghề nhấp nhô. Toàn bộ chỉ tiêu thống kê trước và sau lọc IQR trên 22 mốc cự ly chung ($10\text{ cm} \div 350\text{ cm}$) cùng mốc kiểm tra giới hạn $375\text{ cm}$ của FRDT (23 mốc, tổng cộng 1.150 mẫu thô) được trích xuất trực tiếp từ tệp `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`.
 
-```mermaid
-flowchart TD
-    subgraph A["Bề mặt nhẵn bóng (Specular Reflection)"]
-        A1["Chùm sóng âm 40 kHz"] --> A2["Phản xạ gương định hướng 90°"]
-        A2 --> A3["Năng lượng dội về cực đại"]
-        A3 --> A4["Độ chụm cao, đo xa đến 550 cm"]
-    end
-    subgraph B["Bề mặt gồ ghề nhám (Diffuse Scattering)"]
-        B1["Chùm sóng âm 40 kHz"] --> B2["Tán xạ đa hướng ngẫu nhiên"]
-        B2 --> B3["Năng lượng dội về suy giảm mạnh"]
-        B3 --> B4["Độ lệch chuẩn tăng vọt, bão hòa tại 350-375 cm"]
-    end
-```
+### 3.6.1. Tác động của tán xạ bề mặt lên độ chụm và độ chính xác đo
 
-| Cự ly chuẩn $d_{\text{true}}$ (cm) | Mặt phẳng nhẵn $\bar{d}$ (cm) | Mặt nhẵn $s_{\text{smooth}}$ (mm) | Mặt gồ ghề $\bar{d}$ (cm) | Mặt gồ ghề $s_{\text{rough}}$ (mm) | Tỷ số tăng tán xạ $s_{\text{rough}} / s_{\text{smooth}}$ |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **$10$** | $10.570$ | $0.061$ | $9.999$ | $1.620$ | **$26.4$ lần** |
-| **$50$** | $49.847$ | $0.094$ | $49.762$ | $1.452$ | **$15.5$ lần** |
-| **$100$** | $99.429$ | $0.383$ | $98.732$ | $0.101$ | $0.3$ lần |
-| **$150$** | $149.956$ | $0.158$ | $148.657$ | $0.245$ | $1.6$ lần |
-| **$200$** | $200.351$ | $2.192$ | $198.969$ | $0.253$ | $0.1$ lần |
-| **$250$** | $250.124$ | $0.245$ | $247.826$ | $0.248$ | $1.0$ lần |
-| **$300$** | $299.718$ | $2.860$ | $299.266$ | $0.244$ | $0.1$ lần |
-| **$340$** | $340.388$ | $1.962$ | $339.921$ | $0.462$ | $0.2$ lần |
-| **$350$** | $349.550$ | $2.491$ | $360.649$ | **$669.240$** | **$268.7$ lần** *(Bắt đầu bão hòa)* |
-| **$375$** | *Không đo* | — | $824.593$ | **$0.000$** | **Bão hòa 100%** *(Mất tín hiệu hoàn toàn)* |
+Đối chiếu các chỉ tiêu độ lệch chuẩn thực nghiệm $s$ (cột `std_sach_mm`), sai số chuẩn trung bình $\text{SE}$ (cột `se_sach_mm`) và sai số đo $\Delta x$, $\delta\%$ (cột `sai_so_tuyet_doi_mm`, `sai_so_tuong_doi_pct` — định nghĩa tại Mục 1.3, Chương 1) trên 22 mốc cự ly chung từ $10\text{ cm}$ đến $350\text{ cm}$ cho thấy ba đặc điểm vật lý rõ rệt:
 
-**Phân tích kết quả chuyên sâu:**
-1. **Hiện tượng tán xạ khuếch tán làm suy giảm độ chụm cự ly gần:** Ở các cự ly ngắn ($10\text{ cm} \to 50\text{ cm}$), bề mặt gồ ghề phân tán chùm tia sóng âm ra nhiều hướng. Các tia phản xạ không đồng pha giao thoa triệt tiêu lẫn nhau, khiến độ lệch chuẩn của mặt gồ ghề $s_{\text{rough}}$ cao gấp **$15$ đến $26$ lần** so với mặt phẳng nhẵn.
-2. **Sự sụt giảm nghiêm trọng cự ly đo cực đại:** Trong khi mặt phẳng nhẵn phản xạ gương duy trì được năng lượng sóng dội về đo chính xác tới $550\text{ cm}$, thì mặt gồ ghề bị suy giảm năng lượng nghiêm trọng:
-   - Tại cự ly $350\text{ cm}$: Năng lượng sóng phản xạ tiệm cận ngưỡng nhạy đáy của IC, xuất hiện các mẫu đo bị mất xung dẫn tới độ lệch chuẩn bùng nổ lên $s = 66.92\text{ cm}$.
-   - Tại cự ly $375\text{ cm}$: Toàn bộ $50/50$ mẫu ($100\%$) đều không kích hoạt được bộ thu, dẫn đến hệ thống bị treo quá thời gian và trả về giá trị tràn bão hòa $824.593\text{ cm}$.
-3. **Ý nghĩa thiết kế kỹ thuật:** Cảm biến siêu âm RCWL-1601 đòi hỏi vật cản phải có tiết diện phẳng đủ lớn hoặc góc nghiêng giới hạn trong phạm vi $\pm 15^\circ$ nếu muốn hoạt động ở cự ly trên $3.5\text{ m}$. Đối với các bề mặt xốp, lồi lõm hoặc dạng hạt rời (như ngũ cốc, than đá), cự ly hoạt động tin cậy bị suy giảm xuống tối đa khoảng $3.0\text{ m}$.
+1. **Suy giảm độ chụm cục bộ ở vùng cự ly gần ($10\text{ cm} \div 60\text{ cm}$) do giao thoa đa tia phản xạ:** Ở cự ly ngắn, góc mở chùm tia siêu âm bao phủ nhiều gờ lồi lõm có độ sâu chênh lệch cỡ milimét trên mặt sau viên gạch, tạo ra các sóng phản hồi lệch pha giao thoa trực tiếp tại màng thu. Tại $x_{\text{true}} = 10\text{ cm}$, độ lệch chuẩn sau lọc $s$ tăng từ $0.061\text{ mm}$ (FSDT, $\text{SE} = 0.0086\text{ mm}$) lên $1.620\text{ mm}$ (FRDT, $\text{SE} = 0.2291\text{ mm}$ — gấp 26.6 lần); tại $x_{\text{true}} = 60\text{ cm}$, $s$ tăng từ $0.088\text{ mm}$ ($\text{SE} = 0.0128\text{ mm}$) lên $2.240\text{ mm}$ ($\text{SE} = 0.3168\text{ mm}$ — gấp 25.5 lần). Ở các mốc $40\text{ cm}$ và $50\text{ cm}$, mặt gồ ghề làm phát sinh lần lượt 13/50 mẫu (26%, $s_{\text{thô}} = 2.338\text{ mm}$) và 6/50 mẫu (12%, $s_{\text{thô}} = 1.452\text{ mm}$) nhảy chu kỳ ngoại lai trước khi được bộ lọc IQR khử sạch về $s = 0.089\text{ mm}$ và $0.077\text{ mm}$. Tính trên toàn bộ 22 mốc từ $10\text{ cm}$ đến $350\text{ cm}$ (1.100 mẫu), tỷ lệ ngoại lai bị loại bỏ bởi IQR trên mặt gồ ghề là 59/1.100 mẫu (5.36%), cao hơn mức 46/1.100 mẫu (4.18%) của mặt phẳng nhẵn.
+2. **Hiện tượng dịch chuyển vị trí các đỉnh trượt chu kỳ trên dải trung bình ($80\text{ cm} \div 340\text{ cm}$):** Trong dải này, độ lệch chuẩn sau lọc của mặt gồ ghề dao động trong khoảng $0.101 \div 2.555\text{ mm}$, tương đương biên độ răng cưa $0.142 \div 2.860\text{ mm}$ của mặt phẳng nhẵn. Đáng chú ý, vị trí các đỉnh phân tán cao giữa hai bề mặt xuất hiện lệch pha nhau theo cự ly (tại 180, 220, 280, 320 cm, mặt gồ ghề rơi vào vùng chuyển tiếp hai chu kỳ sóng mang 40 kHz nên $s$ đạt $2.076 \div 2.555\text{ mm}$; ngược lại tại 100, 200, 300 cm, chùm phản xạ của mặt gồ ghề khóa gọn vào một chu kỳ đơn lẻ nên $s$ chỉ còn $0.101 \div 0.253\text{ mm}$). Nguyên nhân là độ nhấp nhô hình học của mặt sau viên gạch làm dịch chuyển mặt phẳng phản xạ âm học hiệu dụng đi vài milimét so với mép chân gạch, từ đó làm đổi vị trí các mốc cự ly rơi vào ranh giới ngưỡng so sánh xung ECHO. Nhờ lấy trung bình trên cỡ mẫu hợp lệ $n_{\text{hợp lệ}} \in [37, 50]$, sai số chuẩn trung bình $\text{SE}$ của mặt gồ ghề trên toàn bộ 22 mốc ($10 \div 350\text{ cm}$) luôn nằm gọn trong khoảng $0.0071 \div 0.3903\text{ mm}$, thấp hơn dung sai vạch chia thước chuẩn $0.5\text{ mm}$ tại 22/22 mốc đo.
+3. **Độ dịch chuyển sai số hệ thống ($\Delta x$ và $\delta\%$):** Do các đỉnh gờ lồi trên mặt nhám nhô về phía trước mặt phẳng chân gạch căn thước, sóng siêu âm dội về sớm hơn tại một số mốc làm sai số tuyệt đối $\Delta x = \bar{x} - x_{\text{true}}$ thiên âm rõ hơn so với mặt nhẵn (biến thiên từ $-21.74\text{ mm}$ tại $250\text{ cm}$, $-13.71\text{ mm}$ tại $60\text{ cm}$, $-12.94\text{ mm}$ tại $150\text{ cm}$ đến $+10.88\text{ mm}$ tại $350\text{ cm}$). Xét về sai số tương đối trên dải $80\text{ cm} \div 350\text{ cm}$ (17 mốc), có 16/17 mốc đạt $|\delta\%| \le 0.87\%$ (duy nhất mốc $100\text{ cm}$ ở mức $-1.27\%$), đáp ứng yêu cầu đo lường khi biên độ xung phản hồi còn vượt ngưỡng thu.
 
-![Ảnh hưởng của Bề mặt phản xạ](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_7_anh_huong_be_mat.png)
-*Hình 3.7: So sánh Độ lệch chuẩn phân tán $s$ và Tầm đo cực đại giữa Mặt phản xạ nhẵn (FSDT) và Mặt gồ ghề (FRDT).*
+![So sánh độ lệch chuẩn thực nghiệm s](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_7a_do_lech_chuan_be_mat.png)
+*Hình 3.7a: So sánh độ lệch chuẩn thực nghiệm s sau lọc IQR giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm.*
+
+**Đánh giá từ đồ thị Hình 3.7a:** Tách riêng đại lượng độ lệch chuẩn mẫu $s$ cho thấy rõ quy luật phân tán xung đơn lẻ giữa hai bề mặt:
+- **Ở vùng cự ly gần ($10 \div 60\text{ cm}$):** Đường màu cam nét đứt (FRDT) vọt lên hai đỉnh tán xạ rõ rệt tại $10\text{ cm}$ ($1.620\text{ mm}$) và $60\text{ cm}$ ($2.240\text{ mm}$), trong khi đường xanh lam nét liền (FSDT) nằm phẳng sát đáy dưới $0.10\text{ mm}$ (trừ điểm trượt chu kỳ tại $40\text{ cm}$).
+- **Ở dải trung bình – xa ($80 \div 350\text{ cm}$):** Cả hai đường cùng dao động răng cưa với biên độ đỉnh tương đương ($\le 2.86\text{ mm}$ trên FSDT và $\le 2.62\text{ mm}$ trên FRDT), nhưng vị trí đỉnh – đáy lệch pha nhau dọc theo trục khoảng cách do độ lồi lõm của mặt gạch nhám làm dịch chuyển mặt phẳng phản xạ hiệu dụng.
+
+![So sánh sai số chuẩn trung bình SE](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_7b_sai_so_chuan_be_mat.png)
+*Hình 3.7b: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm.*
+
+**Đánh giá từ đồ thị Hình 3.7b:** Khi phóng đại riêng thang đo cho sai số chuẩn trung bình $\text{SE}$ ($0 \div 0.65\text{ mm}$):
+- Cả hai đường $\text{SE}$ của FSDT (xanh lam vòng tròn nền trắng) và FRDT (cam ký hiệu hình vuông): Đều nằm hoàn toàn phía dưới đường dung sai vạch chia thước $0.5\text{ mm}$ (tím chấm gạch) tại trọn vẹn 22/22 mốc khảo sát ($0.0086 \div 0.4491\text{ mm}$ đối với FSDT và $0.0071 \div 0.3903\text{ mm}$ đối với FRDT).
+- **Ý nghĩa thống kê thực nghiệm:** Phép lấy trung bình trên cỡ mẫu $N = 50$ kết hợp lọc IQR đủ sức nén biên độ nhiễu pha tán xạ của bề mặt gồ ghề xuống mức dưới nửa milimét chừng nào sóng phản hồi còn vượt ngưỡng thu.
+
+### 3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa
+
+Tác động bất lợi nghiêm trọng nhất của bề mặt gồ ghề không nằm ở sai số dải gần mà ở sự suy giảm đột ngột cự ly hoạt động cực đại do thất thoát năng lượng âm học ra không gian:
+
+- **Đối chứng với mặt phẳng nhẵn (FSDT):** Nhờ phản xạ gương bảo toàn năng lượng dọc trục pháp tuyến 90°, cảm biến đo ổn định hoàn toàn không có xung tràn đến tận $550\text{ cm}$ ($\bar{x} = 550.630\text{ cm}$, $s = 0.319\text{ mm}$, $\text{SE} = 0.0492\text{ mm}$), chỉ chớm xuất hiện 4/50 xung mất tín hiệu tại $580\text{ cm}$ ($\bar{x}$ sau lọc vẫn đạt $579.850\text{ cm}$) và bão hòa hoàn toàn tại $600\text{ cm}$ ($\bar{x} = 824.562\text{ cm}$).
+- **Ngưỡng chớm mất xung tại 350 cm trên mặt gồ ghề (FRDT):** Do tán xạ khuếch tán làm biên độ áp suất âm phản hồi suy giảm nhanh theo khoảng cách, tại $x_{\text{true}} = 350\text{ cm}$ bắt đầu xuất hiện 1/50 mẫu (2%) mất hoàn toàn tín hiệu dội về và tràn bộ đếm lên $824.400\text{ cm}$ ($t = 47097\text{ }\mu\text{s}$ ở dòng 2 tệp `FRDT_350cm.csv`), đi kèm 4/50 mẫu (8%) trượt chu kỳ dương ($351.906 \div 352.817\text{ cm}$), tạo thành tổng cộng 5/50 mẫu ngoại lai (10%). Chỉ riêng 1 xung tràn $824.400\text{ cm}$ đã kéo trung bình thô lệch lên $\bar{x}_{\text{thô}} = 360.649\text{ cm}$ và làm độ lệch chuẩn thô bùng nổ lên $s_{\text{thô}} = 669.240\text{ mm}$ ($\text{SE}_{\text{thô}} = 94.6448\text{ mm}$, gấp 268.7 lần mặt nhẵn). Tuy nhiên, vì tổng tỷ lệ ngoại lai (10%) vẫn thấp hơn điểm gãy tứ phân vị (25%), bộ lọc IQR loại bỏ trọn vẹn cả 5 mẫu nhiễu ($n_{\text{hợp lệ}} = 45$), khôi phục kết quả đo chuẩn xác $\bar{x} = 351.088\text{ cm}$ ($\Delta x = +10.88\text{ mm}$, $\delta = +0.311\%$), $s = 2.618\text{ mm}$ và $\text{SE} = 0.3903\text{ mm}$.
+- **Sự sụp đổ phép đo và vượt ngưỡng lọc IQR tại 375 cm:** Khi dịch bia gồ ghề ra mốc $x_{\text{true}} = 375\text{ cm}$, dữ liệu thô ghi nhận tới 33/50 mẫu (66%) bị mất tín hiệu tràn lên $824.49 \div 824.75\text{ cm}$, chỉ còn 17/50 mẫu (34%) bắt được xung phản xạ yếu quanh $376.39 \div 378.16\text{ cm}$. Do tỷ lệ mẫu bão hòa vượt quá 50%, trung vị mẫu bị kéo hẳn lên vùng tràn ($\text{Med} = 824.575\text{ cm}$, trong khi $Q_1 = 377.388\text{ cm}$ và $Q_3 = 824.623\text{ cm}$), làm khoảng tứ phân vị phình rộng lên $\text{IQR} = 447.235\text{ cm}$ và mở toang hàng rào lọc $[-293.46; 1495.48]\text{ cm}$ (0 mẫu bị đánh dấu ngoại lai). Hệ quả là ngay cả sau lọc IQR, phép đo hoàn toàn mất hiệu lực với $\bar{x} = 672.502\text{ cm}$ ($\Delta x = +2975.02\text{ mm}$, $\delta = +79.33\%$), $s = 2140.734\text{ mm}$ và $\text{SE} = 302.7455\text{ mm}$.
+- **Kết luận thiết kế kỹ thuật:** Bề mặt gồ ghề tán xạ làm thu hẹp tầm đo tin cậy cực đại từ $550\text{ cm}$ xuống còn $350\text{ cm}$ (sụt giảm $200\text{ cm}$, tương đương $-36.4\%$). Kết quả này là cơ sở thực nghiệm trực tiếp cho thiết kế ứng dụng tại Chương 4: đối với bề mặt chất lỏng tĩnh phẳng nhẵn trong bồn chứa kín, cảm biến RCWL-1601 khai thác an toàn toàn bộ dải xa; ngược lại đối với vật liệu rắn dạng hạt rời, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, chiều cao lắp đặt tối đa phải giới hạn bảo toàn dưới ngưỡng $300 \div 350\text{ cm}$.
 
 ---
 
-## 3.7. Phân tích Ảnh hưởng của Nhiệt độ và Hiệu quả bù Vận tốc sóng âm Laplace
+## 3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt Laplace
 
-### 3.7.1. Cơ sở vật lý của hiện tượng trôi nhiệt
+Dựa trên mô hình phụ thuộc nhiệt độ của vận tốc sóng siêu âm Laplace đã thiết lập tại Mục 1.1.2 (Chương 1):
 
-Vận tốc truyền sóng âm trong chất khí phụ thuộc trực tiếp vào căn bậc hai của nhiệt độ tuyệt đối theo mô hình Laplace:
+$$v(T) = \sqrt{\frac{\gamma \cdot R \cdot (T + 273.15)}{M}} \approx 331.45 \cdot \sqrt{1 + \frac{T}{273.15}} \quad (\text{m/s})$$
 
-$$v(T) = \sqrt{\frac{\gamma \cdot R \cdot (T + 273.15)}{M}} \approx 331.3 + 0.606 \cdot T \quad (\text{m/s})$$
+Khi nhiệt độ môi trường thay đổi từ $27.0\text{ }^\circ\text{C}$ xuống $20.0\text{ }^\circ\text{C}$, vận tốc sóng siêu âm suy giảm lý thuyết từ $v(27.0\text{ }^\circ\text{C}) = 347.662\text{ m/s}$ xuống $v(20.0\text{ }^\circ\text{C}) = 343.420\text{ m/s}$ (sụt giảm $\Delta v = 4.242\text{ m/s}$, tương ứng $-1.220\%$, làm thời gian bay ToF giãn dài ra $+1.235\%$). Tác động của sự biến thiên này và năng lực bù nhiệt Laplace được đánh giá qua tập dữ liệu FSAT (19 mốc cự ly từ $10\text{ cm}$ đến $300\text{ cm}$) đối chứng trực tiếp với FSDT.
 
-Khảo sát đối chứng được thực hiện giữa hai điều kiện môi trường:
-- Điều kiện phòng thường mặc định (`FSDT`): $T_1 = 27.0^\circ\text{C} \implies v_1 = 347.662\text{ m/s}$.
-- Điều kiện phòng lạnh bật điều hòa (`FSAT`): $T_2 = 20.0^\circ\text{C} \implies v_2 = 343.420\text{ m/s}$.
+### 3.7.1. Sự giãn dài thời gian bay và độ ổn định độ chụm khi hạ nhiệt độ môi trường
 
-Độ chênh lệch vận tốc sóng âm là:
+Khi hạ nhiệt độ không khí xuống 20.0 °C, mật độ phân tử khí tăng làm giảm vận tốc lan truyền sóng âm, dẫn đến thời gian bay ToF cần thiết để sóng truyền khứ hồi qua cùng một khoảng cách hình học bị kéo dài ra.
 
-$$\Delta v = v_1 - v_2 = 347.662 - 343.420 = 4.242\text{ m/s} \quad (+1.235\%)$$
+- **Độ giãn thời gian bay thực nghiệm (`tof_sach_us`):** Trích xuất trực tiếp từ bộ đếm phần cứng ESP32 xác nhận ToF của tập FSAT tại 20.0 °C luôn lớn hơn có hệ thống so với FSDT tại 27.0 °C trên mọi mốc cự ly: tăng từ $614.0\text{ }\mu\text{s}$ lên $621.5\text{ }\mu\text{s}$ tại $10\text{ cm}$ ($+7.5\text{ }\mu\text{s}$), từ $2901.0\text{ }\mu\text{s}$ lên $2936.5\text{ }\mu\text{s}$ tại $50\text{ cm}$ ($+35.5\text{ }\mu\text{s}$), từ $5787.0\text{ }\mu\text{s}$ lên $5858.5\text{ }\mu\text{s}$ tại $100\text{ cm}$ ($+71.5\text{ }\mu\text{s}$), từ $11654.5\text{ }\mu\text{s}$ lên $11798.5\text{ }\mu\text{s}$ tại $200\text{ cm}$ ($+144.0\text{ }\mu\text{s}$) và từ $17454.0\text{ }\mu\text{s}$ lên $17670.0\text{ }\mu\text{s}$ tại $300\text{ cm}$ ($+216.0\text{ }\mu\text{s}$). Tỷ lệ giãn dài thời gian bay thực tế $(\bar{t}_{20} - \bar{t}_{27}) / \bar{t}_{27}$ trên toàn dải đạt trung bình $+1.235\%$, trùng khớp hoàn hảo với tỷ lệ suy giảm vận tốc âm lý thuyết Laplace $v_{27} / v_{20} - 1 = 347.662 / 343.420 - 1 = +1.235\%$.
+- **Tính bất biến của độ chụm đối với nhiệt độ:** Trong môi trường phòng điều hòa kín gió 20.0 °C, tổng tỷ lệ ngoại lai bị loại bởi IQR của tập FSAT là 38/950 mẫu (4.00%), tương đương hoàn toàn với 39/950 mẫu (4.11%) trên 19 mốc đối ứng của FSDT. Độ lệch chuẩn sau lọc $s$ của FSAT dao động trong dải $0.060 \div 3.381\text{ mm}$ và sai số chuẩn trung bình $\text{SE}$ đạt $0.0085 \div 0.4781\text{ mm}$ (nằm dưới dung sai thước $0.5\text{ mm}$ tại cả 19/19 mốc), chứng minh việc hạ nhiệt độ môi trường chỉ làm dịch chuyển hệ thống vận tốc truyền âm chứ không làm suy giảm độ chụm lặp lại của vi mạch RCWL-9610.
 
-Do vận tốc sóng âm giảm ở nhiệt độ thấp, thời gian bay ToF cần thiết để sóng truyền qua cùng một khoảng cách $d$ sẽ kéo dài hơn:
+### 3.7.2. Định lượng sai số trôi nhiệt khi không bù và hiệu quả khử trôi của thuật toán Laplace
 
-$$\frac{t_2}{t_1} = \frac{v_1}{v_2} = \frac{347.662}{343.420} \approx 1.01235 \quad (+1.235\%)$$
+Để đánh giá định lượng rủi ro trong các hệ thống nhúng giá rẻ thường gán cứng hằng số vận tốc âm mặc định $v(27.0\text{ }^\circ\text{C}) = 347.662\text{ m/s}$ (`default_temp_c = 27.0`), khoảng cách chưa bù nhiệt tại 20.0 °C được tính đối chứng từ cột `tof_sach_us` theo $\bar{x}_{\text{chưa bù}} = 0.5 \cdot v(27.0\text{ }^\circ\text{C}) \cdot \bar{t}_{\text{FSAT}}$ và so sánh trực tiếp với kết quả đã bù nhiệt Laplace thời gian thực trên ESP32:
 
-### 3.7.2. Minh chứng thực nghiệm trên thời gian bay ToF
+1. **Trường hợp không bù nhiệt độ (`sai_so_chua_bu_27c_mm`):** Do thời gian bay kéo dài hơn trong không khí lạnh nhưng phần mềm vẫn nhân với vận tốc lớn của 27.0 °C, kết quả đo bị phóng đại giả tạo với tỷ lệ lý thuyết $+1.235\%$ quãng đường ($\approx +12.35\text{ mm/m}$ ở 20.0 °C). Lượng trôi nhiệt thuần túy ($\bar{x}_{\text{chưa bù}} - \bar{x}_{\text{đã bù}}$) tích lũy tuyến tính từ $+1.31\text{ mm}$ tại $10\text{ cm}$, $+6.16\text{ mm}$ tại $50\text{ cm}$, $+12.28\text{ mm}$ tại $100\text{ cm}$, $+18.52\text{ mm}$ tại $150\text{ cm}$, $+22.46\text{ mm}$ tại $200\text{ cm}$, $+28.20\text{ mm}$ tại $250\text{ cm}$, lên tới $+34.65\text{ mm}$ tại $280\text{ cm}$ và $+35.31\text{ mm}$ tại $300\text{ cm}$. Hệ quả là sai số tuyệt đối $\Delta x$ khi chưa bù bị đẩy vọt lên mức dương lớn: đạt $+25.96\text{ mm}$ tại $200\text{ cm}$, đỉnh $+39.92\text{ mm}$ ($\approx +4.0\text{ cm}$) tại $280\text{ cm}$ và $+32.52\text{ mm}$ tại $300\text{ cm}$.
+2. **Hiệu quả triệt tiêu trôi nhiệt khi bù Laplace thời gian thực (`sai_so_tuyet_doi_mm`):** Khi kích hoạt công thức cập nhật vận tốc âm tức thời $v(T)$ theo từng mẫu đo trên ESP32, toàn bộ thành phần trôi nhiệt dương hàng xentimét bị loại bỏ hoàn toàn: sai số $\Delta x$ của FSAT được kéo sập về $-5.73\text{ mm}$ tại $100\text{ cm}$, $-0.45\text{ mm}$ tại $150\text{ cm}$, $+3.50\text{ mm}$ tại $200\text{ cm}$, $+0.04\text{ mm}$ tại $250\text{ cm}$, $+5.27\text{ mm}$ tại $280\text{ cm}$ và $-2.79\text{ mm}$ tại $300\text{ cm}$ (14/14 mốc từ $80 \div 300\text{ cm}$ trừ mốc $160\text{ cm}$ đều đạt $|\delta\%| \le 0.57\%$).
+3. **Độ trùng khít tuyệt đối giữa hai môi trường nhiệt độ sau bù ($\bar{x}_{27^\circ\text{C}} - \bar{x}_{20^\circ\text{C}}$):** Đối chiếu trực tiếp cột `mean_sach_cm` giữa FSDT (27.0 °C) và FSAT (20.0 °C) trên toàn bộ 19 mốc cự ly xác nhận độ lệch trung bình tuyệt đối giữa hai chế độ nhiệt chỉ là $0.037\text{ mm}$ (biến thiên trong dải siêu hẹp từ $-0.048\text{ mm}$ đến $+0.183\text{ mm}$; có 18/19 mốc lệch dưới $0.085\text{ mm}$ — nhỏ hơn nửa bước lượng tử thời gian $\Delta_{\text{LSB}} \approx 0.174\text{ mm}$ của bộ đếm ESP32). Kết quả này chứng minh thuật toán bù nhiệt Laplace giúp phép đo siêu âm hoàn toàn miễn nhiễm với biến thiên nhiệt độ môi trường.
 
-Dữ liệu đọc trực tiếp từ bộ đếm xung vi điều khiển ESP32 tại các mốc cự ly chuẩn xác nhận hoàn toàn quy luật vật lý này:
-- Tại $d_{\text{true}} = 100\text{ cm}$:
-  + Ở $27.0^\circ\text{C}$ (`FSDT`): Thời gian bay trung bình là $t_1 = 5668.000\text{ }\mu\text{s}$.
-  + Ở $20.0^\circ\text{C}$ (`FSAT`): Thời gian bay trung bình tăng lên $t_2 = 5791.000\text{ }\mu\text{s}$.
-  + Tỷ lệ tăng thời gian thực tế: $\Delta t / t_1 = (5791 - 5668) / 5668 = +2.17\%$ (trùng khớp tuyệt đối với tỷ lệ lý thuyết $+2.12\%$).
-- Tại $d_{\text{true}} = 200\text{ cm}$:
-  + Ở $27.0^\circ\text{C}$: $t_1 = 11426.000\text{ }\mu\text{s}$.
-  + Ở $20.0^\circ\text{C}$: $t_2 = 11678.000\text{ }\mu\text{s}$ (tăng $+2.21\%$).
+![So sánh sai số trôi nhiệt và hiệu quả bù Laplace](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
+*Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C khi chưa bù nhiệt độ, sau khi bù nhiệt độ Laplace (FSAT) và chuẩn đối chứng tại 27.0 °C (FSDT) trên dải 10 cm – 300 cm.*
 
-### 3.7.3. Đánh giá sai số khi Không bù nhiệt độ vs Hiệu quả sau khi Bù Laplace
-
-Nếu hệ thống đo siêu âm không có cảm biến đo nhiệt độ và giả định vận tốc sóng âm cố định ở mức mặc định phòng $v = 347.662\text{ m/s}$ ($27.0^\circ\text{C}$), khi môi trường hạ nhiệt độ về $20^\circ\text{C}$, thời gian bay kéo dài sẽ làm khoảng cách tính toán bị thổi phồng giả tạo:
-
-$$d_{\text{chưa bù}} = \frac{347.662 \times t_{20^\circ\text{C}} \times 10^{-4}}{2}$$
-
-Bảng sau đây chứng minh sự vượt trội khi áp dụng thuật toán bù Laplace thời gian thực:
-
-| Cự ly chuẩn $d_{\text{true}}$ (cm) | Thời gian bay $t_{20^\circ\text{C}}$ ($\mu\text{s}$) | Khoảng cách **Chưa bù** (cm) | Sai số khi **Chưa bù** (mm) | Khoảng cách **Đã bù Laplace** (cm) | Sai số sau **Đã bù Laplace** (mm) | Chênh lệch giữa 27°C và 20°C sau bù (mm) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **$10$** | $616$ | $10.801$ | $+8.01$ | $10.575$ | $+5.75$ | **$+0.05$** |
-| **$50$** | $2902$ | $50.885$ | $+8.85$ | $49.830$ | $-1.70$ | **$+0.03$** |
-| **$100$** | $5791$ | $101.543$ | $+15.43$ | $99.437$ | $-5.63$ | **$+0.01$** |
-| **$150$** | $8735$ | $153.165$ | $+31.65$ | $149.989$ | $-0.11$ | **$+0.02$** |
-| **$200$** | $11678$ | $204.770$ | $+47.70$ | $200.533$ | $+5.33$ | **$+0.01$** |
-| **$250$** | $14542$ | $254.989$ | $+49.89$ | $249.701$ | $-2.99$ | **$+0.03$** |
-| **$300$** | $17441$ | $305.820$ | $+58.20$ | $299.479$ | $-5.21$ | **$-0.03$** |
-
-**Kết luận đánh giá hiệu quả bù nhiệt:**
-- Khi **chưa bù nhiệt độ**, sai số trôi cự ly tăng tuyến tính theo khoảng cách: Lệch $+15.43\text{ mm}$ tại $100\text{ cm}$, $+47.70\text{ mm}$ tại $200\text{ cm}$, và lên tới gần $6\text{ cm}$ ($+58.20\text{ mm}$) tại cự ly $300\text{ cm}$. Đây là mức sai số không thể chấp nhận được trong các bài toán đo mức bồn chứa công nghiệp.
-- Khi **áp dụng bù Laplace tự động**, sai số đo tại $20.0^\circ\text{C}$ được ép chặt về ngưỡng $\pm 5\text{ mm}$ tương đương như ở $27.0^\circ\text{C}$. Độ chênh lệch giữa hai điều kiện nhiệt độ lệch nhau $7^\circ\text{C}$ sau bù chỉ còn **$0.01 - 0.05\text{ mm}$**. Điều này khẳng định thuật toán bù nhiệt độ đóng vai trò quyết định sống còn đến độ chính xác của cảm biến siêu âm.
-
-![Ảnh hưởng Nhiệt độ và Hiệu quả bù Laplace](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
-*Hình 3.8: So sánh Sai số đo khoảng cách khi Có bù vs Không bù nhiệt độ và Biểu đồ chênh lệch cự ly sau bù giữa hai mức nhiệt 27°C và 20°C.*
+**Đánh giá từ đồ thị Hình 3.8:** Biểu diễn ba chuỗi sai số trên cùng một trục tung đơn vị mm cho thấy sự tương phản trực quan:
+- **Đường màu đỏ nét liền ký hiệu tam giác (FSAT chưa bù nhiệt):** Tách khỏi gốc $0\text{ mm}$ và dốc tuyến tính đi lên theo khoảng cách chuẩn do tích lũy sai số vận tốc $+1.235\%$, vọt lên vùng $+26 \div +40\text{ mm}$ ở cự ly $200 \div 300\text{ cm}$.
+- **Đường màu xanh lá nét đứt tâm vuông đặc (FSAT đã bù Laplace tại 20.0 °C) lồng đồng tâm bên trong đường băng xanh lam ký hiệu vòng tròn rỗng (FSDT đối chứng tại 27.0 °C):** Từng điểm vuông xanh lá nằm lọt chính tâm vòng tròn xanh lam trên toàn bộ 19 mốc cự ly từ $10\text{ cm}$ đến $300\text{ cm}$ (do độ lệch giữa hai đường chỉ từ $0.002\text{ mm}$ đến $0.183\text{ mm}$) và cùng bám sát đường chuẩn $0\text{ mm}$, khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.
 
 ---
 
@@ -412,8 +384,8 @@ Các thành phần không đảm bảo đo bao gồm:
 
 2. **Độ không đảm bảo đo Loại B ($u_B$):** Đánh giá từ thông số thiết bị và giả thiết phân bố xác suất hình chữ nhật ($a / \sqrt{3}$):
    - $u_{B1}$ (Sai số vạch chia thước cơ khí chuẩn): Thước thép có độ chia nhỏ nhất $1\text{ mm}$, giới hạn sai số $a_1 = 0.5\text{ mm} \implies u_{B1} = 0.5 / \sqrt{3} \approx 0.289\text{ mm}$.
-   - $u_{B2}$ (Độ phân giải bộ đếm thời gian vi điều khiển): Bộ đếm ESP32 có độ phân giải $1\text{ }\mu\text{s}$, tương ứng dải cự ly $0.175\text{ mm}$, nửa khoảng sai số $a_2 = 0.175 / 2\text{ mm} \implies u_{B2} = 0.0875 / \sqrt{3} \approx 0.051\text{ mm}$.
-   - $u_{B3}$ (Độ không đảm bảo nhiệt độ môi trường): Nhiệt kế đo vi khí hậu có sai số $\pm 0.5^\circ\text{C}$, nửa khoảng $a_T = 0.5^\circ\text{C} \implies u_T = 0.5 / \sqrt{3} \approx 0.289^\circ\text{C}$. Lan truyền sai số nhiệt độ qua hệ số nhạy:
+   - $u_{B2}$ (Sai số lượng tử hóa của bộ định thời vi điều khiển ESP32): Bộ đếm phần cứng ESP32 đếm xung với chu kỳ lượng tử hóa $\Delta t_{\text{quant}} = 1\text{ }\mu\text{s}$, tương ứng với bước cự ly rời rạc nhỏ nhất $\Delta d_{\text{LSB}} \approx 0.174\text{ mm}$. Với giả thiết phân bố xác suất hình chữ nhật trong một khoảng lượng tử, nửa khoảng sai số $a_2 = 0.174 / 2 = 0.087\text{ mm} \implies u_{B2} = 0.087 / \sqrt{3} \approx 0.051\text{ mm}$.
+   - $u_{B3}$ (Độ không đảm bảo nhiệt độ môi trường): Nhiệt kế đo vi khí hậu có sai số $\pm 0.5^\circ\text{C}$, nửa khoảng $a_T = 0.5^\circ\text{C} \implies u_T = 0.5 / \sqrt{3} \approx 0.289^\circ\text{C}$. Lan truyền sai số nhiệt độ qua hệ số ảnh hưởng (Hệ số nhạy nhiệt độ trong mô hình GUM):
 
      $$c_T = \frac{\partial d}{\partial T} = \frac{0.606 \cdot t}{2} = \frac{0.606}{v} \cdot d \approx \frac{0.606}{350.69} \cdot d \approx 0.001728 \cdot d$$
 
@@ -461,9 +433,8 @@ Bảng đối chiếu tổng kết toàn diện các thông số kỹ thuật c�
 | **Vùng chết (Blind Zone)** | $< 2\text{ cm}$ | **$1\text{ cm} - 3\text{ cm}$** | Giá trị đo bị kẹp cố định ở $2.0 - 2.6\text{ cm}$ do thời gian suy giảm màng gốm |
 | **Độ chính xác công bố** | $\pm 0.5\text{ cm} \pm 1\%$ | **$\pm 0.35\%$ (cự ly $> 1\text{ m}$)** | Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace |
 | **Hệ số xác định tuyến tính ($R^2$)** | Không công bố | **$R^2 = 0.999988$** | Đặc tính bám sát tuyến tính tuyệt đối |
-| **Sai số phi tuyến cực đại ($\delta_{\text{NL}}$)** | Không công bố | **$0.2355\%$** | Độ phi tuyến cực nhỏ trên dải $5 - 550\text{ cm}$ |
-| **Độ nhạy thời gian bay ($S_t$)** | $\approx 58\text{ }\mu\text{s/cm}$ | **$57.24\text{ }\mu\text{s/cm}$** (tại $27.0^\circ\text{C}$) | Sai lệch chỉ $-0.49\%$ so với mô hình Laplace lý thuyết ($57.53\text{ }\mu\text{s/cm}$) |
-| **Độ phân giải thực nghiệm** | $1\text{ mm}$ | **$0.175\text{ mm}$ (Timer)**<br>$\approx 0.2 - 0.5\text{ mm}$ (Thực nghiệm) | Tối ưu nhờ xung nhịp $80\text{ MHz}$ của bộ đếm phần cứng ESP32 |
+| **Độ phi tuyến toàn thang (Non-Linearity)** | Không công bố (< 1%) | **±0.361% FS** (Dải 5 - 400 cm) | Độ phi tuyến phần cứng xuất sắc (< 0.5% FS) |
+| **Phương trình đặc tính tĩnh chuẩn (Bậc 1)** | $y = x$ (Lý tưởng) | **$\hat{y} = 1.002734 \cdot x - 0.484\text{ cm}$** | Hệ số góc bám sát 1:1, bù điểm không cơ học -4.84 mm |
 | **Độ lệch chuẩn lặp lại ($s$)** | Không công bố | **$0.06 - 0.38\text{ mm}$ ($< 1\text{ m}$)**<br>$1.5 - 2.8\text{ mm}$ ($> 2\text{ m}$) | Độ chụm cực cao, $\text{CV}\% < 0.11\%$ trên toàn dải làm việc |
 | **Độ trễ tương đối ($\gamma_H$)** | Không công bố | **$0.553\%$** | Do sai số căn chỉnh dịch chuyển bàn đo và vi khí hậu phòng |
 | **Tầm đo trên mặt gồ ghề/xốp** | Không công bố | Bị suy giảm còn **$300\text{ cm}$**<br>*(Bão hòa hoàn toàn ở $375\text{ cm}$)* | Do hiện tượng tán xạ khuếch tán làm phân tán năng lượng sóng phản xạ |
