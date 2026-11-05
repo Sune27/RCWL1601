@@ -357,30 +357,26 @@ print(f"Đã xuất đồ thị Hình 3.7 tại: {h3_7b_p1} và {h3_7b_p2}")
 
 # ==========================================================
 # 8. HÌNH 3.8 (Mục 3.7): Ảnh hưởng Nhiệt độ và Hiệu quả bù Vận tốc Laplace
-#    Đồ thị đơn 1 khung hình (dpi=300), chung trục Y (mm), trích xuất từ thong_ke_chuong_3.csv
+#    Đồ thị đơn 1 khung hình (dpi=300), so sánh Chưa bù vs Đã bù trên FSAT (10 cm – 300 cm)
 # ==========================================================
 print("Tạo Hình 3.8 (Mục 3.7 - Bù nhiệt độ Laplace từ thong_ke_chuong_3.csv)...")
-fsdt_t_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSDT_')}
 fsat_t_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSAT_')}
 
 common_temp_x = sorted(fsat_t_map.keys())
 err_uncomp_20 = [float(fsat_t_map[x]['sai_so_chua_bu_27c_mm']) for x in common_temp_x]
-err_comp_27 = [float(fsdt_t_map[x]['sai_so_tuyet_doi_mm']) for x in common_temp_x]
 err_comp_20 = [float(fsat_t_map[x]['sai_so_tuyet_doi_mm']) for x in common_temp_x]
 
-fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
-ax.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.1,
+fig, ax = plt.subplots(figsize=(10, 5.0), dpi=300)
+ax.axhline(0, color='#7f7f7f', linestyle='--', linewidth=1.2,
            label='Đường chuẩn sai số bằng 0 (0 mm)')
-ax.plot(common_temp_x, err_uncomp_20, color='#d62728', linestyle='-', linewidth=1.8, marker='^', markersize=4.8,
+ax.plot(common_temp_x, err_uncomp_20, color='#d62728', linestyle='-', linewidth=2.0,
+        marker='^', markersize=5.5, markerfacecolor='#d62728', markeredgecolor='#d62728',
         label='Phòng lạnh 20.0 °C (FSAT) – Chưa bù nhiệt (giữ cứng v ở 27.0 °C)')
-ax.plot(common_temp_x, err_comp_27, color='#1f77b4', linestyle='-', linewidth=3.4, alpha=0.55,
-        marker='o', markersize=8.5, markerfacecolor='none', markeredgecolor='#1f77b4', markeredgewidth=1.8,
-        label='Phòng mặc định 27.0 °C (FSDT) – Chuẩn đối chứng')
-ax.plot(common_temp_x, err_comp_20, color='#2ca02c', linestyle='--', linewidth=1.5,
-        marker='s', markersize=3.8, markerfacecolor='#2ca02c', markeredgecolor='#2ca02c',
+ax.plot(common_temp_x, err_comp_20, color='#2ca02c', linestyle='--', linewidth=1.8,
+        marker='s', markersize=5.0, markerfacecolor='#2ca02c', markeredgecolor='#2ca02c',
         label='Phòng lạnh 20.0 °C (FSAT) – Đã bù nhiệt độ Laplace thời gian thực')
 
-ax.set_title("So sánh sai số tuyệt đối Δx khi chưa bù và sau khi bù nhiệt độ Laplace (10 cm – 300 cm)", fontweight='bold', pad=12)
+ax.set_title("So sánh sai số tuyệt đối Δx trước và sau khi bù nhiệt độ Laplace (10 cm – 300 cm)", fontweight='bold', pad=12)
 ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
 ax.set_ylabel("Sai số tuyệt đối Δx (mm)", fontweight='bold')
 ax.set_xlim(0, 315)
@@ -392,11 +388,9 @@ ax.legend(loc='upper left', framealpha=0.95)
 
 plt.tight_layout()
 h3_8_p1 = GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
-h3_8_p2 = GRAPH_DIR / "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
 fig.savefig(h3_8_p1, dpi=300)
-fig.savefig(h3_8_p2, dpi=300)
 plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.8 tại: {h3_8_p1} và {h3_8_p2}")
+print(f"Đã xuất đồ thị Hình 3.8 tại: {h3_8_p1}")
 # ==========================================================
 # 9. HÌNH 3.9: Phân tích tổng hợp Độ không đảm bảo đo mở rộng ISO/GUM
 # ==========================================================

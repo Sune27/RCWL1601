@@ -1866,61 +1866,45 @@ add_bullet_p(
 add_heading_2("3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt Laplace")
 
 add_body_p(
-    "Dựa trên mô hình phụ thuộc nhiệt độ của vận tốc sóng siêu âm Laplace đã thiết lập tại Mục 1.1.2 (Chương 1), "
-    "thí nghiệm đối chứng được tiến hành trên cùng mặt trước phẳng nhẵn của viên gạch chuẩn dọc 19 mốc cự ly chung từ 10 cm đến 300 cm "
-    "(Mục 2.3, Chương 2) giữa hai chế độ nhiệt: Trường hợp 1 (FSDT) tại điều kiện phòng mặc định T_1 = 27.0 °C (v_1 = 347.662 m/s) "
-    "và Trường hợp 4 (FSAT) trong phòng điều hòa làm lạnh T_2 = 20.0 °C (v_2 = 343.420 m/s, có dao động vi khí hậu nhẹ lên 21.0 °C "
-    "ở một số mẫu thuộc mốc 200, 250, 300 cm được cảm biến nhiệt ghi nhận trực tiếp). Toàn bộ dữ liệu thời gian bay trung bình sau lọc "
-    "(cột tof_sach_us), kết quả đo khi chưa bù nhiệt (cột mean_chua_bu_27c_cm, sai_so_chua_bu_27c_mm) và kết quả sau khi bù nhiệt Laplace "
-    "(cột mean_sach_cm, sai_so_tuyet_doi_mm, std_sach_mm, se_sach_mm) được lưu trữ đầy đủ trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
+    "Để kiểm chứng mô hình vận tốc âm Laplace (Mục 1.1.2, Chương 1), thí nghiệm đối chứng được thực hiện trên mặt phẳng nhẵn dọc 19 mốc cự ly "
+    "từ 10 cm đến 300 cm giữa hai chế độ nhiệt: Trường hợp 1 (FSDT) ở nhiệt độ phòng mặc định 27.0 °C (v = 347.662 m/s) "
+    "và Trường hợp 4 (FSAT) trong phòng điều hòa 20.0 °C (v = 343.420 m/s). Số liệu được lấy từ tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
 )
 
 add_heading_3("3.7.1. Sự giãn dài thời gian bay và độ ổn định độ chụm khi hạ nhiệt độ môi trường")
 add_body_p(
-    "Khi hạ nhiệt độ không khí xuống 20.0 °C, mật độ phân tử khí tăng làm giảm vận tốc lan truyền sóng siêu âm một lượng "
-    "Δv = -4.242 m/s (-1.220% so với mức chuẩn hóa 27.0 °C), kéo dài thời gian bay khứ hồi t của xung siêu âm trên cùng một khoảng cách hình học x_true:"
+    "Khi nhiệt độ giảm từ 27.0 °C xuống 20.0 °C, mật độ không khí tăng làm giảm vận tốc sóng âm một lượng "
+    "Δv = -4.242 m/s (-1.22%), kéo dài thời gian bay khứ hồi t:"
 )
 add_bullet_p(
-    "Trích xuất trực tiếp từ bộ đếm phần cứng 1 μs của ESP32 sau lọc IQR cho thấy thời gian bay trung bình của tập FSAT lớn hơn FSDT "
-    "một cách nhất quán và tăng tuyến tính theo cự ly với tốc độ xấp xỉ +120.5 μs trên mỗi mét khoảng cách: tại x_true = 100 cm, "
-    "t̄ tăng từ 5670.42 μs lên 5790.42 μs (Δt̄ = +120.00 μs); tại x_true = 200 cm, tăng từ 11413.42 μs lên 11654.78 μs (Δt̄ = +241.36 μs); "
-    "và tại x_true = 300 cm, tăng từ 17083.52 μs lên 17445.24 μs (Δt̄ = +361.72 μs).",
-    "Độ giãn thời gian bay thực nghiệm (tof_sach_us): "
+    "Thời gian bay trung bình sau lọc IQR của FSAT giãn dài tuyến tính so với FSDT với tốc độ xấp xỉ +120.5 μs/m: "
+    "tại 100 cm tăng +120.00 μs (từ 5670.42 μs lên 5790.42 μs); tại 200 cm tăng +241.36 μs (11413.42 → 11654.78 μs); "
+    "tại 300 cm tăng +361.72 μs (17083.52 → 17445.24 μs).",
+    "Độ giãn thời gian bay (tof_sach_us): "
 )
 add_bullet_p(
-    "Trong môi trường phòng điều hòa kín gió 20.0 °C, tổng tỷ lệ ngoại lai bị loại bởi IQR của tập FSAT là 38/950 mẫu (4.00%), "
-    "tương đương hoàn toàn với 39/950 mẫu (4.11%) trên 19 mốc đối ứng của FSDT. Độ lệch chuẩn sau lọc s của FSAT dao động trong dải "
-    "0.060 – 3.381 mm và sai số chuẩn trung bình SE đạt 0.0085 – 0.4781 mm (nằm dưới dung sai thước 0.5 mm tại cả 19/19 mốc), "
-    "chứng minh việc hạ nhiệt độ môi trường chỉ làm dịch chuyển hệ thống vận tốc truyền âm chứ không làm suy giảm độ chụm lặp lại của vi mạch RCWL-9610.",
-    "Tính bất biến của độ chụm đối với nhiệt độ: "
+    "Tỷ lệ ngoại lai bị IQR loại bỏ ở FSAT là 38/950 mẫu (4.00%), tương đương mức 4.11% của FSDT. "
+    "Sai số chuẩn trung bình SE đạt 0.0085 – 0.4781 mm, nằm dưới dung sai thước 0.5 mm tại cả 19/19 mốc, "
+    "chứng minh nhiệt độ chỉ dịch chuyển vận tốc âm chứ không ảnh hưởng đến độ chụm lặp lại của cảm biến.",
+    "Độ ổn định độ chụm: "
 )
 
-add_heading_3("3.7.2. Định lượng sai số trôi nhiệt khi không bù và hiệu quả khử trôi của thuật toán Laplace")
+add_heading_3("3.7.2. Định lượng sai số trôi nhiệt và hiệu quả khử trôi của thuật toán Laplace")
 add_body_p(
-    "Để đánh giá định lượng rủi ro trong các hệ thống nhúng giá rẻ thường gán cứng hằng số vận tốc âm mặc định v(27.0 °C) = 347.662 m/s "
-    "(default_temp_c = 27.0), khoảng cách chưa bù nhiệt tại 20.0 °C được tính đối chứng từ cột tof_sach_us theo "
-    "x̄_chưa_bù = 0.5 · v(27.0 °C) · t̄_FSAT và so sánh trực tiếp với kết quả đã bù nhiệt Laplace thời gian thực trên ESP32:"
+    "Đối chứng khoảng cách khi chưa bù nhiệt (x̄_chưa_bù = 0.5 · v(27.0 °C) · t̄_FSAT) "
+    "và sau khi bù nhiệt Laplace thời gian thực trên ESP32 cho thấy:"
 )
 add_bullet_p(
-    "Do thời gian bay kéo dài hơn trong không khí lạnh nhưng phần mềm vẫn nhân với vận tốc lớn của 27.0 °C, kết quả đo bị phóng đại giả tạo "
-    "với tỷ lệ lý thuyết +1.235% quãng đường (≈ +12.35 mm/m ở 20.0 °C). Lượng trôi nhiệt thuần túy (x̄_chưa_bù - x̄_đã_bù) tích lũy tuyến tính "
-    "từ +1.31 mm tại 10 cm, +6.16 mm tại 50 cm, +12.28 mm tại 100 cm, +18.52 mm tại 150 cm, +22.46 mm tại 200 cm, +28.20 mm tại 250 cm, "
-    "lên tới +34.65 mm tại 280 cm và +35.31 mm tại 300 cm. Hệ quả là sai số tuyệt đối Δx khi chưa bù bị đẩy vọt lên mức dương lớn: "
-    "đạt +25.96 mm tại 200 cm, đỉnh +39.92 mm (≈ +4.0 cm) tại 280 cm và +32.52 mm tại 300 cm.",
-    "1. Trường hợp không bù nhiệt độ (sai_so_chua_bu_27c_mm): "
+    "Do giữ cứng vận tốc ở 27.0 °C trong khi sóng âm truyền chậm hơn ở 20.0 °C, kết quả đo bị phóng đại +1.235% quãng đường. "
+    "Lượng trôi nhiệt tích lũy tuyến tính theo cự ly: đạt +12.28 mm tại 100 cm, +22.46 mm tại 200 cm, "
+    "và đẩy sai số Δx lên mức cực đại +39.92 mm (≈ +4.0 cm) tại 280 cm và +32.52 mm tại 300 cm.",
+    "Khi không bù nhiệt độ (sai_so_chua_bu_27c_mm): "
 )
 add_bullet_p(
-    "Khi kích hoạt công thức cập nhật vận tốc âm tức thời v(T) theo từng mẫu đo trên ESP32, toàn bộ thành phần trôi nhiệt dương hàng xentimét "
-    "bị loại bỏ hoàn toàn: sai số Δx của FSAT được kéo sập về -5.73 mm tại 100 cm, -0.45 mm tại 150 cm, +3.50 mm tại 200 cm, "
-    "+0.04 mm tại 250 cm, +5.27 mm tại 280 cm và -2.79 mm tại 300 cm (14/14 mốc từ 80 – 300 cm trừ mốc 160 cm đều đạt |δ%| ≤ 0.57%).",
-    "2. Hiệu quả triệt tiêu trôi nhiệt khi bù Laplace thời gian thực (sai_so_tuyet_doi_mm): "
-)
-add_bullet_p(
-    "Đối chiếu trực tiếp cột mean_sach_cm giữa FSDT (27.0 °C) và FSAT (20.0 °C) trên toàn bộ 19 mốc cự ly xác nhận độ lệch trung bình tuyệt đối "
-    "giữa hai chế độ nhiệt chỉ là 0.037 mm (biến thiên trong dải siêu hẹp từ -0.048 mm đến +0.183 mm; có 18/19 mốc lệch dưới 0.085 mm — "
-    "nhỏ hơn nửa bước lượng tử thời gian Δ_LSB ≈ 0.174 mm của bộ đếm ESP32). Kết quả này chứng minh thuật toán bù nhiệt Laplace giúp phép đo "
-    "siêu âm hoàn toàn miễn nhiễm với biến thiên nhiệt độ môi trường.",
-    "3. Độ trùng khít tuyệt đối giữa hai môi trường nhiệt độ sau bù (x̄_27°C - x̄_20°C): "
+    "Thuật toán tự động cập nhật v(T) theo nhiệt độ đo tức thời từ cảm biến, triệt tiêu hoàn toàn thành phần trôi nhiệt hàng xentimét. "
+    "Sai số Δx được kéo về dao động quanh đường chuẩn 0 mm (-5.73 mm tại 100 cm, +3.50 mm tại 200 cm, -2.79 mm tại 300 cm), "
+    "giúp 14/14 mốc từ 80 – 300 cm (trừ mốc 160 cm) đạt sai số tương đối |δ%| ≤ 0.57%.",
+    "Khi kích hoạt bù nhiệt Laplace (sai_so_tuyet_doi_mm): "
 )
 
 IMG_H3_8_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_8_anh_huong_nhiet_do_bu_laplace.png")
@@ -1936,23 +1920,22 @@ if os.path.exists(IMG_H3_8_PATH):
     p_cap3_8.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_8.paragraph_format.space_after = Pt(8)
     r_c3_8 = p_cap3_8.add_run(
-        "Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C khi chưa bù nhiệt độ, "
-        "sau khi bù nhiệt độ Laplace (FSAT) và chuẩn đối chứng tại 27.0 °C (FSDT) trên dải 10 cm – 300 cm."
+        "Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C "
+        "trước và sau khi kích hoạt thuật toán bù nhiệt độ Laplace trên dải 10 cm – 300 cm."
     )
     r_c3_8.font.italic = True
     r_c3_8.font.size = Pt(10)
 
-add_body_p("Đánh giá từ đồ thị Hình 3.8: Biểu diễn ba chuỗi sai số trên cùng một trục tung đơn vị mm cho thấy sự tương phản trực quan:")
+add_body_p("Đánh giá từ đồ thị Hình 3.8:")
 add_bullet_p(
-    "Tách khỏi gốc 0 mm và dốc tuyến tính đi lên theo khoảng cách chuẩn do tích lũy sai số vận tốc +1.235%, "
-    "vọt lên vùng +26 ÷ +40 mm ở cự ly 200 – 300 cm.",
-    "Đường màu đỏ nét liền ký hiệu tam giác (FSAT chưa bù nhiệt): "
+    "Tách xa gốc 0 mm và dốc tuyến tính lên vùng +26 ÷ +40 mm ở cự ly xa (200 – 300 cm) do tích lũy sai số vận tốc âm.",
+    "Đường màu đỏ nét liền (Chưa bù nhiệt): "
 )
 add_bullet_p(
-    "Từng điểm vuông xanh lá nằm lọt chính tâm vòng tròn xanh lam trên toàn bộ 19 mốc cự ly từ 10 cm đến 300 cm "
-    "(do độ lệch giữa hai đường chỉ từ 0.002 mm đến 0.183 mm) và cùng bám sát đường chuẩn 0 mm, "
-    "khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.",
-    "Đường màu xanh lá nét đứt tâm vuông đặc (FSAT đã bù Laplace tại 20.0 °C) lồng đồng tâm bên trong đường băng xanh lam ký hiệu vòng tròn rỗng (FSDT đối chứng tại 27.0 °C): "
+    "Kéo toàn bộ sai số về bám sát đường chuẩn 0 mm trên toàn dải 10 – 300 cm. "
+    "Kết quả chứng minh việc tích hợp cảm biến nhiệt độ và thuật toán bù Laplace là điều kiện bắt buộc "
+    "để hệ thống đo đạt độ chính xác cao trong ứng dụng thực tế.",
+    "Đường màu xanh lá nét đứt (Đã bù nhiệt Laplace): "
 )
 
 import os
