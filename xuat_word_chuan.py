@@ -956,9 +956,8 @@ sc_data = [
     ("Chiều di chuyển", "Tiến (1 – 600 cm)", "Lùi (300 – 10 cm)", "Tiến (10 – 375 cm)", "Tiến (10 – 300 cm)"),
     ("Số mốc cự ly", "35", "19", "23", "19"),
     ("Nhiệt độ môi trường", "27.0 °C", "27.0 °C", "27.0 °C", "20.0 °C"),
-    ("Số lần đo lặp N", "50", "50", "50", "50"),
     ("Tổng số mẫu", "1.750", "950", "1.150", "950"),
-    ("Mục đích", "Khảo sát toàn dải, độ chụm, độ chính xác, độ nhạy", "Khảo sát độ trễ (Hysteresis)", "Khảo sát tán xạ bề mặt", "Khảo sát trôi nhiệt độ")
+    ("Mục đích", "Khảo sát toàn dải, độ chụm, độ chính xác, độ nhạy", "Khảo sát độ trễ", "Khảo sát tán xạ bề mặt", "Khảo sát trôi nhiệt độ")
 ]
 
 table_sc = doc.add_table(rows=len(sc_data)+1, cols=5)
@@ -966,7 +965,7 @@ table_sc.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_sc.autofit = False
 
 sc_widths = [Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2)]
-sc_headers = ["Tham số", "FSDT (Chuẩn)", "BSDT (Trễ)", "FRDT (Nhám)", "FSAT (Nhiệt độ)"]
+sc_headers = ["Tham số", "FSDT", "BSDT", "FRDT", "FSAT"]
 
 for idx, text in enumerate(sc_headers):
     c = table_sc.rows[0].cells[idx]
@@ -1013,7 +1012,7 @@ for c in table_sc.rows[-1].cells:
 # 2.4
 add_heading_2("2.4. XÁC ĐỊNH CỠ MẪU TỐI ƯU")
 
-add_heading_3("2.4.1. Bản chất bài toán tối ưu cỡ mẫu trong đo lường siêu âm")
+add_heading_3("2.4.1. Tối ưu cỡ mẫu")
 add_body_p(
     "Trong kỹ thuật đo lường, kết quả đo khoảng cách thực nghiệm không thể là một giá trị đơn độc, mà luôn được biểu diễn dưới dạng một khoảng tin cậy: "
     "d ∈ [d̄ - ε, d̄ + ε] (tương đương d = d̄ ± ε), trong đó d̄ là trung bình mẫu và ε là bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức tin cậy 95%."
@@ -1034,19 +1033,21 @@ add_native_equation(
 
 add_body_p(
     "Trong đó: s là độ lệch chuẩn thực nghiệm đại diện cho độ tán xạ và nhiễu phần cứng thực tế trong môi trường truyền sóng; "
-    "thừa số 1/√N đóng vai trò nén sai số khi tăng số lần đo lặp N. Mâu thuẫn kỹ thuật đặt ra là: muốn sai số ε cực nhỏ thì phải tăng N thật lớn, "
-    "nhưng N càng lớn thì thời gian đo càng dài, tiêu hao năng lượng và dẫn tới nguy cơ trôi nhiệt độ môi trường (làm vận tốc âm thanh v(T) biến đổi sinh ra sai số hệ thống ngược lại). "
-    "Mục tiêu bài toán là xác định kích thước mẫu N tối ưu để sai số ε < 0.5 mm (dung sai vạch chia thước), tốc độ đạo hàm đạt ngưỡng dừng bão hòa (|dε/dN| ≈ 0), "
-    "và thời gian đo đủ ngắn để môi trường vi khí hậu được coi là bất biến."
+    "thừa số 1/√N đóng vai trò nén sai số khi tăng số lần đo lặp N. "
+)
+
+add_body_p(
+    "Mâu thuẫn đặt ra là: muốn sai số ε cực nhỏ thì phải tăng N thật lớn, nhưng N càng lớn thì thời gian đo càng dài. "
+    "Mục tiêu bài toán là xác định kích thước mẫu N tối ưu để sai số ε < 0.5 mm (dung sai vạch chia thước), "
+    "tốc độ đạo hàm đạt ngưỡng dừng bão hòa (|dε/dN| ≈ 0), và thời gian đo đủ ngắn."
 )
 
 add_heading_3("2.4.2. Phân tích dữ liệu thực nghiệm")
 add_body_p(
     "Thực nghiệm tiến hành đo liên tục 100 lần tại 3 cự ly: 50 cm, 100 cm và 150 cm (nhiệt độ 27.0°C). "
-    "Dữ liệu được lưu trữ tại bảng tổng hợp du_lieu_tong_hop/mau_100.csv. "
-    "Thuật toán duyệt k từ 2 đến 100 trên tệp mau_100.csv để tính độ lệch chuẩn tích lũy s(k), bán kính sai số ε_95%(k) "
-    "và đạo hàm bậc 1. Toàn bộ kết quả được phân tách thành 3 tệp độc lập trong thư mục du_lieu_tong_hop/chuong_2/: "
-    "hoi_tu_50cm.csv, hoi_tu_100cm.csv và hoi_tu_150cm.csv."
+    "Dữ liệu được lưu trữ tại “du_lieu_tong_hop/mau_100.csv”. "
+    "Tính độ lệch chuẩn tích lũy s(k), bán kính sai số ε_95%(k) và đạo hàm bậc 1. "
+    "Kết quả tính toán được ghi lại trong “du_lieu_tong_hop/chuong_2”"
 )
 
 # Chèn ảnh Hình 2.1
@@ -1061,15 +1062,14 @@ if os.path.exists(IMG_H2_1_PATH):
     p_cap1 = doc.add_paragraph()
     p_cap1.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap1.paragraph_format.space_after = Pt(6)
-    r_c1 = p_cap1.add_run("Hình 2.1: Bán kính sai số ngẫu nhiên theo tích lũy cỡ mẫu tại 3 cự ly.")
+    r_c1 = p_cap1.add_run("Hình 2.1: Bán kính sai số ngẫu nhiên theo tích lũy cỡ mẫu.")
     r_c1.font.name = 'Times New Roman'
     r_c1.font.size = Pt(10)
     r_c1.font.italic = True
 
 add_body_p(
     "Đánh giá từ đồ thị Hình 2.1: Khi số lần đo k tăng từ 2 đến khoảng 30, bán kính sai số ngẫu nhiên ε_95% giảm nhanh ở cả 3 cự ly. "
-    "Từ k ≥ 40 - 50, đường cong bắt đầu đi ngang và hội tụ ổn định. Tại k = 50, bán kính sai số ở cự ly 50 cm là ±0.03 mm, "
-    "ở 100 cm là ±0.11 mm, và ở 150 cm là ±0.40 mm; tất cả đều nhỏ hơn giới hạn dung sai của thước cơ khí (±0.5 mm)."
+    "Từ k ≥ 40 - 50, đường cong bắt đầu đi ngang và hội tụ ổn định. "
 )
 
 # Chèn ảnh Hình 2.2
@@ -1091,105 +1091,14 @@ if os.path.exists(IMG_H2_2_PATH):
 
 add_body_p(
     "Đánh giá từ đồ thị Hình 2.2: Đồ thị thể hiện tốc độ suy giảm sai số |dε_95%/dk| sau mỗi lần đo bổ sung. "
-    "Ở các giá trị k < 20, tốc độ biến thiên lớn (từ 0.05 đến 0.15 mm/bước), cho thấy việc tăng số lần đo ở giai đoạn đầu giảm sai số rất hiệu quả. "
-    "Khi k tiến dần đến 50, tốc độ biến thiên giảm nhanh về xấp xỉ 0 (|dε/dk| ≤ 0.0005 mm/bước ≈ 0), đồ thị chuyển sang trạng thái bão hòa, "
-    "việc đo thêm sau mốc 50 hầu như không làm sai số giảm thêm."
-)
-
-cv_data = [
-    ("k = 5", "± 0.12 mm", "± 0.12 mm", "± 0.15 mm", "Mẫu nhỏ, sai số còn lớn"),
-    ("k = 10", "± 0.06 mm", "± 0.06 mm", "± 0.12 mm", "Sai số giảm nhanh nhưng chưa phản ánh đủ biến động"),
-    ("k = 20", "± 0.05 mm", "± 0.17 mm", "± 0.07 mm", "Sai số tiếp tục giảm, bắt đầu phân hóa theo cự ly"),
-    ("k = 30", "± 0.03 mm", "± 0.14 mm", "± 0.28 mm", "Xuất hiện trượt chu kỳ sóng tại 150cm, sai số tăng lên"),
-    ("k = 50", "± 0.03 mm", "± 0.11 mm", "± 0.40 mm", "Sai số nhỏ hơn 0.5 mm ở cả 3 cự ly, đạt bão hòa"),
-    ("k = 100", "± 0.02 mm", "± 0.08 mm", "± 0.27 mm", "Vùng bão hòa, sai số hầu như không giảm thêm")
-]
-
-table_cv = doc.add_table(rows=len(cv_data)+1, cols=5)
-table_cv.alignment = WD_TABLE_ALIGNMENT.CENTER
-table_cv.autofit = False
-
-cv_widths = [Cm(2.6), Cm(2.4), Cm(2.4), Cm(2.4), Cm(6.2)]
-cv_headers = ["Cỡ mẫu k", "Mốc 50cm (ε_95%)", "Mốc 100cm (ε_95%)", "Mốc 150cm (ε_95%)", "Nhận xét"]
-
-for idx_h, text_h in enumerate(cv_headers):
-    c = table_cv.rows[0].cells[idx_h]
-    c.text = text_h
-    set_cell_background(c, "D9E1F2")
-    p = c.paragraphs[0]
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_before = Pt(3)
-    p.paragraph_format.space_after = Pt(3)
-    for r in p.runs:
-        r.font.name = 'Times New Roman'
-        r.font.size = Pt(9.5)
-        r.font.bold = True
-        r.font.color.rgb = C_NAVY
-
-for row_idx, data_row in enumerate(cv_data, start=1):
-    for col_idx, text_val in enumerate(data_row):
-        c = table_cv.rows[row_idx].cells[col_idx]
-        c.text = text_val
-        p = c.paragraphs[0]
-        p.paragraph_format.space_before = Pt(2)
-        p.paragraph_format.space_after = Pt(2)
-        p.paragraph_format.line_spacing = 1.15
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 4 else WD_ALIGN_PARAGRAPH.LEFT
-        for r in p.runs:
-            r.font.name = 'Times New Roman'
-            r.font.size = Pt(9.5)
-            if col_idx == 0:
-                r.font.bold = True
-                if "50" in text_val:
-                    r.font.color.rgb = C_MAROON
-
-for row in table_cv.rows:
-    for idx_w, width in enumerate(cv_widths):
-        row.cells[idx_w].width = width
-        set_cell_border(row.cells[idx_w],
-            top=dict(sz=4, val='single', color='B0C4DE'),
-            bottom=dict(sz=4, val='single', color='B0C4DE'),
-            left=dict(val='none'), right=dict(val='none'))
-
-for c in table_cv.rows[0].cells:
-    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
-for c in table_cv.rows[-1].cells:
-    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
-
-p_tbl3 = doc.add_paragraph()
-p_tbl3.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_tbl3.paragraph_format.space_before = Pt(4)
-p_tbl3.paragraph_format.space_after = Pt(8)
-r_t3 = p_tbl3.add_run("Bảng 2.3: Bảng trích số liệu của bán kính sai số Student 95%")
-r_t3.font.name = 'Times New Roman'
-r_t3.font.size = Pt(9.5)
-r_t3.font.italic = True
-
-add_body_p(
-    "Đánh giá từ Bảng 2.3: Số liệu định lượng xác nhận xu hướng hội tụ của phép đo. "
-    "Việc tăng cỡ mẫu từ k = 10 lên k = 50 giúp giảm sai số hơn 2 lần ở cả 3 cự ly. "
-    "Tuy nhiên, khi tăng từ k = 50 lên k = 100, sai số tại mốc 100 cm chỉ giảm thêm 0.03 mm (từ 0.11 mm xuống 0.08 mm), "
-    "giá trị này nhỏ hơn nhiều so với độ phân giải phần cứng của vi điều khiển (≈ 0.175 mm)."
+    "Ở các giá trị k < 20, tốc độ biến thiên cực lớn, cho thấy việc tăng số lần đo ở giai đoạn đầu giảm sai số rất hiệu quả. "
+    "Khi k tiến dần đến 50, tốc độ biến thiên giảm nhanh, đường đồ thị chuyển sang đi ngang, "
+    "việc đo thêm sau mốc 50 hầu như không làm sai số giảm hiệu quả như ban đầu."
 )
 
 add_body_p(
     "Kết luận: Dựa trên các phân tích và đánh giá từ hai đồ thị và bảng số liệu nêu trên, "
-    "nhóm nghiên cứu đưa ra quyết định lựa chọn cỡ mẫu N = 50 cho toàn bộ các phép đo thực nghiệm của đề tài với các lý do:"
-)
-add_bullet_p(
-    "Tại N = 50, bán kính sai số ngẫu nhiên ε_95% ở cả 3 cự ly đều nhỏ hơn dung sai vạch chia của thước chuẩn cơ khí (±0.5 mm): "
-    "đạt ±0.03 mm tại 50cm; ±0.11 mm tại 100cm; và ±0.40 mm tại 150cm.",
-    "1. Đạt tiêu chuẩn dung sai đo lường: "
-)
-add_bullet_p(
-    "Đồ thị Hình 2.2 chứng minh tại k = 50, đạo hàm sai phân |dε/dk| ≤ 0.0005 mm/bước ≈ 0, xác nhận đường cong đã bước vào vùng bão hòa. "
-    "Việc tăng số lần đo lên N = 100 chỉ giảm thêm 0.03 mm ở mốc 100cm (nhỏ hơn độ phân giải phần cứng vi điều khiển ≈ 0.175 mm).",
-    "2. Điểm dừng đạo hàm tối ưu bão hòa: "
-)
-add_bullet_p(
-    "Với chu kỳ lấy mẫu 50 ms (tần số quét 20 Hz), việc thu thập N = 50 mẫu chỉ mất đúng T_total = 2.5 giây cho mỗi mốc cự ly. "
-    "Khoảng thời gian 2.5 giây đủ ngắn để nhiệt độ phòng và vi khí hậu được coi là bất biến, loại trừ hiện tượng trôi nhiệt độ môi trường.",
-    "3. Bảo toàn tính ổn định vi khí hậu: "
+    "nhóm nghiên cứu đưa ra quyết định lựa chọn cỡ mẫu N = 50 cho toàn bộ các phép đo thực nghiệm."
 )
 
 # ==========================================================

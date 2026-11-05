@@ -277,3 +277,29 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
          1. `1. Cố định cảm biến: RCWL-1601 được cắm cố định vững chắc trên breadboard, sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.`
          2. `2. Vật thể phản xạ mục tiêu: Vật thể đo chuẩn là một viên gạch kích thước 40 cm × 40 cm có mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao 85 cm. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện với trục phát của cảm biến.`
          3. `3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: Khoảng cách chuẩn d_true được xác định thủ công bằng thước dây. `
+
+16. **Quy chuẩn Nội dung Mục 2.3 và 2.4 (Chương 2):**
+   - **Mục 2.3: CÁC TRƯỜNG HỢP ĐO VÀ ĐIỀU KIỆN THỰC NGHIỆM**
+     * Đoạn mở đầu: *"Để đánh giá đầy đủ, độc lập và toàn diện các đặc tính kỹ thuật, nghiên cứu thiết lập 4 trường hợp đo chuyên biệt với các điều kiện môi trường tương ứng:"*
+     * Tiêu đề bảng: `Bảng 2.2: Bảng tổng hợp các trường hợp đo và thông số thực nghiệm`
+     * Cấu trúc Bảng 2.2: Gồm **5 cột** (`Tham số`, `FSDT`, `BSDT`, `FRDT`, `FSAT`) và **6 hàng thông số**:
+       1. `Bề mặt phản xạ` (`Mặt nhẵn`, `Mặt nhẵn`, `Mặt gồ ghề`, `Mặt nhẵn`)
+       2. `Chiều di chuyển` (`Tiến (1 – 600 cm)`, `Lùi (300 – 10 cm)`, `Tiến (10 – 375 cm)`, `Tiến (10 – 300 cm)`)
+       3. `Số mốc cự ly` (`35`, `19`, `23`, `19`)
+       4. `Nhiệt độ môi trường` (`27.0 °C`, `27.0 °C`, `27.0 °C`, `20.0 °C`)
+       5. `Tổng số mẫu` (`1.750`, `950`, `1.150`, `950`)
+       6. `Mục đích` (`Khảo sát toàn dải, độ chụm, độ chính xác, độ nhạy`, `Khảo sát độ trễ`, `Khảo sát tán xạ bề mặt`, `Khảo sát trôi nhiệt độ`)
+       *(Loại bỏ hàng "Số lần đo lặp N" khỏi Bảng 2.2 để tránh trùng lặp với Mục 2.4).*
+   - **Mục 2.4: XÁC ĐỊNH CỠ MẪU TỐI ƯU**
+     * **2.4.1. Tối ưu cỡ mẫu:**
+       - Tiêu đề: `2.4.1. Tối ưu cỡ mẫu` (rút ngắn từ *"Bản chất bài toán tối ưu cỡ mẫu trong đo lường siêu âm"*).
+       - Khái niệm khoảng tin cậy: $d \in [\bar{d} - \varepsilon, \, \bar{d} + \varepsilon]$ (tương đương $d = \bar{d} \pm \varepsilon$).
+       - Mô hình Student: $\varepsilon(N) = \frac{t_{0.975, \, N-1} \cdot s}{\sqrt{N}}$ (2.1).
+       - Diễn giải ngắn gọn về $s$, $1/\sqrt{N}$ và bài toán tối ưu sai số $\varepsilon < 0.5\text{ mm}$ cùng ngưỡng dừng bão hòa đạo hàm $|d\varepsilon/dN| \approx 0$.
+     * **2.4.2. Phân tích dữ liệu thực nghiệm:**
+       - Tiêu đề: `2.4.2. Phân tích dữ liệu thực nghiệm`.
+       - Đoạn văn dẫn chứng chuỗi đo 100 lần tại 3 mốc (50 cm, 100 cm, 150 cm) tại `du_lieu_tong_hop/mau_100.csv` và thư mục `du_lieu_tong_hop/chuong_2`.
+       - **Hình 2.1:** Caption rút gọn: `Hình 2.1: Bán kính sai số ngẫu nhiên theo tích lũy cỡ mẫu.` Đoạn nhận xét cô đọng về xu hướng giảm nhanh ở $k < 30$ và hội tụ ổn định từ $k \ge 40 - 50$.
+       - **Hình 2.2:** Caption: `Hình 2.2: Tốc độ biến thiên sai số |dε_95%/dk| theo cỡ mẫu k.` Đoạn nhận xét chỉ rõ đạo hàm suy giảm mạnh khi $k < 20$ và bão hòa đi ngang khi $k \to 50$.
+       - **Loại bỏ Bảng 2.3:** Bỏ hoàn toàn Bảng 2.3 và đoạn đánh giá bảng để văn bản tập trung trực quan vào 2 đồ thị.
+       - **Kết luận cỡ mẫu:** Đúc kết thành 1 câu duy nhất: *"Kết luận: Dựa trên các phân tích và đánh giá từ hai đồ thị và bảng số liệu nêu trên, nhóm nghiên cứu đưa ra quyết định lựa chọn cỡ mẫu N = 50 cho toàn bộ các phép đo thực nghiệm."* (loại bỏ hoàn toàn danh sách 3 gạch đầu dòng dài dòng).
