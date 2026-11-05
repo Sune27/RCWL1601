@@ -356,3 +356,20 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
        - Công thức phi tuyến $\pm \frac{\Delta L_{\max}}{\text{FSO}} \times 100\%$ và tính toán Non-Linearity.
        - Bảng 3.5 (Bảng tổng hợp 4/5 tiêu chí khoa học quyết định lựa chọn mô hình).
        - Các phân tích lý thuyết dài dòng về hiện tượng quá khớp (Overfitting) và Runge.
+
+19. **Quy chuẩn Nội dung Mục 3.6 (Chương 3): Phân tích ảnh hưởng của Bề mặt phản xạ:**
+   - **Tiêu đề phân cấp:**
+     * Heading 2: `3.6. Phân tích ảnh hưởng của Bề mặt phản xạ`
+     * Heading 3: `3.6.1. Tác động của tán xạ bề mặt lên độ chụm (Precision) và độ chính xác (Accuracy)`
+     * Heading 3: `3.6.2. Suy hao năng lượng và thu hẹp giới hạn đo do tán xạ`
+   - **Mở đầu Mục 3.6:** Rút gọn thành 1 câu: *"Để khảo sát ảnh hưởng của bề mặt (Mục 1.1.3, Chương 1), thí nghiệm đối chứng được thực hiện ở cùng nhiệt độ phòng mặc định 27.0 °C (v = 347.662 m/s) trên hai mặt của cùng một viên gạch 40 cm × 40 cm (Mục 2.2 và Mục 2.3, Chương 2): Số liệu thống kê trên 22 mốc chung (10 cm – 350 cm) “du_lieu_tong_hop/chuong_3/ thong_ke_chuong_3.csv”.*
+   - **Mục 3.6.1:**
+     * Sử dụng mô hình đồ thị bia ngắm (Bullseye plot) để trực quan hóa Accuracy & Precision thay vì các đồ thị đường $s$ và $\text{SE}$ cũ.
+     * **Hình 3.7a:** `Hình 3.7a: Bia ngắm Accuracy & Precision giữa tại các mốc 10 cm, 50 cm, 60 cm, 120 cm và 180 cm.`
+     * **Hình 3.7b:** `Hình 3.7b: Accuracy & Precision giữa tại các mốc 220 cm, 240 cm, 260 cm, 280 cm và 350 cm.`
+     * Nhận xét trực quan: Mặt phẳng nhẵn thể hiện độ chụm vượt trội (các điểm luôn gom chặt thành cụm tròn nhỏ sát tâm với độ lệch chuẩn $s$ nhỏ); mặt gồ ghề tán xạ làm $s$ tăng gấp từ 3 đến 26 lần và điểm $\bar{x}$ dạt lệch xa hồng tâm.
+   - **Mục 3.6.2:**
+     * **Bảng số liệu đối sánh độ chụm:** Gồm 3 cột: `Mốc cự ly (cm)`, `FSDT - std sạch (mm)`, `FRDT - std sạch (mm)` tại 7 mốc: 10 cm, 100 cm, 200 cm, 300 cm, 350 cm, 375 cm (FSDT 2.508 mm, FRDT 2140.734 mm), 380 cm (FSDT 5.531 mm, FRDT Mất tín hiệu).
+     * Phân tích sụt giảm cự ly: Chớm mất xung tại 350 cm trên mặt gồ ghề, mất hoàn toàn xung tại phép đo 375 cm.
+     * **Kết luận Mục 3.6:** *"Kết luận: Bề mặt gồ ghề thu hẹp dải đo từ 550 cm xuống 350 cm. Với chất lỏng tĩnh phẳng nhẵn trong bồn kín, cảm biến RCWL-1601 dùng được toàn dải xa; với vật liệu rắn dạng hạt, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, chiều cao lắp đặt tối đa nên giới hạn dưới 300 – 350 cm (cơ sở cho thiết kế ở Chương 4)."*
+   - **Loại bỏ hoàn toàn:** Các phân tích lý thuyết dài dòng về tán xạ đa tia ở cự ly gần ($10 \div 60\text{ cm}$), dịch chuyển đỉnh trượt chu kỳ trên dải trung bình, và các đồ thị đường $s$ và $\text{SE}$ cũ (`hinh_3_7a_do_lech_chuan_be_mat.png`, `hinh_3_7b_sai_so_chuan_be_mat.png`).
