@@ -1629,9 +1629,9 @@ r_t33.font.size = Pt(9.5)
 import os
 
 # ==============================================================================
-# MỤC 3.4: ĐÁNH GIÁ ĐỘ TUYẾN TÍNH, ĐỘ NHẠY VÀ ĐỘ PHÂN GIẢI
+# MỤC 3.4: ĐÁNH GIÁ ĐỘ TUYẾN TÍNH (LINEARITY)
 # ==============================================================================
-add_heading_2("3.4. Đánh giá Độ tuyến tính, Độ nhạy và Độ phân giải")
+add_heading_2("3.4. Đánh giá Độ tuyến tính (Linearity)")
 
 add_heading_3("3.4.1. Hồi quy đa thức và Đánh giá Độ tuyến tính (Linearity)")
 

@@ -162,7 +162,7 @@ Sự tồn tại của độ lệch tuyệt đối khoảng vài milimét có t�
 
 ---
 
-## 3.4. Đánh giá Độ tuyến tính, Độ nhạy và Độ phân giải
+## 3.4. Đánh giá Độ tuyến tính (Linearity)
 
 ### 3.4.1. Hồi quy đa thức và Đánh giá Độ tuyến tính (Linearity)
 
@@ -249,44 +249,6 @@ Mức phi tuyến $< 0.5\%\text{ FS}$ khẳng định cảm biến RCWL-1601 có
 **Quyết định lựa chọn chính thức:** Phương trình tuyến tính Bậc 1:
 $$\hat{y} = 1.00273441 \cdot x - 0.48427223 \quad (\text{cm})$$
 được lựa chọn làm phương trình đặc tính tĩnh chuẩn của hệ thống đo RCWL-1601. Hệ số góc $a_1 = 1.002734$ phản ánh độ nhạy bám sát tuyệt đối tỷ lệ 1:1, và hệ số tự do $b_1 = -0.484\text{ cm}$ phản ánh chính xác sai số vị trí điểm không cơ học (khoảng thụt lùi $4.84\text{ mm}$ của màng loa gốm phía trong vỏ kim loại bảo vệ).
-
-### 3.4.2. Độ nhạy thực nghiệm thời gian bay
-
-Đặc tính cơ bản của cảm biến siêu âm là sự phụ thuộc tuyến tính của thời gian bay hai chiều $t$ theo khoảng cách $d_{\text{true}}$. Thiết lập mô hình hồi quy thời gian bay:
-
-$$\hat{t} = S_t \cdot d_{\text{true}} + t_0$$
-
-Kết quả phân tích ma trận dữ liệu từ ESP32 ghi nhận:
-- **Độ nhạy thực tế:** $S_t = 57.2438\text{ }\mu\text{s/cm}$ (tương đương $5.724\text{ }\mu\text{s/mm}$).
-- **Thời gian trễ gốc:** $t_0 = -36.3473\text{ }\mu\text{s}$.
-- **Hệ số xác định:** $R_t^2 = 0.999985$.
-
-**Đối chiếu với độ nhạy lý thuyết sóng âm Laplace:**
-Tại nhiệt độ phòng mặc định chuẩn hóa của đề tài $T = 27.0^\circ\text{C}$, vận tốc sóng âm lý thuyết là:
-
-$$v(27.0^\circ\text{C}) = 331.3 + 0.606 \times 27.0 = 347.662\text{ m/s} = 0.0347662\text{ cm/}\mu\text{s}$$
-
-Độ nhạy lý thuyết truyền sóng âm hai chiều:
-
-$$S_{t,\text{theory}} = \frac{2}{v(27.0^\circ\text{C})} = \frac{2}{0.0347662} \approx 57.5271\text{ }\mu\text{s/cm}$$
-
-Sai lệch giữa độ nhạy thực nghiệm và độ nhạy lý thuyết chỉ là:
-
-$$\Delta S\% = \frac{57.2438 - 57.5271}{57.5271} \times 100\% = -0.49\%$$
-
-Mức sai lệch cực nhỏ $+0.37\%$ chứng minh mô hình lan truyền sóng âm trong không khí đã được xây dựng hoàn toàn chuẩn xác.
-
-### 3.4.3. Đánh giá Độ phân giải thực nghiệm
-
-Độ phân giải của hệ đo phụ thuộc đồng thời vào độ phân giải bộ đếm thời gian của vi điều khiển và ngưỡng nhiễu tán xạ tự nhiên của cảm biến:
-1. **Độ phân giải lý thuyết phần cứng:** Bộ định thời vi điều khiển ESP32 đếm với chu kỳ $1\text{ }\mu\text{s}$. Bước dịch chuyển cự ly nhỏ nhất tương ứng với một đơn vị đếm là:
-
-   $$\Delta d_{\text{res, theory}} = \frac{v \cdot \Delta t}{2} = \frac{347.662\text{ m/s} \times 1\text{ }\mu\text{s}}{2} \approx 0.0174\text{ cm} = 0.174\text{ mm}$$
-
-2. **Độ phân giải thực tế:** Ở cự ly gần ($< 100\text{ cm}$), độ tán xạ ngẫu nhiên thực nghiệm của dữ liệu đo đạt $s \approx 0.06 - 0.38\text{ mm}$, tương đương độ rộng $1 - 2$ xung đếm thời gian. Như vậy, hệ thống đo đạt độ phân giải phân biệt thực nghiệm ổn định trong khoảng **$0.2\text{ mm} - 0.5\text{ mm}$**.
-
-![Hồi quy tuyến tính và Độ nhạy ToF](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/hinh_3_5_hoi_quy_tuyen_tinh_va_nhay.png)
-*Hình 3.5: Đường đặc tính tĩnh hồi quy tuyến tính khoảng cách và hàm truyền Thời gian bay ToF theo cự ly.*
 
 ---
 
