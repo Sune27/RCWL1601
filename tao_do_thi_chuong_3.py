@@ -261,35 +261,62 @@ plt.savefig(GRAPH_DIR / "hinh_3_5_hoi_quy_tuyen_tinh_va_nhay.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 6. HÌNH 3.6: Vòng trễ Hysteresis giữa Chiều tiến và Chiều lùi
+# 6. HÌNH 3.6: Vòng trễ Hysteresis giữa Chiều tiến và Chiều lùi (2 Sơ đồ đơn 3.6a & 3.6b)
 # ==========================================================
-print("Tạo Hình 3.6...")
+print("Tạo Hình 3.6a & Hình 3.6b (2 Sơ đồ đơn)...")
 common_h = sorted([float(c.replace('cm', '')) for c in bsdt.keys()])
 f_means = [statistics.mean(fsdt[f"{int(d):03d}cm"]) for d in common_h]
 b_means = [statistics.mean(bsdt[f"{int(d):03d}cm"]) for d in common_h]
-h_diffs = [abs(f - b) * 10 for f, b in zip(f_means, b_means)] # mm
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5), dpi=300)
+delta_f = [f - d for f, d in zip(f_means, common_h)]
+delta_b = [b - d for b, d in zip(b_means, common_h)]
+delta_h = [abs(f - b) for f, b in zip(f_means, b_means)]
 
-# Vòng trễ
-ax1.plot(common_h, f_means, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='Chiều tiến (Forward)')
-ax1.plot(common_h, b_means, 's--', color='#d62728', linewidth=1.5, markersize=4, label='Chiều lùi (Backward)')
-ax1.set_title('Đường đặc tính đo Chiều tiến vs Chiều lùi')
-ax1.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax1.set_ylabel('Khoảng cách đo (cm)')
-ax1.grid(True, linestyle=':', alpha=0.6)
-ax1.legend(loc='lower right')
-
-# Độ lệch trễ ΔH
-ax2.bar(common_h, h_diffs, width=8, color='#9467bd', alpha=0.85, edgecolor='black', linewidth=0.5)
-ax2.axhline(max(h_diffs), color='red', linestyle='--', label=f'Độ trễ cực đại: ΔH_max = {max(h_diffs):.2f} mm')
-ax2.set_title('Phân bố Độ lệch trễ ΔH_k theo cự ly đo')
-ax2.set_xlabel('Khoảng cách chuẩn d_true (cm)')
-ax2.set_ylabel('Độ lệch trễ ΔH (mm)')
-ax2.grid(True, linestyle=':', alpha=0.6)
-ax2.legend(loc='upper right')
-
+# 6.1. HÌNH 3.6a: Đặc tính đo 1:1
+fig1, ax1 = plt.subplots(figsize=(8.8, 4.4), dpi=300)
+ax1.plot(common_h, common_h, color='#555555', linestyle=':', linewidth=1.3, label='Đường chuẩn lý tưởng $1:1$ ($d_{meas} = d_{true}$)')
+ax1.plot(common_h, f_means, color='#1f77b4', linestyle='-', linewidth=1.7, marker='o', markersize=5.5, label='Chiều tiến (Forward $10 \to 300$ cm)')
+ax1.plot(common_h, b_means, color='#d62728', linestyle='--', linewidth=1.7, marker='^', markersize=6.0, label='Chiều lùi (Backward $300 \to 10$ cm)')
+ax1.set_title('Đặc tính đo khoảng cách Chiều tiến vs Chiều lùi so với đường chuẩn 1:1', fontsize=11.5, fontweight='bold', pad=10)
+ax1.set_xlabel('Khoảng cách chuẩn đối chứng $d_{true}$ (cm)', fontsize=10.5, labelpad=6)
+ax1.set_ylabel('Khoảng cách đo trung bình $\bar{d}$ (cm)', fontsize=10.5, labelpad=6)
+ax1.set_xlim(0, 315)
+ax1.set_ylim(0, 315)
+ax1.set_xticks([0, 50, 100, 150, 200, 250, 300])
+ax1.grid(True, linestyle=':', alpha=0.65)
+ax1.legend(loc='lower right', framealpha=0.92, edgecolor='#cccccc')
 plt.tight_layout()
+plt.savefig(GRAPH_DIR / "hinh_3_6a_dac_tinh_do_2_chieu.png", dpi=300)
+plt.close()
+
+# 6.2. HÌNH 3.6b: Phân bố Sai số đo tuyệt đối Delta d & Vòng trễ
+fig2, ax2 = plt.subplots(figsize=(8.8, 4.4), dpi=300)
+ax2.axhline(0, color='#404040', linestyle='--', linewidth=1.1, label='Đường lý tưởng không sai số ($\Delta d = 0$ cm)')
+ax2.fill_between(common_h, delta_f, delta_b, color='#9467bd', alpha=0.18, label='Độ lệch trễ $\Delta H = |\Delta d_{\text{tiến}} - \Delta d_{\text{lùi}}|$')
+ax2.plot(common_h, delta_f, color='#1f77b4', linestyle='-', linewidth=1.7, marker='o', markersize=5.5, label='Chiều tiến: $\Delta d_{\text{tiến}}$')
+ax2.plot(common_h, delta_b, color='#d62728', linestyle='--', linewidth=1.7, marker='^', markersize=6.0, label='Chiều lùi: $\Delta d_{\text{lùi}}$')
+
+max_idx = 12
+d_max = common_h[max_idx]
+df_max = delta_f[max_idx]
+db_max = delta_b[max_idx]
+dh_max = delta_h[max_idx]
+ax2.vlines(x=d_max, ymin=min(df_max, db_max), ymax=max(df_max, db_max), color='#d62728', linestyle=':', linewidth=1.4)
+anno_text = f"$\Delta H_{{\max}} = {dh_max:.2f}$ cm\n(tại 200 cm)"
+ax2.annotate(anno_text, xy=(d_max, (df_max + db_max)/2), xytext=(d_max - 55, max(df_max, db_max) + 0.35),
+             arrowprops=dict(facecolor='#800000', edgecolor='#800000', arrowstyle='->', lw=1.2),
+             fontsize=9.2, fontweight='bold', color='#800000',
+             bbox=dict(boxstyle='round,pad=0.28', facecolor='#fff2f2', edgecolor='#d62728', alpha=0.92))
+ax2.set_title('Phân bố Sai số đo Tuyệt đối $\Delta d$ và Vòng trễ Hysteresis', fontsize=11.5, fontweight='bold', pad=10)
+ax2.set_xlabel('Khoảng cách chuẩn đối chứng $d_{true}$ (cm)', fontsize=10.5, labelpad=6)
+ax2.set_ylabel('Sai số đo tuyệt đối $\Delta d = d_{meas} - d_{true}$ (cm)', fontsize=10.5, labelpad=6)
+ax2.set_xlim(0, 315)
+ax2.set_ylim(-2.0, 2.2)
+ax2.set_xticks([0, 50, 100, 150, 200, 250, 300])
+ax2.grid(True, linestyle=':', alpha=0.65)
+ax2.legend(loc='lower left', framealpha=0.92, edgecolor='#cccccc')
+plt.tight_layout()
+plt.savefig(GRAPH_DIR / "hinh_3_6b_vong_tre_hysteresis_delta_d.png", dpi=300)
 plt.savefig(GRAPH_DIR / "hinh_3_6_vong_tre_hysteresis.png", dpi=300)
 plt.close()
 
