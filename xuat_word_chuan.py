@@ -1567,66 +1567,43 @@ add_body_p(
 # ==============================================================================
 add_heading_2("3.4. Đánh giá Độ tuyến tính (Linearity)")
 
-add_heading_3("3.4.1. Hồi quy đa thức và Đánh giá Độ tuyến tính (Linearity)")
+add_heading_3("3.4.1. Đánh giá Độ tuyến tính (Linearity)")
 
 add_body_p(
-    "Độ tuyến tính (Linearity) là đặc tính tĩnh cơ bản phản ánh mức độ quan hệ tỷ lệ thuận giữa khoảng cách dịch chuyển "
-    "thực tế và giá trị đo hiển thị của cảm biến. Để đánh giá một cách khoa học, khách quan và tránh hiện tượng lạc quan "
-    "thái quá do đánh giá trên chính dữ liệu huấn luyện, toàn bộ 34 mốc thực nghiệm trên toàn dải đo (1.0 cm đến 580.0 cm) "
-    "đã được phân chia ngẫu nhiên có kiểm soát theo tỷ lệ chuẩn thực nghiệm 70% dữ liệu Huấn luyện (Train set - 24 mốc) "
-    "và 30% dữ liệu Kiểm thử độc lập (Test set - 10 mốc)."
-)
-
-add_body_p(
-    "Tập huấn luyện (Train) gồm 24 mốc cự ly [1.0, 3.0, 5.0, 8.0, 10.0, 40.0, 60.0, 100.0, 120.0, 140.0, 160.0, 180.0, "
-    "200.0, 240.0, 250.0, 260.0, 300.0, 320.0, 340.0, 360.0, 400.0, 420.0, 500.0, 550.0 cm] được dùng để thiết lập hệ phương trình "
-    "chuẩn tắc và giải ma trận xác định hệ số cho 3 mô hình hồi quy đa thức: Bậc 1 (y = a₁x + b₁), Bậc 2 (y = a₂x² + b₂x + c₂), "
-    "và Bậc 3 (y = a₃x³ + b₃x² + c₃x + d₃). Trong khi đó, tập kiểm thử (Test) gồm 10 mốc độc lập [2.0, 20.0, 50.0, 80.0, 150.0, "
-    "220.0, 280.0, 350.0, 450.0, 580.0 cm] trải dài từ vùng chết, dải đo danh định đến vùng suy hao xa, hoàn toàn không tham gia vào "
-    "quá trình tìm hệ số, đóng vai trò làm 'bài kiểm tra mù' đối sánh độ chính xác thực tế của 3 mô hình."
-)
-
-# Native Word Equation 3.1: OLS Matrix
-add_native_equation(
-    '<m:acc><m:accPr><m:chr m:val="̂"/></m:accPr><m:e><m:r><m:t>β</m:t></m:r></m:e></m:acc>'
-    '<m:r><m:t> = </m:t></m:r>'
-    '<m:sSup><m:e><m:d><m:e><m:sSup><m:e><m:r><m:t>X</m:t></m:r></m:e><m:sup><m:r><m:t>T</m:t></m:r></m:sup></m:sSup><m:r><m:t>X</m:t></m:r></m:e></m:d></m:e><m:sup><m:r><m:t>-1</m:t></m:r></m:sup></m:sSup>'
-    '<m:sSup><m:e><m:r><m:t> · X</m:t></m:r></m:e><m:sup><m:r><m:t>T</m:t></m:r></m:sup></m:sSup>'
-    '<m:r><m:t> · Y</m:t></m:r>',
-    eq_num="3.1"
+    "Độ tuyến tính (Linearity) là đặc tính phản ánh mức độ quan hệ giữa khoảng cách dịch chuyển thực tế "
+    "và giá trị đo hiển thị của cảm biến. Để đánh giá, toàn bộ 34 mốc thực nghiệm trên toàn dải đo (1.0 cm đến 580.0 cm) "
+    "đã được phân chia ngẫu nhiên có kiểm soát theo tỷ lệ chuẩn thực nghiệm 70% dữ liệu Huấn luyện (24 mốc) "
+    "và 30% dữ liệu Kiểm thử (10 mốc)."
 )
 
 add_body_p(
-    "Giải hệ phương trình chuẩn tắc (3.1) trên 24 mốc thực nghiệm tập Train (70%), kết quả tính toán xác định được phương trình "
-    "của 3 mô hình hồi quy đa thức như sau:"
-)
-add_bullet_p(
-    "ŷ₁ = 1.00273441 · x - 0.48427223 (cm). Trong đó hệ số góc a₁ = 1.002734 bám sát độ dốc lý tưởng 1:1, hệ số tự do b₁ = -0.484 cm "
-    "phản ánh chính xác khoảng thụt lùi cơ khí (-4.84 mm) của màng loa gốm phía trong vỏ kim loại.",
-    "1. Mô hình Bậc 1 (Tuyến tính): "
-)
-add_bullet_p(
-    "ŷ₂ = 3.56559128·10⁻⁶ · x² + 1.00103491 · x - 0.37940440 (cm). Hệ số bậc 2 rất nhỏ (cỡ 10⁻⁶), đường đặc tính thực tế tiệm cận đường thẳng.",
-    "2. Mô hình Bậc 2: "
-)
-add_bullet_p(
-    "ŷ₃ = -1.04345666·10⁻⁷ · x³ + 8.50580899·10⁻⁵ · x² + 0.98551084 · x - 0.00036859 (cm). Chứa các số hạng phi tuyến bậc 3 và bậc 2 có xu hướng uốn lượn.",
-    "3. Mô hình Bậc 3: "
+    "Tập huấn luyện gồm 24 mốc cự ly được dùng để thiết lập hệ phương trình: Bậc 1 (y = a₁x + b₁), "
+    "Bậc 2 (y = a₂x² + b₂x + c₂), và Bậc 3 (y = a₃x³ + b₃x² + c₃x + d₃). Tập kiểm thử gồm 10 mốc, "
+    "được ghi trong file \"du_lieu_tong_hop\\chuong_3\\ [3.4].FSDT_split_70_30.csv\""
 )
 
 add_body_p(
-    "Ghi chú: Toàn bộ các tổng ma trận chuẩn tắc phục vụ tính toán (N = 24, ∑x, ∑x², ..., ∑x⁶, ∑xy, ∑x²y, ∑x³y) được lưu trữ đầy đủ "
-    "và chi tiết trong tệp cơ sở dữ liệu du_lieu_tong_hop/chuong_3/cac_tong_hoi_quy.csv để phục vụ tra cứu và kiểm chứng."
+    "Giải hệ phương trình chuẩn tắc trên 24 mốc thực nghiệm tập Train (70%), kết quả tính toán xác định "
+    "được phương trình của 3 mô hình hồi quy đa thức như sau:"
+)
+
+add_body_p("Bậc 1 (Tuyến tính): ŷ₁ = 1.00273 · x - 0.48427 (cm).")
+add_body_p("Bậc 2: ŷ₂ = 3.56559·10⁻⁶ · x² + 1.00103 · x - 0.37940 (cm). ")
+add_body_p("Bậc 3: ŷ₃ = -1.04345·10⁻⁷ · x³ + 8.50580·10⁻⁵ · x² + 0.98551 · x - 0.00036 (cm). ")
+
+add_body_p(
+    "Ghi chú: Toàn bộ các tổng ma trận chuẩn tắc phục vụ tính toán được lưu trữ trong tệp cơ sở dữ liệu "
+    "“du_lieu_tong_hop/chuong_3/cac_tong_hoi_quy.csv”."
 )
 
 add_body_p(
-    "Do trên thang đo lớn từ 0 cm đến 600 cm, đặc tính của cả ba mô hình đều có độ dốc xấp xỉ 1:1 và bám rất sát chuỗi dữ liệu thực nghiệm, "
-    "nên mắt thường không thể phân biệt được mô hình nào tối ưu nếu chỉ nhìn vào đường hồi quy tổng thể. Do đó, để xác định mô hình phản ánh "
-    "trung thực bản chất vật lý của cảm biến, bắt buộc phải thực hiện đối sánh định lượng sai số dự đoán trên 10 mốc kiểm thử độc lập (Test set) "
-    "và phóng đại thang đo sai số lên mức milimét."
+    "Cả ba mô hình đều có cùng độ dốc và bám rất sát chuỗi dữ liệu thực nghiệm, nên mắt thường không thể "
+    "phân biệt được mô hình nào tối ưu nếu chỉ nhìn vào đường hồi quy tổng thể. Do đó, để xác định mô hình "
+    "phản ánh trung thực bản chất vật lý của cảm biến, ta thực hiện đối sánh định lượng sai số dự đoán trên "
+    "10 mốc kiểm thử và phóng đại thang đo sai số lên mức milimét."
 )
 
-# BẢNG 3.4: ĐỐI SÁNH TRÊN 10 MỐC TEST (ĐÃ ĐỔI TỪ BẢNG 3.5 THÀNH BẢNG 3.4)
+# BẢNG 3.4: ĐỐI SÁNH TRÊN 10 MỐC TEST
 t34_data = [
     ("2.0 cm", "2.352 cm", "1.521 cm", "+8.31 mm", "1.623 cm", "+7.29 mm", "1.971 cm", "+3.81 mm"),
     ("20.0 cm", "19.328 cm", "19.570 cm", "-2.42 mm", "19.643 cm", "-3.15 mm", "19.743 cm", "-4.15 mm"),
@@ -1699,31 +1676,6 @@ r_t34.font.name = 'Times New Roman'
 r_t34.font.italic = True
 r_t34.font.size = Pt(9.5)
 
-add_body_p(
-    "Kết quả kiểm thử độc lập tại Bảng 3.4 bộc lộ rõ nét bản chất của từng mô hình và minh chứng cho hiện tượng Quá khớp (Overfitting):"
-)
-add_bullet_p(
-    "Tại cự ly 150.0 cm (mốc trung tâm của dải đo danh định ổn định), mô hình Bậc 1 dự đoán 149.926 cm, đạt độ chuẩn xác cực cao "
-    "với sai số chỉ +0.31 mm. Tại 220.0 cm sai số là -0.31 mm và tại 450.0 cm chỉ là -0.07 mm. Ngược lại, mô hình Bậc 3 do bị uốn cong "
-    "ở hai đầu mút nên bị võng sâu ở khoảng giữa, khiến sai số tại 150.0 cm vọt lên +5.69 mm (gấp hơn 18 lần mô hình Bậc 1) và tại "
-    "350.0 cm sai số lệch tới -13.25 mm.",
-    "Trong dải đo danh định ổn định: "
-)
-add_bullet_p(
-    "Tại mốc 2.0 cm (nằm trong vùng chết phần cứng), cảm biến bị bão hòa kẹt ở 2.352 cm. Mô hình Bậc 1 do duy trì tính thẳng hướng về "
-    "gốc tọa độ nên dự đoán 1.521 cm (sai số +8.31 mm). Mô hình Bậc 3 nhờ có bậc tự do cao đã tự uốn cong để đón điểm kẹt này, cho giá trị "
-    "dự đoán 1.971 cm (sai số +3.81 mm). Tương tự tại 580.0 cm (ngưỡng suy hao xa), Bậc 3 uốn gắt ở đuôi để đón điểm suy hao nên sai số chỉ "
-    "-0.01 mm, trong khi Bậc 1 lệch -12.52 mm.",
-    "Tại hai vùng biên (Vùng chết 2 cm và Vùng suy hao xa 580 cm): "
-)
-add_bullet_p(
-    "Tính trung bình trên toàn bộ 10 mốc Test độc lập, sai số tuyệt đối trung bình (MAE) của mô hình Bậc 1 đạt mức thấp nhất: "
-    "MAE = 4.11 mm, trong khi Bậc 2 là 4.58 mm và Bậc 3 lên tới 4.75 mm. Điều này chứng minh rằng việc tăng bậc đa thức lên Bậc 3 "
-    "thực chất là một sự 'chữa cháy gượng ép' cho các điểm lỗi phần cứng ở hai đầu mút, nhưng cái giá phải trả là phá hỏng hoàn toàn "
-    "độ chính xác của toàn bộ dải đo chính.",
-    "Sai số tuyệt đối trung bình trên tập Test: "
-)
-
 # CHÈN HÌNH 3.3: SO SÁNH SAI SỐ TUYỆT ĐỐI TẠI CÁC MỐC TEST
 IMG_H3_6_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_6_sai_so_phan_du_3_mo_hinh.png"
 if os.path.exists(IMG_H3_6_PATH):
@@ -1759,122 +1711,18 @@ if os.path.exists(IMG_H3_7_PATH):
     r_c3_7.font.size = Pt(10)
 
 add_body_p(
-    "Đồ thị Hình 3.3 và biểu đồ miền tích lũy tại Hình 3.4 cung cấp bằng chứng trực quan rõ rệt nhất về sự tích lũy sai số: "
-    "Trong khoảng dải đo làm việc từ 50 cm đến 450 cm, đường tích lũy sai số của mô hình Bậc 1 gần như đi ngang phẳng lì, "
-    "giúp giữ tổng sai số tích lũy toàn dải ở mức thấp nhất (41.07 mm). Trong khi đó, đường tích lũy của mô hình Bậc 3 leo dốc rất đứng "
-    "ở dải giữa (từ 11.69 mm vọt lên 42.89 mm tại 350 cm), khiến tổng sai số tích lũy lên tới 47.45 mm."
+    "Đồ thị Hình 3.3 và biểu đồ miền tích lũy tại Hình 3.4 cung cấp cái nhìn trực quan về sự tích lũy sai số: "
+    "Trong khoảng dải đo làm việc từ 50 cm đến 450 cm, đường tích lũy sai số của mô hình Bậc 1 gần như đi ngang "
+    "phẳng lì, giúp giữ tổng sai số tích lũy toàn dải ở mức thấp nhất (41.07 mm). Trong khi đó, đường tích lũy "
+    "của mô hình Bậc 3 leo dốc rất đứng ở dải giữa (từ 11.69 mm vọt lên 42.89 mm tại 350 cm), khiến tổng sai số "
+    "tích lũy lên tới 47.45 mm."
 )
 
 add_body_p(
-    "Xác định Chỉ số Độ phi tuyến (Non-Linearity): Về bản chất khoa học đo lường, Non-Linearity là một thông số gộp toàn thang "
-    "đặc trưng cho độ cong vênh vật lý của bản thân cảm biến so với một đường thẳng lý tưởng duy nhất (Best Fit Straight Line - BFSL). "
-    "Công thức xác định độ phi tuyến chuẩn hóa theo toàn thang đo (FSO) được tính theo (3.2):"
+    "Vậy thì ta thấy phương trình tuyến tính Bậc 1 y = 1.00273 · x - 0.48427 phù hợp nhất để làm phương trình "
+    "đặc tính tĩnh chuẩn của hệ thống đo RCWL-1601. "
 )
 
-# Native Word Equation 3.2: Non-Linearity
-add_native_equation(
-    '<m:r><m:t>Non-Linearity (% FS) = ± </m:t></m:r>'
-    '<m:f><m:fPr/><m:num><m:r><m:t>ΔL</m:t></m:r><m:sSub><m:e/><m:sub><m:r><m:t>max</m:t></m:r></m:sub></m:sSub></m:num>'
-    '<m:den><m:r><m:t>FSO</m:t></m:r></m:den></m:f>'
-    '<m:r><m:t> × 100%</m:t></m:r>',
-    eq_num="3.2"
-)
-
-add_body_p(
-    "Trong dải đo danh định ổn định (5 cm đến 400 cm) với toàn thang đo FSO = 400 cm, mốc xuất hiện độ lệch lớn nhất so với đường thẳng "
-    "hồi quy là tại x = 360.0 cm (giá trị thực nghiệm 361.945 cm, mô hình đường thẳng tính ra 360.500 cm). "
-    "Độ lệch cực đại đạt ΔL_max = |361.945 - 360.500| = 1.445 cm (14.45 mm). "
-    "Thay vào công thức (3.2), chỉ số độ phi tuyến thực nghiệm của cảm biến RCWL-1601 đạt:"
-)
-
-add_body_p(
-    "Non-Linearity = ± (1.445 cm / 400 cm) × 100% = ± 0.361% FS (nếu tính theo khoảng biến thiên Span = 395 cm đạt ±0.366% FS)."
-)
-
-add_body_p(
-    "Trong tiêu chuẩn cảm biến đo lường công nghiệp, một cảm biến siêu âm thương mại có độ phi tuyến dưới 0.5% FS được xếp vào nhóm "
-    "có độ tuyến tính rất cao. Kết quả này khẳng định bản thân phần cứng của RCWL-1601 đã có đặc tính tĩnh rất thẳng, "
-    "hoàn toàn không cần thiết phải sử dụng các thuật toán bù đa thức phi tuyến phức tạp."
-)
-
-# BẢNG 3.5: TỔNG HỢP 4 TIÊU CHÍ KHOA HỌC (ĐÃ ĐỔI TỪ BẢNG 3.6 THÀNH BẢNG 3.5)
-t35_data_summary = [
-    ("Sai số trên tập Test", "MAE = 4.11 mm (Thấp nhất)", "MAE = 4.58 mm", "MAE = 4.75 mm (Cao nhất)", "Bậc 1 khái quát hóa tốt nhất trên dữ liệu mới"),
-    ("Bản chất vật lý sóng âm", "Hoàn toàn phù hợp (t = 2d/v)", "Không phù hợp", "Không phù hợp (Overfitting)", "Sóng âm truyền tuyến tính bậc 1 tự nhiên"),
-    ("Tính ổn định phần dư", "Rất phẳng quanh mốc 0", "Khá phẳng", "Võng mạnh ở dải giữa (-13.25 mm)", "Bậc 1 không làm méo sai số dải đo chính"),
-    ("Tài nguyên vi điều khiển", "Nhẹ nhất (1 nhân, 1 cộng)", "Trung bình", "Tốn CPU, dễ tràn số thực", "Bậc 1 tối ưu tối đa cho ESP32"),
-    ("Chỉ số Non-Linearity", "±0.361% FS (< 0.5%)", "±0.372% FS", "±0.331% FS", "Độ phi tuyến cực nhỏ, chênh lệch không đáng kể"),
-    ("KẾT LUẬN LỰA CHỌN", "CHỌN LÀM ĐẶC TÍNH TĨNH", "LOẠI", "LOẠI", "Mô hình Bậc 1 là lựa chọn tối ưu, khoa học và kinh tế nhất")
-]
-
-table_35_summary = doc.add_table(rows=len(t35_data_summary)+1, cols=5)
-table_35_summary.alignment = WD_TABLE_ALIGNMENT.CENTER
-table_35_summary.autofit = False
-
-t35_s_widths = [Cm(2.8), Cm(3.2), Cm(2.4), Cm(3.2), Cm(4.4)]
-t35_s_headers = ["Tiêu chuẩn đánh giá", "Mô hình Bậc 1", "Mô hình Bậc 2", "Mô hình Bậc 3", "Nhận định kỹ thuật"]
-
-for col_idx, text_h in enumerate(t35_s_headers):
-    c = table_35_summary.rows[0].cells[col_idx]
-    c.text = text_h
-    set_cell_background(c, "D9E1F2")
-    p = c.paragraphs[0]
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_before = Pt(3)
-    p.paragraph_format.space_after = Pt(3)
-    p.paragraph_format.line_spacing = 1.05
-    for r in p.runs:
-        r.font.name = 'Times New Roman'
-        r.font.size = Pt(8.5)
-        r.font.bold = True
-        r.font.color.rgb = C_NAVY
-
-for row_idx, row_vals in enumerate(t35_data_summary, start=1):
-    for col_idx, text_val in enumerate(row_vals):
-        c = table_35_summary.rows[row_idx].cells[col_idx]
-        c.text = text_val
-        p = c.paragraphs[0]
-        p.paragraph_format.space_before = Pt(2)
-        p.paragraph_format.space_after = Pt(2)
-        p.paragraph_format.line_spacing = 1.05
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 4 else WD_ALIGN_PARAGRAPH.LEFT
-        for r in p.runs:
-            r.font.name = 'Times New Roman'
-            r.font.size = Pt(8.5)
-            if col_idx == 0 or row_idx == len(t35_data_summary):
-                r.font.bold = True
-
-for row in table_35_summary.rows:
-    for idx_w, width in enumerate(t35_s_widths):
-        row.cells[idx_w].width = width
-        set_cell_border(row.cells[idx_w],
-            top=dict(sz=4, val='single', color='B0C4DE'),
-            bottom=dict(sz=4, val='single', color='B0C4DE'),
-            left=dict(val='none'), right=dict(val='none'))
-
-for c in table_35_summary.rows[0].cells:
-    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
-for c in table_35_summary.rows[-1].cells:
-    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
-
-p_cap_t35_s = doc.add_paragraph()
-p_cap_t35_s.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_cap_t35_s.paragraph_format.space_before = Pt(4)
-p_cap_t35_s.paragraph_format.space_after = Pt(12)
-r_t35_s = p_cap_t35_s.add_run("Bảng 3.5: Tổng hợp 4 tiêu chí khoa học quyết định lựa chọn mô hình hồi quy Bậc 1 cho cảm biến.")
-r_t35_s.font.name = 'Times New Roman'
-r_t35_s.font.italic = True
-r_t35_s.font.size = Pt(9.5)
-
-add_body_p(
-    "Quyết định lựa chọn chính thức: Dựa trên 4 tiêu chuẩn kỹ thuật tại Bảng 3.5, phương trình tuyến tính Bậc 1 "
-    "y = 1.00273441 · x - 0.48427223 được lựa chọn làm phương trình đặc tính tĩnh chuẩn của hệ thống đo RCWL-1601. "
-    "Hệ số góc a₁ = 1.002734 phản ánh độ nhạy bám sát tuyệt đối tỷ lệ 1:1, và hệ số tự do b₁ = -0.484 cm "
-    "phản ánh chính xác sai số vị trí điểm không cơ học (khoảng thụt lùi 4.84 mm của màng loa gốm phía trong vỏ kim loại bảo vệ)."
-)
-
-
-# ==============================================================================
 # MỤC 3.5: PHÂN TÍCH ĐỘ TRỄ (HYSTERESIS) GIỮA CHIỀU TIẾN VÀ CHIỀU LÙI
 # ==============================================================================
 add_heading_2("3.5. Phân tích Độ trễ (Hysteresis) giữa Chiều tiến và Chiều lùi")

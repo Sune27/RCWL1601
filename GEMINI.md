@@ -329,3 +329,30 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
      * **Kết luận dải đo:** *"Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ 10 cm đến 550 cm."*
      * **Bảng 3.3:** `Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.`
        - Gồm **5 cột** chuẩn (loại bỏ cột *"Phân vùng làm việc"*): `Khoảng cách chuẩn`, `Giá trị trung bình`, `Sai số tuyệt đối`, `Sai số tương đối`, `Độ lệch chuẩn s`.
+
+18. **Quy chuẩn Nội dung Mục 3.4 (Chương 3): Đánh giá Độ tuyến tính (Linearity):**
+   - **Tiêu đề phân cấp:**
+     * Heading 2: `3.4. Đánh giá Độ tuyến tính (Linearity)`
+     * Heading 3: `3.4.1. Đánh giá Độ tuyến tính (Linearity)` (loại bỏ cụm *"Hồi quy đa thức và"*).
+   - **Nội dung lý thuyết và thiết lập mô hình:**
+     * Trình bày ngắn gọn định nghĩa độ tuyến tính, quy trình phân chia 70% Train (24 mốc) và 30% Test (10 mốc) trên toàn dải đo (1.0 cm đến 580.0 cm).
+     * Thiết lập hệ phương trình 3 mô hình hồi quy: Bậc 1 ($y = a_1 x + b_1$), Bậc 2 ($y = a_2 x^2 + b_2 x + c_2$), Bậc 3 ($y = a_3 x^3 + b_3 x^2 + c_3 x + d_3$).
+     * Dẫn chứng tệp kiểm thử: `"du_lieu_tong_hop\chuong_3\ [3.4].FSDT_split_70_30.csv"`.
+     * Liệt kê chính xác phương trình hồi quy của 3 mô hình:
+       - Bậc 1 (Tuyến tính): $\hat{y}_1 = 1.00273 \cdot x - 0.48427\text{ (cm)}$.
+       - Bậc 2: $\hat{y}_2 = 3.56559 \cdot 10^{-6} \cdot x^2 + 1.00103 \cdot x - 0.37940\text{ (cm)}$.
+       - Bậc 3: $\hat{y}_3 = -1.04345 \cdot 10^{-7} \cdot x^3 + 8.50580 \cdot 10^{-5} \cdot x^2 + 0.98551 \cdot x - 0.00036\text{ (cm)}$.
+     * Ghi chú dẫn chứng tệp cơ sở dữ liệu: `Ghi chú: Toàn bộ các tổng ma trận chuẩn tắc phục vụ tính toán được lưu trữ trong tệp cơ sở dữ liệu “du_lieu_tong_hop/chuong_3/cac_tong_hoi_quy.csv”.`
+     * **Loại bỏ hoàn toàn:** Phương trình ma trận OLS $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$ (Phương trình 3.1) và các chuỗi số liệt kê tổng ma trận dài dòng.
+   - **Bảng biểu và Đồ thị đối sánh:**
+     * Giải thích ngắn gọn lý do phóng đại thang đo sai số lên mức milimét để phân biệt các mô hình.
+     * **Bảng 3.4:** `Bảng 3.4: Đối sánh sai số dự đoán của 3 mô hình hồi quy trên 10 mốc kiểm thử độc lập.` Gồm đúng 8 cột: `Mốc Test x`, `y thực tế`, `ŷ Bậc 1`, `e Bậc 1`, `ŷ Bậc 2`, `e Bậc 2`, `ŷ Bậc 3`, `e Bậc 3`.
+     * **Hình 3.3:** `Hình 3.3: So sánh sai số tuyệt đối tại các mốc kiểm thử của 3 mô hình hồi quy.`
+     * **Hình 3.4:** `Hình 3.4: Biểu đồ miền tích lũy sai số tuyệt đối trên 10 mốc kiểm thử độc lập.`
+   - **Đánh giá và Kết luận lựa chọn mô hình:**
+     * Phân tích trực quan đồ thị Hình 3.3 và biểu đồ miền Hình 3.4: Mô hình Bậc 1 có đường tích lũy sai số gần như đi ngang phẳng lì từ 50 cm đến 450 cm (tổng sai số tích lũy toàn dải 41.07 mm), trong khi mô hình Bậc 3 leo dốc rất đứng tại dải giữa (tổng tích lũy 47.45 mm).
+     * **Kết luận chọn mô hình:** *"Vậy thì ta thấy phương trình tuyến tính Bậc 1 y = 1.00273 · x - 0.48427 phù hợp nhất để làm phương trình đặc tính tĩnh chuẩn của hệ thống đo RCWL-1601."*
+     * **Loại bỏ hoàn toàn:**
+       - Công thức phi tuyến $\pm \frac{\Delta L_{\max}}{\text{FSO}} \times 100\%$ và tính toán Non-Linearity.
+       - Bảng 3.5 (Bảng tổng hợp 4/5 tiêu chí khoa học quyết định lựa chọn mô hình).
+       - Các phân tích lý thuyết dài dòng về hiện tượng quá khớp (Overfitting) và Runge.
