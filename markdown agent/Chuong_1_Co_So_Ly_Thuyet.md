@@ -69,157 +69,60 @@ Module RCWL-1601 giao tiếp với vi điều khiển ESP32 thông qua giao th�
 
 ## 1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO
 
-Để chuyển hóa tập dữ liệu mẫu đo thô rời rạc thành các đặc tính kỹ thuật định lượng có độ tin cậy khoa học cao, cần xây dựng một hệ thống công thức toán học đo lường chuẩn mực.
-
 ### 1.3.1. Các đại lượng thống kê mô tả mẫu đo
-Tại mỗi mốc cự ly khảo sát, thực hiện lặp lại phép đo trong cùng điều kiện thực nghiệm ổn định với cỡ mẫu $N$ lần đo. Ký hiệu tập giá trị đo được là dãy số liệu thực nghiệm:
+Tại mỗi mốc cự ly chuẩn, thực hiện lặp lại $N$ lần đo độc lập trong điều kiện môi trường ổn định, thu được tập mẫu đo khoảng cách: $X = \{x_1, x_2, \dots, x_N\}$. Các đại lượng thống kê cơ bản bao gồm:
 
-$$\{x_1, x_2, x_3, \dots, x_N\}$$
+• **Giá trị trung bình mẫu:** Đại diện cho giá trị xu thế trung tâm của tập mẫu đo lặp:
+$$\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i \tag{1.4}$$
 
-Các đại lượng thống kê mô tả đặc trưng cho xu hướng tập trung và độ phân tán của mẫu bao gồm:
+• **Độ lệch chuẩn mẫu thực nghiệm:** Đại diện cho mức độ phân tán ngẫu nhiên của các giá trị đo quanh giá trị trung bình:
+$$s = \sqrt{\frac{1}{N - 1} \sum_{i=1}^N (x_i - \bar{x})^2} \tag{1.5}$$
 
-1. **Giá trị Trung bình cộng mẫu ($\bar{x}$):** Đại diện cho xu hướng tập trung của kết quả đo:
-   $$\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i$$
-
-2. **Giá trị Trung vị mẫu ($\text{Med}$):** Là giá trị nằm chính giữa chuỗi số liệu sau khi đã được sắp xếp tăng dần $x_{(1)} \le x_{(2)} \le \dots \le x_{(N)}$:
-   $$\text{Med} = \begin{cases} x_{\left(\frac{N+1}{2}\right)} & \text{khi } N \text{ lẻ} \\ \frac{1}{2} \left( x_{\left(\frac{N}{2}\right)} + x_{\left(\frac{N}{2} + 1\right)} \right) & \text{khi } N \text{ chẵn} \end{cases}$$
-   *Ưu điểm đo lường:* Trung vị mang tính bất biến cao, không bị kéo lệch bởi các điểm nhiễu ngoại lai đột biến như giá trị trung bình cộng $\bar{x}$.
-
-3. **Phương sai mẫu thực nghiệm ($s^2$):** Đo lường mức độ biến thiên ngẫu nhiên quanh giá trị trung bình (hiệu chỉnh Bessel chia cho $N - 1$):
-   $$s^2 = \frac{1}{N - 1} \sum_{i=1}^N (x_i - \bar{x})^2$$
-
-4. **Độ lệch chuẩn thực nghiệm ($s$):** Thước đo chuẩn mực cho độ tán xạ của phép đo lường:
-   $$s = \sqrt{s^2} = \sqrt{\frac{1}{N - 1} \sum_{i=1}^N (x_i - \bar{x})^2}$$
-
-5. **Khoảng tứ phân vị ($\text{IQR}$):** Khoảng cách bao phủ $50\%$ số lượng mẫu đo ở vùng lõi trung tâm:
-   $$\text{IQR} = Q_3 - Q_1$$
-   Trong đó $Q_1$ (phân vị 25%) và $Q_3$ (phân vị 75%) là các tứ phân vị mẫu.
+• **Giá trị trung vị mẫu (Median):** Giá trị chia đôi tập dữ liệu đã sắp xếp thứ tự: $\text{Med} = x_{\left(\frac{N+1}{2}\right)}$ với $N$ lẻ. Giá trị trung vị có tính chất thống kê bền vững, hoàn toàn không bị ảnh hưởng bởi các xung nhiễu đột biến cực đoan.
 
 ---
 
-### 1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô bằng Khoảng tứ phân vị (IQR)
-Trong đo đạc thực nghiệm sóng siêu âm, các xung nhiễu điện từ, bọt khí bề mặt, góc phản xạ dị thường hoặc hiện tượng mất xung phản hồi ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai (sai số thô) có giá trị sai lệch nghiêm trọng so với bản chất thực.
+### 1.3.2. Lọc sai số thô bằng Khoảng tứ phân vị (IQR)
+Trong đo đạc thực nghiệm sóng siêu âm, các xung nhiễu điện từ, bọt khí bề mặt, góc phản xạ dị thường hoặc hiện tượng mất xung phản hồi ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai có giá trị sai lệch nghiêm trọng. Nhóm lựa chọn phương pháp Lọc Khoảng tứ phân vị (Interquartile Range - IQR) làm giải thuật lọc số:
 
-Hệ thống lựa chọn phương pháp thống kê phi tham số bền vững dựa trên **Khoảng tứ phân vị (Interquartile Range - IQR)** kết hợp hệ hàng rào Tukey (Tukey's Fences) làm giải thuật lọc số chuẩn hóa duy nhất:
+$$\text{IQR} = Q_3 - Q_1 \tag{1.6}$$
 
-$$\text{IQR} = Q_3 - Q_1$$
+Cận dưới và Cận trên được xác định theo:
 
-Cận dưới (Lower Fence) và Cận trên (Upper Fence) được xác định theo:
-
-$$LF = Q_1 - 1.5 \cdot \text{IQR}, \quad UF = Q_3 + 1.5 \cdot \text{IQR}$$
+$$\text{LF} = Q_1 - 1.5 \cdot \text{IQR}, \quad \text{UF} = Q_3 + 1.5 \cdot \text{IQR} \tag{1.7}$$
 
 Mẫu đo $x_i$ được chấp nhận là giá trị hợp lệ nếu nằm trong khoảng:
 
-$$x_i \in [LF, \, UF] \iff Q_1 - 1.5 \cdot \text{IQR} \le x_i \le Q_3 + 1.5 \cdot \text{IQR}$$
-
-Mọi mẫu đo nằm ngoài khoảng $[LF, \, UF]$ đều bị loại bỏ hoàn toàn trước khi đưa vào tính toán các chỉ số thống kê đo lường. Phương pháp này có ưu thế vượt trội do tính chất bền vững (robust statistics), hoàn toàn miễn nhiễm với các mẫu tràn thời gian cực trị ($824.6\text{ cm}$) và triệt tiêu triệt để hiện tượng che khuất ngoại lai (masking effect).
+$$\text{LF} \le x_i \le \text{UF} \tag{1.8}$$
 
 ---
 
 ### 1.3.3. Hệ thống công thức đánh giá các Đặc tính tĩnh của cảm biến
 
-Các đặc tính kỹ thuật tĩnh của cảm biến RCWL-1601 được đánh giá dựa trên tập dữ liệu chuẩn đã làm sạch thông qua các tiêu chí đo lường học:
+1. **Độ chụm và Sai số chuẩn trung bình:** Đánh giá mức độ lặp lại nhất quán của phép đo thông qua độ lệch chuẩn thực nghiệm mẫu $s$ và sai số chuẩn của giá trị trung bình $\text{SE} = s / \sqrt{N}$ (phản ánh độ chụm của ước lượng trung bình mẫu $\bar{x}$ khi thực hiện $N$ lần đo lặp độc lập).
 
-#### 1. Độ chụm
-Độ chụm thể hiện mức độ lặp lại nhất quán giữa các kết quả đo độc lập ở cùng một cự ly và điều kiện đo. Được định lượng thông qua:
-- Độ lệch chuẩn thực nghiệm $s$ (càng nhỏ độ chụm càng cao).
-- **Hệ số biến thiên ($\text{CV}\%$):** Chuẩn hóa mức độ tán xạ theo giá trị đo để so sánh độ chụm giữa cự ly gần và cự ly xa:
-  $$\text{CV}\% = \frac{s}{\bar{x}} \times 100\%$$
+2. **Sai số đo lường:** Đánh giá mức độ sai lệch giữa giá trị đo trung bình và giá trị chuẩn:
+   - Sai số tuyệt đối: $\Delta d = \bar{d} - d_{\text{true}}$
+   - Sai số tương đối: $\delta\% = \left(\frac{\Delta d}{d_{\text{true}}}\right) \cdot 100\%$
 
-#### 2. Độ chính xác và Sai số đo lường
-Độ chính xác thể hiện mức độ sai lệch giữa giá trị trung bình đo được $\bar{d}$ so với giá trị cự ly thực $d_{\text{true}}$ (được xác định bằng thước vạch chuẩn mm cơ khí):
-- **Sai số tuyệt đối ($\Delta d$):**
-  $$\Delta d = \bar{d} - d_{\text{true}}$$
-- **Sai số tương đối ($\delta\%$):**
-  $$\delta\% = \frac{\Delta d}{d_{\text{true}}} \times 100\% = \frac{\bar{d} - d_{\text{true}}}{d_{\text{true}}} \times 100\%$$
+3. **Độ tuyến tính và Sai số phi tuyến (Linearity):** Đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết $\hat{y} = a \cdot x + b$. Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận chuẩn tắc, vector hệ số hồi quy được giải trực tiếp theo:
 
-#### 3. Độ nhạy thực nghiệm
-Độ nhạy $S$ của cảm biến phản ánh tỷ lệ biến thiên của đại lượng ngõ ra (thời gian ToF $\bar{t}$ tính bằng $\mu\text{s}$) trên sự thay đổi của đại lượng ngõ vào (khoảng cách $d_{\text{true}}$ tính bằng $\text{cm}$):
+$$\boldsymbol{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \tag{1.9}$$
 
-$$S_t = \frac{\Delta \bar{t}}{\Delta d_{\text{true}}} \quad (\mu\text{s/cm})$$
-
-Về mặt lý thuyết, độ nhạy thuần túy của phép đo ToF hai chiều liên hệ trực tiếp với vận tốc sóng âm:
-$$S_{t,\text{theory}} = \frac{2}{v(T)} \times 10^4 \quad (\mu\text{s/cm})$$
-*(Tại $T = 31^\circ\text{C}$, $v \approx 350.1\text{ m/s} \to S_{t,\text{theory}} \approx 57.13\text{ }\mu\text{s/cm}$)*. Trong khảo sát thực nghiệm, độ nhạy thực tế được xác định thông qua hệ số góc của đường hồi quy tuyến tính thời gian ToF theo khoảng cách.
-
-#### 4. Độ tuyến tính và Sai số phi tuyến
-Độ tuyến tính đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết thông qua mô hình hồi quy tuyến tính:
-
-$$\hat{y} = a \cdot x + b$$
-
-Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận, với $K$ mốc cự ly thực nghiệm $(x_1, y_1), (x_2, y_2), \dots, (x_K, y_K)$, vector các hệ số hồi quy $\hat{\boldsymbol{\beta}} = \begin{bmatrix} a \\ b \end{bmatrix}$ được xác định trực tiếp theo công thức chuẩn tắc:
-
-$$\hat{\boldsymbol{\beta}} = \begin{bmatrix} a \\ b \end{bmatrix} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$
-
-Trong đó:
-- $\mathbf{X} = \begin{bmatrix} x_1 & 1 \\ x_2 & 1 \\ \vdots & \vdots \\ x_K & 1 \end{bmatrix} \in \mathbb{R}^{K \times 2}$: Ma trận thiết kế, chứa giá trị cự ly đặt chuẩn $d_{\text{true}}$ và cột hệ số tự do.
-- $\mathbf{Y} = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_K \end{bmatrix} \in \mathbb{R}^{K \times 1}$: Vector các giá trị đo thực nghiệm tương ứng (khoảng cách trung bình $\bar{d}$ hoặc thời gian bay $\bar{t}$).
-- Các ma trận thành phần được tính toán theo:
-  $$\mathbf{X}^T \mathbf{X} = \begin{bmatrix} \sum_{k=1}^K x_k^2 & \sum_{k=1}^K x_k \\ \sum_{k=1}^K x_k & K \end{bmatrix}, \quad \mathbf{X}^T \mathbf{Y} = \begin{bmatrix} \sum_{k=1}^K x_k y_k \\ \sum_{k=1}^K y_k \end{bmatrix}$$
-  $$(\mathbf{X}^T \mathbf{X})^{-1} = \frac{1}{K \sum_{k=1}^K x_k^2 - \left(\sum_{k=1}^K x_k\right)^2} \begin{bmatrix} K & -\sum_{k=1}^K x_k \\ -\sum_{k=1}^K x_k & \sum_{k=1}^K x_k^2 \end{bmatrix}$$
-
-Công thức ma trận trên cho phép tính toán trực tiếp hệ số góc $a$ (độ nhạy dốc) và hệ số chặn $b$ (độ lệch gốc) trong các script xử lý dữ liệu.
-
-- **Hệ số xác định ($R^2$):** Đánh giá mức độ phù hợp tuyến tính ($0 \le R^2 \le 1$, $R^2 \to 1$ thể hiện tuyến tính tuyệt đối):
-  $$R^2 = 1 - \frac{\sum_{k=1}^K (y_k - \hat{y}_k)^2}{\sum_{k=1}^K (y_k - \bar{y})^2}$$
-- **Sai số phi tuyến cực đại ($\delta_{\text{NL}}\%$):**
-  $$\delta_{\text{NL}}\% = \frac{\max_{k} |\bar{d}_k - \hat{d}_k|}{d_{\text{F.S.}}} \times 100\%$$
-  *(với $d_{\text{F.S.}}$ là giá trị cực đại toàn dải đo)*.
-
-#### 5. Độ trễ
-Độ trễ phản ánh sự bất đối xứng của giá trị đo tại cùng một điểm cự ly khi tiếp cận theo hai hướng ngược nhau: Chiều tiến và Chiều lùi.
-- Sai lệch trễ tại mốc thứ $k$:
-  $$\Delta H_k = |\bar{d}_{\text{forward}, k} - \bar{d}_{\text{backward}, k}|$$
-- **Độ trễ cực đại toàn dải ($\Delta H_{\max}$):**
-  $$\Delta H_{\max} = \max_{k} \{\Delta H_k\}$$
-- **Sai số trễ tương đối toàn dải ($\gamma_H\%$):**
-  $$\gamma_H\% = \frac{\Delta H_{\max}}{d_{\text{F.S.}}} \times 100\%$$
-
-#### 6. Độ phân giải
-Độ phân giải là đại lượng đo nhỏ nhất mà hệ thống có thể phân biệt và đáp ứng được.
-- **Độ phân giải lý thuyết ($\Delta d_{\text{res}}$):** Bị giới hạn bởi độ phân giải của bộ đếm thời gian vi điều khiển ESP32 ($\Delta t_{\min} = 1\text{ }\mu\text{s}$):
-  $$\Delta d_{\text{res, theory}} = \frac{v \cdot \Delta t_{\min}}{2} \approx \frac{343\text{ m/s} \times 10^{-6}\text{ s}}{2} \approx 0.0172\text{ cm} \quad (\approx 0.172\text{ mm})$$
-- **Độ phân giải thực nghiệm:** Được đối chiếu với độ phân tán ngẫu nhiên thực tế tại các cự ly gần ($s \approx 0.03\text{ mm} - 0.1\text{ mm}$).
+5. **Độ trễ (Hysteresis):** Phản ánh sự bất đối xứng của giá trị đo tại cùng một điểm cự ly khi tiếp cận theo hai hướng ngược nhau (Chiều tiến Forward và Chiều lùi Backward): $\Delta H_k = |\bar{d}_{\text{forward}, k} - \bar{d}_{\text{backward}, k}|$. Sai số trễ tương đối toàn dải: $\gamma_H\% = \left(\frac{\max_k \Delta H_k}{d_{\text{FS}}}\right) \cdot 100\%$.
 
 ---
 
 ### 1.3.4. Đánh giá Độ không đảm bảo đo
 
-Theo hướng dẫn chuẩn quốc tế về đánh giá độ không đảm bảo đo trong kỹ thuật (ISO/GUM), kết quả của một phép đo cự ly phải được biểu diễn kèm theo khoảng không đảm bảo đo tin cậy.
+• **Độ không đảm bảo đo Loại A ($u_A$):** Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: $u_A = s / \sqrt{N}$.
 
-#### 1. Độ không đảm bảo đo chuẩn Loại A ($u_A$ - Thành phần ngẫu nhiên)
-Được đánh giá bằng phương pháp thống kê từ tập $N$ lần đo lặp lại tại mỗi cự ly. Đại diện cho độ phân tán của giá trị trung bình $\bar{d}$:
+• **Độ không đảm bảo đo Loại B ($u_B$):** Độ không đảm bảo chuẩn thành phần là: $u_B = a / \sqrt{3}$, trong đó $a$ là nửa khoảng dung sai cho phép.
 
-$$u_A = \text{SE} = \frac{s}{\sqrt{N}} = \sqrt{\frac{\sum_{i=1}^N (x_i - \bar{x})^2}{N(N - 1)}}$$
+• **Độ không đảm bảo đo chuẩn tổng hợp ($u_c$):** Kết hợp toàn bộ các thành phần theo định luật lan truyền sai số: $u_c = \sqrt{u_A^2 + \sum u_{B, j}^2}$.
 
-#### 2. Độ không đảm bảo đo chuẩn Loại B ($u_B$ - Thành phần hệ thống và thiết bị)
-Được đánh giá dựa trên các thông số giới hạn sai số dung sai của thiết bị đo và điều kiện chuẩn ngoại vi, bao gồm 3 thành phần chính:
+• **Độ không đảm bảo đo mở rộng ($U_{95\%}$):** Mở rộng khoảng tin cậy với hệ số phủ $k_p = 2$ (tương ứng mức tin cậy xấp xỉ 95% đối với bậc tự do lớn): $U_{95\%} = k_p \cdot u_c = 2 \cdot u_c$.
 
-1. **Thành phần do thước vạch chuẩn cơ khí ($u_{B,\text{ruler}}$):**  
-   Thước chuẩn có vạch chia milimet, giới hạn sai số cho phép $\Delta_{\text{ruler}} = \pm 1\text{ mm} = \pm 0.1\text{ cm}$. Giả định hàm phân phối xác suất đều:
-   $$u_{B,\text{ruler}} = \frac{\Delta_{\text{ruler}}}{\sqrt{3}} = \frac{0.1\text{ cm}}{\sqrt{3}} \approx 0.0577\text{ cm}$$
+Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn:
 
-2. **Thành phần do độ phân giải ngắt timer ESP32 ($u_{B,\text{timer}}$):**  
-   Ngắt thời gian bắt xung có độ phân giải $\Delta t = 1\text{ }\mu\text{s}$, sai số cự ly tương ứng $\Delta_{\text{timer}} \approx \pm 0.0175\text{ cm}$. Với phân phối đều:
-   $$u_{B,\text{timer}} = \frac{\Delta_{\text{timer}}}{\sqrt{3}} = \frac{0.0175\text{ cm}}{\sqrt{3}} \approx 0.0101\text{ cm}$$
-
-3. **Thành phần do độ không đảm bảo của giá trị nhiệt độ môi trường ($u_{B,\text{temp}}$):**  
-   Biến thiên nhiệt độ môi trường trong phòng trong suốt ca đo được kiểm soát trong khoảng dung sai $\Delta T = \pm 0.5^\circ\text{C}$. Độ nhạy trôi cự ly theo nhiệt độ là $\frac{\partial d}{\partial T} = \frac{0.606 \cdot t}{2} \approx \frac{0.606}{v} \cdot d \approx 0.00173 \cdot d$.  
-   Độ không đảm bảo chuẩn tương ứng tại mỗi cự ly $d$:
-   $$u_{B,\text{temp}}(d) = \frac{0.00173 \cdot d \cdot \Delta T}{\sqrt{3}}$$
-
-Tổng hợp độ không đảm bảo đo Loại B theo luật lan truyền sai số:
-$$u_B = \sqrt{u_{B,\text{ruler}}^2 + u_{B,\text{timer}}^2 + u_{B,\text{temp}}^2}$$
-
-#### 3. Độ không đảm bảo đo chuẩn tổng hợp ($u_c$)
-Kết hợp độ không đảm bảo Loại A và Loại B:
-
-$$u_c = \sqrt{u_A^2 + u_B^2}$$
-
-#### 4. Độ không đảm bảo đo mở rộng ($U_{95\%}$)
-Để kết quả đo mang ý nghĩa thực tế trong công nghiệp, độ không đảm bảo chuẩn tổng hợp được nhân với hệ số phủ $k_p = 2$, tương ứng với mức xác suất tin cậy xấp xỉ $95\%$:
-
-$$U_{95\%} = k_p \cdot u_c = 2 \cdot u_c$$
-
-Kết quả phép đo cuối cùng được biểu diễn theo chuẩn mực quốc tế:
-$$d = \bar{d} \pm U_{95\%} \quad (\text{với mức xác suất tin cậy } P = 95\%)$$
+$$Y = \bar{d} \pm U_{95\%} \tag{1.10}$$

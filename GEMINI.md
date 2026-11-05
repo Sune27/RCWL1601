@@ -233,3 +233,24 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
      * Tiêu đề mục: `1.2. ĐẶC TÍNH VÀ THÔNG SỐ CỦA MODULE RCWL-1601` (không dùng "ĐẶC TÍNH HOẠT ĐỘNG").
      * 1.2.1: Giản đồ xung kích hoạt và phản hồi ToF: Trình bày 4 bước ngắn gọn (TRIG $\ge 10\mu\text{s}$, Phát 8 xung 40 kHz, Nhận sóng phản xạ ngắt ECHO, Đo độ rộng ToF).
      * 1.2.2: Tiêu đề `1.2.2. Bảng thông số kỹ thuật của RCWL-1601` và `Bảng 1.1: Bảng thông số kỹ thuật của module cảm biến siêu âm RCWL-1601`. Bảng gồm 9 thông số kỹ thuật chuẩn hóa (Dải đo công bố $2 - 400\text{ cm}$, độ phân giải $1\text{ mm}$, góc mở $\approx 15^\circ$, v.v.).
+
+14. **Quy chuẩn Nội dung Mục 1.3 (Chương 1):**
+   - **Mục 1.3: CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO** (loại bỏ `(ISO/GUM)` khỏi tiêu đề).
+   - **1.3.1. Các đại lượng thống kê mô tả mẫu đo:**
+     * Giá trị trung bình mẫu $\bar{x} = \frac{1}{N}\sum_{i=1}^N x_i$ (1.4).
+     * Độ lệch chuẩn mẫu thực nghiệm $s = \sqrt{\frac{1}{N-1}\sum_{i=1}^N (x_i - \bar{x})^2}$ (1.5).
+     * Giá trị trung vị mẫu (Median): $\text{Med} = x_{\left(\frac{N+1}{2}\right)}$ với $N$ lẻ, bền vững trước ngoại lai.
+   - **1.3.2. Lọc sai số thô bằng Khoảng tứ phân vị (IQR):**
+     * Tiêu đề: `1.3.2. Lọc sai số thô bằng Khoảng tứ phân vị (IQR)` (loại bỏ cụm "Tiêu chuẩn phát hiện và").
+     * Công thức: $\text{IQR} = Q_3 - Q_1$ (1.6); $\text{LF} = Q_1 - 1.5 \cdot \text{IQR}, \text{UF} = Q_3 + 1.5 \cdot \text{IQR}$ (1.7); Điều kiện chấp nhận: $x_i \in [\text{LF}, \text{UF}]$ (1.8).
+     * Bỏ hoàn toàn đoạn văn diễn giải masking effect dài dòng phía sau công thức.
+   - **1.3.3. Hệ thống công thức đánh giá các Đặc tính tĩnh của cảm biến:**
+     * Mục 1: `1. Độ chụm và Sai số chuẩn trung bình:` Độ lệch chuẩn $s$ và sai số chuẩn $\text{SE} = s / \sqrt{N}$.
+     * Mục 2: `2. Sai số đo lường:` Sai số tuyệt đối $\Delta d = \bar{d} - d_{\text{true}}$, sai số tương đối $\delta\%$.
+     * Mục 3: `3. Độ tuyến tính và Sai số phi tuyến (Linearity):` Ma trận hồi quy $\boldsymbol{\beta} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ (1.9).
+     * Mục 5: `5. Độ trễ (Hysteresis):` $\Delta H_k = |\bar{d}_{\text{forward}, k} - \bar{d}_{\text{backward}, k}|$, sai số trễ toàn dải $\gamma_H\%$.
+     * **Loại bỏ hoàn toàn:** Mục 4 (Độ nhạy Sensitivity) và Mục 6 (Độ phân giải Resolution) cùng các diễn giải $R^2$ thừa thãi.
+   - **1.3.4. Đánh giá Độ không đảm bảo đo:**
+     * Tiêu đề: `1.3.4. Đánh giá Độ không đảm bảo đo` (loại bỏ đoạn văn dẫn nhập ISO/IEC Guide 98-3).
+     * 4 gạch đầu dòng cô đọng: Loại A ($u_A = s / \sqrt{N}$); Loại B ($u_B = a / \sqrt{3}$); Tổng hợp ($u_c = \sqrt{u_A^2 + \sum u_{B,j}^2}$); Mở rộng ($U_{95\%} = 2 \cdot u_c$ với $k_p=2$).
+     * Biểu diễn kết quả: $Y = \bar{d} \pm U_{95\%}$ (1.10).

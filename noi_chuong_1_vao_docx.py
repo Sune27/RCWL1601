@@ -294,76 +294,61 @@ for c in table_ds.rows[0].cells:
 for c in table_ds.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
-add_heading_2("1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO (ISO/GUM)")
+add_heading_2("1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO")
 
 add_heading_3("1.3.1. Các đại lượng thống kê mô tả mẫu đo")
 add_body_p(
     "Tại mỗi mốc cự ly chuẩn, thực hiện lặp lại N lần đo độc lập trong điều kiện môi trường ổn định, "
     "thu được tập mẫu đo khoảng cách: X = {x_1, x_2, ..., x_N}. Các đại lượng thống kê cơ bản bao gồm:"
 )
-add_bullet_p("Đại diện cho giá trị xu thế trung tâm của tập mẫu đo lặp:", "• Giá trị trung bình mẫu (Sample Mean): ")
+add_bullet_p("Đại diện cho giá trị xu thế trung tâm của tập mẫu đo lặp:", "• Giá trị trung bình mẫu: ")
 add_equation_box("x̄ = (1 / N) · ∑_{i=1}^N x_i", "1.4")
-add_bullet_p("Đại diện cho mức độ phân tán ngẫu nhiên của các giá trị đo quanh giá trị trung bình:", "• Độ lệch chuẩn mẫu thực nghiệm (Sample Standard Deviation): ")
+add_bullet_p("Đại diện cho mức độ phân tán ngẫu nhiên của các giá trị đo quanh giá trị trung bình:", "• Độ lệch chuẩn mẫu thực nghiệm: ")
 add_equation_box("s = √[ (1 / (N - 1)) · ∑_{i=1}^N (x_i - x̄)² ]", "1.5")
-add_bullet_p("Giá trị chia đôi tập dữ liệu đã sắp xếp thứ tự: Med = x_((N+1)/2) với N lẻ. Giá trị trung vị có tính chất thống kê bền vững (Robust Statistics), hoàn toàn không bị ảnh hưởng bởi các xung nhiễu đột biến cực đoan.", "• Giá trị trung vị mẫu (Median): ")
+add_bullet_p("Giá trị chia đôi tập dữ liệu đã sắp xếp thứ tự: Med = x_((N+1)/2) với N lẻ. Giá trị trung vị có tính chất thống kê bền vững hoàn toàn không bị ảnh hưởng bởi các xung nhiễu đột biến cực đoan.", "• Giá trị trung vị mẫu (Median): ")
 
-add_heading_3("1.3.2. Tiêu chuẩn phát hiện và lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
+add_heading_3("1.3.2. Lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
 add_body_p(
     "Trong đo đạc thực nghiệm sóng siêu âm, các xung nhiễu điện từ, bọt khí bề mặt, góc phản xạ dị thường hoặc hiện tượng mất xung phản hồi "
-    "ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai (sai số thô) có giá trị sai lệch nghiêm trọng. "
-    "Hệ thống lựa chọn phương pháp thống kê phi tham số bền vững dựa trên Khoảng tứ phân vị (Interquartile Range - IQR) "
-    "kết hợp hệ hàng rào Tukey (Tukey's Fences) làm giải thuật lọc số chuẩn hóa duy nhất:"
+    "ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai có giá trị sai lệch nghiêm trọng. "
+    "Nhóm lựa chọn phương pháp Lọc Khoảng tứ phân vị (Interquartile Range - IQR) làm giải thuật lọc số:"
 )
 add_equation_box("IQR = Q_3 - Q_1", "1.6")
-add_body_p("Hàng rào dưới (Lower Fence) và Hàng rào trên (Upper Fence) được xác định theo:")
+add_body_p("Cận dưới và Cận trên được xác định theo:")
 add_equation_box("LF = Q_1 - 1.5 · IQR,    UF = Q_3 + 1.5 · IQR", "1.7")
 add_body_p("Mẫu đo x_i được chấp nhận là giá trị hợp lệ nếu nằm trong khoảng:")
 add_equation_box("x_i ∈ [LF, UF]  <=>  Q_1 - 1.5 · IQR ≤ x_i ≤ Q_3 + 1.5 · IQR", "1.8")
-add_body_p(
-    "Mọi mẫu đo nằm ngoài khoảng [LF, UF] đều bị loại bỏ hoàn toàn trước khi đưa vào tính toán các chỉ số thống kê đo lường. "
-    "Phương pháp này có ưu thế vượt trội do tính chất bền vững, hoàn toàn miễn nhiễm với các mẫu tràn thời gian cực trị (824.6 cm) "
-    "và triệt tiêu triệt để hiện tượng che khuất ngoại lai (masking effect)."
-)
 
 add_heading_3("1.3.3. Hệ thống công thức đánh giá các Đặc tính tĩnh của cảm biến")
-add_bullet_p("Phản ánh độ ổn định tương đối của phép đo, chuẩn hóa độ lệch chuẩn theo giá trị trung bình: CV% = (s / x̄) · 100%.", "1. Hệ số biến thiên (Coefficient of Variation): ")
-add_bullet_p("Đánh giá mức độ sai lệch giữa giá trị đo trung bình và giá trị chuẩn: Sai số tuyệt đối Δd = d̄ - d_true; Sai số tương đối δ% = (Δd / d_true) · 100%.", "2. Sai số đo lường:", )
-add_bullet_p("Tỷ số giữa độ biến thiên tín hiệu đầu ra và độ biến thiên đại lượng đo đầu vào: S_t = Δt / Δd_true (μs/cm).", "3. Độ nhạy (Sensitivity): ")
+add_bullet_p(
+    "Đánh giá mức độ lặp lại nhất quán của phép đo thông qua độ lệch chuẩn thực nghiệm mẫu s và sai số chuẩn của giá trị trung bình SE = s / √N "
+    "(phản ánh độ chụm của ước lượng trung bình mẫu x̄ khi thực hiện N lần đo lặp độc lập).",
+    "1. Độ chụm và Sai số chuẩn trung bình: "
+)
+add_bullet_p("Đánh giá mức độ sai lệch giữa giá trị đo trung bình và giá trị chuẩn: Sai số tuyệt đối Δd = d̄ - d_true; Sai số tương đối δ% = (Δd / d_true) · 100%.", "2. Sai số đo lường: ")
 add_bullet_p(
     "Đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết ŷ = a · x + b. "
-    "Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận chuẩn tắc, vector hệ số hồi quy được giải trực tiếp theo: "
-    "β̂ = [a, b]^T = (X^T · X)^(-1) · X^T · Y. "
-    "Hệ số xác định tương quan R² = 1 - [∑(y_k - ŷ_k)² / ∑(y_k - ȳ)²]. "
-    "Sai số phi tuyến cực đại: δ_NL% = (max_k |d̄_k - d̂_k| / d_FS) · 100%.",
-    "4. Độ tuyến tính và Sai số phi tuyến (Linearity): "
+    "Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận chuẩn tắc, vector hệ số hồi quy được giải trực tiếp theo:",
+    "3. Độ tuyến tính và Sai số phi tuyến (Linearity): "
 )
+add_equation_box("β̂ = [a, b]^T = (X^T · X)^(-1) · X^T · Y", "1.9")
 add_bullet_p(
     "Phản ánh sự bất đối xứng của giá trị đo tại cùng một điểm cự ly khi tiếp cận theo hai hướng ngược nhau (Chiều tiến Forward và Chiều lùi Backward): "
     "ΔH_k = |d̄_forward,k - d̄_backward,k|. "
     "Sai số trễ tương đối toàn dải: γ_H% = (max_k ΔH_k / d_FS) · 100%.",
     "5. Độ trễ (Hysteresis): "
 )
-add_bullet_p(
-    "Biến thiên nhỏ nhất của khoảng cách đầu vào mà hệ thống đo có thể nhận biết và phân biệt rõ ràng. "
-    "Được xác định bởi độ phân giải bộ đếm thời gian vi điều khiển (1 μs tương đương ≈ 0.175 mm) và độ tán xạ ngẫu nhiên s của cảm biến.",
-    "6. Độ phân giải (Resolution): "
-)
 
-add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM")
-add_body_p(
-    "Theo hướng dẫn quốc tế ISO/IEC Guide 98-3 (GUM), độ tin cậy của kết quả đo được lượng hóa qua độ không đảm bảo đo toàn diện:"
-)
+add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo")
 add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
 add_bullet_p(
-    "Đánh giá bằng các phương pháp phi thống kê (thông số kỹ thuật thiết bị, độ phân giải vi điều khiển, độ chia thước chuẩn cơ khí). "
-    "Với giả thiết phân bố xác suất hình chữ nhật (Uniform Distribution), độ không đảm bảo chuẩn thành phần là: u_B = a / √3, "
-    "trong đó a là nửa khoảng dung sai cho phép.",
+    "Độ không đảm bảo chuẩn thành phần là: u_B = a / √3, trong đó a là nửa khoảng dung sai cho phép.",
     "• Độ không đảm bảo đo Loại B (u_B): "
 )
 add_bullet_p("Kết hợp toàn bộ các thành phần theo định luật lan truyền sai số: u_c = √(u_A² + ∑ u_{B,j}²).", "• Độ không đảm bảo đo chuẩn tổng hợp (u_c): ")
 add_bullet_p("Mở rộng khoảng tin cậy với hệ số phủ k_p = 2 (tương ứng mức tin cậy xấp xỉ 95% đối với bậc tự do lớn): U_95% = k_p · u_c = 2 · u_c.", "• Độ không đảm bảo đo mở rộng (U_95%): ")
-add_body_p("Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn theo chuẩn quốc tế:")
-add_equation_box("Y = d̄ ± U_95%  (với k_p = 2, Mức tin cậy 95%)", "1.9")
+add_body_p("Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn:")
+add_equation_box("Y = d̄ ± U_95%  (với k_p = 2, Mức tin cậy 95%)", "1.10")
 
 doc.save(FILE_PATH)
 print(f"Nối thành công Chương 1 vào tệp Word: {FILE_PATH}")
