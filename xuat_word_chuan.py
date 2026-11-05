@@ -1997,75 +1997,36 @@ add_body_p(
     "chiều cao lắp đặt tối đa nên giới hạn dưới 300 – 350 cm (cơ sở cho thiết kế ở Chương 4)."
 )
 
-# MỤC 3.7: PHÂN TÍCH ẢNH HƯỞNG CỦA NHIỆT ĐỘ VÀ HIỆU QUẢ THUẬT TOÁN BÙ NHIỆT LAPLACE
+# MỤC 3.7: PHÂN TÍCH ẢNH HƯỞNG CỦA NHIỆT ĐỘ MÔI TRƯỜNG
 # ==============================================================================
-add_heading_2("3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt Laplace")
+add_heading_2("3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường")
 
 add_body_p(
-    "Dựa trên mô hình phụ thuộc nhiệt độ của vận tốc sóng siêu âm Laplace đã thiết lập tại Mục 1.1.2 (Chương 1), "
-    "khi nhiệt độ môi trường thay đổi từ 27.0 °C xuống 20.0 °C, vận tốc sóng siêu âm suy giảm lý thuyết từ "
-    "v(27.0 °C) = 347.662 m/s xuống v(20.0 °C) = 343.420 m/s (sụt giảm Δv = 4.242 m/s, tương ứng -1.220%, "
-    "làm thời gian bay ToF giãn dài ra +1.235%). Tác động của sự biến thiên này và năng lực bù nhiệt Laplace "
-    "được đánh giá qua tập dữ liệu FSAT (19 mốc cự ly từ 10 cm đến 300 cm) đối chứng trực tiếp với FSDT."
+    "Để đánh giá sự ảnh hưởng của nhiệt độ, thí nghiệm đối chứng được thực hiện trên mặt phẳng nhẵn dọc 19 mốc cự ly "
+    "từ 10 cm đến 300 cm ở nhiệt độ phòng và nhiệt độ điều hòa. Số liệu được lấy từ tệp “du_lieu_tong_hop/chuong_3/ thong_ke_chuong_3.csv”."
 )
 
-add_heading_3("3.7.1. Sự giãn dài thời gian bay và độ ổn định độ chụm khi hạ nhiệt độ môi trường")
+add_heading_3("3.7.1. Định lượng sai số trôi nhiệt và hiệu quả khử trôi của thuật toán Laplace")
 
 add_body_p(
-    "Khi hạ nhiệt độ không khí xuống 20.0 °C, mật độ phân tử khí tăng làm giảm vận tốc lan truyền sóng âm, "
-    "dẫn đến thời gian bay ToF cần thiết để sóng truyền khứ hồi qua cùng một khoảng cách hình học bị kéo dài ra."
+    "Đối chứng khoảng cách khi chưa bù nhiệt (x̄_chưa_bù = 0.5 · v(27.0 °C) · t̄_FSAT) và sau khi bù nhiệt Laplace "
+    "thời gian thực trên ESP32 cho thấy:"
 )
 
 add_body_p(
-    "Độ giãn thời gian bay thực nghiệm (tof_sach_us): Trích xuất trực tiếp từ bộ đếm phần cứng ESP32 xác nhận "
-    "ToF của tập FSAT tại 20.0 °C luôn lớn hơn có hệ thống so với FSDT tại 27.0 °C trên mọi mốc cự ly: "
-    "tăng từ 614.0 μs lên 621.5 μs tại 10 cm (+7.5 μs), từ 2901.0 μs lên 2936.5 μs tại 50 cm (+35.5 μs), "
-    "từ 5787.0 μs lên 5858.5 μs tại 100 cm (+71.5 μs), từ 11654.5 μs lên 11798.5 μs tại 200 cm (+144.0 μs) "
-    "và từ 17454.0 μs lên 17670.0 μs tại 300 cm (+216.0 μs). Tỷ lệ giãn dài thời gian bay thực tế (t̄_20 - t̄_27) / t̄_27 "
-    "trên toàn dải đạt trung bình +1.235%, trùng khớp hoàn hảo với tỷ lệ suy giảm vận tốc âm lý thuyết Laplace "
-    "v_27 / v_20 - 1 = 347.662 / 343.420 - 1 = +1.235%."
+    "Khi không bù nhiệt độ (sai_so_chua_bu_27c_mm): Do giữ cứng vận tốc ở 27.0 °C trong khi sóng âm truyền chậm hơn ở 20.0 °C, "
+    "kết quả đo bị phóng đại +1.235% quãng đường. Lượng trôi nhiệt tích lũy tuyến tính theo cự ly: đạt +12.28 mm tại 100 cm, "
+    "+22.46 mm tại 200 cm, và đẩy sai số Δx lên mức cực đại +39.92 mm (≈ +4.0 cm) tại 280 cm và +32.52 mm tại 300 cm."
 )
 
 add_body_p(
-    "Tính bất biến của độ chụm đối với nhiệt độ: Trong môi trường phòng điều hòa kín gió 20.0 °C, "
-    "tổng tỷ lệ ngoại lai bị loại bởi IQR của tập FSAT là 38/950 mẫu (4.00%), tương đương hoàn toàn với 39/950 mẫu (4.11%) "
-    "trên 19 mốc đối ứng của FSDT. Độ lệch chuẩn sau lọc s của FSAT dao động trong dải 0.060 – 3.381 mm và sai số chuẩn "
-    "trung bình SE đạt 0.0085 – 0.4781 mm (nằm dưới dung sai thước 0.5 mm tại cả 19/19 mốc), chứng minh việc hạ nhiệt độ "
-    "môi trường chỉ làm dịch chuyển hệ thống vận tốc truyền âm chứ không làm suy giảm độ chụm lặp lại của vi mạch RCWL-9610."
+    "Khi kích hoạt bù nhiệt Laplace (sai_so_tuyet_doi_mm): Thuật toán tự động cập nhật v(T) theo nhiệt độ đo tức thời từ cảm biến, "
+    "triệt tiêu hoàn toàn thành phần trôi nhiệt hàng xentimét. Sai số Δx được kéo về dao động quanh đường chuẩn 0 mm "
+    "(-5.73 mm tại 100 cm, +3.50 mm tại 200 cm, -2.79 mm tại 300 cm), giúp 14/14 mốc từ 80 – 300 cm (trừ mốc 160 cm) "
+    "đạt sai số tương đối |δ%| ≤ 0.57%."
 )
 
-add_heading_3("3.7.2. Định lượng sai số trôi nhiệt khi không bù và hiệu quả khử trôi của thuật toán Laplace")
-
-add_body_p(
-    "Để đánh giá định lượng rủi ro trong các hệ thống nhúng giá rẻ thường gán cứng hằng số vận tốc âm mặc định "
-    "v(27.0 °C) = 347.662 m/s (default_temp_c = 27.0), khoảng cách chưa bù nhiệt tại 20.0 °C được tính đối chứng "
-    "từ cột tof_sach_us theo x̄_chưa_bù = 0.5 · v(27.0 °C) · t̄_FSAT và so sánh trực tiếp với kết quả đã bù nhiệt Laplace thời gian thực trên ESP32:"
-)
-
-add_body_p(
-    "1. Trường hợp không bù nhiệt độ (sai_so_chua_bu_27c_mm): Do thời gian bay kéo dài hơn trong không khí lạnh "
-    "nhưng phần mềm vẫn nhân với vận tốc lớn của 27.0 °C, kết quả đo bị phóng đại giả tạo với tỷ lệ lý thuyết +1.235% "
-    "quãng đường (≈ +12.35 mm/m ở 20.0 °C). Lượng trôi nhiệt thuần túy (x̄_chưa_bù - x̄_đã_bù) tích lũy tuyến tính từ "
-    "+1.31 mm tại 10 cm, +6.16 mm tại 50 cm, +12.28 mm tại 100 cm, +18.52 mm tại 150 cm, +22.46 mm tại 200 cm, "
-    "+28.20 mm tại 250 cm, lên tới +34.65 mm tại 280 cm và +35.31 mm tại 300 cm. Hệ quả là sai số tuyệt đối Δx khi chưa bù "
-    "bị đẩy vọt lên mức dương lớn: đạt +25.96 mm tại 200 cm, đỉnh +39.92 mm (≈ +4.0 cm) tại 280 cm và +32.52 mm tại 300 cm."
-)
-
-add_body_p(
-    "2. Hiệu quả triệt tiêu trôi nhiệt khi bù Laplace thời gian thực (sai_so_tuyet_doi_mm): Khi kích hoạt công thức cập nhật "
-    "vận tốc âm tức thời v(T) theo từng mẫu đo trên ESP32, toàn bộ thành phần trôi nhiệt dương hàng xentimét bị loại bỏ hoàn toàn: "
-    "sai số Δx của FSAT được kéo sập về -5.73 mm tại 100 cm, -0.45 mm tại 150 cm, +3.50 mm tại 200 cm, +0.04 mm tại 250 cm, "
-    "+5.27 mm tại 280 cm và -2.79 mm tại 300 cm (14/14 mốc từ 80 – 300 cm trừ mốc 160 cm đều đạt |δ%| ≤ 0.57%)."
-)
-
-add_body_p(
-    "3. Độ trùng khít tuyệt đối giữa hai môi trường nhiệt độ sau bù (x̄_27°C - x̄_20°C): Đối chiếu trực tiếp cột mean_sach_cm "
-    "giữa FSDT (27.0 °C) và FSAT (20.0 °C) trên toàn bộ 19 mốc cự ly xác nhận độ lệch trung bình tuyệt đối giữa hai chế độ nhiệt "
-    "chỉ là 0.037 mm (biến thiên trong dải siêu hẹp từ -0.048 mm đến +0.183 mm; có 18/19 mốc lệch dưới 0.085 mm — nhỏ hơn nửa bước "
-    "lượng tử thời gian Δ_LSB ≈ 0.174 mm của bộ đếm ESP32). Kết quả này chứng minh thuật toán bù nhiệt Laplace giúp phép đo siêu âm "
-    "hoàn toàn miễn nhiễm với biến thiên nhiệt độ môi trường."
-)
-
+# CHÈN HÌNH 3.8: SO SÁNH SAI SỐ TRÔI NHIỆT VÀ BÙ LAPLACE
 IMG_H3_8_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
 if os.path.exists(IMG_H3_8_PATH):
     p_img3_8 = doc.add_paragraph()
@@ -2074,72 +2035,63 @@ if os.path.exists(IMG_H3_8_PATH):
     p_img3_8.paragraph_format.space_after = Pt(4)
     run_img3_8 = p_img3_8.add_run()
     run_img3_8.add_picture(IMG_H3_8_PATH, width=Cm(15.0))
-    
+
     p_cap3_8 = doc.add_paragraph()
     p_cap3_8.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_8.paragraph_format.space_after = Pt(8)
-    r_c3_8 = p_cap3_8.add_run("Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C khi chưa bù nhiệt độ, sau khi bù nhiệt độ Laplace (FSAT) và chuẩn đối chứng tại 27.0 °C (FSDT) trên dải 10 cm – 300 cm.")
+    r_c3_8 = p_cap3_8.add_run("Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C trước và sau khi kích hoạt thuật toán bù nhiệt độ Laplace trên dải 10 cm – 300 cm.")
     r_c3_8.font.italic = True
     r_c3_8.font.size = Pt(10)
 
-add_body_p("Đánh giá từ đồ thị Hình 3.8: Biểu diễn ba chuỗi sai số trên cùng một trục tung đơn vị mm cho thấy sự tương phản trực quan:")
+add_body_p("Đánh giá từ đồ thị Hình 3.8:")
 add_body_p(
-    "Đường màu đỏ nét liền ký hiệu tam giác (FSAT chưa bù nhiệt): Tách khỏi gốc 0 mm và dốc tuyến tính đi lên theo khoảng cách chuẩn "
-    "do tích lũy sai số vận tốc +1.235%, vọt lên vùng +26 ÷ +40 mm ở cự ly 200 – 300 cm."
+    "Đường màu đỏ nét liền (Chưa bù nhiệt): Tách xa gốc 0 mm và dốc tuyến tính lên vùng +26 ÷ +40 mm ở cự ly xa "
+    "(200 – 300 cm) do tích lũy sai số vận tốc âm."
 )
 add_body_p(
-    "Đường màu xanh lá nét đứt tâm vuông đặc (FSAT đã bù Laplace tại 20.0 °C) lồng đồng tâm bên trong đường băng xanh lam "
-    "ký hiệu vòng tròn rỗng (FSDT đối chứng tại 27.0 °C): Từng điểm vuông xanh lá nằm lọt chính tâm vòng tròn xanh lam "
-    "trên toàn bộ 19 mốc cự ly từ 10 cm đến 300 cm (do độ lệch giữa hai đường chỉ từ 0.002 mm đến 0.183 mm) và cùng bám sát đường chuẩn 0 mm, "
-    "khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4."
+    "Đường màu xanh lá nét đứt (Đã bù nhiệt Laplace): Kéo toàn bộ sai số về bám sát đường chuẩn 0 mm trên toàn dải 10 – 300 cm. "
+    "Kết quả chứng minh việc tích hợp cảm biến nhiệt độ và thuật toán bù Laplace là điều kiện bắt buộc để hệ thống đo "
+    "đạt độ chính xác cao trong ứng dụng thực tế."
 )
 
 # ==============================================================================
-
+# MỤC 3.8: TỔNG HỢP ĐỘ KHÔNG ĐẢM BẢO ĐO
 # ==============================================================================
-# MỤC 3.8: TỔNG HỢP ĐỘ KHÔNG ĐẢM BẢO ĐO (ISO/GUM) VÀ ĐỐI CHIẾU DATASHEET
-# ==============================================================================
-add_heading_2("3.8. Tổng hợp Độ không đảm bảo đo (ISO/GUM) và Đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet")
+add_heading_2("3.8. Tổng hợp Độ không đảm bảo đo")
 
-add_heading_3("3.8.1. Đánh giá và Phân rã Độ không đảm bảo đo mở rộng toàn dải (ISO/GUM)")
+add_heading_3("3.8.1. Đánh giá Độ không đảm bảo đo mở rộng toàn dải")
 
 add_body_p(
-    "Theo tiêu chuẩn quốc tế ISO/IEC Guide 98-3 (GUM), hàm đo khoảng cách thời gian bay có bù nhiệt độ được mô hình hóa theo:\n"
-    "d = f(t, T) = (331.3 + 0.606 · T) · t / 2"
-)
-
-add_body_p(
-    "Các thành phần độ không đảm bảo đo bao gồm:\n"
-    "1. Độ không đảm bảo đo Loại A (u_A): Đánh giá độ phân tán ngẫu nhiên qua N = 50 lần đo: u_A = s / √N.\n"
-    "2. Độ không đảm bảo đo Loại B (u_B): Đánh giá theo phân bố xác suất hình chữ nhật (a / √3):\n"
+    "Độ không đảm bảo đo Loại A (u_A): Đánh giá độ phân tán ngẫu nhiên qua N lần đo: u_A = s / √N.\n"
+    "Độ không đảm bảo đo Loại B (u_B): (a / √3):\n"
     "• u_B1 (Vạch chia thước chuẩn 1 mm, a₁ = 0.5 mm): u_B1 = 0.5 / √3 ≈ 0.289 mm.\n"
-    "• u_B2 (Lượng tử hóa Timer ESP32 1 μs ⇒ Δd_LSB ≈ 0.174 mm, a₂ = 0.087 mm): u_B2 = 0.087 / √3 ≈ 0.050 mm.\n"
-    "• u_B3 (Nhiệt độ môi trường ±0.5 °C ⇒ u_T = 0.289 °C): Lan truyền qua hệ số nhạy c_T = ∂d/∂T ≈ 0.00174 · d ⇒ u_B3(d) = c_T · u_T ≈ 0.000503 · d (mm).\n"
-    "3. Độ không đảm bảo đo chuẩn tổng hợp và Mở rộng (k = 2, độ tin cậy 95%):\n"
-    "u_c = √(u_A² + u_B1² + u_B2² + u_B3²),    U_95% = 2 · u_c"
+    "• u_B2 (Timer ESP32 1 μs ⇒ Δd_LSB ≈ 0.174 mm, a₂ = 0.087 mm): u_B2 = 0.087 / √3 ≈ 0.050 mm.\n"
+    "• u_B3 (Nhiệt độ môi trường ±0.5 °C ⇒ u_T = 0.289 °C): u_B3(d) = c_T · u_T ≈ 0.000503 · d (mm).\n"
+    "3. Độ không đảm bảo đo chuẩn tổng hợp và Mở rộng (k = 2, độ tin cậy 95%):"
 )
 
+# BẢNG 3.6: 9 CỘT THEO CHUẨN DOCX MỚI
 table_gum_data = [
-    ("10 cm", "0.060 mm", "0.008 mm", "0.289 mm", "0.050 mm", "0.050 mm", "0.297 mm", "0.297 mm", "0.59 mm", "10.57 ± 0.06 cm"),
-    ("50 cm", "0.092 mm", "0.013 mm", "0.289 mm", "0.050 mm", "0.252 mm", "0.386 mm", "0.386 mm", "0.77 mm", "49.84 ± 0.08 cm"),
-    ("100 cm", "0.375 mm", "0.053 mm", "0.289 mm", "0.050 mm", "0.503 mm", "0.582 mm", "0.585 mm", "1.17 mm", "99.43 ± 0.12 cm"),
-    ("150 cm", "0.284 mm", "0.043 mm", "0.289 mm", "0.050 mm", "0.755 mm", "0.810 mm", "0.811 mm", "1.62 mm", "149.96 ± 0.16 cm"),
-    ("200 cm", "2.135 mm", "0.302 mm", "0.289 mm", "0.050 mm", "1.006 mm", "1.048 mm", "1.091 mm", "2.18 mm", "200.35 ± 0.22 cm"),
-    ("250 cm", "2.057 mm", "0.291 mm", "0.289 mm", "0.050 mm", "1.258 mm", "1.292 mm", "1.324 mm", "2.65 mm", "250.00 ± 0.26 cm"),
-    ("300 cm", "2.837 mm", "0.401 mm", "0.289 mm", "0.050 mm", "1.510 mm", "1.538 mm", "1.589 mm", "3.18 mm", "299.72 ± 0.32 cm"),
-    ("350 cm", "2.618 mm", "0.390 mm", "0.289 mm", "0.050 mm", "1.761 mm", "1.785 mm", "1.828 mm", "3.65 mm", "351.09 ± 0.37 cm"),
-    ("400 cm", "0.270 mm", "0.041 mm", "0.289 mm", "0.050 mm", "2.013 mm", "2.034 mm", "2.034 mm", "4.07 mm", "401.40 ± 0.41 cm"),
-    ("450 cm", "4.049 mm", "0.573 mm", "0.289 mm", "0.050 mm", "2.264 mm", "2.283 mm", "2.354 mm", "4.71 mm", "450.74 ± 0.47 cm"),
-    ("500 cm", "1.978 mm", "0.280 mm", "0.289 mm", "0.050 mm", "2.516 mm", "2.533 mm", "2.548 mm", "5.10 mm", "500.69 ± 0.51 cm"),
-    ("550 cm", "0.319 mm", "0.049 mm", "0.289 mm", "0.050 mm", "2.768 mm", "2.783 mm", "2.783 mm", "5.57 mm", "550.63 ± 0.56 cm"),
+    ("10 cm", "0.060 mm", "0.008 mm", "0.289 mm", "0.050 mm", "0.050 mm", "0.297 mm", "0.59 mm", "10.57 ± 0.06 cm"),
+    ("50 cm", "0.092 mm", "0.013 mm", "0.289 mm", "0.050 mm", "0.252 mm", "0.386 mm", "0.77 mm", "49.84 ± 0.08 cm"),
+    ("100 cm", "0.375 mm", "0.053 mm", "0.289 mm", "0.050 mm", "0.503 mm", "0.585 mm", "1.17 mm", "99.43 ± 0.12 cm"),
+    ("150 cm", "0.284 mm", "0.043 mm", "0.289 mm", "0.050 mm", "0.755 mm", "0.811 mm", "1.62 mm", "149.96 ± 0.16 cm"),
+    ("200 cm", "2.135 mm", "0.302 mm", "0.289 mm", "0.050 mm", "1.006 mm", "1.091 mm", "2.18 mm", "200.35 ± 0.22 cm"),
+    ("250 cm", "2.057 mm", "0.291 mm", "0.289 mm", "0.050 mm", "1.258 mm", "1.324 mm", "2.65 mm", "250.00 ± 0.26 cm"),
+    ("300 cm", "2.837 mm", "0.401 mm", "0.289 mm", "0.050 mm", "1.510 mm", "1.589 mm", "3.18 mm", "299.72 ± 0.32 cm"),
+    ("350 cm", "2.618 mm", "0.390 mm", "0.289 mm", "0.050 mm", "1.761 mm", "1.828 mm", "3.65 mm", "351.09 ± 0.37 cm"),
+    ("400 cm", "0.270 mm", "0.041 mm", "0.289 mm", "0.050 mm", "2.013 mm", "2.034 mm", "4.07 mm", "401.40 ± 0.41 cm"),
+    ("450 cm", "4.049 mm", "0.573 mm", "0.289 mm", "0.050 mm", "2.264 mm", "2.354 mm", "4.71 mm", "450.74 ± 0.47 cm"),
+    ("500 cm", "1.978 mm", "0.280 mm", "0.289 mm", "0.050 mm", "2.516 mm", "2.548 mm", "5.10 mm", "500.69 ± 0.51 cm"),
+    ("550 cm", "0.319 mm", "0.049 mm", "0.289 mm", "0.050 mm", "2.768 mm", "2.783 mm", "5.57 mm", "550.63 ± 0.56 cm"),
 ]
 
-gum_headers = ["Cự ly chuẩn d", "Độ lệch chuẩn s", "u_A", "u_B1 (Thước)", "u_B2 (Timer)", "u_B3 (Nhiệt độ)", "u_B tổng", "u_c tổng", "U_95% (k=2)", "Kết quả đo chuẩn Y"]
+gum_headers = ["Cự ly chuẩn d", "Độ lệch chuẩn s", "u_A", "u_B1 (Thước)", "u_B2 (Timer)", "u_B3 (Nhiệt độ)", "u_c tổng", "U_95% (k=2)", "Kết quả đo chuẩn Y"]
 tbl_gum = doc.add_table(rows=len(table_gum_data)+1, cols=len(gum_headers))
 tbl_gum.alignment = WD_TABLE_ALIGNMENT.CENTER
 tbl_gum.autofit = False
 
-gum_widths = [Cm(1.8), Cm(1.5), Cm(1.2), Cm(1.3), Cm(1.3), Cm(1.4), Cm(1.3), Cm(1.3), Cm(1.5), Cm(2.4)]
+gum_widths = [Cm(2.0), Cm(1.6), Cm(1.3), Cm(1.4), Cm(1.4), Cm(1.5), Cm(1.4), Cm(1.6), Cm(2.6)]
 for col_idx, h_text in enumerate(gum_headers):
     c = tbl_gum.rows[0].cells[col_idx]
     c.text = h_text
@@ -2163,7 +2115,7 @@ for row_idx, r_data in enumerate(table_gum_data):
         r = p.runs[0]
         r.font.name = 'Times New Roman'
         r.font.size = Pt(8.5)
-        if col_idx == 8:
+        if col_idx == 7:
             r.font.bold = True
             r.font.color.rgb = C_MAROON
 
@@ -2185,7 +2137,7 @@ p_cap_gum = doc.add_paragraph()
 p_cap_gum.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p_cap_gum.paragraph_format.space_before = Pt(4)
 p_cap_gum.paragraph_format.space_after = Pt(8)
-r_gum = p_cap_gum.add_run("Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM.")
+r_gum = p_cap_gum.add_run("Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn.")
 r_gum.font.name = 'Times New Roman'
 r_gum.font.italic = True
 r_gum.font.size = Pt(9.5)
@@ -2210,101 +2162,17 @@ if os.path.exists(IMG_H3_9_PATH):
     r_c3_9.font.italic = True
     r_c3_9.font.size = Pt(10)
 
-# --- HÌNH 3.10: Chuẩn tổng hợp và Mở rộng ---
-IMG_H3_10_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png"
-if not os.path.exists(IMG_H3_10_PATH):
-    IMG_H3_10_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png"
-
-if os.path.exists(IMG_H3_10_PATH):
-    p_img3_10 = doc.add_paragraph()
-    p_img3_10.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_img3_10.paragraph_format.space_before = Pt(8)
-    p_img3_10.paragraph_format.space_after = Pt(4)
-    run_img3_10 = p_img3_10.add_run()
-    run_img3_10.add_picture(IMG_H3_10_PATH, width=Cm(15.0))
-    
-    p_cap3_10 = doc.add_paragraph()
-    p_cap3_10.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap3_10.paragraph_format.space_after = Pt(8)
-    r_c3_10 = p_cap3_10.add_run("Hình 3.10: Biểu đồ độ không đảm bảo đo chuẩn tổng hợp (u_c) và độ không đảm bảo đo mở rộng (U_95%, k=2) theo ISO/GUM.")
-    r_c3_10.font.italic = True
-    r_c3_10.font.size = Pt(10)
-
 add_body_p(
-    "Nhận xét ngắn gọn: Ở cự ly gần (d ≤ 50 cm), U_95% ≤ 0.77 mm, thành phần sai số vạch chia thước chuẩn u_B1 = 0.289 mm chiếm ưu thế chủ đạo. "
-    "Khi cự ly tăng lên 300 – 550 cm, thành phần lan truyền sai số nhiệt độ u_B3 tăng tuyến tính và chiếm trên 85% phương sai tổng hợp. "
+    "Nhận xét: Ở cự ly gần (d ≤ 50 cm), U_95% ≤ 0.77 mm, thành phần sai số vạch chia thước chuẩn u_B1 = 0.289 mm chiếm ưu thế chủ đạo. "
+    "Khi cự ly tăng lên 300 – 550 cm, thành phần lan truyền sai số nhiệt độ u_B3 tăng tuyến tính. "
     "Trên toàn bộ dải đo hữu ích đến 5.5 m, U_95% luôn duy trì dưới ngưỡng ±5.57 mm (dưới ±0.56 cm), khẳng định độ tin cậy khoa học cao của phép đo."
 )
 
-add_heading_3("3.8.2. Bảng tổng hợp đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet Nhà sản xuất")
-
-table_ds_data = [
-    ("Dải đo danh định", "2.0 cm - 400.0 cm (hoặc 450 cm)", "5.0 cm - 550.0 cm", "Vượt định mức: Mở rộng thêm 100 cm (+22%) trên mặt nhẵn"),
-    ("Vùng chết (Blind Zone)", "< 2.0 cm", "1.0 cm - 3.0 cm", "Kẹt cố định ở 2.0 - 2.6 cm do suy giảm dao động màng gốm"),
-    ("Độ chính xác công bố", "± 0.5 cm ± 1%", "|Δx| ≤ 0.43 cm (< 2.5 m)\n± 0.35% (> 2.5 m)", "Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace"),
-    ("Độ phân giải (Resolution)", "0.1 - 0.3 cm (1 - 3 mm)", "1 μs → ≈ 0.174 mm (0.017 cm)", "Độ phân giải ToF vượt trội nhờ bộ định thời phần cứng ESP32"),
-    ("Khả năng thích ứng nhiệt độ", "Bù nhiệt nội bộ trên IC (cố định)", "Bù Laplace thời gian thực qua cảm biến ngoài", "Triệt tiêu sai số trôi nhiệt từ 5.8 cm xuống < 0.5 mm trên dải 3 m"),
-]
-
-ds_headers = ["Chỉ tiêu kỹ thuật đo lường", "Thông số công bố (Datasheet)", "Kết quả kiểm chứng thực nghiệm", "Đánh giá & Ghi chú kỹ thuật"]
-tbl_ds = doc.add_table(rows=len(table_ds_data)+1, cols=len(ds_headers))
-tbl_ds.alignment = WD_TABLE_ALIGNMENT.CENTER
-tbl_ds.autofit = False
-
-ds_widths = [Cm(3.5), Cm(3.5), Cm(3.8), Cm(4.2)]
-for col_idx, h_text in enumerate(ds_headers):
-    c = tbl_ds.rows[0].cells[col_idx]
-    c.text = h_text
-    c.width = ds_widths[col_idx]
-    set_cell_background(c, "F2F2F2")
-    p = c.paragraphs[0]
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = p.runs[0]
-    r.font.name = 'Times New Roman'
-    r.font.size = Pt(9.0)
-    r.font.bold = True
-    r.font.color.rgb = C_NAVY
-
-for row_idx, r_data in enumerate(table_ds_data):
-    for col_idx, val in enumerate(r_data):
-        c = tbl_ds.rows[row_idx+1].cells[col_idx]
-        c.text = val
-        c.width = ds_widths[col_idx]
-        p = c.paragraphs[0]
-        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 or col_idx == 3 else WD_ALIGN_PARAGRAPH.CENTER
-        r = p.runs[0]
-        r.font.name = 'Times New Roman'
-        r.font.size = Pt(9.0)
-
-for row in tbl_ds.rows:
-    for c in row.cells:
-        set_cell_border(c,
-            top=dict(val='single', sz=4, color='D3D3D3'),
-            bottom=dict(val='single', sz=4, color='D3D3D3'),
-            left=dict(val='none', sz=0, color='auto'),
-            right=dict(val='none', sz=0, color='auto')
-        )
-
-for c in tbl_ds.rows[0].cells:
-    set_cell_border(c, top=dict(val='single', sz=12, color='003366'), bottom=dict(val='single', sz=12, color='003366'))
-for c in tbl_ds.rows[-1].cells:
-    set_cell_border(c, bottom=dict(val='single', sz=12, color='003366'))
-
-p_cap_ds = doc.add_paragraph()
-p_cap_ds.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_cap_ds.paragraph_format.space_before = Pt(4)
-p_cap_ds.paragraph_format.space_after = Pt(12)
-r_ds = p_cap_ds.add_run("Bảng 3.7: Bảng đối chiếu tổng kết toàn diện các thông số kỹ thuật cốt lõi.")
-r_ds.font.name = 'Times New Roman'
-r_ds.font.italic = True
-r_ds.font.size = Pt(9.5)
-
 add_body_p(
     "Kết luận đánh giá tổng quát: Module cảm biến siêu âm RCWL-1601 khi kết hợp với bộ đếm thời gian vi điều khiển ESP32 "
-    "và giải thuật bù nhiệt Laplace đã thể hiện các đặc tính kỹ thuật vượt trội so với các thông số công bố tối thiểu của nhà sản xuất. "
-    "Đây là tiền đề lý thuyết và thực nghiệm vững chắc để triển khai hệ thống vào bài toán thực tế: "
-    "\"Hệ thống giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ\" trong Chương 4."
+    "và giải thuật bù nhiệt Laplace đã thể hiện các đặc tính kỹ thuật vượt trội so với các thông số công bố tối thiểu của nhà sản xuất."
 )
+
 
 # Lưu tệp Word an toàn
 try:

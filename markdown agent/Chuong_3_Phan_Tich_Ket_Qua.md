@@ -246,96 +246,63 @@ Tác động bất lợi nhất của bề mặt gồ ghề là làm suy giảm 
 
 Kết luận: Bề mặt gồ ghề thu hẹp dải đo từ 550 cm xuống 350 cm. Với chất lỏng tĩnh phẳng nhẵn trong bồn kín, cảm biến RCWL-1601 dùng được toàn dải xa; với vật liệu rắn dạng hạt, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, chiều cao lắp đặt tối đa nên giới hạn dưới 300 – 350 cm (cơ sở cho thiết kế ở Chương 4).
 
-## 3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường và Hiệu quả thuật toán bù nhiệt Laplace
+## 3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường
 
-Dựa trên mô hình phụ thuộc nhiệt độ của vận tốc sóng siêu âm Laplace đã thiết lập tại Mục 1.1.2 (Chương 1):
+Để đánh giá sự ảnh hưởng của nhiệt độ, thí nghiệm đối chứng được thực hiện trên mặt phẳng nhẵn dọc 19 mốc cự ly từ 10 cm đến 300 cm ở nhiệt độ phòng và nhiệt độ điều hòa. Số liệu được lấy từ tệp “du_lieu_tong_hop/chuong_3/ thong_ke_chuong_3.csv”.
 
-$$v(T) = \sqrt{\frac{\gamma \cdot R \cdot (T + 273.15)}{M}} \approx 331.45 \cdot \sqrt{1 + \frac{T}{273.15}} \quad (\text{m/s})$$
+### 3.7.1. Định lượng sai số trôi nhiệt và hiệu quả khử trôi của thuật toán Laplace
 
-Khi nhiệt độ môi trường thay đổi từ $27.0\text{ }^\circ\text{C}$ xuống $20.0\text{ }^\circ\text{C}$, vận tốc sóng siêu âm suy giảm lý thuyết từ $v(27.0\text{ }^\circ\text{C}) = 347.662\text{ m/s}$ xuống $v(20.0\text{ }^\circ\text{C}) = 343.420\text{ m/s}$ (sụt giảm $\Delta v = 4.242\text{ m/s}$, tương ứng $-1.220\%$, làm thời gian bay ToF giãn dài ra $+1.235\%$). Tác động của sự biến thiên này và năng lực bù nhiệt Laplace được đánh giá qua tập dữ liệu FSAT (19 mốc cự ly từ $10\text{ cm}$ đến $300\text{ cm}$) đối chứng trực tiếp với FSDT.
+Đối chứng khoảng cách khi chưa bù nhiệt ($\bar{x}_{\text{chưa bù}} = 0.5 \cdot v(27.0\text{ }^\circ\text{C}) \cdot \bar{t}_{\text{FSAT}}$) và sau khi bù nhiệt Laplace thời gian thực trên ESP32 cho thấy:
 
-### 3.7.1. Sự giãn dài thời gian bay và độ ổn định độ chụm khi hạ nhiệt độ môi trường
+Khi không bù nhiệt độ (`sai_so_chua_bu_27c_mm`): Do giữ cứng vận tốc ở $27.0\text{ }^\circ\text{C}$ trong khi sóng âm truyền chậm hơn ở $20.0\text{ }^\circ\text{C}$, kết quả đo bị phóng đại $+1.235\%$ quãng đường. Lượng trôi nhiệt tích lũy tuyến tính theo cự ly: đạt $+12.28\text{ mm}$ tại $100\text{ cm}$, $+22.46\text{ mm}$ tại $200\text{ cm}$, và đẩy sai số $\Delta x$ lên mức cực đại $+39.92\text{ mm}$ ($\approx +4.0\text{ cm}$) tại $280\text{ cm}$ và $+32.52\text{ mm}$ tại $300\text{ cm}$.
 
-Khi hạ nhiệt độ không khí xuống 20.0 °C, mật độ phân tử khí tăng làm giảm vận tốc lan truyền sóng âm, dẫn đến thời gian bay ToF cần thiết để sóng truyền khứ hồi qua cùng một khoảng cách hình học bị kéo dài ra.
+Khi kích hoạt bù nhiệt Laplace (`sai_so_tuyet_doi_mm`): Thuật toán tự động cập nhật $v(T)$ theo nhiệt độ đo tức thời từ cảm biến, triệt tiêu hoàn toàn thành phần trôi nhiệt hàng xentimét. Sai số $\Delta x$ được kéo về dao động quanh đường chuẩn $0\text{ mm}$ ($-5.73\text{ mm}$ tại $100\text{ cm}$, $+3.50\text{ mm}$ tại $200\text{ cm}$, $-2.79\text{ mm}$ tại $300\text{ cm}$), giúp 14/14 mốc từ $80 \div 300\text{ cm}$ (trừ mốc $160\text{ cm}$) đạt sai số tương đối $|\delta\%| \le 0.57\%$.
 
-- **Độ giãn thời gian bay thực nghiệm (`tof_sach_us`):** Trích xuất trực tiếp từ bộ đếm phần cứng ESP32 xác nhận ToF của tập FSAT tại 20.0 °C luôn lớn hơn có hệ thống so với FSDT tại 27.0 °C trên mọi mốc cự ly: tăng từ $614.0\text{ }\mu\text{s}$ lên $621.5\text{ }\mu\text{s}$ tại $10\text{ cm}$ ($+7.5\text{ }\mu\text{s}$), từ $2901.0\text{ }\mu\text{s}$ lên $2936.5\text{ }\mu\text{s}$ tại $50\text{ cm}$ ($+35.5\text{ }\mu\text{s}$), từ $5787.0\text{ }\mu\text{s}$ lên $5858.5\text{ }\mu\text{s}$ tại $100\text{ cm}$ ($+71.5\text{ }\mu\text{s}$), từ $11654.5\text{ }\mu\text{s}$ lên $11798.5\text{ }\mu\text{s}$ tại $200\text{ cm}$ ($+144.0\text{ }\mu\text{s}$) và từ $17454.0\text{ }\mu\text{s}$ lên $17670.0\text{ }\mu\text{s}$ tại $300\text{ cm}$ ($+216.0\text{ }\mu\text{s}$). Tỷ lệ giãn dài thời gian bay thực tế $(\bar{t}_{20} - \bar{t}_{27}) / \bar{t}_{27}$ trên toàn dải đạt trung bình $+1.235\%$, trùng khớp hoàn hảo với tỷ lệ suy giảm vận tốc âm lý thuyết Laplace $v_{27} / v_{20} - 1 = 347.662 / 343.420 - 1 = +1.235\%$.
-- **Tính bất biến của độ chụm đối với nhiệt độ:** Trong môi trường phòng điều hòa kín gió 20.0 °C, tổng tỷ lệ ngoại lai bị loại bởi IQR của tập FSAT là 38/950 mẫu (4.00%), tương đương hoàn toàn với 39/950 mẫu (4.11%) trên 19 mốc đối ứng của FSDT. Độ lệch chuẩn sau lọc $s$ của FSAT dao động trong dải $0.060 \div 3.381\text{ mm}$ và sai số chuẩn trung bình $\text{SE}$ đạt $0.0085 \div 0.4781\text{ mm}$ (nằm dưới dung sai thước $0.5\text{ mm}$ tại cả 19/19 mốc), chứng minh việc hạ nhiệt độ môi trường chỉ làm dịch chuyển hệ thống vận tốc truyền âm chứ không làm suy giảm độ chụm lặp lại của vi mạch RCWL-9610.
+![Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C trước và sau khi kích hoạt thuật toán bù nhiệt độ Laplace trên dải 10 cm – 300 cm.](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
 
-### 3.7.2. Định lượng sai số trôi nhiệt khi không bù và hiệu quả khử trôi của thuật toán Laplace
+*Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C trước và sau khi kích hoạt thuật toán bù nhiệt độ Laplace trên dải 10 cm – 300 cm.*
 
-Để đánh giá định lượng rủi ro trong các hệ thống nhúng giá rẻ thường gán cứng hằng số vận tốc âm mặc định $v(27.0\text{ }^\circ\text{C}) = 347.662\text{ m/s}$ (`default_temp_c = 27.0`), khoảng cách chưa bù nhiệt tại 20.0 °C được tính đối chứng từ cột `tof_sach_us` theo $\bar{x}_{\text{chưa bù}} = 0.5 \cdot v(27.0\text{ }^\circ\text{C}) \cdot \bar{t}_{\text{FSAT}}$ và so sánh trực tiếp với kết quả đã bù nhiệt Laplace thời gian thực trên ESP32:
+Đánh giá từ đồ thị Hình 3.8:
 
-1. **Trường hợp không bù nhiệt độ (`sai_so_chua_bu_27c_mm`):** Do thời gian bay kéo dài hơn trong không khí lạnh nhưng phần mềm vẫn nhân với vận tốc lớn của 27.0 °C, kết quả đo bị phóng đại giả tạo với tỷ lệ lý thuyết $+1.235\%$ quãng đường ($\approx +12.35\text{ mm/m}$ ở 20.0 °C). Lượng trôi nhiệt thuần túy ($\bar{x}_{\text{chưa bù}} - \bar{x}_{\text{đã bù}}$) tích lũy tuyến tính từ $+1.31\text{ mm}$ tại $10\text{ cm}$, $+6.16\text{ mm}$ tại $50\text{ cm}$, $+12.28\text{ mm}$ tại $100\text{ cm}$, $+18.52\text{ mm}$ tại $150\text{ cm}$, $+22.46\text{ mm}$ tại $200\text{ cm}$, $+28.20\text{ mm}$ tại $250\text{ cm}$, lên tới $+34.65\text{ mm}$ tại $280\text{ cm}$ và $+35.31\text{ mm}$ tại $300\text{ cm}$. Hệ quả là sai số tuyệt đối $\Delta x$ khi chưa bù bị đẩy vọt lên mức dương lớn: đạt $+25.96\text{ mm}$ tại $200\text{ cm}$, đỉnh $+39.92\text{ mm}$ ($\approx +4.0\text{ cm}$) tại $280\text{ cm}$ và $+32.52\text{ mm}$ tại $300\text{ cm}$.
-2. **Hiệu quả triệt tiêu trôi nhiệt khi bù Laplace thời gian thực (`sai_so_tuyet_doi_mm`):** Khi kích hoạt công thức cập nhật vận tốc âm tức thời $v(T)$ theo từng mẫu đo trên ESP32, toàn bộ thành phần trôi nhiệt dương hàng xentimét bị loại bỏ hoàn toàn: sai số $\Delta x$ của FSAT được kéo sập về $-5.73\text{ mm}$ tại $100\text{ cm}$, $-0.45\text{ mm}$ tại $150\text{ cm}$, $+3.50\text{ mm}$ tại $200\text{ cm}$, $+0.04\text{ mm}$ tại $250\text{ cm}$, $+5.27\text{ mm}$ tại $280\text{ cm}$ và $-2.79\text{ mm}$ tại $300\text{ cm}$ (14/14 mốc từ $80 \div 300\text{ cm}$ trừ mốc $160\text{ cm}$ đều đạt $|\delta\%| \le 0.57\%$).
-3. **Độ trùng khít tuyệt đối giữa hai môi trường nhiệt độ sau bù ($\bar{x}_{27^\circ\text{C}} - \bar{x}_{20^\circ\text{C}}$):** Đối chiếu trực tiếp cột `mean_sach_cm` giữa FSDT (27.0 °C) và FSAT (20.0 °C) trên toàn bộ 19 mốc cự ly xác nhận độ lệch trung bình tuyệt đối giữa hai chế độ nhiệt chỉ là $0.037\text{ mm}$ (biến thiên trong dải siêu hẹp từ $-0.048\text{ mm}$ đến $+0.183\text{ mm}$; có 18/19 mốc lệch dưới $0.085\text{ mm}$ — nhỏ hơn nửa bước lượng tử thời gian $\Delta_{\text{LSB}} \approx 0.174\text{ mm}$ của bộ đếm ESP32). Kết quả này chứng minh thuật toán bù nhiệt Laplace giúp phép đo siêu âm hoàn toàn miễn nhiễm với biến thiên nhiệt độ môi trường.
+Đường màu đỏ nét liền (Chưa bù nhiệt): Tách xa gốc $0\text{ mm}$ và dốc tuyến tính lên vùng $+26 \div +40\text{ mm}$ ở cự ly xa ($200 \div 300\text{ cm}$) do tích lũy sai số vận tốc âm.
 
-![So sánh sai số trôi nhiệt và hiệu quả bù Laplace](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_8_anh_huong_nhiet_do_bu_laplace.png)
-*Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C khi chưa bù nhiệt độ, sau khi bù nhiệt độ Laplace (FSAT) và chuẩn đối chứng tại 27.0 °C (FSDT) trên dải 10 cm – 300 cm.*
+Đường màu xanh lá nét đứt (Đã bù nhiệt Laplace): Kéo toàn bộ sai số về bám sát đường chuẩn $0\text{ mm}$ trên toàn dải $10 \div 300\text{ cm}$. Kết quả chứng minh việc tích hợp cảm biến nhiệt độ và thuật toán bù Laplace là điều kiện bắt buộc để hệ thống đo đạt độ chính xác cao trong ứng dụng thực tế.
 
-**Đánh giá từ đồ thị Hình 3.8:** Biểu diễn ba chuỗi sai số trên cùng một trục tung đơn vị mm cho thấy sự tương phản trực quan:
-- **Đường màu đỏ nét liền ký hiệu tam giác (FSAT chưa bù nhiệt):** Tách khỏi gốc $0\text{ mm}$ và dốc tuyến tính đi lên theo khoảng cách chuẩn do tích lũy sai số vận tốc $+1.235\%$, vọt lên vùng $+26 \div +40\text{ mm}$ ở cự ly $200 \div 300\text{ cm}$.
-- **Đường màu xanh lá nét đứt tâm vuông đặc (FSAT đã bù Laplace tại 20.0 °C) lồng đồng tâm bên trong đường băng xanh lam ký hiệu vòng tròn rỗng (FSDT đối chứng tại 27.0 °C):** Từng điểm vuông xanh lá nằm lọt chính tâm vòng tròn xanh lam trên toàn bộ 19 mốc cự ly từ $10\text{ cm}$ đến $300\text{ cm}$ (do độ lệch giữa hai đường chỉ từ $0.002\text{ mm}$ đến $0.183\text{ mm}$) và cùng bám sát đường chuẩn $0\text{ mm}$, khẳng định tính bắt buộc của cảm biến nhiệt độ đi kèm thuật toán bù Laplace trong ứng dụng bồn chứa thực tế ở Chương 4.
+## 3.8. Tổng hợp Độ không đảm bảo đo
 
----
+### 3.8.1. Đánh giá Độ không đảm bảo đo mở rộng toàn dải
 
----
+Độ không đảm bảo đo Loại A ($u_A$): Đánh giá độ phân tán ngẫu nhiên qua $N$ lần đo: $u_A = s / \sqrt{N}$.
 
-## 3.8. Tổng hợp Độ không đảm bảo đo (ISO/GUM) và Đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet
+Độ không đảm bảo đo Loại B ($u_B$): ($a / \sqrt{3}$):
+- $u_{B1}$ (Vạch chia thước chuẩn $1\text{ mm}$, $a_1 = 0.5\text{ mm}$): $u_{B1} = 0.5 / \sqrt{3} \approx 0.289\text{ mm}$.
+- $u_{B2}$ (Timer ESP32 $1\text{ }\mu\text{s} \implies \Delta d_{\text{LSB}} \approx 0.174\text{ mm}$, $a_2 = 0.087\text{ mm}$): $u_{B2} = 0.087 / \sqrt{3} \approx 0.050\text{ mm}$.
+- $u_{B3}$ (Nhiệt độ môi trường $\pm 0.5\text{ }^\circ\text{C} \implies u_T = 0.289\text{ }^\circ\text{C}$): $u_{B3}(d) = c_T \cdot u_T \approx 0.000503 \cdot d\text{ (mm)}$.
 
-### 3.8.1. Đánh giá và Phân rã Độ không đảm bảo đo mở rộng toàn dải (ISO/GUM)
+3. Độ không đảm bảo đo chuẩn tổng hợp và Mở rộng ($k = 2$, độ tin cậy 95%):
 
-Theo tiêu chuẩn quốc tế ISO/IEC Guide 98-3 (GUM), hàm đo khoảng cách ToF có bù nhiệt độ được mô hình hóa theo:
+**Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn.**
 
-$$d = f(t, T) = \frac{(331.3 + 0.606 \cdot T) \cdot t}{2}$$
+| Cự ly chuẩn d | Độ lệch chuẩn s | u_A | u_B1 (Thước) | u_B2 (Timer) | u_B3 (Nhiệt độ) | u_c tổng | U_95% (k=2) | Kết quả đo chuẩn Y |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 10 cm | 0.060 mm | 0.008 mm | 0.289 mm | 0.050 mm | 0.050 mm | 0.297 mm | **0.59 mm** | 10.57 ± 0.06 cm |
+| 50 cm | 0.092 mm | 0.013 mm | 0.289 mm | 0.050 mm | 0.252 mm | 0.386 mm | **0.77 mm** | 49.84 ± 0.08 cm |
+| 100 cm | 0.375 mm | 0.053 mm | 0.289 mm | 0.050 mm | 0.503 mm | 0.585 mm | **1.17 mm** | 99.43 ± 0.12 cm |
+| 150 cm | 0.284 mm | 0.043 mm | 0.289 mm | 0.050 mm | 0.755 mm | 0.811 mm | **1.62 mm** | 149.96 ± 0.16 cm |
+| 200 cm | 2.135 mm | 0.302 mm | 0.289 mm | 0.050 mm | 1.006 mm | 1.091 mm | **2.18 mm** | 200.35 ± 0.22 cm |
+| 250 cm | 2.057 mm | 0.291 mm | 0.289 mm | 0.050 mm | 1.258 mm | 1.324 mm | **2.65 mm** | 250.00 ± 0.26 cm |
+| 300 cm | 2.837 mm | 0.401 mm | 0.289 mm | 0.050 mm | 1.510 mm | 1.589 mm | **3.18 mm** | 299.72 ± 0.32 cm |
+| 350 cm | 2.618 mm | 0.390 mm | 0.289 mm | 0.050 mm | 1.761 mm | 1.828 mm | **3.65 mm** | 351.09 ± 0.37 cm |
+| 400 cm | 0.270 mm | 0.041 mm | 0.289 mm | 0.050 mm | 2.013 mm | 2.034 mm | **4.07 mm** | 401.40 ± 0.41 cm |
+| 450 cm | 4.049 mm | 0.573 mm | 0.289 mm | 0.050 mm | 2.264 mm | 2.354 mm | **4.71 mm** | 450.74 ± 0.47 cm |
+| 500 cm | 1.978 mm | 0.280 mm | 0.289 mm | 0.050 mm | 2.516 mm | 2.548 mm | **5.10 mm** | 500.69 ± 0.51 cm |
+| 550 cm | 0.319 mm | 0.049 mm | 0.289 mm | 0.050 mm | 2.768 mm | 2.783 mm | **5.57 mm** | 550.63 ± 0.56 cm |
 
-Các thành phần không đảm bảo đo bao gồm:
-1. **Độ không đảm bảo đo Loại A ($u_A$):** Đánh giá độ phân tán ngẫu nhiên qua $N = 50$ lần đo: $u_A = s / \sqrt{N}$.
-2. **Độ không đảm bảo đo Loại B ($u_B$):** Đánh giá theo phân bố xác suất chữ nhật ($a / \sqrt{3}$):
-   - $u_{B1}$ (Sai số vạch chia thước cơ khí chuẩn $1\text{ mm}$, $a_1 = 0.5\text{ mm}$): $u_{B1} = 0.5 / \sqrt{3} \approx 0.289\text{ mm}$.
-   - $u_{B2}$ (Sai số lượng tử hóa Timer ESP32 $1\text{ }\mu\text{s} \to \Delta d_{\text{LSB}} \approx 0.174\text{ mm}$, $a_2 = 0.087\text{ mm}$): $u_{B2} = 0.087 / \sqrt{3} \approx 0.050\text{ mm}$.
-   - $u_{B3}$ (Nhiệt độ môi trường $\pm 0.5^\circ\text{C} \to u_T = 0.289^\circ\text{C}$): Lan truyền qua hệ số nhạy $c_T = \partial d/\partial T \approx 0.00174 \cdot d \implies u_{B3}(d) = c_T \cdot u_T \approx 0.000503 \cdot d\text{ (mm)}$.
-3. **Độ KĐBĐ chuẩn tổng hợp và Mở rộng ($k=2$, độ tin cậy 95%):**
-   $$u_c = \sqrt{u_A^2 + u_{B1}^2 + u_{B2}^2 + u_{B3}^2}, \quad U_{95\%} = 2 \cdot u_c$$
+![Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A (u_A) và Loại B (u_B) theo khoảng cách chuẩn.](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_9_do_khong_dam_bao_do_loai_a_b.png)
 
-#### Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn ISO/GUM
+*Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A (u_A) và Loại B (u_B) theo khoảng cách chuẩn.*
 
-| Cự ly chuẩn $d$ (cm) | Độ lệch chuẩn $s$ (mm) | $u_A$ (mm) | $u_{B1}$ (Thước) (mm) | $u_{B2}$ (Timer) (mm) | $u_{B3}$ (Nhiệt độ) (mm) | $u_B$ tổng (mm) | $u_c$ tổng (mm) | **$U_{95\%}$ ($k=2$) (mm)** | Biểu diễn kết quả đo chuẩn $Y = \bar{d} \pm U_{95\%}$ (cm) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **10** | 0.060 | 0.008 | 0.289 | 0.050 | 0.050 | 0.297 | 0.297 | **0.59** | 10.57 ± 0.06 cm |
-| **50** | 0.092 | 0.013 | 0.289 | 0.050 | 0.252 | 0.386 | 0.386 | **0.77** | 49.84 ± 0.08 cm |
-| **100** | 0.375 | 0.053 | 0.289 | 0.050 | 0.503 | 0.582 | 0.585 | **1.17** | 99.43 ± 0.12 cm |
-| **150** | 0.284 | 0.043 | 0.289 | 0.050 | 0.755 | 0.810 | 0.811 | **1.62** | 149.96 ± 0.16 cm |
-| **200** | 2.135 | 0.302 | 0.289 | 0.050 | 1.006 | 1.048 | 1.091 | **2.18** | 200.35 ± 0.22 cm |
-| **250** | 2.057 | 0.291 | 0.289 | 0.050 | 1.258 | 1.292 | 1.324 | **2.65** | 250.00 ± 0.26 cm |
-| **300** | 2.837 | 0.401 | 0.289 | 0.050 | 1.510 | 1.538 | 1.589 | **3.18** | 299.72 ± 0.32 cm |
-| **350** | 2.618 | 0.390 | 0.289 | 0.050 | 1.761 | 1.785 | 1.828 | **3.65** | 351.09 ± 0.37 cm |
-| **400** | 0.270 | 0.041 | 0.289 | 0.050 | 2.013 | 2.034 | 2.034 | **4.07** | 401.40 ± 0.41 cm |
-| **450** | 4.049 | 0.573 | 0.289 | 0.050 | 2.264 | 2.283 | 2.354 | **4.71** | 450.74 ± 0.47 cm |
-| **500** | 1.978 | 0.280 | 0.289 | 0.050 | 2.516 | 2.533 | 2.548 | **5.10** | 500.69 ± 0.51 cm |
-| **550** | 0.319 | 0.049 | 0.289 | 0.050 | 2.768 | 2.783 | 2.783 | **5.57** | 550.63 ± 0.56 cm |
+Nhận xét: Ở cự ly gần ($d \le 50\text{ cm}$), $U_{95\%} \le 0.77\text{ mm}$, thành phần sai số vạch chia thước chuẩn $u_{B1} = 0.289\text{ mm}$ chiếm ưu thế chủ đạo. Khi cự ly tăng lên $300 \div 550\text{ cm}$, thành phần lan truyền sai số nhiệt độ $u_{B3}$ tăng tuyến tính. Trên toàn bộ dải đo hữu ích đến $5.5\text{ m}$, $U_{95\%}$ luôn duy trì dưới ngưỡng $\pm 5.57\text{ mm}$ (dưới $\pm 0.56\text{ cm}$), khẳng định độ tin cậy khoa học cao của phép đo.
 
-![Độ không đảm bảo đo Loại A và Loại B](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_9_do_khong_dam_bao_do_loai_a_b.png)
-*Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A ($u_A$) và Loại B ($u_B$) theo khoảng cách chuẩn.*
+Kết luận đánh giá tổng quát: Module cảm biến siêu âm RCWL-1601 khi kết hợp với bộ đếm thời gian vi điều khiển ESP32 và giải thuật bù nhiệt Laplace đã thể hiện các đặc tính kỹ thuật vượt trội so với các thông số công bố tối thiểu của nhà sản xuất.
 
-![Độ không đảm bảo đo chuẩn tổng hợp và mở rộng ISO/GUM](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_10_do_khong_dam_bao_do_tong_hop_mo_rong.png)
-*Hình 3.10: Biểu đồ độ không đảm bảo đo chuẩn tổng hợp ($u_c$) và độ không đảm bảo đo mở rộng ($U_{95\%}$, $k=2$) theo ISO/GUM.*
-
-**Nhận xét ngắn gọn:**
-- Ở cự ly gần ($d \le 50\text{ cm}$), $U_{95\%} \le 0.77\text{ mm}$, thành phần sai số vạch chia thước chuẩn $u_{B1} = 0.289\text{ mm}$ chiếm ưu thế chủ đạo.
-- Khi cự ly tăng lên $300 \div 550\text{ cm}$, thành phần lan truyền sai số nhiệt độ $u_{B3}$ tăng tuyến tính và chiếm trên 85% phương sai tổng hợp.
-- Trên toàn bộ dải đo hữu ích đến $5.5\text{ m}$, $U_{95\%}$ luôn duy trì dưới ngưỡng **$\pm 5.57\text{ mm}$** (dưới $\pm 0.56\text{ cm}$), khẳng định độ tin cậy khoa học cao của phép đo.
-
-### 3.8.2. Bảng tổng hợp đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet Nhà sản xuất
-
-#### Bảng 3.7: Bảng đối chiếu các chỉ tiêu kỹ thuật cốt lõi giữa Datasheet và Thực nghiệm
-
-| Chỉ tiêu kỹ thuật đo lường | Thông số công bố (Datasheet) | Kết quả kiểm chứng thực nghiệm | Đánh giá & Ghi chú kỹ thuật |
-| :--- | :---: | :---: | :--- |
-| **Dải đo danh định** | $2.0\text{ cm} - 400.0\text{ cm}$ (hoặc $450\text{ cm}$) | **$5.0\text{ cm} - 550.0\text{ cm}$** | **Vượt định mức:** Tầm đo mở rộng thêm $100\text{ cm}$ ($+22\%$) trên mặt nhẵn |
-| **Vùng chết (Blind Zone)** | $< 2.0\text{ cm}$ | **$1.0\text{ cm} - 3.0\text{ cm}$** | Giá trị đo bị kẹp cố định ở $2.0 - 2.6\text{ cm}$ do thời gian suy giảm dao động màng gốm |
-| **Độ chính xác công bố** | $\pm 0.5\text{ cm} \pm 1\%$ | **$|\Delta x| \le 0.43\text{ cm}$ ($< 2.5\text{ m}$)**<br>**$\pm 0.35\%$ ($> 2.5\text{ m}$)** | Tốt hơn công bố nhờ tích hợp thuật toán bù nhiệt độ Laplace |
-| **Độ phân giải (Resolution)** | $0.1 - 0.3\text{ cm}$ ($1 - 3\text{ mm}$) | **$1\text{ }\mu\text{s} \to \approx 0.174\text{ mm}$ ($0.017\text{ cm}$)** | Độ phân giải thời gian bay vượt trội nhờ bộ định thời phần cứng của ESP32 |
-| **Khả năng thích ứng nhiệt độ** | Bù nhiệt nội bộ trên IC (cố định) | Bù Laplace thời gian thực qua cảm biến ngoài | Triệt tiêu sai số trôi nhiệt từ $5.8\text{ cm}$ xuống dưới $0.5\text{ mm}$ trên dải $3\text{ m}$ |
-
-**Kết luận đánh giá tổng quát:**
-Module cảm biến siêu âm RCWL-1601 khi kết hợp với bộ đếm thời gian vi điều khiển ESP32 và giải thuật bù nhiệt Laplace đã thể hiện các đặc tính kỹ thuật vượt trội so với các thông số công bố tối thiểu của nhà sản xuất. Đây là tiền đề lý thuyết và thực nghiệm vững chắc để triển khai hệ thống vào bài toán thực tế: **"Hệ thống giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ"** trong Chương 4.

@@ -373,3 +373,23 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
      * Phân tích sụt giảm cự ly: Chớm mất xung tại 350 cm trên mặt gồ ghề, mất hoàn toàn xung tại phép đo 375 cm.
      * **Kết luận Mục 3.6:** *"Kết luận: Bề mặt gồ ghề thu hẹp dải đo từ 550 cm xuống 350 cm. Với chất lỏng tĩnh phẳng nhẵn trong bồn kín, cảm biến RCWL-1601 dùng được toàn dải xa; với vật liệu rắn dạng hạt, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, chiều cao lắp đặt tối đa nên giới hạn dưới 300 – 350 cm (cơ sở cho thiết kế ở Chương 4)."*
    - **Loại bỏ hoàn toàn:** Các phân tích lý thuyết dài dòng về tán xạ đa tia ở cự ly gần ($10 \div 60\text{ cm}$), dịch chuyển đỉnh trượt chu kỳ trên dải trung bình, và các đồ thị đường $s$ và $\text{SE}$ cũ (`hinh_3_7a_do_lech_chuan_be_mat.png`, `hinh_3_7b_sai_so_chuan_be_mat.png`).
+
+20. **Quy chuẩn Nội dung Mục 3.7 và 3.8 (Chương 3):**
+   - **Mục 3.7: Phân tích ảnh hưởng của Nhiệt độ môi trường:**
+     * Tiêu đề: `3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường` (loại bỏ cụm *"và Hiệu quả thuật toán bù nhiệt Laplace"*).
+     * Mở đầu: Trình bày gọn trong 1 câu: *"Để đánh giá sự ảnh hưởng của nhiệt độ, thí nghiệm đối chứng được thực hiện trên mặt phẳng nhẵn dọc 19 mốc cự ly từ 10 cm đến 300 cm ở nhiệt độ phòng và nhiệt độ điều hòa. Số liệu được lấy từ tệp “du_lieu_tong_hop/chuong_3/ thong_ke_chuong_3.csv”.*
+     * Tiểu mục duy nhất: `3.7.1. Định lượng sai số trôi nhiệt và hiệu quả khử trôi của thuật toán Laplace` (loại bỏ tiểu mục cũ về Sự giãn dài thời gian bay).
+     * Đối chứng định lượng:
+       - Khi không bù nhiệt: kết quả đo bị phóng đại $+1.235\%$ quãng đường ($+12.28\text{ mm}$ tại $100\text{ cm}$, $+22.46\text{ mm}$ tại $200\text{ cm}$, cực đại $+39.92\text{ mm}$ tại $280\text{ cm}$).
+       - Khi bù nhiệt Laplace: triệt tiêu trôi nhiệt hàng xentimét, $\Delta x$ dao động quanh $0\text{ mm}$ ($-5.73\text{ mm}$ tại $100\text{ cm}$, $+3.50\text{ mm}$ tại $200\text{ cm}$, $-2.79\text{ mm}$ tại $300\text{ cm}$), giúp 14/14 mốc ($80 \div 300\text{ cm}$) đạt $|\delta\%| \le 0.57\%$.
+     * **Hình 3.8:** `Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C trước và sau khi kích hoạt thuật toán bù nhiệt độ Laplace trên dải 10 cm – 300 cm.`
+     * Đánh giá đồ thị: Phân tích đường màu đỏ nét liền (Chưa bù nhiệt) và đường màu xanh lá nét đứt (Đã bù nhiệt Laplace), khẳng định bù Laplace là bắt buộc.
+   - **Mục 3.8: Tổng hợp Độ không đảm bảo đo:**
+     * Tiêu đề: `3.8. Tổng hợp Độ không đảm bảo đo` (loại bỏ cụm *"và Đối chiếu Đặc tính Kỹ thuật Thực nghiệm vs Datasheet"*).
+     * Tiểu mục duy nhất: `3.8.1. Đánh giá Độ không đảm bảo đo mở rộng toàn dải` (loại bỏ cụm *"(ISO/GUM)"*).
+     * Định nghĩa các thành phần: Trình bày trực tiếp $u_A = s/\sqrt{N}$, công thức phân bố chữ nhật $u_B = a/\sqrt{3}$, liệt kê cụ thể $u_{B1} \approx 0.289\text{ mm}$, $u_{B2} \approx 0.050\text{ mm}$, $u_{B3}(d) \approx 0.000503 \cdot d\text{ (mm)}$, và công thức mở rộng $U_{95\%} = 2 \cdot u_c$.
+     * **Bảng 3.6:** `Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn.`
+       - Gồm đúng **9 cột** (loại bỏ cột *$u_B\text{ tổng}$*): `Cự ly chuẩn d`, `Độ lệch chuẩn s`, `u_A`, `u_B1 (Thước)`, `u_B2 (Timer)`, `u_B3 (Nhiệt độ)`, `u_c tổng`, `U_95% (k=2)`, `Kết quả đo chuẩn Y`.
+     * **Hình 3.9:** `Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A (u_A) và Loại B (u_B) theo khoảng cách chuẩn.`
+     * **Nhận xét & Kết luận đánh giá tổng quát:** Nhận xét sự chuyển dịch từ $u_{B1}$ ở cự ly gần sang $u_{B3}$ ở cự ly xa, toàn dải $U_{95\%} \le \pm 5.57\text{ mm}$. Đoạn kết luận tổng quát kết thúc Chương 3 khẳng định RCWL-1601 kết hợp ESP32 và bù Laplace đạt đặc tính vượt trội Datasheet, sẵn sàng triển khai vào ứng dụng bồn chứa ở Chương 4.
+     * **Loại bỏ hoàn toàn:** Hình 3.10 (Biểu đồ $u_c$ và $U_{95\%}$), Tiểu mục 3.8.2 và Bảng 3.7 (Bảng đối chiếu Datasheet).
