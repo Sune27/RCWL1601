@@ -303,3 +303,29 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
        - **Hình 2.2:** Caption: `Hình 2.2: Tốc độ biến thiên sai số |dε_95%/dk| theo cỡ mẫu k.` Đoạn nhận xét chỉ rõ đạo hàm suy giảm mạnh khi $k < 20$ và bão hòa đi ngang khi $k \to 50$.
        - **Loại bỏ Bảng 2.3:** Bỏ hoàn toàn Bảng 2.3 và đoạn đánh giá bảng để văn bản tập trung trực quan vào 2 đồ thị.
        - **Kết luận cỡ mẫu:** Đúc kết thành 1 câu duy nhất: *"Kết luận: Dựa trên các phân tích và đánh giá từ hai đồ thị và bảng số liệu nêu trên, nhóm nghiên cứu đưa ra quyết định lựa chọn cỡ mẫu N = 50 cho toàn bộ các phép đo thực nghiệm."* (loại bỏ hoàn toàn danh sách 3 gạch đầu dòng dài dòng).
+
+17. **Quy chuẩn Nội dung Mục 3.1 và 3.2 (Chương 3):**
+   - **Đoạn dẫn nhập Chương 3:** Rút gọn thành 1 câu duy nhất: *"Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ dữ liệu thực nghiệm: "*
+   - **Mục 3.1: Tiền xử lý dữ liệu và Đánh giá hiệu quả lọc sai số thô bằng Khoảng tứ phân vị (IQR)**
+     * **3.1.1. Khung tiền xử lý và cơ chế hình thành ngoại lai trong phép đo siêu âm:**
+       - Trình bày trực tiếp quy tắc chuyển mẫu ngoại lai ngoài `[LF, UF]` thành `NaN`.
+       - Loại bỏ 2 gạch đầu dòng giải thích nguyên nhân dài dòng (xung timeout, tán xạ nhiều đường).
+     * **3.1.2. Tổng hợp kết quả lọc:**
+       - Tiêu đề: `3.1.2. Tổng hợp kết quả lọc` (loại bỏ cụm *"ngoại lai trên toàn bộ 4 tập dữ liệu thực nghiệm"*).
+       - Dẫn chứng bảng thống kê `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv` và 4 file clean.
+       - Tiêu đề bảng: `Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.`
+       - Cấu trúc Bảng 3.1: Gồm đúng **8 cột** (loại bỏ cột *"Số mốc cự ly"*): `Tệp dữ liệu`, `Điều kiện đo`, `Tổng mẫu`, `Mốc có ngoại lai`, `Mẫu ngoại lai`, `Tỷ lệ (%)`, `Mẫu hợp lệ`, `Tỷ lệ hợp lệ (%)`.
+       - Đoạn nhận xét sau Bảng 3.1 gom thành một đoạn văn duy nhất, không dùng bullet points.
+     * **3.1.3. Đánh giá hiệu quả sau khi lọc:**
+       - Tiêu đề ngắn gọn: `3.1.3. Đánh giá hiệu quả sau khi lọc`.
+       - **Hình 3.1:** `Hình 3.1: Độ lệch chuẩn trước và sau khi lọc IQR.`
+       - Nhận xét đồ thị: Phân tích đường trước lọc (tăng mạnh ở 580 cm và 600 cm do timeout) và đường sau lọc (ổn định 0.09 - 4.0 mm).
+       - **Bảng 3.2:** `Bảng 3.2: Đối chiếu độ lệch chuẩn trước và sau khi lọc IQR tại các mốc tiêu biểu.` Gồm 6 cột: `Khoảng cách chuẩn`, `Độ lệch chuẩn thô`, `Độ lệch chuẩn sạch`, `Tỷ lệ giảm s`, `Số mẫu ngoại lai`, `Nguyên nhân hiện tượng`.
+   - **Mục 3.2: Khảo sát Dải đo thực tế**
+     * Tiêu đề: `3.2. Khảo sát Dải đo thực tế` (loại bỏ cụm *"Vùng chết và Giới hạn bão hòa xa"*).
+     * Đoạn mở đầu: Trình bày gọn gàng công thức sai số tuyệt đối $\Delta d = \bar{d} - d_{\text{chuẩn}}$ và sai số tương đối $\delta = \frac{\bar{d} - d_{\text{chuẩn}}}{d_{\text{chuẩn}}} \times 100\%$.
+     * **Hình 3.2:** `Hình 3.2: Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT, giới hạn trục tung ±10%).`
+     * **Phân chia 4 vùng làm việc:** Gói gọn trong một câu văn khái quát 4 phân vùng: Vùng chết (0 cm – 3 cm), Dải đo tuyến tính ổn định (5 cm – 400 cm), Dải đo xa vượt định mức (420 cm – 550 cm), Ngưỡng bão hòa xa (580 cm – 600 cm). **Loại bỏ toàn bộ các tiểu mục 3.2.1, 3.2.2, 3.2.3, 3.2.4** để tránh dàn trải.
+     * **Kết luận dải đo:** *"Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ 10 cm đến 550 cm."*
+     * **Bảng 3.3:** `Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.`
+       - Gồm **5 cột** chuẩn (loại bỏ cột *"Phân vùng làm việc"*): `Khoảng cách chuẩn`, `Giá trị trung bình`, `Sai số tuyệt đối`, `Sai số tương đối`, `Độ lệch chuẩn s`.

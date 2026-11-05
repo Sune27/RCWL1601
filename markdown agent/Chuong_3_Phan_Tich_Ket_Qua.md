@@ -1,131 +1,88 @@
 # CHƯƠNG 3: PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM
 
-Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ bốn tập dữ liệu thực nghiệm: `FSDT.csv` (chiều tiến, mặt nhẵn, $27.0^\circ	ext{C}$), `BSDT.csv` (chiều lùi, mặt nhẵn, $27.0^\circ	ext{C}$), `FRDT.csv` (chiều tiến, mặt nhám, $27.0^\circ	ext{C}$) và `FSAT.csv` (chiều tiến, mặt nhẵn, $20.0^\circ	ext{C}$).
-
-Các phân tích được xây dựng trên mô hình truyền sóng âm Laplace, phương pháp bình phương tối thiểu và quy chuẩn đánh giá độ không đảm bảo đo ISO/GUM đã nêu ở Chương 1.
+Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ dữ liệu thực nghiệm: 
 
 ---
 
 ## 3.1. Tiền xử lý dữ liệu và Đánh giá hiệu quả lọc sai số thô bằng Khoảng tứ phân vị (IQR)
 
-### 3.1.1. Khung tiền xử lý và Cơ chế hình thành ngoại lai trong phép đo siêu âm
-
-Theo thuật toán phát hiện sai số thô bằng Khoảng tứ phân vị (IQR / Tukey's Fences) đã nêu tại **Mục 1.3.2 (Chương 1)**, dữ liệu từ 4 tập thực nghiệm được xử lý. Để giữ nguyên chuỗi thời gian, thuật toán thực hiện gán giá trị trực tiếp: mẫu nào nằm ngoài khoảng hợp lệ $[LF, \, UF]$ sẽ được chuyển thành giá trị `NaN`.
-
-Trong quá trình thu thập tín hiệu, dữ liệu thực nghiệm xuất hiện sai số thô do một số nguyên nhân:
-1. **Xung quá thời gian chờ:** Sóng âm phản xạ bị suy hao biên độ dưới ngưỡng phát hiện của mạch thu RCWL-9610. Bộ đếm thời gian của vi điều khiển ESP32 chờ hết chu kỳ ($48\text{ ms}$) và trả về giá trị $\approx 824.6\text{ cm}$.
-2. **Tán xạ phản xạ nhiều đường:** Trên bề mặt nhám (`FRDT`), sóng âm phản xạ qua các vật thể phụ trước khi về đầu thu, làm tăng thời gian lan truyền ToF và tạo các giá trị đột biến.
+### 3.1.1. Khung tiền xử lý và cơ chế hình thành ngoại lai trong phép đo siêu âm
+Theo thuật toán phát hiện sai số thô bằng Khoảng tứ phân vị đã nêu tại Mục 1.3.2, dữ liệu từ 4 tập thực nghiệm được xử lý. Mẫu nào nằm ngoài khoảng hợp lệ [LF, UF] sẽ được chuyển thành giá trị NaN.
 
 ---
 
-### 3.1.2. Tổng hợp kết quả lọc ngoại lai trên toàn bộ 4 tập dữ liệu thực nghiệm
+### 3.1.2. Tổng hợp kết quả lọc 
+Kết quả tính toán chi tiết của từng mốc cự ly được lưu tại bảng dữ liệu “du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv”, và dữ liệu sau khi lọc được lưu tại 4 tệp: FSDT_clean.csv, BSDT_clean.csv, FRDT_clean.csv, FSAT_clean.csv. 
 
-Kết quả tính toán chi tiết của từng mốc cự ly được lưu tại bảng dữ liệu **`du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`**, và dữ liệu sau khi lọc được lưu tại 4 tệp: `FSDT_clean.csv`, `BSDT_clean.csv`, `FRDT_clean.csv`, `FSAT_clean.csv`.
+Kết quả có thể được tóm tắt ngắn gọn qua bảng sau:
 
-Bảng 3.1 tổng hợp kết quả lọc dữ liệu trên 4 tập thực nghiệm:
+Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.
 
-| Tệp dữ liệu | Điều kiện thực nghiệm | Số mốc cự ly | Tổng số mẫu | Số mốc có ngoại lai | Số mẫu ngoại lai | Tỷ lệ ngoại lai (%) | Số mẫu hợp lệ | Tỷ lệ hợp lệ (%) |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`FSDT.csv`** | Chiều tiến – Mặt nhẵn ($27.0^\circ	ext{C}$) | 35 mốc | 1.750 | 16 mốc | 77 mẫu | 4.40% | 1.673 mẫu | 95.60% |
-| **`BSDT.csv`** | Chiều lùi – Mặt nhẵn ($27.0^\circ	ext{C}$) | 19 mốc | 950 | 12 mốc | 61 mẫu | 6.42% | 889 mẫu | 93.58% |
-| **`FRDT.csv`** | Chiều tiến – Mặt nhám ($27.0^\circ	ext{C}$) | 23 mốc | 1.150 | 11 mốc | 59 mẫu | 5.13% | 1.091 mẫu | 94.87% |
-| **`FSAT.csv`** | Chiều tiến – Phòng lạnh ($20.0^\circ	ext{C}$) | 19 mốc | 950 | 8 mốc | 38 mẫu | 4.00% | 912 mẫu | 96.00% |
-| **TỔNG HỢP** | **Cả 4 tập thực nghiệm** | **96 mốc** | **4.800** | **47 mốc** | **235 mẫu** | **4.90%** | **4.565 mẫu** | **95.10%** |
+| Tệp dữ liệu | Điều kiện đo | Tổng mẫu | Mốc có ngoại lai | Mẫu ngoại lai | Tỷ lệ (%) | Mẫu hợp lệ | Tỷ lệ hợp lệ (%) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`FSDT.csv`** | Chiều tiến – Mặt nhẵn ($27.0^\circ\text{C}$) | 1.750 | 16 mốc | 77 | 4.40% | 1.673 | 95.60% |
+| **`BSDT.csv`** | Chiều lùi – Mặt nhẵn ($27.0^\circ\text{C}$) | 950 | 12 mốc | 61 | 6.42% | 889 | 93.58% |
+| **`FRDT.csv`** | Chiều tiến – Mặt nhám ($27.0^\circ\text{C}$) | 1.150 | 11 mốc | 59 | 5.13% | 1.091 | 94.87% |
+| **`FSAT.csv`** | Chiều tiến – Phòng lạnh ($20.0^\circ\text{C}$) | 950 | 8 mốc | 38 | 4.00% | 912 | 96.00% |
+| **TỔNG HỢP** | **Cả 4 tập thực nghiệm** | **4.800** | **47 mốc** | **235** | **4.90%** | **4.565** | **95.10%** |
 
-*Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.*
-
-**Nhận xét:**
-- **Tỷ lệ giữ lại mẫu đạt $95.10\%$:** Hệ thống đo duy trì độ ổn định tốt; chỉ có $4.90\%$ mẫu bị loại bỏ trên toàn bộ 4.800 lần đo.
-- **Tính đối xứng giữa chiều tiến và chiều lùi:** Tỷ lệ ngoại lai giữa `FSDT` ($4.40\%$) và `BSDT` ($6.42\%$) gần tương đương nhau, cho thấy điều kiện môi trường đo ổn định.
-- **Ảnh hưởng của bề mặt phản xạ:** Bề mặt nhám (`FRDT`) xuất hiện nhiều xung tán xạ hơn so với mặt nhẵn. Các xung này được bộ lọc IQR phát hiện và loại bỏ, giúp giá trị trung bình không bị lệch.
+Nhận xét từ kết quả Bảng 3.1: Hệ thống đo duy trì độ ổn định tốt; chỉ có 4.90% mẫu bị loại bỏ trên toàn bộ 4.800 lần đo. Tỷ lệ ngoại lai giữa FSDT (4.40%) và BSDT (6.42%) gần tương đương nhau, cho thấy điều kiện môi trường đo ổn định. Bề mặt nhám (FRDT) xuất hiện nhiều xung tán xạ hơn so với mặt nhẵn. Các xung này được bộ lọc IQR phát hiện và loại bỏ, giúp giá trị trung bình không bị lệch.
 
 ---
 
-### 3.1.3. Đánh giá trực quan hiệu quả triệt tiêu độ lệch chuẩn trên toàn dải đo
-
-Hình 3.1 thể hiện biến thiên của độ lệch chuẩn thực nghiệm $s$ trước và sau khi lọc trên thang bán logarit (semi-log scale), trong đó trục tung biểu diễn độ lệch chuẩn $s$ theo thang logarit cơ số 10 ($0.1$ đến $1000	ext{ mm}$) và trục hoành biểu diễn khoảng cách chuẩn đối chứng từ $1	ext{ cm}$ đến $600	ext{ cm}$.
+### 3.1.3. Đánh giá hiệu quả sau khi lọc
+Hình 3.1 thể hiện biến thiên của độ lệch chuẩn s trước và sau khi lọc trên thang logarit.
 
 ![Độ lệch chuẩn trước và sau khi lọc IQR](../graph/chuong_3/hinh_3_1_loc_sai_so_tho.png)
 
 *Hình 3.1: Độ lệch chuẩn trước và sau khi lọc IQR.*
 
-**Đánh giá từ đồ thị:**
-- **Đường màu đỏ nét đứt (Độ lệch chuẩn thô trước khi lọc):**
-  + Trong khoảng đo làm việc ($1 - 340	ext{ cm}$), độ lệch chuẩn duy trì ở mức dưới $1.0	ext{ mm}$.
-  + Tại mốc $360	ext{ cm}$, do hiện tượng trượt chu kỳ sóng ToF, độ lệch chuẩn thô tăng lên $s = 90.33	ext{ mm}$.
-  + Tại các cự ly xa ($580	ext{ cm}$ và $600	ext{ cm}$), do sóng phản xạ suy hao mạnh dẫn đến các mẫu quá hạn (timeout $824.6	ext{ cm}$), độ lệch chuẩn thô tăng lên lần lượt $s = 346.05	ext{ mm}$ và $s = 2621.02	ext{ mm}$.
-- **Đường màu xanh nét liền (Độ lệch chuẩn sau khi lọc IQR):**
-  + Sau khi loại bỏ các giá trị ngoại lai bằng bộ lọc IQR kết hợp ngưỡng phân giải $\Delta_{	ext{LSB}} = 0.0175	ext{ cm}$, đường độ lệch chuẩn duy trì ổn định trong dải $0.09 - 4.0	ext{ mm}$ trên toàn dải đo $6	ext{ m}$, tiệm cận đường dung sai của thước cơ khí ($0.5	ext{ mm}$).
-- **Bảng đối chiếu định lượng tại các mốc tiêu biểu:**
+Đánh giá từ đồ thị Hình 3.1: Trước khi lọc, độ lệch chuẩn duy trì ở mức dưới 1.0 mm. Tại các cự ly xa (580 cm và 600 cm), do sóng phản xạ suy hao mạnh dẫn đến các mẫu quá hạn, độ lệch chuẩn thô tăng lên lần lượt s = 346.05 mm và s = 2621.02 mm.
 
-| Khoảng cách chuẩn | Độ lệch chuẩn thô $s_{	ext{thô}}$ | Độ lệch chuẩn sau lọc $s_{	ext{sạch}}$ | Tỷ lệ giảm độ lệch chuẩn | Số mẫu ngoại lai | Nguyên nhân hiện tượng |
+Đường màu xanh nét liền (Độ lệch chuẩn sau khi lọc IQR): Sau khi loại bỏ các giá trị ngoại lai bằng bộ lọc IQR kết hợp ngưỡng phân giải Δ_LSB = 0.0175 cm, đường độ lệch chuẩn duy trì ổn định trong dải 0.09 - 4.0 mm trên toàn dải đo 6 m, tiệm cận đường dung sai của thước cơ khí (0.5 mm).
+
+Bảng 3.2: Đối chiếu độ lệch chuẩn trước và sau khi lọc IQR tại các mốc tiêu biểu.
+
+| Khoảng cách chuẩn | Độ lệch chuẩn thô | Độ lệch chuẩn sạch | Tỷ lệ giảm s | Số mẫu ngoại lai | Nguyên nhân hiện tượng |
 | :---: | :---: | :---: | :---: | :---: | :--- |
-| **$50	ext{ cm}$** | $0.094	ext{ mm}$ | $0.094	ext{ mm}$ | $1.0	ext{ lần}$ | $0/50\ (0\%)$ | Vùng đo ổn định, không có ngoại lai |
-| **$100	ext{ cm}$** | $0.383	ext{ mm}$ | $0.383	ext{ mm}$ | $1.0	ext{ lần}$ | $0/50\ (0\%)$ | Nhỏ hơn dung sai thước ($0.5	ext{ mm}$), giữ lại $100\%$ mẫu |
-| **$360	ext{ cm}$** | $90.33	ext{ mm}$ | **$2.51	ext{ mm}$** | **Giảm $36.0	ext{ lần}$** | $1/50\ (2\%)$ | Loại bỏ xung trượt chu kỳ sóng ToF |
-| **$580	ext{ cm}$** | $346.05	ext{ mm}$ | **$3.30	ext{ mm}$** | **Giảm $104.8	ext{ lần}$** | $4/50\ (8\%)$ | Loại bỏ xung bão hòa timeout $824.6	ext{ cm}$ |
-| **$600	ext{ cm}$** | $2621.02	ext{ mm}$ | **$0.63	ext{ mm}$** | **Giảm $4153.8	ext{ lần}$** | $7/50\ (14\%)$ | Cắt bỏ các xung quá hạn ở giới hạn cự ly |
+| **50 cm** | 0.094 mm | 0.094 mm | 1.0 lần | 0 / 50 (0%) | Vùng đo ổn định, không có ngoại lai |
+| **100 cm** | 0.383 mm | 0.383 mm | 1.0 lần | 0 / 50 (0%) | Nhỏ hơn dung sai thước (0.5 mm), giữ lại 100% mẫu |
+| **360 cm** | 90.33 mm | 2.51 mm | Giảm 36.0 lần | 1 / 50 (2%) | Loại bỏ xung trượt chu kỳ sóng ToF |
+| **580 cm** | 346.05 mm | 3.30 mm | Giảm 104.8 lần | 4 / 50 (8%) | Loại bỏ xung bão hòa timeout 824.6 cm |
+| **600 cm** | 2621.02 mm | 0.63 mm | Giảm 4153.8 lần | 7 / 50 (14%) | Cắt bỏ các xung quá hạn ở giới hạn cự ly |
 
 ---
 
-## 3.2. Khảo sát Dải đo thực tế, Vùng chết và Giới hạn bão hòa xa
+## 3.2. Khảo sát Dải đo thực tế
 
-Để xác định dải làm việc thực tế của cảm biến RCWL-1601, chuỗi dữ liệu thực nghiệm gồm 35 mốc cự ly từ $1\text{ cm}$ đến $600\text{ cm}$ thuộc tập chuẩn `FSDT_clean.csv` (nhiệt độ phòng $27.0^\circ\text{C}$, mặt phẳng nhẵn) được đưa vào phân tích sai số:
-- Sai số tuyệt đối: $\Delta d = \bar{d} - d_{\text{chuẩn}}$ (mm)
-- Sai số tương đối: $\delta = \frac{\bar{d} - d_{\text{chuẩn}}}{d_{\text{chuẩn}}} \times 100\%$ (\%)
-
-Biến thiên của sai số tương đối theo khoảng cách chuẩn được thể hiện trên Hình 3.2:
+Để xác định dải làm việc thực tế của cảm biến RCWL-1601, chuỗi dữ liệu thực nghiệm gồm 35 mốc cự ly từ 1 cm đến 600 cm thuộc tập chuẩn FSDT_clean.csv được đưa vào phân tích sai số: sai số tuyệt đối Δd = d̄ - d_chuẩn (mm) và sai số tương đối δ = ((d̄ - d_chuẩn) / d_chuẩn) × 100% (%). Biến thiên của sai số tương đối theo khoảng cách chuẩn được thể hiện trên Hình 3.2.
 
 ![Sai số tương đối theo khoảng cách chuẩn](../graph/chuong_3/hinh_3_2_sai_so_tuong_doi.png)
 
-*Hình 3.2: Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT, giới hạn trục tung $\pm 10\%$).*
+*Hình 3.2: Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT, giới hạn trục tung ±10%).*
 
-Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến được phân chia thành 4 vùng rõ rệt:
+Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến có thể được phân chia thành 4 vùng: Vùng chết (0 cm – 3 cm), dải đo tuyến tính ổn định (5 cm – 400 cm), dải đo xa vượt định mức (420 cm – 550 cm), ngưỡng bão hòa xa (580 cm – 600 cm)
 
-### 3.2.1. Vùng chết (1 cm – 3 cm)
-Khi vật cản đặt quá gần mặt cảm biến trong khoảng từ $1\text{ cm}$ đến $3\text{ cm}$, cảm biến mất hoàn toàn tính tuyến tính, giá trị đo bị kẹt quanh mức $2.0 - 2.7\text{ cm}$ dẫn đến sai số rất lớn:
-- Tại $1.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.030\text{ cm}$, sai số tuyệt đối $+10.30\text{ mm}$, sai số tương đối **$+103.05\%$**.
-- Tại $2.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.352\text{ cm}$, sai số tuyệt đối $+3.52\text{ mm}$, sai số tương đối **$+17.59\%$**.
-- Tại $3.0\text{ cm}$: Giá trị trung bình $\bar{d} = 2.679\text{ cm}$, sai số tuyệt đối $-3.21\text{ mm}$, sai số tương đối **$-10.72\%$**.
+Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ 10 cm đến 550 cm.
 
-**Giải thích cơ chế vật lý:** Hiện tượng này bắt nguồn từ thời gian suy giảm dao động cơ học của màng loa gốm áp điện và thời gian ngắt câm (blanking time) của IC RCWL-9610. Khi kích xung phát $40\text{ kHz}$ ($200\text{ }\mu\text{s}$), màng rung cần khoảng $120 - 150\text{ }\mu\text{s}$ để triệt tiêu dao động dư. Ở khoảng cách dưới $3\text{ cm}$, thời gian sóng âm đi và về nhỏ hơn $175\text{ }\mu\text{s}$, trùng lặp với thời gian ngắt câm nên mạch thu không phân biệt được xung phản xạ thực và xung kích dư, dẫn tới giá trị đo bị khóa cứng tại ngưỡng ngắt câm tối thiểu.
+Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.
 
-### 3.2.2. Dải đo tuyến tính ổn định (5 cm – 400 cm)
-Bắt đầu từ cự ly $5\text{ cm}$ (mốc chuyển tiếp thoát mù với sai số $-14.10\%$) và đặc biệt từ $10\text{ cm}$ trở đi, xung phản xạ tách biệt hoàn toàn khỏi xung phát. Biên độ sóng dội về nằm trọn vẹn trong dải khuếch đại tuyến tính của vi mạch. Sai số tương đối trong toàn bộ dải đo danh định từ $10\text{ cm}$ đến $400\text{ cm}$ luôn hội tụ chặt chẽ trong dải dung sai $\pm 0.5\%$ của nhà sản xuất (tại $50\text{ cm}$ là $-0.31\%$, tại $100\text{ cm}$ là $-0.57\%$, tại $200\text{ cm}$ là $+0.18\%$, tại $300\text{ cm}$ là $-0.09\%$, và tại $400\text{ cm}$ là $+0.35\%$). Điều này chứng minh cảm biến hoạt động với độ chính xác và độ ổn định cao trong phạm vi công bố.
-
-### 3.2.3. Dải đo xa mở rộng vượt định mức (420 cm – 550 cm)
-Thông số công bố của nhà sản xuất quy định cự ly đo tối đa của RCWL-1601 là $400\text{ cm}$ (hoặc $450\text{ cm}$ trong điều kiện lý tưởng). Tuy nhiên, trên thực nghiệm với bia phản xạ phẳng nhẵn ($40 \times 40\text{ cm}$) đặt vuông góc $90^\circ$ với trục cảm biến, module RCWL-1601 vẫn duy trì khả năng bắt sóng phản xạ chính xác cao vượt ngưỡng thiết kế:
-- Tại $420\text{ cm}$: Giá trị trung bình $\bar{d} = 421.241\text{ cm}$ (sai số tương đối $+0.29\%$).
-- Tại $500\text{ cm}$: Giá trị trung bình $\bar{d} = 500.691\text{ cm}$ (sai số tương đối $+0.14\%$).
-- Tại $550\text{ cm}$: Giá trị trung bình $\bar{d} = 550.630\text{ cm}$ (sai số tương đối $+0.11\%$, độ lệch chuẩn sau lọc $s = 0.319\text{ mm}$).
-
-Tầm đo mở rộng đạt được là nhờ khối tiền khuếch đại tự động điều chỉnh độ lợi (AGC) trên vi mạch RCWL-9610 có độ nhạy vượt trội so với các mạch rời thế hệ cũ, cùng với việc căn chỉnh vuông góc bề mặt phản xạ giúp bảo toàn năng lượng sóng dội về.
-
-### 3.2.4. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)
-Khi khoảng cách tăng lên từ $580\text{ cm}$, mật độ năng lượng sóng phản xạ suy giảm mạnh theo hàm nghịch đảo bình phương khoảng cách, tiệm cận ngưỡng suy hao giới hạn của mạch thu:
-- Tại $580\text{ cm}$: Tín hiệu phản xạ suy yếu, bắt đầu xuất hiện $4/50$ mẫu ngoại lai do tràn thời gian chờ echo ($824.6\text{ cm}$). Sau khi loại bỏ ngoại lai bằng IQR, giá trị trung bình là $579.850\text{ cm}$ (sai số $-0.03\%$, $s = 3.303\text{ mm}$).
-- Tại $600\text{ cm}$: Tín hiệu suy hao vượt ngưỡng nhạy, xuất hiện $7/50$ mẫu timeout. Tại mốc này, cảm biến mất hoàn toàn khả năng bắt sóng phản xạ thực, chuỗi đo chuyển sang trạng thái bão hòa hoàn toàn với giá trị đo vọt lên bão hòa $824.562\text{ cm}$, sai số tăng vọt $+37.43\%$.
-
-Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ **$10\text{ cm}$ đến $550\text{ cm}$**.
-
-Bảng 3.3 trích xuất số liệu sai số định lượng tại các mốc cự ly tiêu biểu trên tập `FSDT_clean.csv`:
-
-| Cự ly chuẩn $d_{\text{chuẩn}}$ | Giá trị trung bình $\bar{d}$ | Sai số tuyệt đối $\Delta d$ | Sai số tương đối $\delta$ | Độ lệch chuẩn $s$ | Phân vùng làm việc |
-| :---: | :---: | :---: | :---: | :---: | :--- |
-| **$1.0\text{ cm}$** | $2.030\text{ cm}$ | $+10.30\text{ mm}$ | **$+103.05\%$** | $0.035\text{ mm}$ | Vùng chết (kẹt giá trị đo) |
-| **$2.0\text{ cm}$** | $2.352\text{ cm}$ | $+3.52\text{ mm}$ | **$+17.59\%$** | $0.085\text{ mm}$ | Vùng chết (kẹt giá trị đo) |
-| **$3.0\text{ cm}$** | $2.679\text{ cm}$ | $-3.21\text{ mm}$ | **$-10.72\%$** | $0.056\text{ mm}$ | Vùng chết (kẹt giá trị đo) |
-| **$5.0\text{ cm}$** | $4.295\text{ cm}$ | $-7.05\text{ mm}$ | **$-14.10\%$** | $0.085\text{ mm}$ | Vùng chuyển tiếp (sai số lớn) |
-| **$10.0\text{ cm}$** | $10.570\text{ cm}$ | $+5.70\text{ mm}$ | $+5.70\%$ | $0.061\text{ mm}$ | Bắt đầu dải đo danh định |
-| **$50.0\text{ cm}$** | $49.847\text{ cm}$ | $-1.53\text{ mm}$ | **$-0.31\%$** | $0.094\text{ mm}$ | Dải làm việc ổn định (dung sai $\pm 0.5\%$) |
-| **$100.0\text{ cm}$** | $99.429\text{ cm}$ | $-5.71\text{ mm}$ | **$-0.57\%$** | $0.383\text{ mm}$ | Dải làm việc ổn định |
-| **$200.0\text{ cm}$** | $200.351\text{ cm}$ | $+3.51\text{ mm}$ | **$+0.18\%$** | $2.192\text{ mm}$ | Dải làm việc ổn định |
-| **$300.0\text{ cm}$** | $299.718\text{ cm}$ | $-2.82\text{ mm}$ | **$-0.09\%$** | $2.860\text{ mm}$ | Dải làm việc ổn định |
-| **$400.0\text{ cm}$** | $401.399\text{ cm}$ | $+13.99\text{ mm}$ | **$+0.35\%$** | $0.270\text{ mm}$ | Giới hạn danh định của Datasheet |
-| **$500.0\text{ cm}$** | $500.691\text{ cm}$ | $+6.91\text{ mm}$ | **$+0.14\%$** | $1.978\text{ mm}$ | Dải mở rộng (vượt chuẩn nhà sản xuất) |
-| **$550.0\text{ cm}$** | $550.630\text{ cm}$ | $+6.30\text{ mm}$ | **$+0.11\%$** | $0.319\text{ mm}$ | Giới hạn đo xa thực tế cực đại |
-| **$580.0\text{ cm}$** | $579.850\text{ cm}$ | $-1.50\text{ mm}$ | $-0.03\%$ | $3.303\text{ mm}$ | Ngưỡng suy hao (xuất hiện mẫu timeout) |
-| **$600.0\text{ cm}$** | $824.562\text{ cm}$ | $+2245.62\text{ mm}$ | **$+37.43\%$** | $0.631\text{ mm}$ | Bão hòa hoàn toàn (mất xung phản xạ) |
+| Khoảng cách chuẩn | Giá trị trung bình | Sai số tuyệt đối | Sai số tương đối | Độ lệch chuẩn s |
+| :---: | :---: | :---: | :---: | :---: |
+| **1.0 cm** | 2.030 cm | +10.30 mm | +103.05% | 0.035 mm |
+| **2.0 cm** | 2.352 cm | +3.52 mm | +17.59% | 0.085 mm |
+| **3.0 cm** | 2.679 cm | -3.21 mm | -10.72% | 0.056 mm |
+| **5.0 cm** | 4.295 cm | -7.05 mm | -14.10% | 0.085 mm |
+| **10.0 cm** | 10.570 cm | +5.70 mm | +5.70% | 0.061 mm |
+| **50.0 cm** | 49.847 cm | -1.53 mm | -0.31% | 0.094 mm |
+| **100.0 cm** | 99.429 cm | -5.71 mm | -0.57% | 0.383 mm |
+| **200.0 cm** | 200.351 cm | +3.51 mm | +0.18% | 2.192 mm |
+| **300.0 cm** | 299.718 cm | -2.82 mm | -0.09% | 2.860 mm |
+| **400.0 cm** | 401.399 cm | +13.99 mm | +0.35% | 0.270 mm |
+| **500.0 cm** | 500.691 cm | +6.91 mm | +0.14% | 1.978 mm |
+| **550.0 cm** | 550.630 cm | +6.30 mm | +0.11% | 0.319 mm |
+| **580.0 cm** | 579.850 cm | -1.50 mm | -0.03% | 3.303 mm |
+| **600.0 cm** | 824.562 cm | +2245.62 mm | +37.43% | 0.631 mm |
 
 ---
 

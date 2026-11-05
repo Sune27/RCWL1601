@@ -1106,55 +1106,46 @@ add_body_p(
 # ==========================================================
 add_heading_1("CHƯƠNG 3: PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM")
 
-add_body_p(
-    "Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ bốn tập dữ liệu thực nghiệm: "
-    "FSDT.csv (chiều tiến, mặt nhẵn, 27.0°C), BSDT.csv (chiều lùi, mặt nhẵn, 27.0°C), "
-    "FRDT.csv (chiều tiến, mặt nhám, 27.0°C) và FSAT.csv (chiều tiến, mặt nhẵn, 20.0°C). "
-    "Các phân tích dựa trên mô hình truyền sóng âm Laplace, phương pháp bình phương tối thiểu "
-    "và quy chuẩn đánh giá độ không đảm bảo đo ISO/GUM đã nêu ở Chương 1."
-)
+add_body_p("Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ dữ liệu thực nghiệm: ")
 
 add_heading_2("3.1. Tiền xử lý dữ liệu và Đánh giá hiệu quả lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
 
 add_heading_3("3.1.1. Khung tiền xử lý và cơ chế hình thành ngoại lai trong phép đo siêu âm")
 add_body_p(
-    "Theo thuật toán phát hiện sai số thô bằng Khoảng tứ phân vị (IQR / Tukey's Fences) đã nêu tại Mục 1.3.2 (Chương 1), "
-    "dữ liệu từ 4 tập thực nghiệm được xử lý. Để giữ nguyên chuỗi thời gian, thuật toán thực hiện gán giá trị trực tiếp: "
-    "mẫu nào nằm ngoài khoảng hợp lệ [LF, UF] sẽ được chuyển thành giá trị NaN."
-)
-add_body_p("Trong quá trình thu thập tín hiệu, dữ liệu thực nghiệm xuất hiện sai số thô do một số nguyên nhân:")
-add_bullet_p(
-    "Sóng âm phản xạ bị suy hao biên độ dưới ngưỡng phát hiện của mạch thu RCWL-9610. "
-    "Bộ đếm thời gian của vi điều khiển ESP32 chờ hết chu kỳ (48 ms) và trả về giá trị ≈ 824.6 cm.",
-    "1. Xung quá thời gian chờ: "
-)
-add_bullet_p(
-    "Trên bề mặt nhám (FRDT), sóng âm phản xạ qua các vật thể phụ trước khi về đầu thu, "
-    "làm tăng thời gian lan truyền ToF và tạo các giá trị đột biến.",
-    "2. Tán xạ phản xạ nhiều đường: "
+    "Theo thuật toán phát hiện sai số thô bằng Khoảng tứ phân vị đã nêu tại Mục 1.3.2, dữ liệu từ 4 tập thực nghiệm được xử lý. "
+    "Mẫu nào nằm ngoài khoảng hợp lệ [LF, UF] sẽ được chuyển thành giá trị NaN."
 )
 
-add_heading_3("3.1.2. Tổng hợp kết quả lọc ngoại lai trên toàn bộ 4 tập dữ liệu thực nghiệm")
+add_heading_3("3.1.2. Tổng hợp kết quả lọc")
 add_body_p(
-    "Kết quả tính toán chi tiết của từng mốc cự ly được lưu tại bảng dữ liệu du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv, "
+    "Kết quả tính toán chi tiết của từng mốc cự ly được lưu tại bảng dữ liệu “du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv”, "
     "và dữ liệu sau khi lọc được lưu tại 4 tệp: FSDT_clean.csv, BSDT_clean.csv, FRDT_clean.csv, FSAT_clean.csv. "
-    "Bảng 3.1 tổng hợp kết quả lọc dữ liệu trên 4 tập thực nghiệm:"
 )
+add_body_p("Kết quả có thể được tóm tắt ngắn gọn qua bảng sau:")
+
+p_cap_t31 = doc.add_paragraph()
+p_cap_t31.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap_t31.paragraph_format.space_before = Pt(4)
+p_cap_t31.paragraph_format.space_after = Pt(4)
+r_t31 = p_cap_t31.add_run("Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.")
+r_t31.font.name = 'Times New Roman'
+r_t31.font.size = Pt(9.5)
+r_t31.font.italic = True
 
 t31_data = [
-    ("FSDT.csv", "Chiều tiến – Mặt nhẵn (27.0°C)", "35 mốc", "1.750", "16 mốc", "77", "4.40%", "1.673", "95.60%"),
-    ("BSDT.csv", "Chiều lùi – Mặt nhẵn (27.0°C)", "19 mốc", "950", "12 mốc", "61", "6.42%", "889", "93.58%"),
-    ("FRDT.csv", "Chiều tiến – Mặt nhám (27.0°C)", "23 mốc", "1.150", "11 mốc", "59", "5.13%", "1.091", "94.87%"),
-    ("FSAT.csv", "Chiều tiến – Phòng lạnh (20.0°C)", "19 mốc", "950", "8 mốc", "38", "4.00%", "912", "96.00%"),
-    ("TỔNG HỢP", "Cả 4 tập thực nghiệm", "96 mốc", "4.800", "47 mốc", "235", "4.90%", "4.565", "95.10%"),
+    ("FSDT.csv", "Chiều tiến – Mặt nhẵn (27.0°C)", "1.750", "16 mốc", "77", "4.40%", "1.673", "95.60%"),
+    ("BSDT.csv", "Chiều lùi – Mặt nhẵn (27.0°C)", "950", "12 mốc", "61", "6.42%", "889", "93.58%"),
+    ("FRDT.csv", "Chiều tiến – Mặt nhám (27.0°C)", "1.150", "11 mốc", "59", "5.13%", "1.091", "94.87%"),
+    ("FSAT.csv", "Chiều tiến – Phòng lạnh (20.0°C)", "950", "8 mốc", "38", "4.00%", "912", "96.00%"),
+    ("TỔNG HỢP", "Cả 4 tập thực nghiệm", "4.800", "47 mốc", "235", "4.90%", "4.565", "95.10%"),
 ]
 
-table_31 = doc.add_table(rows=len(t31_data)+1, cols=9)
+table_31 = doc.add_table(rows=len(t31_data)+1, cols=8)
 table_31.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_31.autofit = False
 
-t31_widths = [Cm(2.0), Cm(3.2), Cm(1.4), Cm(1.4), Cm(1.6), Cm(1.5), Cm(1.5), Cm(1.6), Cm(1.8)]
-t31_headers = ["Tệp dữ liệu", "Điều kiện đo", "Số mốc", "Tổng mẫu", "Mốc có ngoại lai", "Mẫu ngoại lai", "Tỷ lệ (%)", "Mẫu hợp lệ", "Tỷ lệ hợp lệ (%)"]
+t31_widths = [Cm(2.2), Cm(3.6), Cm(1.6), Cm(1.8), Cm(1.6), Cm(1.6), Cm(1.8), Cm(1.8)]
+t31_headers = ["Tệp dữ liệu", "Điều kiện đo", "Tổng mẫu", "Mốc có ngoại lai", "Mẫu ngoại lai", "Tỷ lệ (%)", "Mẫu hợp lệ", "Tỷ lệ hợp lệ (%)"]
 
 for col_idx, text_h in enumerate(t31_headers):
     c = table_31.rows[0].cells[col_idx]
@@ -1201,33 +1192,14 @@ for c in table_31.rows[0].cells:
 for c in table_31.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
-p_cap_t31 = doc.add_paragraph()
-p_cap_t31.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_cap_t31.paragraph_format.space_before = Pt(4)
-p_cap_t31.paragraph_format.space_after = Pt(8)
-r_t31 = p_cap_t31.add_run("Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.")
-r_t31.font.italic = True
-r_t31.font.size = Pt(9.5)
-
-add_body_p("Nhận xét từ kết quả Bảng 3.1:")
-add_bullet_p(
-    "Hệ thống đo duy trì độ ổn định tốt; chỉ có 4.90% mẫu bị loại bỏ trên toàn bộ 4.800 lần đo.",
-    "Tỷ lệ giữ lại mẫu đạt 95.10%: "
-)
-add_bullet_p(
-    "Tỷ lệ ngoại lai giữa FSDT (4.40%) và BSDT (6.42%) gần tương đương nhau, cho thấy điều kiện môi trường đo ổn định.",
-    "Tính đối xứng giữa chiều tiến và chiều lùi: "
-)
-add_bullet_p(
-    "Bề mặt nhám (FRDT) xuất hiện nhiều xung tán xạ hơn so với mặt nhẵn. Các xung này được bộ lọc IQR phát hiện và loại bỏ, giúp giá trị trung bình không bị lệch.",
-    "Ảnh hưởng của bề mặt phản xạ: "
-)
-
-add_heading_3("3.1.3. Đánh giá trực quan hiệu quả triệt tiêu độ lệch chuẩn trên toàn dải đo")
 add_body_p(
-    "Hình 3.1 thể hiện biến thiên của độ lệch chuẩn thực nghiệm s trước và sau khi lọc trên thang bán logarit (semi-log scale), "
-    "trong đó trục tung biểu diễn độ lệch chuẩn s theo thang logarit cơ số 10 (0.1 đến 1000 mm) và trục hoành biểu diễn khoảng cách chuẩn đối chứng từ 1 cm đến 600 cm."
+    "Nhận xét từ kết quả Bảng 3.1: Hệ thống đo duy trì độ ổn định tốt; chỉ có 4.90% mẫu bị loại bỏ trên toàn bộ 4.800 lần đo. "
+    "Tỷ lệ ngoại lai giữa FSDT (4.40%) và BSDT (6.42%) gần tương đương nhau, cho thấy điều kiện môi trường đo ổn định. "
+    "Bề mặt nhám (FRDT) xuất hiện nhiều xung tán xạ hơn so với mặt nhẵn. Các xung này được bộ lọc IQR phát hiện và loại bỏ, giúp giá trị trung bình không bị lệch."
 )
+
+add_heading_3("3.1.3. Đánh giá hiệu quả sau khi lọc")
+add_body_p("Hình 3.1 thể hiện biến thiên của độ lệch chuẩn s trước và sau khi lọc trên thang logarit.")
 
 IMG_H3_1_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_1_loc_sai_so_tho.png"
 if os.path.exists(IMG_H3_1_PATH):
@@ -1242,23 +1214,40 @@ if os.path.exists(IMG_H3_1_PATH):
     p_cap3_1.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_1.paragraph_format.space_after = Pt(8)
     r_c3_1 = p_cap3_1.add_run("Hình 3.1: Độ lệch chuẩn trước và sau khi lọc IQR.")
+    r_c3_1.font.name = 'Times New Roman'
     r_c3_1.font.italic = True
     r_c3_1.font.size = Pt(10)
 
-add_body_p("Đánh giá từ đồ thị Hình 3.1:")
-add_bullet_p(
-    "Trong khoảng đo làm việc (1 - 340 cm), độ lệch chuẩn duy trì ở mức dưới 1.0 mm. "
-    "Tại mốc 360 cm, do hiện tượng trượt chu kỳ sóng ToF, độ lệch chuẩn thô tăng lên s = 90.33 mm. "
-    "Tại các cự ly xa (580 cm và 600 cm), do sóng phản xạ suy hao mạnh dẫn đến các mẫu quá hạn (timeout 824.6 cm), "
-    "độ lệch chuẩn thô tăng lên lần lượt s = 346.05 mm và s = 2621.02 mm.",
-    "Đường màu đỏ nét đứt (Độ lệch chuẩn thô trước khi lọc): "
+add_body_p(
+    "Đánh giá từ đồ thị Hình 3.1: Trước khi lọc, độ lệch chuẩn duy trì ở mức dưới 1.0 mm. "
+    "Tại các cự ly xa (580 cm và 600 cm), do sóng phản xạ suy hao mạnh dẫn đến các mẫu quá hạn, "
+    "độ lệch chuẩn thô tăng lên lần lượt s = 346.05 mm và s = 2621.02 mm."
 )
-add_bullet_p(
+
+p_green = doc.add_paragraph()
+p_green.paragraph_format.first_line_indent = Cm(1.0)
+p_green.paragraph_format.space_after = Pt(6)
+p_green.paragraph_format.line_spacing = 1.35
+p_green.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+r_g_title = p_green.add_run("Đường màu xanh nét liền (Độ lệch chuẩn sau khi lọc IQR): ")
+r_g_title.font.name = 'Times New Roman'
+r_g_title.font.size = Pt(13)
+r_g_title.font.bold = True
+r_g_body = p_green.add_run(
     "Sau khi loại bỏ các giá trị ngoại lai bằng bộ lọc IQR kết hợp ngưỡng phân giải Δ_LSB = 0.0175 cm, "
-    "đường độ lệch chuẩn duy trì ổn định trong dải 0.09 - 4.0 mm trên toàn dải đo 6 m, "
-    "tiệm cận đường dung sai của thước cơ khí (0.5 mm).",
-    "Đường màu xanh nét liền (Độ lệch chuẩn sau khi lọc IQR): "
+    "đường độ lệch chuẩn duy trì ổn định trong dải 0.09 - 4.0 mm trên toàn dải đo 6 m, tiệm cận đường dung sai của thước cơ khí (0.5 mm)."
 )
+r_g_body.font.name = 'Times New Roman'
+r_g_body.font.size = Pt(13)
+
+p_cap_t32 = doc.add_paragraph()
+p_cap_t32.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap_t32.paragraph_format.space_before = Pt(4)
+p_cap_t32.paragraph_format.space_after = Pt(4)
+r_t32 = p_cap_t32.add_run("Bảng 3.2: Đối chiếu độ lệch chuẩn trước và sau khi lọc IQR tại các mốc tiêu biểu.")
+r_t32.font.name = 'Times New Roman'
+r_t32.font.size = Pt(9.5)
+r_t32.font.italic = True
 
 t32_data = [
     ("50 cm", "0.094 mm", "0.094 mm", "1.0 lần", "0 / 50 (0%)", "Vùng đo ổn định, không có ngoại lai"),
@@ -1272,7 +1261,7 @@ table_32 = doc.add_table(rows=len(t32_data)+1, cols=6)
 table_32.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_32.autofit = False
 
-t32_widths = [Cm(2.2), Cm(2.4), Cm(2.4), Cm(2.4), Cm(2.2), Cm(4.4)]
+t32_widths = [Cm(2.6), Cm(2.4), Cm(2.4), Cm(2.2), Cm(2.2), Cm(4.2)]
 t32_headers = ["Khoảng cách chuẩn", "Độ lệch chuẩn thô", "Độ lệch chuẩn sạch", "Tỷ lệ giảm s", "Số mẫu ngoại lai", "Nguyên nhân hiện tượng"]
 
 for col_idx, text_h in enumerate(t32_headers):
@@ -1298,7 +1287,7 @@ for row_idx, row_vals in enumerate(t32_data, start=1):
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.line_spacing = 1.05
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.LEFT
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx != 5 else WD_ALIGN_PARAGRAPH.LEFT
         for r in p.runs:
             r.font.name = 'Times New Roman'
             r.font.size = Pt(8.5)
@@ -1318,22 +1307,12 @@ for c in table_32.rows[0].cells:
 for c in table_32.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
-p_cap_t32 = doc.add_paragraph()
-p_cap_t32.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_cap_t32.paragraph_format.space_before = Pt(4)
-p_cap_t32.paragraph_format.space_after = Pt(10)
-r_t32 = p_cap_t32.add_run("Bảng 3.2: Đối chiếu độ lệch chuẩn trước và sau khi lọc IQR tại các mốc tiêu biểu.")
-r_t32.font.italic = True
-r_t32.font.size = Pt(9.5)
-
-# ==========================================================
-# MỤC 3.2: KHẢO SÁT DẢI ĐO THỰC TẾ, VÙNG CHẾT VÀ BÃO HÒA XA
-# ==========================================================
-add_heading_2("3.2. Khảo sát Dải đo thực tế, Vùng chết và Giới hạn bão hòa xa")
+# 3.2
+add_heading_2("3.2. Khảo sát Dải đo thực tế")
 
 add_body_p(
     "Để xác định dải làm việc thực tế của cảm biến RCWL-1601, chuỗi dữ liệu thực nghiệm gồm 35 mốc cự ly "
-    "từ 1 cm đến 600 cm thuộc tập chuẩn FSDT_clean.csv (nhiệt độ phòng 27.0°C, mặt phẳng nhẵn) được đưa vào phân tích sai số: "
+    "từ 1 cm đến 600 cm thuộc tập chuẩn FSDT_clean.csv được đưa vào phân tích sai số: "
     "sai số tuyệt đối Δd = d̄ - d_chuẩn (mm) và sai số tương đối δ = ((d̄ - d_chuẩn) / d_chuẩn) × 100% (%). "
     "Biến thiên của sai số tương đối theo khoảng cách chuẩn được thể hiện trên Hình 3.2."
 )
@@ -1355,72 +1334,47 @@ if os.path.exists(IMG_H3_2_PATH):
     r_c3_2.font.italic = True
     r_c3_2.font.size = Pt(9.5)
 
-add_body_p("Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến được phân chia thành 4 vùng rõ rệt:")
-
-add_heading_3("3.2.1. Vùng chết (1 cm – 3 cm)")
 add_body_p(
-    "Khi vật cản đặt quá gần mặt cảm biến trong khoảng từ 1 cm đến 3 cm, cảm biến mất hoàn toàn tính tuyến tính, giá trị đo bị kẹt quanh mức 2.0 – 2.7 cm dẫn đến sai số rất lớn: "
-    "tại 1.0 cm giá trị trung bình là 2.030 cm (sai số tương đối +103.05%); "
-    "tại 2.0 cm giá trị trung bình là 2.352 cm (sai số tương đối +17.59%); "
-    "tại 3.0 cm giá trị trung bình là 2.679 cm (sai số tương đối -10.72%)."
-)
-add_body_p(
-    "Cơ chế vật lý: Hiện tượng này bắt nguồn từ thời gian suy giảm dao động cơ học của màng loa gốm áp điện và thời gian ngắt câm (blanking time) của IC RCWL-9610. "
-    "Khi kích xung 40 kHz (200 μs), màng rung cần khoảng 120 – 150 μs để triệt tiêu dao động dư. Ở khoảng cách dưới 3 cm, thời gian sóng âm đi và về nhỏ hơn 175 μs, "
-    "trùng lặp với thời gian ngắt câm nên mạch thu không phân biệt được xung phản xạ thực và xung kích dư, dẫn tới giá trị đo bị khóa cứng tại ngưỡng ngắt câm tối thiểu."
+    "Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến có thể được phân chia thành 4 vùng: "
+    "Vùng chết (0 cm – 3 cm), dải đo tuyến tính ổn định (5 cm – 400 cm), dải đo xa vượt định mức (420 cm – 550 cm), ngưỡng bão hòa xa (580 cm – 600 cm)"
 )
 
-add_heading_3("3.2.2. Dải đo tuyến tính ổn định (5 cm – 400 cm)")
-add_body_p(
-    "Bắt đầu từ cự ly 5 cm (mốc chuyển tiếp thoát mù với sai số -14.10%) và đặc biệt từ 10 cm trở đi, xung phản xạ tách biệt hoàn toàn khỏi xung phát. "
-    "Biên độ sóng dội về nằm trọn vẹn trong dải khuếch đại tuyến tính của vi mạch. Sai số tương đối trong toàn bộ dải đo danh định từ 10 cm đến 400 cm "
-    "luôn hội tụ chặt chẽ trong dải dung sai ±0.5% của nhà sản xuất (tại 50 cm là -0.31%, tại 100 cm là -0.57%, tại 200 cm là +0.18%, tại 300 cm là -0.09%, và tại 400 cm là +0.35%). "
-    "Điều này chứng minh cảm biến hoạt động với độ chính xác và độ ổn định cao trong phạm vi công bố."
-)
-
-add_heading_3("3.2.3. Dải đo xa mở rộng vượt định mức (420 cm – 550 cm)")
-add_body_p(
-    "Thông số công bố của nhà sản xuất quy định cự ly đo tối đa của RCWL-1601 là 400 cm (hoặc 450 cm trong điều kiện lý tưởng). "
-    "Tuy nhiên, trên thực nghiệm với bia phản xạ phẳng nhẵn (40 x 40 cm) đặt vuông góc 90° với trục cảm biến, module RCWL-1601 vẫn duy trì khả năng bắt sóng phản xạ chính xác cao vượt ngưỡng thiết kế: "
-    "tại 420 cm sai số là +0.29% (giá trị đo 421.24 cm); tại 500 cm sai số là +0.14% (giá trị đo 500.69 cm); và tại 550 cm sai số là +0.11% (giá trị đo 550.63 cm, s = 0.32 mm). "
-    "Tầm đo mở rộng đạt được là nhờ khối tiền khuếch đại tự động điều chỉnh độ lợi (AGC) trên vi mạch RCWL-9610 có độ nhạy vượt trội so với các mạch rời thế hệ cũ, "
-    "cùng với việc căn chỉnh vuông góc bề mặt phản xạ giúp bảo toàn năng lượng sóng dội về."
-)
-
-add_heading_3("3.2.4. Ngưỡng suy hao và bão hòa xa (580 cm – 600 cm)")
-add_body_p(
-    "Khi khoảng cách tăng lên từ 580 cm, mật độ năng lượng sóng phản xạ suy giảm mạnh theo hàm nghịch đảo bình phương khoảng cách, tiệm cận ngưỡng suy hao giới hạn của mạch thu: "
-    "tại 580 cm tín hiệu phản xạ suy yếu, xuất hiện 4/50 mẫu ngoại lai tràn thời gian chờ echo (824.6 cm); sau khi lọc IQR giá trị trung bình là 579.85 cm (sai số -0.03%, s = 3.30 mm). "
-    "Tại 600 cm, tín hiệu suy hao vượt ngưỡng nhạy, xuất hiện 7/50 mẫu timeout. Tại mốc này cảm biến mất hoàn toàn khả năng bắt sóng phản xạ thực, "
-    "chuỗi đo bão hòa hoàn toàn với giá trị vọt lên 824.56 cm, sai số tăng vọt +37.43%."
-)
 add_body_p(
     "Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ 10 cm đến 550 cm."
 )
 
+p_cap_t33 = doc.add_paragraph()
+p_cap_t33.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap_t33.paragraph_format.space_before = Pt(4)
+p_cap_t33.paragraph_format.space_after = Pt(4)
+r_t33 = p_cap_t33.add_run("Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.")
+r_t33.font.name = 'Times New Roman'
+r_t33.font.italic = True
+r_t33.font.size = Pt(9.5)
+
 t33_data = [
-    ("1.0 cm", "2.030 cm", "+10.30 mm", "+103.05%", "0.035 mm", "Vùng chết (kẹt giá trị đo)"),
-    ("2.0 cm", "2.352 cm", "+3.52 mm", "+17.59%", "0.085 mm", "Vùng chết (kẹt giá trị đo)"),
-    ("3.0 cm", "2.679 cm", "-3.21 mm", "-10.72%", "0.056 mm", "Vùng chết (kẹt giá trị đo)"),
-    ("5.0 cm", "4.295 cm", "-7.05 mm", "-14.10%", "0.085 mm", "Vùng chuyển tiếp (sai số lớn)"),
-    ("10.0 cm", "10.570 cm", "+5.70 mm", "+5.70%", "0.061 mm", "Bắt đầu dải đo danh định"),
-    ("50.0 cm", "49.847 cm", "-1.53 mm", "-0.31%", "0.094 mm", "Dải làm việc ổn định (dung sai ±0.5%)"),
-    ("100.0 cm", "99.429 cm", "-5.71 mm", "-0.57%", "0.383 mm", "Dải làm việc ổn định"),
-    ("200.0 cm", "200.351 cm", "+3.51 mm", "+0.18%", "2.192 mm", "Dải làm việc ổn định"),
-    ("300.0 cm", "299.718 cm", "-2.82 mm", "-0.09%", "2.860 mm", "Dải làm việc ổn định"),
-    ("400.0 cm", "401.399 cm", "+13.99 mm", "+0.35%", "0.270 mm", "Giới hạn danh định của Datasheet"),
-    ("500.0 cm", "500.691 cm", "+6.91 mm", "+0.14%", "1.978 mm", "Dải mở rộng (vượt chuẩn nhà sản xuất)"),
-    ("550.0 cm", "550.630 cm", "+6.30 mm", "+0.11%", "0.319 mm", "Giới hạn đo xa thực tế cực đại"),
-    ("580.0 cm", "579.850 cm", "-1.50 mm", "-0.03%", "3.303 mm", "Ngưỡng suy hao (xuất hiện mẫu timeout)"),
-    ("600.0 cm", "824.562 cm", "+2245.62 mm", "+37.43%", "0.631 mm", "Bão hòa hoàn toàn (mất xung phản xạ)"),
+    ("1.0 cm", "2.030 cm", "+10.30 mm", "+103.05%", "0.035 mm"),
+    ("2.0 cm", "2.352 cm", "+3.52 mm", "+17.59%", "0.085 mm"),
+    ("3.0 cm", "2.679 cm", "-3.21 mm", "-10.72%", "0.056 mm"),
+    ("5.0 cm", "4.295 cm", "-7.05 mm", "-14.10%", "0.085 mm"),
+    ("10.0 cm", "10.570 cm", "+5.70 mm", "+5.70%", "0.061 mm"),
+    ("50.0 cm", "49.847 cm", "-1.53 mm", "-0.31%", "0.094 mm"),
+    ("100.0 cm", "99.429 cm", "-5.71 mm", "-0.57%", "0.383 mm"),
+    ("200.0 cm", "200.351 cm", "+3.51 mm", "+0.18%", "2.192 mm"),
+    ("300.0 cm", "299.718 cm", "-2.82 mm", "-0.09%", "2.860 mm"),
+    ("400.0 cm", "401.399 cm", "+13.99 mm", "+0.35%", "0.270 mm"),
+    ("500.0 cm", "500.691 cm", "+6.91 mm", "+0.14%", "1.978 mm"),
+    ("550.0 cm", "550.630 cm", "+6.30 mm", "+0.11%", "0.319 mm"),
+    ("580.0 cm", "579.850 cm", "-1.50 mm", "-0.03%", "3.303 mm"),
+    ("600.0 cm", "824.562 cm", "+2245.62 mm", "+37.43%", "0.631 mm"),
 ]
 
-table_33 = doc.add_table(rows=len(t33_data)+1, cols=6)
+table_33 = doc.add_table(rows=len(t33_data)+1, cols=5)
 table_33.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_33.autofit = False
 
-t33_widths = [Cm(2.0), Cm(2.4), Cm(2.4), Cm(2.2), Cm(2.2), Cm(4.8)]
-t33_headers = ["Khoảng cách chuẩn", "Giá trị trung bình", "Sai số tuyệt đối", "Sai số tương đối", "Độ lệch chuẩn s", "Phân vùng làm việc"]
+t33_widths = [Cm(2.6), Cm(2.8), Cm(2.8), Cm(2.8), Cm(3.0)]
+t33_headers = ["Khoảng cách chuẩn", "Giá trị trung bình", "Sai số tuyệt đối", "Sai số tương đối", "Độ lệch chuẩn s"]
 
 for col_idx, text_h in enumerate(t33_headers):
     c = table_33.rows[0].cells[col_idx]
@@ -1445,7 +1399,7 @@ for row_idx, row_vals in enumerate(t33_data, start=1):
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.line_spacing = 1.05
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 5 else WD_ALIGN_PARAGRAPH.LEFT
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         for r in p.runs:
             r.font.name = 'Times New Roman'
             r.font.size = Pt(8.5)
@@ -1465,22 +1419,6 @@ for c in table_33.rows[0].cells:
 for c in table_33.rows[-1].cells:
     set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
 
-p_cap_t33 = doc.add_paragraph()
-p_cap_t33.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p_cap_t33.paragraph_format.space_before = Pt(4)
-p_cap_t33.paragraph_format.space_after = Pt(10)
-r_t33 = p_cap_t33.add_run("Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.")
-r_t33.font.name = 'Times New Roman'
-r_t33.font.italic = True
-r_t33.font.size = Pt(9.5)
-
-import os
-
-# ==============================================================================
-
-# ==============================================================================
-# MỤC 3.3: ĐÁNH GIÁ ĐỘ CHỤM VÀ ĐỘ CHÍNH XÁC
-# ==============================================================================
 add_heading_2("3.3. Đánh giá Độ chụm và Độ chính xác")
 
 add_body_p(
