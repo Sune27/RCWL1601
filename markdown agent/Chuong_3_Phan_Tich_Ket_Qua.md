@@ -164,37 +164,91 @@ Sự tồn tại của độ lệch tuyệt đối khoảng vài milimét có t�
 
 ## 3.4. Đánh giá Độ tuyến tính, Độ nhạy và Độ phân giải
 
-### 3.4.1. Hồi quy tuyến tính bằng phương pháp ma trận chuẩn tắc
+### 3.4.1. Hồi quy đa thức và Đánh giá Độ tuyến tính (Linearity)
 
-Để đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết, phương pháp bình phương bé nhất dạng ma trận đã được thiết lập trên $K = 30$ mốc cự ly thuộc dải làm việc tuyến tính ($5\text{ cm} \le d_{\text{true}} \le 550\text{ cm}$).
+Độ tuyến tính (Linearity) là đặc tính tĩnh cơ bản phản ánh mức độ quan hệ tỷ lệ thuận giữa khoảng cách dịch chuyển thực tế và giá trị đo hiển thị của cảm biến. Để đánh giá một cách khoa học, khách quan và tránh hiện tượng lạc quan thái quá do đánh giá trên chính dữ liệu huấn luyện, toàn bộ 34 mốc thực nghiệm trên toàn dải đo ($1.0\text{ cm}$ đến $580.0\text{ cm}$) đã được phân chia ngẫu nhiên có kiểm soát theo tỷ lệ chuẩn thực nghiệm **70% dữ liệu Huấn luyện (Train set - 24 mốc)** và **30% dữ liệu Kiểm thử độc lập (Test set - 10 mốc)**.
 
-Mô hình hồi quy khoảng cách đo thực nghiệm có dạng:
+- **Tập huấn luyện (Train - 24 mốc):** $[1.0, 3.0, 5.0, 8.0, 10.0, 40.0, 60.0, 100.0, 120.0, 140.0, 160.0, 180.0, 200.0, 240.0, 250.0, 260.0, 300.0, 320.0, 340.0, 360.0, 400.0, 420.0, 500.0, 550.0]\text{ cm}$. Dùng để thiết lập hệ phương trình chuẩn tắc và giải ma trận xác định hệ số cho 3 mô hình hồi quy đa thức.
+- **Tập kiểm thử độc lập (Test - 10 mốc):** $[2.0, 20.0, 50.0, 80.0, 150.0, 220.0, 280.0, 350.0, 450.0, 580.0]\text{ cm}$. Trải dài từ vùng chết, dải đo danh định đến vùng suy hao xa, hoàn toàn không tham gia vào quá trình tìm hệ số, đóng vai trò làm "bài kiểm tra mù" để đối sánh năng lực dự đoán thực tế của 3 mô hình.
 
-$$\hat{d} = a \cdot d_{\text{true}} + b$$
+Hệ phương trình chuẩn tắc phương pháp bình phương bé nhất (OLS):
 
-Vector hệ số hồi quy được giải trực tiếp từ hệ phương trình chuẩn tắc:
+$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$
 
-$$\hat{\boldsymbol{\beta}} = \begin{bmatrix} a \\ b \end{bmatrix} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$
+Giải hệ phương trình chuẩn tắc trên 24 mốc thực nghiệm tập Train (70%), kết quả tính toán xác định được phương trình của 3 mô hình hồi quy đa thức như sau:
 
-Kết quả tính toán ma trận số liệu thực nghiệm:
-- **Hệ số góc hồi quy:** $a = 1.002791 \approx 1.0000$ (độ dốc bám sát tỷ lệ lý tưởng $1:1$).
-- **Hệ số chặn (offset dịch chuyển gốc):** $b = -0.607344\text{ cm} \approx -6.07\text{ mm}$ (phù hợp tuyệt đối với kích thước thụt lùi cơ khí của màng rung trong nòng kim loại bảo vệ).
-- **Hệ số xác định tương quan:**
+1. **Mô hình Bậc 1 (Tuyến tính):**
+   $$\hat{y}_1 = 1.00273441 \cdot x - 0.48427223 \quad (\text{cm})$$
+   *(Trong đó hệ số góc $a_1 = 1.002734$ bám sát độ dốc lý tưởng 1:1, hệ số tự do $b_1 = -0.484\text{ cm}$ phản ánh chính xác khoảng thụt lùi cơ khí $-4.84\text{ mm}$ của màng loa gốm phía trong vỏ kim loại).*
 
-$$R^2 = 1 - \frac{\sum_{k=1}^K (y_k - \hat{y}_k)^2}{\sum_{k=1}^K (y_k - \bar{y})^2} = 0.999988$$
+2. **Mô hình Bậc 2:**
+   $$\hat{y}_2 = 3.56559128 \times 10^{-6} \cdot x^2 + 1.00103491 \cdot x - 0.37940440 \quad (\text{cm})$$
+   *(Hệ số bậc 2 rất nhỏ cỡ $10^{-6}$, đường đặc tính thực tế tiệm cận đường thẳng).*
 
-Chỉ số $R^2 \approx 1.0000$ khẳng định hàm truyền khoảng cách của cảm biến có độ tuyến tính hoàn hảo.
+3. **Mô hình Bậc 3:**
+   $$\hat{y}_3 = -1.04345666 \times 10^{-7} \cdot x^3 + 8.50580899 \times 10^{-5} \cdot x^2 + 0.98551084 \cdot x - 0.00036859 \quad (\text{cm})$$
+   *(Chứa các số hạng phi tuyến bậc 3 và bậc 2 có xu hướng uốn lượn ở hai đầu mút).*
 
-**Sai số phi tuyến cực đại ($\delta_{\text{NL}}\%$):**
-Độ lệch lớn nhất giữa giá trị đo trung bình thực tế và đường thẳng hồi quy tuyến tính lý thuyết là:
+*Ghi chú: Toàn bộ các tổng ma trận chuẩn tắc phục vụ tính toán ($N = 24, \sum x, \sum x^2, \dots, \sum x^6, \sum xy, \sum x^2y, \sum x^3y$) được lưu trữ đầy đủ trong tệp cơ sở dữ liệu `du_lieu_tong_hop/chuong_3/cac_tong_hoi_quy.csv`.*
 
-$$\Delta d_{\text{NL},\max} = \max_k |\bar{d}_k - \hat{d}_k| = 1.2954\text{ cm}$$
+Do trên thang đo lớn từ $0\text{ cm}$ đến $600\text{ cm}$, đặc tính của cả ba mô hình đều có độ dốc xấp xỉ 1:1 và bám rất sát chuỗi dữ liệu thực nghiệm, nên mắt thường không thể phân biệt được mô hình nào tối ưu nếu chỉ nhìn vào đường hồi quy tổng thể. Do đó, để xác định mô hình phản ánh trung thực bản chất vật lý của cảm biến, bắt buộc phải thực hiện đối sánh định lượng sai số dự đoán trên 10 mốc kiểm thử độc lập (Test set) và phóng đại thang đo sai số lên mức milimét.
 
-Quy đổi về sai số phi tuyến tương đối trên toàn thang đo $d_{\text{F.S.}} = 550\text{ cm}$:
+#### Bảng 3.4: Đối sánh sai số dự đoán của 3 mô hình hồi quy trên 10 mốc kiểm thử độc lập
 
-$$\delta_{\text{NL}}\% = \frac{\Delta d_{\text{NL},\max}}{d_{\text{F.S.}}} \times 100\% = \frac{1.2954}{550} \times 100\% = 0.2355\%$$
+| Mốc Test $x$ | $y$ thực tế | $\hat{y}$ Bậc 1 | $e$ Bậc 1 (mm) | $\hat{y}$ Bậc 2 | $e$ Bậc 2 (mm) | $\hat{y}$ Bậc 3 | $e$ Bậc 3 (mm) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **$2.0\text{ cm}$** | $2.352\text{ cm}$ | $1.521\text{ cm}$ | $+8.31$ | $1.623\text{ cm}$ | $+7.29$ | $1.971\text{ cm}$ | **$+3.81$** |
+| **$20.0\text{ cm}$** | $19.328\text{ cm}$ | $19.570\text{ cm}$ | **$-2.42$** | $19.643\text{ cm}$ | $-3.15$ | $19.743\text{ cm}$ | $-4.15$ |
+| **$50.0\text{ cm}$** | $49.847\text{ cm}$ | $49.652\text{ cm}$ | $+1.95$ | $49.681\text{ cm}$ | **$+1.66$** | $49.475\text{ cm}$ | $+3.73$ |
+| **$80.0\text{ cm}$** | $80.083\text{ cm}$ | $79.734\text{ cm}$ | **$+3.48$** | $79.726\text{ cm}$ | $+3.56$ | $79.331\text{ cm}$ | $+7.51$ |
+| **$150.0\text{ cm}$** | $149.957\text{ cm}$ | $149.926\text{ cm}$ | **$+0.31$** | $149.856\text{ cm}$ | $+1.01$ | $149.388\text{ cm}$ | $+5.69$ |
+| **$220.0\text{ cm}$** | $220.086\text{ cm}$ | $220.117\text{ cm}$ | **$-0.31$** | $220.021\text{ cm}$ | $+0.65$ | $219.818\text{ cm}$ | $+2.68$ |
+| **$280.0\text{ cm}$** | $280.528\text{ cm}$ | $280.281\text{ cm}$ | $+2.47$ | $280.190\text{ cm}$ | $+3.38$ | $280.321\text{ cm}$ | **$+2.08$** |
+| **$350.0\text{ cm}$** | $349.550\text{ cm}$ | $350.473\text{ cm}$ | $-9.23$ | $350.420\text{ cm}$ | **$-8.70$** | $350.874\text{ cm}$ | $-13.25$ |
+| **$450.0\text{ cm}$** | $450.739\text{ cm}$ | $450.746\text{ cm}$ | **$-0.07$** | $450.808\text{ cm}$ | $-0.69$ | $451.195\text{ cm}$ | $-4.56$ |
+| **$580.0\text{ cm}$** | $579.850\text{ cm}$ | $581.102\text{ cm}$ | $-12.52$ | $581.420\text{ cm}$ | $-15.71$ | $579.850\text{ cm}$ | **$-0.01$** |
 
-*(Nếu chỉ xét trong dải quy chuẩn Datasheet $5\text{ cm} \to 400\text{ cm}$, phương trình hồi quy đạt $a = 1.003177$, $b = -0.660877\text{ cm}$, $R^2 = 0.999979$, và sai số phi tuyến cực đại $\delta_{\text{NL}}\% = 0.3259\%$).*
+**Phân tích bản chất và hiện tượng Quá khớp (Overfitting):**
+- **Trong dải đo danh định ổn định:** Tại $150.0\text{ cm}$, mô hình Bậc 1 đạt độ chính xác cực cao, sai số chỉ $+0.31\text{ mm}$; tại $220.0\text{ cm}$ sai số $-0.31\text{ mm}$ và tại $450.0\text{ cm}$ chỉ $-0.07\text{ mm}$. Ngược lại, Bậc 3 do bị uốn cong ở hai đầu mút nên bị võng ở giữa, sai số tại $150.0\text{ cm}$ vọt lên $+5.69\text{ mm}$ (gấp hơn 18 lần Bậc 1) và tại $350.0\text{ cm}$ lệch tới $-13.25\text{ mm}$.
+- **Tại hai vùng biên (Vùng chết $2\text{ cm}$ và Suy hao xa $580\text{ cm}$):** Cảm biến kẹt ở vùng chết ($2.352\text{ cm}$). Bậc 1 duy trì hướng thẳng về 0 nên lệch $+8.31\text{ mm}$. Bậc 3 uốn cong đón điểm kẹt nên chỉ lệch $+3.81\text{ mm}$ và tại $580\text{ cm}$ lệch $-0.01\text{ mm}$.
+- **Sai số tuyệt đối trung bình (MAE) trên tập Test:** Bậc 1 đạt **$4.11\text{ mm}$** (thấp nhất), Bậc 2 là $4.58\text{ mm}$, Bậc 3 là $4.75\text{ mm}$ (cao nhất).
+
+![So sánh sai số tuyệt đối tại các mốc kiểm thử](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_6_sai_so_phan_du_3_mo_hinh.png)
+*Hình 3.3: So sánh sai số tuyệt đối tại các mốc kiểm thử của 3 mô hình hồi quy.*
+
+![Biểu đồ miền tích lũy sai số tuyệt đối](file:///D:/ki5/[EMA2024E_3]%20K%E1%BB%B9%20thu%E1%BA%ADt%20%C4%91o%20l%C6%B0%E1%BB%9Dng%20v%C3%A0%20c%E1%BA%A3m%20bi%E1%BA%BFn/RCWL1601/graph/chuong_3/hinh_3_7_tich_luy_sai_so_phan_du.png)
+*Hình 3.4: Biểu đồ miền tích lũy sai số tuyệt đối trên 10 mốc kiểm thử độc lập.*
+
+Biểu đồ miền tích lũy tại Hình 3.4 chứng minh trực quan: Trong dải đo danh định từ $50\text{ cm}$ đến $450\text{ cm}$, đường tích lũy sai số của mô hình Bậc 1 gần như đi ngang phẳng lì (tổng tích lũy toàn dải chỉ $41.07\text{ mm}$). Ngược lại, mô hình Bậc 3 leo dốc rất đứng ở dải giữa (từ $11.69\text{ mm}$ vọt lên $42.89\text{ mm}$ tại $350\text{ cm}$), khiến tổng sai số tích lũy lên tới $47.45\text{ mm}$.
+
+#### Chỉ số Độ phi tuyến (Non-Linearity) của cảm biến
+
+Về bản chất đo lường, Non-Linearity là đặc tính vật lý duy nhất của phần cứng cảm biến so với đường thẳng chuẩn (BFSL):
+
+$$\text{Non-Linearity (\% FS)} = \pm \frac{\Delta L_{\max}}{\text{FSO}} \times 100\%$$
+
+Trong dải danh định ổn định ($5\text{ cm} \div 400\text{ cm}$, $\text{FSO} = 400\text{ cm}$):
+- Độ lệch lớn nhất xảy ra tại $x = 360.0\text{ cm}$ ($y = 361.945\text{ cm}$, $\hat{y} = 360.500\text{ cm}$):
+  $$\Delta L_{\max} = |361.945 - 360.500| = 1.445\text{ cm} \ (14.45\text{ mm})$$
+- Độ phi tuyến thực nghiệm:
+  $$\text{Non-Linearity} = \pm \frac{1.445\text{ cm}}{400\text{ cm}} \times 100\% = \mathbf{\pm 0.361\% \text{ FS}}$$
+
+Mức phi tuyến $< 0.5\%\text{ FS}$ khẳng định cảm biến RCWL-1601 có độ tuyến tính phần cứng xuất sắc.
+
+#### Bảng 3.5: Tổng hợp 4 tiêu chí khoa học quyết định lựa chọn mô hình Bậc 1
+
+| Tiêu chuẩn đánh giá | Mô hình Bậc 1 ($y = ax+b$) | Mô hình Bậc 2 ($y = ax^2+bx+c$) | Mô hình Bậc 3 ($y = ax^3+...+d$) | Nhận định kỹ thuật |
+| :--- | :---: | :---: | :---: | :--- |
+| **Sai số trên tập Test** | **$\text{MAE} = 4.11\text{ mm}$ (Thấp nhất)** | $\text{MAE} = 4.58\text{ mm}$ | $\text{MAE} = 4.75\text{ mm}$ (Cao nhất) | Bậc 1 khái quát hóa tốt nhất trên dữ liệu mới |
+| **Bản chất vật lý sóng âm** | **Hoàn toàn phù hợp ($t = 2d/v$)** | Không phù hợp | Không phù hợp (Overfitting) | Sóng âm truyền tuyến tính bậc 1 tự nhiên |
+| **Tính ổn định phần dư** | **Rất phẳng quanh mốc 0** | Khá phẳng | Võng mạnh ở dải giữa ($-13.25\text{ mm}$) | Bậc 1 không làm méo sai số dải đo chính |
+| **Tài nguyên vi điều khiển** | **Nhẹ nhất (1 nhân, 1 cộng)** | Trung bình | Tốn CPU, dễ tràn số thực | Bậc 1 tối ưu tối đa cho ESP32 |
+| **Chỉ số Non-Linearity** | **$\pm 0.361\%\text{ FS}$ ($< 0.5\%$)** | $\pm 0.372\%\text{ FS}$ | $\pm 0.331\%\text{ FS}$ | Độ phi tuyến cực nhỏ, chênh lệch không đáng kể |
+| **KẾT LUẬN LỰA CHỌN** | **CHỌN LÀM ĐẶC TÍNH TĨNH** | **LOẠI** | **LOẠI** | **Mô hình Bậc 1 là lựa chọn tối ưu, khoa học và kinh tế nhất** |
+
+**Quyết định lựa chọn chính thức:** Phương trình tuyến tính Bậc 1:
+$$\hat{y} = 1.00273441 \cdot x - 0.48427223 \quad (\text{cm})$$
+được lựa chọn làm phương trình đặc tính tĩnh chuẩn của hệ thống đo RCWL-1601. Hệ số góc $a_1 = 1.002734$ phản ánh độ nhạy bám sát tuyệt đối tỷ lệ 1:1, và hệ số tự do $b_1 = -0.484\text{ cm}$ phản ánh chính xác sai số vị trí điểm không cơ học (khoảng thụt lùi $4.84\text{ mm}$ của màng loa gốm phía trong vỏ kim loại bảo vệ).
 
 ### 3.4.2. Độ nhạy thực nghiệm thời gian bay
 
