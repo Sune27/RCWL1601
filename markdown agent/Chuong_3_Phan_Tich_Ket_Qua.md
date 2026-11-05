@@ -300,18 +300,24 @@ Khác với cảm biến biến dạng áp điện hoặc cảm biến từ trư
 
 Để lượng hóa ảnh hưởng của phản xạ gương định hướng và tán xạ khuếch tán (**Mục 1.1.3, Chương 1**), thí nghiệm đối chứng được thực hiện ở cùng nhiệt độ phòng mặc định $27.0^\circ\text{C}$ ($v = 347.662\text{ m/s}$) trên hai mặt của cùng một viên gạch $40 \times 40\text{ cm}$ (**Mục 2.2 & Mục 2.3, Chương 2**): **Trường hợp 1 (`FSDT`)** dùng mặt trước phẳng nhẵn và **Trường hợp 3 (`FRDT`)** dùng mặt sau gồ ghề. Số liệu thống kê trên $22$ mốc chung ($10 - 350\text{ cm}$) và mốc kiểm tra $375\text{ cm}$ của `FRDT` được lấy từ tệp `du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv`.
 
-### 3.6.1. Tác động của tán xạ bề mặt lên độ chụm và độ chính xác đo
+### 3.6.1. Tác động của tán xạ bề mặt lên độ chụm (Precision) và độ chính xác (Accuracy)
 
-Đối chiếu sai số chuẩn trung bình $\text{SE}$ (`se_sach_mm`) và sai số đo $\Delta x$, $\delta\%$ (định nghĩa tại **Mục 1.3, Chương 1**) trên $22$ mốc chung từ $10\text{ cm}$ đến $350\text{ cm}$ cho thấy:
+Để trực quan hóa sự suy giảm chất lượng đo lường do bề mặt nhám gồ ghề gây ra, 50 phát bắn đo khoảng cách tại 10 mốc cự ly tiêu biểu ($10, 50, 60, 120, 180, 220, 240, 260, 280, 350\text{ cm}$) được chuyển hóa trực tiếp lên mô hình **Bia ngắm Accuracy & Precision** kinh điển của kỹ thuật đo lường (trong đó tâm chữ thập đỏ $(0, 0)$ là khoảng cách chuẩn $x_{\text{true}}$, dấu $\times$ là giá trị trung bình $\bar{x}$, và độ bung xòe của 50 điểm đạn là độ chụm $s$):
 
-- **Suy giảm độ chụm ở vùng gần ($10 - 60\text{ cm}$):** Ở cự ly ngắn, chùm siêu âm bao phủ nhiều gờ lồi lõm trên mặt sau viên gạch nên các sóng phản hồi lệch pha giao thoa tại màng thu. Tại $10\text{ cm}$, $s$ tăng từ $0.061\text{ mm}$ (`FSDT`, $\text{SE} = 0.0086\text{ mm}$) lên $1.620\text{ mm}$ (`FRDT`, $\text{SE} = 0.2291\text{ mm}$); tại $60\text{ cm}$, $s$ tăng từ $0.088\text{ mm}$ ($\text{SE} = 0.0128\text{ mm}$) lên $2.240\text{ mm}$ ($\text{SE} = 0.3168\text{ mm}$). Trên toàn bộ $22$ mốc ($1\,100$ mẫu), $\text{IQR}$ loại $59$ mẫu ngoại lai ($5.36\%$) ở mặt gồ ghề, cao hơn $46$ mẫu ($4.18\%$) ở mặt nhẵn.
-- **Lệch pha các đỉnh phân tán:** Trên dải $80 - 340\text{ cm}$, các đỉnh phân tán cao của hai bề mặt xuất hiện lệch pha nhau theo cự ly, do độ nhấp nhô làm dịch mặt phẳng phản xạ âm học hiệu dụng đi vài milimét so với chân gạch. Nhờ lấy trung bình trên $n_{\text{hợp lệ}} \in [37, 50]$ mẫu, $\text{SE}$ của mặt gồ ghề luôn nằm trong khoảng **$0.0071 - 0.3903\text{ mm}$**, thấp hơn dung sai vạch chia thước $0.5\text{ mm}$ tại $22/22$ mốc.
-- **Sai số hệ thống ($\Delta x$ và $\delta\%$):** Mặt gồ ghề làm $\Delta x$ thiên âm rõ hơn mặt nhẵn (từ $-21.74\text{ mm}$ tại $250\text{ cm}$ đến $+10.88\text{ mm}$ tại $350\text{ cm}$). Trên dải $80 - 350\text{ cm}$ ($17$ mốc), có **$16/17$ mốc đạt $|\delta\%| \le 0.87\%$** (ngoại lệ là mốc $100\text{ cm}$ với $-1.27\%$).
+![Bia ngắm Accuracy & Precision nhóm mốc 10 cm – 180 cm](../graph/chuong_3/hinh_3_7a_bia_ban_10_180cm.png)
+*Hình 3.7a: Phân bố 50 phát bắn dưới dạng bia ngắm Accuracy & Precision giữa Mặt phẳng nhẵn (FSDT, hàng trên) và Mặt gồ ghề (FRDT, hàng dưới) tại các mốc 10 cm, 50 cm, 60 cm, 120 cm và 180 cm.*
 
-![So sánh sai số chuẩn trung bình SE giữa hai bề mặt](../graph/chuong_3/hinh_3_7_sai_so_chuan_se_be_mat.png)
-*Hình 3.7: So sánh sai số chuẩn trung bình $\text{SE} = s/\sqrt{n}$ sau lọc $\text{IQR}$ giữa mặt phẳng nhẵn (`FSDT`) và mặt gồ ghề (`FRDT`) trên dải 10 cm – 350 cm.*
+![Bia ngắm Accuracy & Precision nhóm mốc 220 cm – 350 cm](../graph/chuong_3/hinh_3_7b_bia_ban_220_350cm.png)
+*Hình 3.7b: Phân bố 50 phát bắn dưới dạng bia ngắm Accuracy & Precision giữa Mặt phẳng nhẵn (FSDT, hàng trên) và Mặt gồ ghề (FRDT, hàng dưới) tại các mốc 220 cm, 240 cm, 260 cm, 280 cm và 350 cm.*
 
-**Đánh giá từ đồ thị Hình 3.7:** $\text{SE}$ của cả `FSDT` ($0.0086 - 0.4491\text{ mm}$) và `FRDT` ($0.0071 - 0.3903\text{ mm}$) đều nằm dưới đường dung sai $0.5\text{ mm}$ tại $22/22$ mốc. Như vậy, trung bình trên $N = 50$ mẫu kết hợp lọc $\text{IQR}$ giữ được độ chụm dưới nửa milimét chừng nào sóng phản hồi còn vượt ngưỡng thu.
+**Đánh giá từ đồ thị bia ngắm Hình 3.7a và Hình 3.7b:**
+- **Mặt phẳng nhẵn `FSDT` (Hàng trên – Cụm đạn xanh dương):** Thể hiện độ chụm (Precision) vượt trội. 50 phát bắn luôn gom chặt thành một cụm tròn nhỏ sát tâm với độ lệch chuẩn $s$ siêu nhỏ ($0.06 - 0.82\text{ mm}$ ở dải gần và $0.27 - 1.70\text{ mm}$ ở dải xa). Sóng phản xạ gương đồng pha giúp cảm biến bắt sườn xung `Echo` chuẩn xác và lặp lại ổn định tuyệt đối.
+- **Mặt gồ ghề `FRDT` (Hàng dưới – Cụm đạn đỏ cam):** Tán xạ khuếch tán làm méo pha và giao thoa đa tia khiến 50 phát bắn **bị xé toạc, văng rộng khắp các vòng ngoài**, độ lệch chuẩn $s$ bùng nổ gấp từ **$3 \div 26$ lần** so với mặt nhẵn:
+  - *Tại $10\text{ cm}$:* $s$ tăng từ $0.06\text{ mm}$ lên **$1.60\text{ mm}$** (kém hơn $26.6$ lần);
+  - *Tại $50\text{ cm}$ và $60\text{ cm}$:* $s$ đạt $1.44 - 2.22\text{ mm}$ (gấp $3 - 16$ lần);
+  - *Tại $220\text{ cm}$:* $s$ tăng từ $0.29\text{ mm}$ lên **$2.50\text{ mm}$** (kém hơn $8.6$ lần);
+  - *Tại $350\text{ cm}$ (cận ngưỡng tới hạn):* Các phát bắn văng tung tóe khắp bia ngoài với **$s = 4.21\text{ mm}$**.
+- **Độ dịch chuyển Accuracy:** Dấu $\times$ trung bình của mặt gồ ghề dạt lệch xa hồng tâm hơn (điển hình tại $60\text{ cm}$ dạt về $-13.71\text{ mm}$, tại $280\text{ cm}$ dạt ra $+9.75\text{ mm}$) do các gờ lồi lõm nhấp nhô làm dịch chuyển mặt phẳng phản xạ âm học hiệu dụng so với mép đặt thước.
 
 ### 3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa
 

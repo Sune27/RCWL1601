@@ -1,4 +1,7 @@
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
 import csv
+import numpy as np
 import math
 import statistics
 from pathlib import Path
@@ -312,48 +315,110 @@ plt.savefig(GRAPH_DIR / "hinh_3_6_vong_tre_hysteresis.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 7. HÌNH 3.7 (Mục 3.6): Ảnh hưởng của Bề mặt phản xạ (Nhẵn FSDT vs Gồ ghề FRDT)
-#    Tách riêng đồ thị đơn s (3.7a), SE (3.7b) và Giới hạn tầm đo (3.7c) (dpi=300)
+# 7. HÌNH 3.7a & 3.7b (Mục 3.6): So sánh Bia ngắm Accuracy & Precision giữa 2 Bề mặt
+#    Bia ngắm 10 mốc tiêu biểu (Nhẵn FSDT hàng trên, Gồ ghề FRDT hàng dưới) (dpi=300)
 # ==========================================================
-print("Tạo Hình 3.7 (Mục 3.6 - Bề mặt phản xạ từ thong_ke_chuong_3.csv)...")
-fsdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSDT_')}
-frdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FRDT_')}
+print("Tạo Hình 3.7a & 3.7b (Mục 3.6 - Bia ngắm Accuracy & Precision)...")
 
-common_surf_x = sorted(set(fsdt_map.keys()).intersection(frdt_map.keys()))
-s_fsdt_surf = [float(fsdt_map[x]['std_sach_mm']) for x in common_surf_x]
-s_frdt_surf = [float(frdt_map[x]['std_sach_mm']) for x in common_surf_x]
-se_fsdt_surf = [float(fsdt_map[x]['se_sach_mm']) for x in common_surf_x]
-se_frdt_surf = [float(frdt_map[x]['se_sach_mm']) for x in common_surf_x]
+def get_raw_errors(dataset_prefix, m):
+    fn = f"{dataset_prefix}_{m:03d}cm.csv"
+    p = BASE_DIR / "result" / fn
+    if not p.exists():
+        fn = f"{dataset_prefix}_{m}cm.csv"
+        p = BASE_DIR / "result" / fn
+    rows = list(csv.DictReader(p.open(encoding="utf-8-sig")))
+    errs = []
+    for r in rows:
+        d = float(r["distance_cm"])
+        if d < 700:
+            errs.append((d - m) * 10.0) # mm
+    return np.array(errs)
 
-# --- Hình 3.7: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR (10 cm – 350 cm) ---
-fig, ax = plt.subplots(figsize=(10, 5.0), dpi=300)
-ax.plot(common_surf_x, se_fsdt_surf, color='#1f77b4', linestyle='-', linewidth=1.8,
-        marker='o', markersize=6.2, markerfacecolor='white', markeredgecolor='#1f77b4', markeredgewidth=1.6,
-        label='Mặt phẳng nhẵn FSDT – Sai số chuẩn SE = s/√n (mm)')
-ax.plot(common_surf_x, se_frdt_surf, color='#ff7f0e', linestyle='--', linewidth=1.8,
-        marker='s', markersize=4.4, markerfacecolor='#ff7f0e', markeredgecolor='#ff7f0e',
-        label='Mặt gồ ghề FRDT – Sai số chuẩn SE = s/√n (mm)')
-ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.3,
-           label='Dung sai vạch chia thước (0.5 mm)')
+groups_target = [
+    ("hinh_3_7a_bia_ban_10_180cm.png", [10, 50, 60, 120, 180], "Nhóm mốc 10 cm – 180 cm"),
+    ("hinh_3_7b_bia_ban_220_350cm.png", [220, 240, 260, 280, 350], "Nhóm mốc 220 cm – 350 cm")
+]
 
-ax.set_title("So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR giữa hai bề mặt (10 cm – 350 cm)", fontweight='bold', pad=12)
-ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax.set_ylabel("Sai số chuẩn trung bình SE (mm)", fontweight='bold')
-ax.set_xlim(0, 365)
-ax.set_ylim(-0.025, 0.68)
-ax.set_yticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
-ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
-ax.grid(axis='x', visible=False)
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.95)
+max_r = 18.0
+rings = [18.0, 14.0, 10.0, 6.0, 2.0]
 
-plt.tight_layout()
-h3_7b_p1 = GRAPH_DIR / "hinh_3_7_sai_so_chuan_se_be_mat.png"
-h3_7b_p2 = GRAPH_DIR / "hinh_3_7_sai_so_chuan_se_be_mat.png"
-fig.savefig(h3_7b_p1, dpi=300)
-fig.savefig(h3_7b_p2, dpi=300)
-plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.7 tại: {h3_7b_p1} và {h3_7b_p2}")
+for file_name, m_list, grp_title in groups_target:
+    n_cols = len(m_list)
+    fig, axes = plt.subplots(2, n_cols, figsize=(3.5 * n_cols, 7.2), dpi=300)
+    np.random.seed(42)
+    
+    for col_idx, m in enumerate(m_list):
+        e_fsdt = get_raw_errors("FSDT", m)
+        e_frdt = get_raw_errors("FRDT", m)
+        
+        for row_idx, (data, surf_title, color_pt, is_rough) in enumerate([
+            (e_fsdt, "Mặt phẳng nhẵn (FSDT)", '#1f77b4', False),
+            (e_frdt, "Mặt gồ ghề (FRDT)", '#d9534f', True)
+        ]):
+            ax = axes[row_idx, col_idx]
+            
+            for r in rings:
+                if r == 2.0:
+                    fill_c = '#e0f2fe' if not is_rough else '#fee2e2'
+                    ec_c = '#38bdf8' if not is_rough else '#f87171'
+                elif r <= 6.0:
+                    fill_c = '#f8fafc'
+                    ec_c = '#cbd5e1'
+                else:
+                    fill_c = '#f1f5f9' if (r // 4) % 2 == 0 else '#ffffff'
+                    ec_c = '#e2e8f0'
+                circle = plt.Circle((0, 0), r, color=fill_c, ec=ec_c, lw=0.9, zorder=1)
+                ax.add_patch(circle)
+            
+            center_circle = plt.Circle((0, 0), 0.6, color='#dc2626', alpha=0.3, ec='#dc2626', lw=1.2, zorder=2)
+            ax.add_patch(center_circle)
+            ax.plot(0, 0, marker='+', color='#dc2626', markersize=8, markeredgewidth=1.4, zorder=5)
+            
+            mean_e = np.mean(data)
+            std_e = np.std(data)
+            
+            jitter_scale = max(std_e * 0.75, 0.2) if not is_rough else max(std_e * 1.15, 0.6)
+            jitter_y = np.random.normal(0, jitter_scale, size=len(data))
+            jitter_y = np.clip(jitter_y, -max_r + 1, max_r - 1)
+            
+            pt_size = 22 if not is_rough else 26
+            ax.scatter(data, jitter_y, color=color_pt, alpha=0.75 if not is_rough else 0.85,
+                       s=pt_size, edgecolors='black', linewidth=0.5, zorder=3)
+            
+            ax.plot(mean_e, 0, marker='x', color='#1d4ed8' if not is_rough else '#991b1b',
+                    markersize=10, markeredgewidth=2.2, zorder=6)
+            
+            ax.set_xlim(-max_r, max_r)
+            ax.set_ylim(-max_r, max_r)
+            ax.set_aspect('equal')
+            ax.grid(True, linestyle=':', alpha=0.35, color='#94a3b8')
+            ax.axhline(0, color='#94a3b8', lw=0.5, ls='--')
+            ax.axvline(0, color='#94a3b8', lw=0.5, ls='--')
+            
+            if row_idx == 0:
+                ax.set_title(f"Mốc {m} cm", fontweight='bold', fontsize=12, pad=10)
+            if col_idx == 0:
+                ax.set_ylabel(surf_title, fontweight='bold', fontsize=11, labelpad=10)
+            
+            box_bg = '#f0fdf4' if not is_rough else '#fff1f2'
+            box_ec = '#86efac' if not is_rough else '#fca5a5'
+            stats_text = f"$\\Delta x = {mean_e:+.2f}$ mm\n$s = {std_e:.2f}$ mm"
+            ax.text(0.04, 0.96, stats_text, transform=ax.transAxes, fontsize=8.5, fontweight='bold',
+                    verticalalignment='top', bbox=dict(boxstyle='round,pad=0.3', facecolor=box_bg, alpha=0.92, edgecolor=box_ec))
+            
+            ax.set_xticks([-14, -10, -6, -2, 0, 2, 6, 10, 14])
+            ax.set_xticklabels(['-14', '-10', '', '', '0', '', '', '10', '14'], fontsize=7.5)
+            ax.set_yticks([-14, -10, -6, -2, 0, 2, 6, 10, 14])
+            ax.set_yticklabels(['-14', '-10', '', '', '0', '', '', '10', '14'], fontsize=7.5)
 
+    plt.suptitle(f"So sánh Bia bắn Accuracy & Precision – {grp_title}\n"
+                 r"(Hàng trên: Mặt phẳng nhẵn $\rightarrow$ Chụm cao; Hàng dưới: Mặt gồ ghề $\rightarrow$ Tán xạ phân tán rộng)",
+                 fontweight='bold', fontsize=13, y=0.98)
+    plt.tight_layout()
+    out_target_path = GRAPH_DIR / file_name
+    fig.savefig(out_target_path, dpi=300)
+    plt.close()
+    print(f"Đã xuất đồ thị tại: {out_target_path}")
 
 # ==========================================================
 # 8. HÌNH 3.8 (Mục 3.7): Ảnh hưởng Nhiệt độ và Hiệu quả bù Vận tốc Laplace

@@ -1783,52 +1783,64 @@ add_body_p(
     "Số liệu thống kê trên 22 mốc chung (10 cm – 350 cm) và mốc kiểm tra 375 cm của FRDT được lấy từ tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
 )
 
-add_heading_3("3.6.1. Tác động của tán xạ bề mặt lên độ chụm và độ chính xác đo")
+add_heading_3("3.6.1. Tác động của tán xạ bề mặt lên độ chụm (Precision) và độ chính xác (Accuracy)")
 add_body_p(
-    "Đối chiếu sai số chuẩn trung bình SE (cột se_sach_mm) và sai số đo Δx, δ% (định nghĩa tại Mục 1.3, Chương 1) "
-    "trên 22 mốc chung từ 10 cm đến 350 cm cho thấy:"
-)
-add_bullet_p(
-    "Ở cự ly ngắn, chùm siêu âm bao phủ nhiều gờ lồi lõm trên mặt sau viên gạch nên các sóng phản hồi lệch pha giao thoa tại màng thu. "
-    "Tại 10 cm, s tăng từ 0.061 mm (FSDT, SE = 0.0086 mm) lên 1.620 mm (FRDT, SE = 0.2291 mm); tại 60 cm, s tăng từ 0.088 mm "
-    "(SE = 0.0128 mm) lên 2.240 mm (SE = 0.3168 mm). Trên toàn bộ 22 mốc (1.100 mẫu), IQR loại 59 mẫu ngoại lai (5.36%) ở mặt gồ ghề, "
-    "cao hơn 46 mẫu (4.18%) ở mặt nhẵn.",
-    "Suy giảm độ chụm ở vùng gần (10 cm – 60 cm): "
-)
-add_bullet_p(
-    "Trên dải 80 cm – 340 cm, các đỉnh phân tán cao của hai bề mặt xuất hiện lệch pha nhau theo cự ly, do độ nhấp nhô làm dịch mặt phẳng phản xạ "
-    "âm học hiệu dụng đi vài milimét so với chân gạch. Nhờ lấy trung bình trên n_hợp_lệ ∈ [37, 50] mẫu, SE của mặt gồ ghề luôn nằm trong khoảng "
-    "0.0071 – 0.3903 mm, thấp hơn dung sai vạch chia thước 0.5 mm tại 22/22 mốc.",
-    "Lệch pha các đỉnh phân tán: "
-)
-add_bullet_p(
-    "Mặt gồ ghề làm Δx thiên âm rõ hơn mặt nhẵn (từ -21.74 mm tại 250 cm đến +10.88 mm tại 350 cm). "
-    "Trên dải 80 cm – 350 cm (17 mốc), có 16/17 mốc đạt |δ%| ≤ 0.87% (ngoại lệ là mốc 100 cm với -1.27%).",
-    "Sai số hệ thống (Δx và δ%): "
+    "Để trực quan hóa sự suy giảm chất lượng đo lường do bề mặt nhám gồ ghề gây ra, 50 phát bắn đo khoảng cách tại 10 mốc cự ly tiêu biểu "
+    "(10, 50, 60, 120, 180, 220, 240, 260, 280, 350 cm) được chuyển hóa trực tiếp lên mô hình Bia ngắm Accuracy & Precision kinh điển của "
+    "kỹ thuật đo lường (trong đó tâm chữ thập đỏ (0, 0) là khoảng cách chuẩn x_true, dấu × là giá trị trung bình x̄, và độ bung xòe của 50 điểm đạn là độ chụm s):"
 )
 
-IMG_H3_7_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7_sai_so_chuan_se_be_mat.png")
-if os.path.exists(IMG_H3_7_PATH):
-    p_img3_7 = doc.add_paragraph()
-    p_img3_7.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_img3_7.paragraph_format.space_before = Pt(8)
-    p_img3_7.paragraph_format.space_after = Pt(4)
-    run_img3_7 = p_img3_7.add_run()
-    run_img3_7.add_picture(IMG_H3_7_PATH, width=Cm(15.0))
+IMG_H3_7A_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7a_bia_ban_10_180cm.png")
+if os.path.exists(IMG_H3_7A_PATH):
+    p_img3_7a = doc.add_paragraph()
+    p_img3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7a.paragraph_format.space_before = Pt(8)
+    p_img3_7a.paragraph_format.space_after = Pt(4)
+    run_img3_7a = p_img3_7a.add_run()
+    run_img3_7a.add_picture(IMG_H3_7A_PATH, width=Cm(15.2))
 
-    p_cap3_7 = doc.add_paragraph()
-    p_cap3_7.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap3_7.paragraph_format.space_after = Pt(8)
-    r_c3_7 = p_cap3_7.add_run(
-        "Hình 3.7: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR "
-        "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm."
+    p_cap3_7a = doc.add_paragraph()
+    p_cap3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7a.paragraph_format.space_after = Pt(8)
+    r_c3_7a = p_cap3_7a.add_run(
+        "Hình 3.7a: Phân bố 50 phát bắn dưới dạng bia ngắm Accuracy & Precision giữa Mặt phẳng nhẵn (FSDT, hàng trên) "
+        "và Mặt gồ ghề (FRDT, hàng dưới) tại các mốc 10 cm, 50 cm, 60 cm, 120 cm và 180 cm."
     )
-    r_c3_7.font.italic = True
-    r_c3_7.font.size = Pt(10)
+    r_c3_7a.font.italic = True
+    r_c3_7a.font.size = Pt(10)
 
-add_body_p(
-    "Đánh giá từ đồ thị Hình 3.7: SE của cả FSDT (0.0086 – 0.4491 mm) và FRDT (0.0071 – 0.3903 mm) đều nằm dưới đường dung sai 0.5 mm "
-    "tại 22/22 mốc. Như vậy, trung bình trên N = 50 mẫu kết hợp lọc IQR giữ được độ chụm dưới nửa milimét chừng nào sóng phản hồi còn vượt ngưỡng thu."
+IMG_H3_7B_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7b_bia_ban_220_350cm.png")
+if os.path.exists(IMG_H3_7B_PATH):
+    p_img3_7b = doc.add_paragraph()
+    p_img3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7b.paragraph_format.space_before = Pt(8)
+    p_img3_7b.paragraph_format.space_after = Pt(4)
+    run_img3_7b = p_img3_7b.add_run()
+    run_img3_7b.add_picture(IMG_H3_7B_PATH, width=Cm(15.2))
+
+    p_cap3_7b = doc.add_paragraph()
+    p_cap3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7b.paragraph_format.space_after = Pt(8)
+    r_c3_7b = p_cap3_7b.add_run(
+        "Hình 3.7b: Phân bố 50 phát bắn dưới dạng bia ngắm Accuracy & Precision giữa Mặt phẳng nhẵn (FSDT, hàng trên) "
+        "và Mặt gồ ghề (FRDT, hàng dưới) tại các mốc 220 cm, 240 cm, 260 cm, 280 cm và 350 cm."
+    )
+    r_c3_7b.font.italic = True
+    r_c3_7b.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị bia ngắm Hình 3.7a và Hình 3.7b:")
+add_bullet_p(
+    "Thể hiện độ chụm (Precision) vượt trội. 50 phát bắn luôn gom chặt thành một cụm tròn nhỏ sát tâm với độ lệch chuẩn s siêu nhỏ "
+    "(0.06 – 0.82 mm ở dải gần và 0.27 – 1.70 mm ở dải xa). Sóng phản xạ gương đồng pha giúp cảm biến bắt sườn xung Echo "
+    "chuẩn xác và lặp lại ổn định tuyệt đối.",
+    "Mặt phẳng nhẵn FSDT (Hàng trên – Cụm đạn xanh dương): "
+)
+add_bullet_p(
+    "Tán xạ khuếch tán làm méo pha và giao thoa đa tia khiến 50 phát bắn bị xé toạc, văng rộng khắp các vòng ngoài, độ lệch chuẩn s bùng nổ "
+    "gấp từ 3 đến 26 lần so với mặt nhẵn: tại 10 cm đạt s = 1.60 mm (so với 0.06 mm); tại 50 cm và 60 cm đạt s = 1.44 – 2.22 mm; "
+    "tại 220 cm đạt s = 2.50 mm (so với 0.29 mm); và tại 350 cm văng bung toạc s = 4.21 mm. Đồng thời điểm trung bình × bị dạt lệch xa hồng tâm "
+    "do độ nhấp nhô cơ khí làm dịch chuyển mặt phẳng phản xạ âm học hiệu dụng so với mép đặt thước.",
+    "Mặt gồ ghề FRDT (Hàng dưới – Cụm đạn đỏ cam): "
 )
 
 add_heading_3("3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa")
