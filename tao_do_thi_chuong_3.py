@@ -312,10 +312,10 @@ plt.savefig(GRAPH_DIR / "hinh_3_6_vong_tre_hysteresis.png", dpi=300)
 plt.close()
 
 # ==========================================================
-# 7. HÌNH 3.7a & 3.7b (Mục 3.6): Ảnh hưởng của Bề mặt phản xạ (Nhẵn FSDT vs Gồ ghề FRDT)
+# 7. HÌNH 3.7 (Mục 3.6): Ảnh hưởng của Bề mặt phản xạ (Nhẵn FSDT vs Gồ ghề FRDT)
 #    Tách riêng đồ thị đơn s (3.7a), SE (3.7b) và Giới hạn tầm đo (3.7c) (dpi=300)
 # ==========================================================
-print("Tạo Hình 3.7a & 3.7b (Mục 3.6 - Bề mặt phản xạ từ thong_ke_chuong_3.csv)...")
+print("Tạo Hình 3.7 (Mục 3.6 - Bề mặt phản xạ từ thong_ke_chuong_3.csv)...")
 fsdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FSDT_')}
 frdt_map = {float(r['cu_ly_dat_cm']): r for r in rows_stat if r['ten_file'].startswith('FRDT_')}
 
@@ -325,34 +325,7 @@ s_frdt_surf = [float(frdt_map[x]['std_sach_mm']) for x in common_surf_x]
 se_fsdt_surf = [float(fsdt_map[x]['se_sach_mm']) for x in common_surf_x]
 se_frdt_surf = [float(frdt_map[x]['se_sach_mm']) for x in common_surf_x]
 
-# --- Hình 3.7a: So sánh độ lệch chuẩn thực nghiệm s sau lọc IQR (10 cm – 350 cm) ---
-fig, ax = plt.subplots(figsize=(10, 5.0), dpi=300)
-ax.plot(common_surf_x, s_fsdt_surf, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=5.0,
-        label='Mặt phẳng nhẵn FSDT – Độ lệch chuẩn s (mm)')
-ax.plot(common_surf_x, s_frdt_surf, color='#ff7f0e', linestyle='--', linewidth=1.8, marker='s', markersize=4.6,
-        label='Mặt gồ ghề FRDT – Độ lệch chuẩn s (mm)')
-ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
-           label='Dung sai vạch chia thước (0.5 mm)')
-
-ax.set_title("So sánh độ lệch chuẩn thực nghiệm s sau lọc IQR giữa hai bề mặt (10 cm – 350 cm)", fontweight='bold', pad=12)
-ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax.set_ylabel("Độ lệch chuẩn thực nghiệm s (mm)", fontweight='bold')
-ax.set_xlim(0, 365)
-ax.set_ylim(-0.15, 4.15)
-ax.set_yticks([0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0])
-ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
-ax.grid(axis='x', visible=False)
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.95)
-
-plt.tight_layout()
-h3_7a_p1 = GRAPH_DIR / "hinh_3_7a_do_lech_chuan_be_mat.png"
-h3_7a_p2 = GRAPH_DIR / "hinh_3_7a_do_lech_chuan_be_mat.png"
-fig.savefig(h3_7a_p1, dpi=300)
-fig.savefig(h3_7a_p2, dpi=300)
-plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.7a tại: {h3_7a_p1} và {h3_7a_p2}")
-
-# --- Hình 3.7b: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR (10 cm – 350 cm) ---
+# --- Hình 3.7: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR (10 cm – 350 cm) ---
 fig, ax = plt.subplots(figsize=(10, 5.0), dpi=300)
 ax.plot(common_surf_x, se_fsdt_surf, color='#1f77b4', linestyle='-', linewidth=1.8,
         marker='o', markersize=6.2, markerfacecolor='white', markeredgecolor='#1f77b4', markeredgewidth=1.6,
@@ -374,12 +347,12 @@ ax.grid(axis='x', visible=False)
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.99), ncol=2, framealpha=0.95)
 
 plt.tight_layout()
-h3_7b_p1 = GRAPH_DIR / "hinh_3_7b_sai_so_chuan_se_be_mat.png"
-h3_7b_p2 = GRAPH_DIR / "hinh_3_7b_sai_so_chuan_se_be_mat.png"
+h3_7b_p1 = GRAPH_DIR / "hinh_3_7_sai_so_chuan_se_be_mat.png"
+h3_7b_p2 = GRAPH_DIR / "hinh_3_7_sai_so_chuan_se_be_mat.png"
 fig.savefig(h3_7b_p1, dpi=300)
 fig.savefig(h3_7b_p2, dpi=300)
 plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.7b tại: {h3_7b_p1} và {h3_7b_p2}")
+print(f"Đã xuất đồ thị Hình 3.7 tại: {h3_7b_p1} và {h3_7b_p2}")
 
 
 # ==========================================================

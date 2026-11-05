@@ -1777,146 +1777,86 @@ add_bullet_p(
 add_heading_2("3.6. Phân tích ảnh hưởng của Bề mặt phản xạ")
 
 add_body_p(
-    "Để lượng hóa tác động của cơ chế phản xạ gương định hướng và tán xạ khuếch tán sóng siêu âm (đã trình bày tại Mục 1.1.3, Chương 1) "
-    "lên chất lượng phép đo thực tế, thí nghiệm đối chứng được thực hiện tại cùng điều kiện nhiệt độ phòng mặc định 27.0 °C (v = 347.662 m/s) "
-    "trên hai mặt đối lập của cùng một viên gạch kích thước 40 cm × 40 cm (Mục 2.2 và Mục 2.3, Chương 2): "
-    "Trường hợp 1 (FSDT) sử dụng mặt trước phẳng nhẵn và Trường hợp 3 (FRDT) sử dụng mặt sau gồ ghề nhấp nhô. "
-    "Toàn bộ chỉ tiêu thống kê trước và sau lọc IQR trên 22 mốc cự ly chung (10 cm – 350 cm) cùng mốc kiểm tra giới hạn 375 cm của FRDT "
-    "(23 mốc, tổng cộng 1.150 mẫu thô) được trích xuất trực tiếp từ tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
+    "Để lượng hóa ảnh hưởng của phản xạ gương định hướng và tán xạ khuếch tán (Mục 1.1.3, Chương 1), thí nghiệm đối chứng được thực hiện "
+    "ở cùng nhiệt độ phòng mặc định 27.0 °C (v = 347.662 m/s) trên hai mặt của cùng một viên gạch 40 cm × 40 cm (Mục 2.2 và Mục 2.3, Chương 2): "
+    "Trường hợp 1 (FSDT) dùng mặt trước phẳng nhẵn và Trường hợp 3 (FRDT) dùng mặt sau gồ ghề. "
+    "Số liệu thống kê trên 22 mốc chung (10 cm – 350 cm) và mốc kiểm tra 375 cm của FRDT được lấy từ tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
 )
 
 add_heading_3("3.6.1. Tác động của tán xạ bề mặt lên độ chụm và độ chính xác đo")
 add_body_p(
-    "Đối chiếu các chỉ tiêu độ lệch chuẩn thực nghiệm s (cột std_sach_mm), sai số chuẩn trung bình SE (cột se_sach_mm) "
-    "và sai số đo Δx, δ% (cột sai_so_tuyet_doi_mm, sai_so_tuong_doi_pct — định nghĩa tại Mục 1.3, Chương 1) "
-    "trên 22 mốc cự ly chung từ 10 cm đến 350 cm cho thấy ba đặc điểm vật lý rõ rệt:"
+    "Đối chiếu sai số chuẩn trung bình SE (cột se_sach_mm) và sai số đo Δx, δ% (định nghĩa tại Mục 1.3, Chương 1) "
+    "trên 22 mốc chung từ 10 cm đến 350 cm cho thấy:"
 )
 add_bullet_p(
-    "Ở cự ly ngắn, góc mở chùm tia siêu âm bao phủ nhiều gờ lồi lõm có độ sâu chênh lệch cỡ milimét trên mặt sau viên gạch, "
-    "tạo ra các sóng phản hồi lệch pha giao thoa trực tiếp tại màng thu. Tại x_true = 10 cm, độ lệch chuẩn sau lọc s tăng từ 0.061 mm "
-    "(FSDT, SE = 0.0086 mm) lên 1.620 mm (FRDT, SE = 0.2291 mm — gấp 26.6 lần); tại x_true = 60 cm, s tăng từ 0.088 mm (SE = 0.0128 mm) "
-    "lên 2.240 mm (SE = 0.3168 mm — gấp 25.5 lần). Ở các mốc 40 cm và 50 cm, mặt gồ ghề làm phát sinh lần lượt 13/50 mẫu "
-    "(26%, s_thô = 2.338 mm) và 6/50 mẫu (12%, s_thô = 1.452 mm) nhảy chu kỳ ngoại lai trước khi được bộ lọc IQR khử sạch về s = 0.089 mm "
-    "và 0.077 mm. Tính trên toàn bộ 22 mốc từ 10 cm đến 350 cm (1.100 mẫu), tỷ lệ ngoại lai bị loại bỏ bởi IQR trên mặt gồ ghề là "
-    "59/1.100 mẫu (5.36%), cao hơn mức 46/1.100 mẫu (4.18%) của mặt phẳng nhẵn.",
-    "1. Suy giảm độ chụm cục bộ ở vùng cự ly gần (10 cm – 60 cm) do giao thoa đa tia phản xạ: "
+    "Ở cự ly ngắn, chùm siêu âm bao phủ nhiều gờ lồi lõm trên mặt sau viên gạch nên các sóng phản hồi lệch pha giao thoa tại màng thu. "
+    "Tại 10 cm, s tăng từ 0.061 mm (FSDT, SE = 0.0086 mm) lên 1.620 mm (FRDT, SE = 0.2291 mm); tại 60 cm, s tăng từ 0.088 mm "
+    "(SE = 0.0128 mm) lên 2.240 mm (SE = 0.3168 mm). Trên toàn bộ 22 mốc (1.100 mẫu), IQR loại 59 mẫu ngoại lai (5.36%) ở mặt gồ ghề, "
+    "cao hơn 46 mẫu (4.18%) ở mặt nhẵn.",
+    "Suy giảm độ chụm ở vùng gần (10 cm – 60 cm): "
 )
 add_bullet_p(
-    "Trong dải này, độ lệch chuẩn sau lọc của mặt gồ ghề dao động trong khoảng 0.101 – 2.555 mm, tương đương biên độ răng cưa "
-    "0.142 – 2.860 mm của mặt phẳng nhẵn. Đáng chú ý, vị trí các đỉnh phân tán cao giữa hai bề mặt xuất hiện lệch pha nhau theo cự ly "
-    "(tại 180, 220, 280, 320 cm, mặt gồ ghề rơi vào vùng chuyển tiếp hai chu kỳ sóng mang 40 kHz nên s đạt 2.076 – 2.555 mm; "
-    "ngược lại tại 100, 200, 300 cm, chùm phản xạ của mặt gồ ghề khóa gọn vào một chu kỳ đơn lẻ nên s chỉ còn 0.101 – 0.253 mm). "
-    "Nguyên nhân là độ nhấp nhô hình học của mặt sau viên gạch làm dịch chuyển mặt phẳng phản xạ âm học hiệu dụng đi vài milimét "
-    "so với mép chân gạch, từ đó làm đổi vị trí các mốc cự ly rơi vào ranh giới ngưỡng so sánh xung ECHO. Nhờ lấy trung bình trên cỡ mẫu "
-    "hợp lệ n_hợp_lệ ∈ [37, 50], sai số chuẩn trung bình SE của mặt gồ ghề trên toàn bộ 22 mốc (10 – 350 cm) luôn nằm gọn trong khoảng "
-    "0.0071 – 0.3903 mm, thấp hơn dung sai vạch chia thước chuẩn 0.5 mm tại 22/22 mốc đo.",
-    "2. Hiện tượng dịch chuyển vị trí các đỉnh trượt chu kỳ trên dải trung bình (80 cm – 340 cm): "
+    "Trên dải 80 cm – 340 cm, các đỉnh phân tán cao của hai bề mặt xuất hiện lệch pha nhau theo cự ly, do độ nhấp nhô làm dịch mặt phẳng phản xạ "
+    "âm học hiệu dụng đi vài milimét so với chân gạch. Nhờ lấy trung bình trên n_hợp_lệ ∈ [37, 50] mẫu, SE của mặt gồ ghề luôn nằm trong khoảng "
+    "0.0071 – 0.3903 mm, thấp hơn dung sai vạch chia thước 0.5 mm tại 22/22 mốc.",
+    "Lệch pha các đỉnh phân tán: "
 )
 add_bullet_p(
-    "Do các đỉnh gờ lồi trên mặt nhám nhô về phía trước mặt phẳng chân gạch căn thước, sóng siêu âm dội về sớm hơn tại một số mốc "
-    "làm sai số tuyệt đối Δx = x̄ - x_true thiên âm rõ hơn so với mặt nhẵn (biến thiên từ -21.74 mm tại 250 cm, -13.71 mm tại 60 cm, "
-    "-12.94 mm tại 150 cm đến +10.88 mm tại 350 cm). Xét về sai số tương đối trên dải 80 cm – 350 cm (17 mốc), có 16/17 mốc đạt "
-    "|δ%| ≤ 0.87% (duy nhất mốc 100 cm ở mức -1.27%), đáp ứng yêu cầu đo lường khi biên độ xung phản hồi còn vượt ngưỡng thu.",
-    "3. Độ dịch chuyển sai số hệ thống (Δx và δ%): "
+    "Mặt gồ ghề làm Δx thiên âm rõ hơn mặt nhẵn (từ -21.74 mm tại 250 cm đến +10.88 mm tại 350 cm). "
+    "Trên dải 80 cm – 350 cm (17 mốc), có 16/17 mốc đạt |δ%| ≤ 0.87% (ngoại lệ là mốc 100 cm với -1.27%).",
+    "Sai số hệ thống (Δx và δ%): "
 )
 
-IMG_H3_7A_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7a_do_lech_chuan_be_mat.png")
-if os.path.exists(IMG_H3_7A_PATH):
-    p_img3_7a = doc.add_paragraph()
-    p_img3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_img3_7a.paragraph_format.space_before = Pt(8)
-    p_img3_7a.paragraph_format.space_after = Pt(4)
-    run_img3_7a = p_img3_7a.add_run()
-    run_img3_7a.add_picture(IMG_H3_7A_PATH, width=Cm(15.0))
+IMG_H3_7_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7_sai_so_chuan_se_be_mat.png")
+if os.path.exists(IMG_H3_7_PATH):
+    p_img3_7 = doc.add_paragraph()
+    p_img3_7.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7.paragraph_format.space_before = Pt(8)
+    p_img3_7.paragraph_format.space_after = Pt(4)
+    run_img3_7 = p_img3_7.add_run()
+    run_img3_7.add_picture(IMG_H3_7_PATH, width=Cm(15.0))
 
-    p_cap3_7a = doc.add_paragraph()
-    p_cap3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap3_7a.paragraph_format.space_after = Pt(8)
-    r_c3_7a = p_cap3_7a.add_run(
-        "Hình 3.7a: So sánh độ lệch chuẩn thực nghiệm s sau lọc IQR "
+    p_cap3_7 = doc.add_paragraph()
+    p_cap3_7.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7.paragraph_format.space_after = Pt(8)
+    r_c3_7 = p_cap3_7.add_run(
+        "Hình 3.7: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR "
         "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm."
     )
-    r_c3_7a.font.italic = True
-    r_c3_7a.font.size = Pt(10)
+    r_c3_7.font.italic = True
+    r_c3_7.font.size = Pt(10)
 
-add_body_p("Đánh giá từ đồ thị Hình 3.7a: Tách riêng đại lượng độ lệch chuẩn mẫu s cho thấy rõ quy luật phân tán xung đơn lẻ giữa hai bề mặt:")
-add_bullet_p(
-    "Đường màu cam nét đứt (FRDT) vọt lên hai đỉnh tán xạ rõ rệt tại 10 cm (1.620 mm) và 60 cm (2.240 mm), "
-    "trong khi đường xanh lam nét liền (FSDT) nằm phẳng sát đáy dưới 0.10 mm (trừ điểm trượt chu kỳ tại 40 cm).",
-    "Ở vùng cự ly gần (10 – 60 cm): "
-)
-add_bullet_p(
-    "Cả hai đường cùng dao động răng cưa với biên độ đỉnh tương đương (≤ 2.86 mm trên FSDT và ≤ 2.62 mm trên FRDT), "
-    "nhưng vị trí đỉnh – đáy lệch pha nhau dọc theo trục khoảng cách do độ lồi lõm của mặt gạch nhám làm dịch chuyển mặt phẳng phản xạ hiệu dụng.",
-    "Ở dải trung bình – xa (80 – 350 cm): "
-)
-
-IMG_H3_7B_SE_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_7b_sai_so_chuan_se_be_mat.png")
-if os.path.exists(IMG_H3_7B_SE_PATH):
-    p_img3_7b_se = doc.add_paragraph()
-    p_img3_7b_se.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_img3_7b_se.paragraph_format.space_before = Pt(8)
-    p_img3_7b_se.paragraph_format.space_after = Pt(4)
-    run_img3_7b_se = p_img3_7b_se.add_run()
-    run_img3_7b_se.add_picture(IMG_H3_7B_SE_PATH, width=Cm(15.0))
-
-    p_cap3_7b_se = doc.add_paragraph()
-    p_cap3_7b_se.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p_cap3_7b_se.paragraph_format.space_after = Pt(8)
-    r_c3_7b_se = p_cap3_7b_se.add_run(
-        "Hình 3.7b: So sánh sai số chuẩn trung bình SE = s/√n sau lọc IQR "
-        "giữa mặt phẳng nhẵn (FSDT) và mặt gồ ghề (FRDT) trên dải 10 cm – 350 cm."
-    )
-    r_c3_7b_se.font.italic = True
-    r_c3_7b_se.font.size = Pt(10)
-
-add_body_p("Đánh giá từ đồ thị Hình 3.7b: Khi phóng đại riêng thang đo cho sai số chuẩn trung bình SE (0 – 0.65 mm):")
-add_bullet_p(
-    "Đều nằm hoàn toàn phía dưới đường dung sai vạch chia thước 0.5 mm (tím chấm gạch) tại trọn vẹn 22/22 mốc khảo sát "
-    "(0.0086 – 0.4491 mm đối với FSDT và 0.0071 – 0.3903 mm đối với FRDT).",
-    "Cả hai đường SE của FSDT (xanh lam vòng tròn nền trắng) và FRDT (cam ký hiệu hình vuông): "
-)
-add_bullet_p(
-    "Phép lấy trung bình trên cỡ mẫu N = 50 kết hợp lọc IQR đủ sức nén biên độ nhiễu pha tán xạ của bề mặt gồ ghề xuống mức dưới nửa milimét "
-    "chừng nào sóng phản hồi còn vượt ngưỡng thu.",
-    "Ý nghĩa thống kê thực nghiệm: "
+add_body_p(
+    "Đánh giá từ đồ thị Hình 3.7: SE của cả FSDT (0.0086 – 0.4491 mm) và FRDT (0.0071 – 0.3903 mm) đều nằm dưới đường dung sai 0.5 mm "
+    "tại 22/22 mốc. Như vậy, trung bình trên N = 50 mẫu kết hợp lọc IQR giữ được độ chụm dưới nửa milimét chừng nào sóng phản hồi còn vượt ngưỡng thu."
 )
 
 add_heading_3("3.6.2. Suy hao năng lượng tán xạ và sự thu hẹp giới hạn tầm đo xa")
 add_body_p(
-    "Tác động bất lợi nghiêm trọng nhất của bề mặt gồ ghề không nằm ở sai số dải gần mà ở sự suy giảm đột ngột "
-    "cự ly hoạt động cực đại do thất thoát năng lượng âm học ra không gian:"
+    "Tác động bất lợi nhất của bề mặt gồ ghề là làm suy giảm đột ngột cự ly hoạt động cực đại do năng lượng âm thất thoát ra không gian:"
 )
 add_bullet_p(
-    "Nhờ phản xạ gương bảo toàn năng lượng dọc trục pháp tuyến 90°, cảm biến đo ổn định hoàn toàn không có xung tràn đến tận 550 cm "
-    "(x̄ = 550.630 cm, s = 0.319 mm, SE = 0.0492 mm), chỉ chớm xuất hiện 4/50 xung mất tín hiệu tại 580 cm (x̄ sau lọc vẫn đạt 579.850 cm) "
-    "và bão hòa hoàn toàn tại 600 cm (x̄ = 824.562 cm).",
-    "Đối chứng với mặt phẳng nhẵn (FSDT): "
+    "Phản xạ gương bảo toàn năng lượng dọc trục pháp tuyến nên cảm biến đo ổn định đến 550 cm "
+    "(x̄ = 550.630 cm, s = 0.319 mm, SE = 0.0492 mm), chớm mất tín hiệu 4/50 mẫu tại 580 cm và bão hòa hoàn toàn tại 600 cm (x̄ = 824.562 cm).",
+    "Mặt phẳng nhẵn (FSDT): "
 )
 add_bullet_p(
-    "Do tán xạ khuếch tán làm biên độ áp suất âm phản hồi suy giảm nhanh theo khoảng cách, tại x_true = 350 cm bắt đầu xuất hiện "
-    "1/50 mẫu (2%) mất hoàn toàn tín hiệu dội về và tràn bộ đếm lên 824.400 cm (t = 47097 μs ở dòng 2 tệp FRDT_350cm.csv), đi kèm "
-    "4/50 mẫu (8%) trượt chu kỳ dương (351.906 – 352.817 cm), tạo thành tổng cộng 5/50 mẫu ngoại lai (10%). Chỉ riêng 1 xung tràn "
-    "824.400 cm đã kéo trung bình thô lệch lên x̄_thô = 360.649 cm và làm độ lệch chuẩn thô bùng nổ lên s_thô = 669.240 mm "
-    "(SE_thô = 94.6448 mm, gấp 268.7 lần mặt nhẵn). Tuy nhiên, vì tổng tỷ lệ ngoại lai (10%) vẫn thấp hơn điểm gãy tứ phân vị (25%), "
-    "bộ lọc IQR loại bỏ trọn vẹn cả 5 mẫu nhiễu (n_hợp_lệ = 45), khôi phục kết quả đo chuẩn xác x̄ = 351.088 cm "
-    "(Δx = +10.88 mm, δ = +0.311%), s = 2.618 mm và SE = 0.3903 mm.",
-    "Ngưỡng chớm mất xung tại 350 cm trên mặt gồ ghề (FRDT): "
+    "Có 1/50 mẫu (2%) mất tín hiệu và tràn bộ đếm lên 824.400 cm, cùng 4/50 mẫu (8%) trượt chu kỳ dương, tổng cộng 5/50 mẫu ngoại lai (10%). "
+    "Khi chưa lọc, riêng xung tràn đã đẩy s_thô lên 669.240 mm. Vì tỷ lệ ngoại lai thấp hơn điểm gãy tứ phân vị (25%), IQR loại hết 5 mẫu (n_hợp_lệ = 45) "
+    "và khôi phục x̄ = 351.088 cm (Δx = +10.88 mm, δ = +0.311%), s = 2.618 mm, SE = 0.3903 mm.",
+    "Chớm mất xung tại 350 cm trên mặt gồ ghề (FRDT): "
 )
 add_bullet_p(
-    "Khi dịch bia gồ ghề ra mốc x_true = 375 cm, dữ liệu thô ghi nhận tới 33/50 mẫu (66%) bị mất tín hiệu tràn lên 824.49 – 824.75 cm, "
-    "chỉ còn 17/50 mẫu (34%) bắt được xung phản xạ yếu quanh 376.39 – 378.16 cm. Do tỷ lệ mẫu bão hòa vượt quá 50%, trung vị mẫu bị kéo hẳn "
-    "lên vùng tràn (Med = 824.575 cm, trong khi Q_1 = 377.388 cm và Q_3 = 824.623 cm), làm khoảng tứ phân vị phình rộng lên IQR = 447.235 cm "
-    "và mở toang hàng rào lọc [-293.46; 1495.48] cm (0 mẫu bị đánh dấu ngoại lai). Hệ quả là ngay cả sau lọc IQR, phép đo hoàn toàn mất hiệu lực "
-    "với x̄ = 672.502 cm (Δx = +2975.02 mm, δ = +79.33%), s = 2140.734 mm và SE = 302.7455 mm.",
-    "Sự sụp đổ phép đo và vượt ngưỡng lọc IQR tại 375 cm: "
+    "Có 33/50 mẫu (66%) tràn lên khoảng 824.6 cm, vượt quá 50% nên trung vị bị kéo lên vùng tràn (Med = 824.575 cm), IQR phình lên 447.235 cm "
+    "và hàng rào lọc mở rộng thành [-293.46; 1495.48] cm nên không mẫu nào bị loại. Kết quả sau lọc mất hiệu lực: x̄ = 672.502 cm "
+    "(Δx = +2975.02 mm, δ = +79.33%), s = 2140.734 mm.",
+    "Sụp đổ phép đo tại 375 cm: "
 )
 add_bullet_p(
-    "Bề mặt gồ ghề tán xạ làm thu hẹp tầm đo tin cậy cực đại từ 550 cm xuống còn 350 cm (sụt giảm 200 cm, tương đương -36.4%). "
-    "Kết quả này là cơ sở thực nghiệm trực tiếp cho thiết kế ứng dụng tại Chương 4: đối với bề mặt chất lỏng tĩnh phẳng nhẵn trong bồn chứa kín, "
-    "cảm biến RCWL-1601 khai thác an toàn toàn bộ dải xa; ngược lại đối với vật liệu rắn dạng hạt rời, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, "
-    "chiều cao lắp đặt tối đa phải giới hạn bảo toàn dưới ngưỡng 300 – 350 cm.",
-    "Kết luận thiết kế kỹ thuật: "
+    "Bề mặt gồ ghề thu hẹp tầm đo tin cậy cực đại từ 550 cm xuống 350 cm (giảm 200 cm, tương đương -36.4%). "
+    "Với chất lỏng tĩnh phẳng nhẵn trong bồn kín, cảm biến RCWL-1601 dùng được toàn dải xa; với vật liệu rắn dạng hạt, bề mặt nhám xốp "
+    "hoặc mặt thoáng gợn sóng mạnh, chiều cao lắp đặt tối đa nên giới hạn dưới 300 – 350 cm (cơ sở cho thiết kế ở Chương 4).",
+    "Kết luận thiết kế: "
 )
 
 
