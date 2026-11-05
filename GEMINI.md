@@ -223,3 +223,13 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
      * `• Thư mục 'result/': Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu. Mỗi tệp bao gồm 50 dòng với 3 cột thông tin chuẩn hóa: thời gian bay t (μs), khoảng cách đo được distance_cm và nhiệt độ temperature_c.`
      * `• Thư mục 'du_lieu_tong_hop/': Lưu trữ các tệp dữ liệu tổng hợp và tính toán. Toàn bộ các phân tích định lượng, khớp hàm và đánh giá độ không đảm bảo đo ở Chương 3 đều được thực thi trực tiếp từ thư mục này.`
      * `• Thư mục ‘graph/’: Lưu trữ figure các đồ thị được sử dụng trong bài báo cáo này.`
+
+13. **Quy chuẩn Nội dung Mục 1.1 và 1.2 (Chương 1):**
+   - **Mục 1.1: NGUYÊN LÝ ĐO KHOẢNG CÁCH THỜI GIAN BAY VÀ MÔ HÌNH BÙ NHIỆT ĐỘ MÔI TRƯỜNG**
+     * 1.1.1: Phương trình lan truyền sóng siêu âm thời gian bay $d = \frac{v \cdot t}{2}$ (1.1). Đoạn giải thích ngắn gọn, súc tích (bỏ các diễn giải lặp lại).
+     * 1.1.2: Tiêu đề chuẩn: `1.1.2. Sự ảnh hưởng của nhiệt độ tới vận tốc âm thanh`. Bao gồm phương trình Laplace $v = \sqrt{\frac{\gamma R T_K}{M}}$ (1.2) và khai triển Taylor $v(T) = 331.3 + 0.606 \cdot T$ (1.3). Bỏ đoạn văn dài phân tích sai số trôi cự ly lý thuyết.
+     * 1.1.3: Tiêu đề chuẩn: `1.1.3. Sự suy hao năng lượng sóng âm theo cự ly`. Gồm đúng 2 gạch đầu dòng cô đọng: (1) Phân kỳ hình học $I(d) \sim 1/d^2$; (2) Ma sát với không khí gây suy hao năng lượng.
+   - **Mục 1.2: ĐẶC TÍNH VÀ THÔNG SỐ CỦA MODULE RCWL-1601**
+     * Tiêu đề mục: `1.2. ĐẶC TÍNH VÀ THÔNG SỐ CỦA MODULE RCWL-1601` (không dùng "ĐẶC TÍNH HOẠT ĐỘNG").
+     * 1.2.1: Giản đồ xung kích hoạt và phản hồi ToF: Trình bày 4 bước ngắn gọn (TRIG $\ge 10\mu\text{s}$, Phát 8 xung 40 kHz, Nhận sóng phản xạ ngắt ECHO, Đo độ rộng ToF).
+     * 1.2.2: Tiêu đề `1.2.2. Bảng thông số kỹ thuật của RCWL-1601` và `Bảng 1.1: Bảng thông số kỹ thuật của module cảm biến siêu âm RCWL-1601`. Bảng gồm 9 thông số kỹ thuật chuẩn hóa (Dải đo công bố $2 - 400\text{ cm}$, độ phân giải $1\text{ mm}$, góc mở $\approx 15^\circ$, v.v.).

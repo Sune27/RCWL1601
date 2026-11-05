@@ -5,99 +5,65 @@
 ## 1.1. NGUYÊN LÝ ĐO KHOẢNG CÁCH THỜI GIAN BAY VÀ MÔ HÌNH BÙ NHIỆT ĐỘ MÔI TRƯỜNG
 
 ### 1.1.1. Phương trình lan truyền sóng siêu âm thời gian bay
-Phương pháp đo cự ly bằng sóng siêu âm không tiếp xúc dựa trên nguyên lý thời gian bay (Time-of-Flight - ToF). Khi module cảm biến được kích hoạt, đầu phát phát ra một chùm xung sóng cơ học tần số siêu âm lan truyền dọc theo trục đo trong không khí. Khi gặp bề mặt vật cản đặt vuông góc với phương truyền, sóng âm phản xạ ngược trở lại và được đầu thu tiếp nhận rồi chuyển đổi thành tín hiệu điện.
+Phương pháp đo khoảng cách bằng sóng siêu âm dựa trên nguyên lý đo thời gian bay (Time-of-Flight - ToF). Module cảm biến phát ra một chuỗi xung kích siêu âm hình sin ở tần số 40 kHz. Sóng âm lan truyền trong không gian tự do với vận tốc $v$, gặp mặt phẳng vật cản và phản xạ dội ngược trở lại đầu thu. Đầu thu áp điện chuyển đổi năng lượng dao động cơ học của sóng âm dội về thành tín hiệu điện áp phản hồi.
 
-Khoảng cách hình học từ mặt cảm biến đến bề mặt phản xạ $d$ được xác định thông qua thời gian truyền khứ hồi $t$ của sóng âm theo phương trình:
+Khoảng cách $d$ từ cảm biến đến vật cản được xác định từ thời gian bay tổng cộng $t$ của sóng âm theo phương trình:
 
-$$d = \frac{v \cdot t}{2}$$
-
-Trong đó:
-- $d$: Khoảng cách một chiều cần đo từ cảm biến đến bề mặt phản xạ (đơn vị: $\text{m}$ hoặc $\text{cm}$).
-- $t$: Tổng thời gian lan truyền khứ hồi của chùm sóng siêu âm từ lúc phát sóng đến lúc nhận lại sóng phản xạ (đơn vị: $\text{s}$ hoặc $\mu\text{s}$). Hệ số chia $2$ xuất hiện do sóng âm phải đi qua quãng đường khứ hồi $2d$.
-- $v$: Vận tốc lan truyền của sóng siêu âm trong môi trường không khí (đơn vị: $\text{m/s}$).
-
----
-
-### 1.1.2. Mô hình toán học bù nhiệt độ môi trường cho vận tốc âm thanh
-Trong thực tế đo lường, vận tốc lan truyền của sóng âm $v$ không phải là một hằng số cố định. Sóng siêu âm là sóng cơ học (sóng dọc lan truyền thông qua sự nén dãn tuần hoàn của các phân tử môi trường đàn hồi). Do đó, vận tốc truyền sóng phụ thuộc trực tiếp vào khối lượng riêng và hệ số đàn hồi đoạn nhiệt của không khí, vốn thay đổi chủ yếu theo nhiệt độ tuyệt đối $T_K$ theo phương trình Laplace:
-
-$$v = \sqrt{\gamma \cdot R_{\text{spec}} \cdot T_K}$$
+$$d = \frac{v \cdot t}{2} \tag{1.1}$$
 
 Trong đó:
-- $\gamma = 1.402$: Hệ số đoạn nhiệt của không khí.
-- $R_{\text{spec}} = 287.05 \text{ J/(kg}\cdot\text{K)}$: Hằng số khí đặc trưng của không khí khô.
-- $T_K = T + 273.15$: Nhiệt độ tuyệt đối của môi trường đo (đơn vị: Kelvin $\text{K}$, với $T$ là nhiệt độ bách phân $^\circ\text{C}$).
-
-Tại điều kiện nhiệt độ chuẩn $0^\circ\text{C}$ ($273.15\text{ K}$), vận tốc sóng âm trong không khí khô là $v_0 \approx 331.3\text{ m/s}$. Khai triển chuỗi Taylor bậc nhất quanh điểm $T = 0^\circ\text{C}$, ta thu được công thức thực nghiệm Laplace dùng trong kỹ thuật đo lường:
-
-$$v(T) = v_0 \cdot \sqrt{1 + \frac{T}{273.15}} \approx 331.3 + 0.606 \cdot T \quad (\text{m/s})$$
-
-Khi kết hợp mô hình bù nhiệt Laplace vào phương trình ToF, công thức khoảng cách hiệu chỉnh theo nhiệt độ môi trường trở thành:
-
-$$d = \frac{(331.3 + 0.606 \cdot T) \cdot t}{2}$$
-
-> **Nhận xét định lượng về sai số trôi nhiệt:**  
-> Cứ mỗi khi nhiệt độ môi trường thay đổi $\Delta T = 1^\circ\text{C}$, vận tốc âm thanh sẽ thay đổi tương ứng khoảng $\Delta v \approx 0.606\text{ m/s}$ (tương đương biến thiên $\sim 0.18\%$).  
-> Nếu một hệ thống đo cự ly cố định vận tốc âm thanh ở mức mặc định chuẩn phòng $v = 340\text{ m/s}$ ($T \approx 14.3^\circ\text{C}$) mà thực hiện đo ở nhiệt độ phòng thực tế $31^\circ\text{C}$ ($v \approx 350.1\text{ m/s}$), sai số trôi cự ly hệ thống sẽ là:
-> $$\delta_{\text{drift}}\% = \frac{350.1 - 340}{350.1} \times 100\% \approx 2.88\%$$
-> Ở cự ly đo xa $300\text{ cm}$, sai số trôi điểm đo lên tới gần **$8.7\text{ cm}$**. Đây là một sai số hệ thống rất lớn không thể chấp nhận trong các bài toán đo mức công nghiệp. Do đó, việc đo và cập nhật nhiệt độ môi trường $T$ vào thuật toán xử lý là điều kiện bắt buộc để đảm bảo độ chính xác của cảm biến siêu âm.
+- $d$: Khoảng cách đo từ mặt trước màng rung cảm biến đến bề mặt phản xạ (m);
+- $v$: Vận tốc truyền sóng âm trong không khí (m/s);
+- $t$: Thời gian bay khứ hồi (s).
 
 ---
 
-### 1.1.3. Sự suy hao năng lượng sóng âm theo cự ly đo
-Khi chùm sóng siêu âm phát ra truyền đi trong không khí, mật độ năng lượng và biên độ áp suất sóng phản xạ tiếp nhận tại đầu thu bị suy giảm mạnh do hai cơ chế vật lý:
-1. **Suy giảm hình học theo cự ly ($I \propto 1/d^2$):** Vì mặt sóng lan tỏa trong không gian ba chiều, mật độ năng lượng sóng phản xạ quay về mặt cảm biến tỷ lệ nghịch với bình phương khoảng cách khứ hồi $1/(2d)^2$.
-2. **Sự hấp thụ âm của môi trường:** Không khí hấp thụ một phần năng lượng sóng cơ chuyển hóa thành nhiệt năng theo định luật hàm mũ $\exp(-2\alpha d)$, trong đó hệ số suy hao $\alpha$ tăng nhanh theo tần số sóng (ở tần số $40\text{ kHz}$, $\alpha \approx 1.2 - 1.4\text{ dB/m}$ tại độ ẩm thông thường).
+### 1.1.2. Sự ảnh hưởng của nhiệt độ tới vận tốc âm thanh
+Trong chất khí lý tưởng, sóng âm lan truyền dưới dạng sóng dọc thông qua quá trình nén và giãn nở đoạn nhiệt. Vận tốc truyền sóng âm:
 
-Hệ quả là ở cự ly càng xa (như mốc $150\text{ cm}$ hoặc trên $400\text{ cm}$), biên độ tín hiệu sóng phản xạ dội về đầu thu càng nhỏ. Điều này làm giảm tỷ số tín hiệu trên nhiễu, khiến bộ so sánh điện áp ở đầu thu dễ bị trượt chu kỳ sóng hoặc dẫn tới hiện tượng mất tín hiệu ở cự ly giới hạn trên $580\text{ cm}$.
+$$v = \sqrt{\frac{\gamma \cdot R \cdot T_K}{M}} \tag{1.2}$$
+
+Trong đó: $\gamma$ là hệ số đoạn nhiệt của không khí khô ($\gamma \approx 1.402$); $R$ là hằng số khí lý tưởng phổ quát ($R = 8.314\text{ J/(mol}\cdot\text{K)}$); $M$ là khối lượng mol biểu kiến trung bình của không khí khô ($M \approx 0.028964\text{ kg/mol}$); $T_K$ là nhiệt độ tuyệt đối của môi trường (K).
+
+Khai triển chuỗi Taylor bậc nhất của vận tốc sóng âm quanh điểm chuẩn $0^\circ\text{C}$ ($T_0 = 273.15\text{ K}$, $v_0 \approx 331.3\text{ m/s}$) ta thu được phương trình:
+
+$$v(T) = 331.3 + 0.606 \cdot T \quad (\text{m/s}) \tag{1.3}$$
 
 ---
 
-## 1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ CỦA MODULE RCWL-1601
+### 1.1.3. Sự suy hao năng lượng sóng âm theo cự ly
+Năng lượng và biên độ áp suất âm $p(d)$ của sóng âm suy giảm mạnh theo khoảng cách do:
+1. **Phân kỳ hình học:** Do chùm sóng âm phát đi theo dạng hình nón. Mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: $I(d) \sim 1/d^2$.
+2. **Ma sát với không khí:** Quá trình truyền sóng gây ma sát trong chất khí, làm suy hao năng lượng.
 
-Module cảm biến siêu âm **RCWL-1601** là thiết bị đo khoảng cách thế hệ mới được trang bị vi mạch tích hợp chuyên dụng RCWL-9610. Điểm cải tiến của RCWL-1601 so với module HC-SR04 truyền thống là khả năng tương thích nguồn điện kép ($3.3\text{V}$ và $5\text{V}$) với dòng tĩnh rất thấp ($< 3\text{ mA}$), cho phép kết nối trực tiếp với các chân GPIO của vi điều khiển ESP32 ($3.3\text{V}$) mà không cần mạch chuyển đổi mức điện áp.
+---
+
+## 1.2. ĐẶC TÍNH VÀ THÔNG SỐ CỦA MODULE RCWL-1601
 
 ### 1.2.1. Giản đồ xung kích hoạt và phản hồi thời gian bay
-Quá trình giao tiếp thu phát tín hiệu giữa vi điều khiển và module RCWL-1601 diễn ra theo chu trình 4 bước:
-
-```
-Vi điều khiển (ESP32)             Module RCWL-1601                Môi trường không khí
-  [Chân TRIG]                       [Đầu phát]                         [Vật cản]
-      |                                   |                                |
-  ----|--[ Xung High ≥ 10 µs ]--|---------|                                |
-                                          |                                |
-                                          |-- Phát chùm 8 xung 40 kHz ---->| (Sóng truyền)
-                                          |                                |       |
-                                          |                                |       | (Sóng phản xạ)
-                                          |<------- Nhận sóng phản xạ -----|-------|
-                                     [Đầu thu]
-                                          |
-  [Chân ECHO]                             |
-  ____|--[ Mức Cao (HIGH): Độ rộng t = ToF ]--|____________________________
-```
-
-1. **Xung kích hoạt (`TRIG`):** Vi điều khiển xuất một xung điện áp mức cao có độ rộng tối thiểu $10\text{ }\mu\text{s}$ đưa vào chân `TRIG` của module.
-2. **Phát chùm xung siêu âm:** Ngay khi nhận được sườn xuống của xung kích, vi mạch trên cảm biến tự động kích hoạt bộ chuyển đổi gốm áp điện phát một chùm gồm 8 chu kỳ xung sóng cơ học tần số $40\text{ kHz}$ dạng sóng vuông ra môi trường.
-3. **Thu sóng phản xạ & Bắt thời gian ToF (`ECHO`):** Đồng thời tại thời điểm chùm xung được phát đi, chân `ECHO` của module được kéo lên mức cao logic. Chân `ECHO` duy trì mức cao này liên tục cho tới khi đầu thu tiếp nhận được chùm sóng phản xạ dội về từ vật cản, lúc này chân `ECHO` lập tức hạ xuống mức thấp.
-4. **Xác định thời gian ToF:** Khoảng thời gian chân `ECHO` duy trì ở mức cao chính là thời gian sóng truyền khứ hồi $t$. Vi điều khiển sử dụng ngắt timer phần cứng với độ phân giải $1\text{ }\mu\text{s}$ để ghi nhận chính xác giá trị $t$.
+Module RCWL-1601 giao tiếp với vi điều khiển ESP32 thông qua giao thức xung kỹ thuật số hai chân (Trigger và Echo):
+- **Bước 1 - Kích hoạt xung (Trigger Pulse):** Vi điều khiển chủ động kéo chân `TRIG` lên mức logic CAO để phát lệnh đo.
+- **Bước 2 - Phát chùm sóng siêu âm:** Khi nhận được xung `TRIG`, cảm biến phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz. Đồng thời, chân `ECHO` được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.
+- **Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse):** Sóng âm dội về tác động lên màng thu và cảm biến ghi nhận thay đổi. Ngay sau đó, IC lập tức kéo chân `ECHO` xuống mức THẤP.
+- **Bước 4 - Đo thời gian bay ToF:** Độ rộng mức cao của xung `ECHO` ($t_{\text{echo}}$) tỷ lệ thuận chính xác với thời gian bay hai chiều $t$ của sóng âm.
 
 ---
 
-### 1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601
+### 1.2.2. Bảng thông số kỹ thuật của RCWL-1601
 
-Bảng thông số định mức kỹ thuật do nhà sản xuất công bố được tổng hợp làm cơ sở tham chiếu nhằm đối chiếu, đánh giá và kiểm chứng với số liệu khảo sát thực nghiệm ở Chương 3:
+#### Bảng 1.1: Bảng thông số kỹ thuật của module cảm biến siêu âm RCWL-1601
 
-| Thông số kỹ thuật | Giá trị định mức danh định (Datasheet) |
+| Thông số kỹ thuật | Giá trị công bố |
 | :--- | :---: |
-| **Điện áp hoạt động** | $3.0 - 5.5\text{ V DC}$ |
-| **Dòng điện làm việc tĩnh** | $\le 3.0\text{ mA}$ |
-| **Tần số phát sóng siêu âm** | $40 \pm 1\text{ kHz}$ |
-| **Dải đo danh định** | $2.0 - 400.0\text{ cm}$ |
-| **Góc mở bức xạ sóng hiệu dụng** | $\le 15^\circ$ |
-| **Độ chính xác công bố** | $\pm 0.5\text{ cm}$ |
-| **Độ phân giải lý thuyết** | $0.1 - 0.3\text{ cm}$ |
-| **Độ rộng xung kích `TRIG` tối thiểu** | $10\text{ }\mu\text{s}$ |
-| **Thời gian chu kỳ kích đo khuyến nghị** | $\ge 50\text{ ms}$ |
+| **Điện áp hoạt động ($V_{\text{CC}}$)** | $2.8\text{ V} - 5.5\text{ V}$ (Một chiều - DC) |
+| **Dòng điện tiêu thụ tĩnh** | $< 2\text{ mA}$ |
+| **Dòng điện cực đại khi phát** | $\approx 15\text{ mA} - 20\text{ mA}$ |
+| **Tần số sóng siêu âm** | $40\text{ kHz} \pm 1.0\text{ kHz}$ |
+| **Dải đo công bố** | $2\text{ cm} - 400\text{ cm}$ (hoặc $450\text{ cm}$) |
+| **Độ phân giải lý thuyết** | $1\text{ mm}$ |
+| **Góc mở chùm sóng âm** | $\approx 15^\circ$ |
+| **Tín hiệu kích hoạt (TRIG)** | Xung mức CAO (HIGH) $\ge 10\text{ }\mu\text{s}$ |
+| **Tín hiệu phản hồi (ECHO)** | Độ rộng xung mức CAO (PWM) |
 
 ---
 

@@ -525,7 +525,7 @@ add_heading_2("1.1. NGUYÊN LÝ ĐO KHOẢNG CÁCH THỜI GIAN BAY VÀ MÔ HÌNH
 add_heading_3("1.1.1. Phương trình lan truyền sóng siêu âm thời gian bay")
 add_body_p(
     "Phương pháp đo khoảng cách bằng sóng siêu âm dựa trên nguyên lý đo thời gian bay (Time-of-Flight - ToF). "
-    "Module cảm biến phát ra một chuỗi xung kích siêu âm hình sin ở tần số công tác danh định 40 kHz. "
+    "Module cảm biến phát ra một chuỗi xung kích siêu âm hình sin ở tần số 40 kHz. "
     "Sóng âm lan truyền trong không gian tự do với vận tốc v, gặp mặt phẳng vật cản và phản xạ dội ngược trở lại đầu thu. "
     "Đầu thu áp điện chuyển đổi năng lượng dao động cơ học của sóng âm dội về thành tín hiệu điện áp phản hồi."
 )
@@ -544,14 +544,13 @@ add_native_equation(
 
 add_body_p(
     "Trong đó: d là khoảng cách đo từ mặt trước màng rung cảm biến đến bề mặt phản xạ (m); "
-    "v là vận tốc truyền sóng âm trong không khí (m/s); t là thời gian bay khứ hồi từ khi phát xung đến khi thu được xung dội về (s). "
-    "Hệ số 2 thể hiện sóng âm phải vượt qua hai lần quãng đường (lượt đi và lượt về)."
+    "v là vận tốc truyền sóng âm trong không khí (m/s); t là thời gian bay khứ hồi (s). "
 )
 
-add_heading_3("1.1.2. Mô hình toán học bù nhiệt độ môi trường cho vận tốc âm thanh")
+add_heading_3("1.1.2. Sự ảnh hưởng của nhiệt độ tới vận tốc âm thanh")
 add_body_p(
-    "Trong chất khí lý tưởng, sóng âm lan truyền dưới dạng sóng dọc thông qua quá trình nén và giãn nở đoạn nhiệt tuần hoàn. "
-    "Vận tốc truyền sóng âm được xác định theo phương trình nhiệt động học Laplace:"
+    "Trong chất khí lý tưởng, sóng âm lan truyền dưới dạng sóng dọc thông qua quá trình nén và giãn nở đoạn nhiệt. "
+    "Vận tốc truyền sóng âm:"
 )
 
 # Native Word Equation 1.2: v = sqrt(gamma * R * T_K / M)
@@ -575,11 +574,10 @@ add_native_equation(
 
 add_body_p(
     "Trong đó: γ là hệ số đoạn nhiệt của không khí khô (γ ≈ 1.402); R là hằng số khí lý tưởng phổ quát (R = 8.314 J/(mol·K)); "
-    "M là khối lượng mol biểu kiến trung bình của không khí khô (M ≈ 0.028964 kg/mol); T_K là nhiệt độ tuyệt đối của môi trường (K), với T_K = T + 273.15 (°C)."
+    "M là khối lượng mol biểu kiến trung bình của không khí khô (M ≈ 0.028964 kg/mol); T_K là nhiệt độ tuyệt đối của môi trường (K)."
 )
 add_body_p(
-    "Khai triển chuỗi Taylor bậc nhất của vận tốc sóng âm quanh điểm chuẩn 0 °C (T_0 = 273.15 K, v_0 ≈ 331.3 m/s) ta thu được "
-    "phương trình thực nghiệm xấp xỉ tuyến tính chính xác cao:"
+    "Khai triển chuỗi Taylor bậc nhất của vận tốc sóng âm quanh điểm chuẩn 0 °C (T_0 = 273.15 K, v_0 ≈ 331.3 m/s) ta thu được phương trình:"
 )
 
 # Native Word Equation 1.3: v(T) = 331.3 + 0.606 * T
@@ -588,39 +586,26 @@ add_native_equation(
     eq_num="1.3"
 )
 
-add_body_p(
-    "Phương trình tuyến tính (1.3) chỉ ra rằng: khi nhiệt độ môi trường thay đổi 1 °C, vận tốc sóng âm thay đổi tương ứng 0.606 m/s "
-    "(khoảng 0.177%). Nếu nhiệt độ phòng dao động 7 °C (ví dụ giữa phòng bật điều hòa 20 °C và nhiệt độ phòng mặc định 27 °C), "
-    "vận tốc sóng âm sẽ biến thiên khoảng 4.24 m/s (1.24%). Nếu hệ thống sử dụng vận tốc cố định, sai số đo khoảng cách sẽ trôi lũy tiến "
-    "theo cự ly đo, đạt tới hàng chục milimét ở cự ly trên 2 m. Do đó, việc đo nhiệt độ môi trường thời gian thực để bù trừ vận tốc v(T) "
-    "là yêu cầu kỹ thuật bắt buộc."
-)
-
-add_heading_3("1.1.3. Sự suy hao năng lượng sóng âm theo cự ly đo")
-add_body_p("Năng lượng và biên độ áp suất âm p(d) của sóng âm suy giảm mạnh theo khoảng cách truyền dẫn do hai cơ chế vật lý song song:")
-add_bullet_p("Do chùm sóng âm phát đi theo dạng hình nón. Năng lượng sóng âm phân bố trên diện tích mặt cầu tăng dần, khiến mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", "1. Phân kỳ hình học: ")
-add_bullet_p("Quá trình truyền sóng gây ma sát phân tử và dẫn nhiệt trong chất khí, làm suy hao biên độ áp suất âm làm suy hao biên độ áp suất âm. Ở tần số 40 kHz và nhiệt độ phòng 27 °C, độ ẩm 60%, hệ số suy hao khí quyển đạt xấp xỉ α ≈ 1.2 dB/m.", "2. Hấp thụ âm nội tại của không khí: ")
-add_body_p(
-    "Tổng suy hao sau hành trình hai chiều (2d) lên tới hàng chục decibel ở cự ly xa (d > 3 m). "
-    "Vì vậy, ở cự ly trên 5.5 m, biên độ xung phản xạ sẽ tụt xuống dưới ngưỡng nhạy phát hiện của bộ so sánh, dẫn tới việc vi điều khiển "
-    "bị tràn thời gian ngắt câm và trả về giá trị lỗi bão hòa."
-)
+add_heading_3("1.1.3. Sự suy hao năng lượng sóng âm theo cự ly")
+add_body_p("Năng lượng và biên độ áp suất âm p(d) của sóng âm suy giảm mạnh theo khoảng cách do:")
+add_body_p("1. Phân kỳ hình học: Do chùm sóng âm phát đi theo dạng hình nón. Mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", indent=False)
+add_body_p("2. Ma sát với không khí: Quá trình truyền sóng gây ma sát trong chất khí, làm suy hao năng lượng. ", indent=False)
 
 # 1.2
-add_heading_2("1.2. ĐẶC TÍNH HOẠT ĐỘNG VÀ THÔNG SỐ CỦA MODULE RCWL-1601")
+add_heading_2("1.2. ĐẶC TÍNH VÀ THÔNG SỐ CỦA MODULE RCWL-1601")
 
 add_heading_3("1.2.1. Giản đồ xung kích hoạt và phản hồi thời gian bay")
 add_body_p("Module RCWL-1601 giao tiếp với vi điều khiển ESP32 thông qua giao thức xung kỹ thuật số hai chân (Trigger và Echo):")
-add_bullet_p("Vi điều khiển chủ động kéo chân TRIG lên mức logic CAO để phát lệnh đo.", "• Bước 1 - Kích hoạt xung (Trigger Pulse): ")
-add_bullet_p("Khi nhận được xung TRIG, vi mạch chuyên dụng RCWL-9610 trên module tự động kích hoạt mạch dao động công suất phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz. Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", "• Bước 2 - Phát chùm sóng siêu âm: ")
-add_bullet_p("Sóng âm dội về tác động lên màng thu, tạo điện áp vi sai xoay chiều. Vi mạch RCWL-9610 thực hiện khuếch đại tự động độ lợi và lọc thông dải 40 kHz. Ngay khi biên độ tín hiệu vượt ngưỡng so sánh, IC lập tức kéo chân ECHO xuống mức THẤP.", "• Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse): ")
-add_bullet_p("Độ rộng mức cao của xung ECHO (t_echo) tỷ lệ thuận chính xác với thời gian bay hai chiều t của sóng âm.", "• Bước 4 - Đo thời gian bay ToF: ")
+add_body_p("• Bước 1 - Kích hoạt xung (Trigger Pulse): Vi điều khiển chủ động kéo chân TRIG lên mức logic CAO để phát lệnh đo.", indent=False)
+add_body_p("• Bước 2 - Phát chùm sóng siêu âm: Khi nhận được xung TRIG, cảm biến phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz. Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", indent=False)
+add_body_p("• Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse): Sóng âm dội về tác động lên màng thu và cảm biến ghi nhận thay đổi. Ngay sau đó, IC lập tức kéo chân ECHO xuống mức THẤP.", indent=False)
+add_body_p("• Bước 4 - Đo thời gian bay ToF: Độ rộng mức cao của xung ECHO (t_echo) tỷ lệ thuận chính xác với thời gian bay hai chiều t của sóng âm.", indent=False)
 
-add_heading_3("1.2.2. Bảng thông số kỹ thuật danh định của RCWL-1601")
+add_heading_3("1.2.2. Bảng thông số kỹ thuật của RCWL-1601")
 p_tbl = doc.add_paragraph()
 p_tbl.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p_tbl.paragraph_format.space_after = Pt(4)
-r_tcap = p_tbl.add_run("Bảng 1.1: Bảng thông số kỹ thuật danh định của module cảm biến siêu âm RCWL-1601")
+r_tcap = p_tbl.add_run("Bảng 1.1: Bảng thông số kỹ thuật của module cảm biến siêu âm RCWL-1601")
 r_tcap.font.name = 'Times New Roman'
 r_tcap.font.size = Pt(12)
 r_tcap.font.bold = True
@@ -630,7 +615,7 @@ ds_data = [
     ("Dòng điện tiêu thụ tĩnh", "< 2 mA"),
     ("Dòng điện cực đại khi phát", "≈ 15 mA – 20 mA"),
     ("Tần số sóng siêu âm", "40 kHz ± 1.0 kHz"),
-    ("Dải đo danh định công bố", "2 cm – 400 cm (hoặc 450 cm)"),
+    ("Dải đo công bố", "2 cm – 400 cm (hoặc 450 cm)"),
     ("Độ phân giải lý thuyết", "1 mm"),
     ("Góc mở chùm sóng âm", "≈ 15°"),
     ("Tín hiệu kích hoạt (TRIG)", "Xung mức CAO (HIGH) ≥ 10 μs"),
