@@ -303,18 +303,18 @@ db_max = delta_b[max_idx]
 dh_max = delta_h[max_idx]
 ax2.vlines(x=d_max, ymin=min(df_max, db_max), ymax=max(df_max, db_max), color='#d62728', linestyle=':', linewidth=1.4)
 anno_text = f"$\Delta H_{{\max}} = {dh_max:.2f}$ cm\n(tại 200 cm)"
-ax2.annotate(anno_text, xy=(d_max, (df_max + db_max)/2), xytext=(d_max - 55, max(df_max, db_max) + 0.35),
+ax2.annotate(anno_text, xy=(d_max, max(df_max, db_max)), xytext=(d_max - 5, 1.45),
              arrowprops=dict(facecolor='#800000', edgecolor='#800000', arrowstyle='->', lw=1.2),
-             fontsize=9.2, fontweight='bold', color='#800000',
+             fontsize=9.2, fontweight='bold', color='#800000', ha='center',
              bbox=dict(boxstyle='round,pad=0.28', facecolor='#fff2f2', edgecolor='#d62728', alpha=0.92))
 ax2.set_title('Phân bố Sai số đo Tuyệt đối $\Delta d$ và Vòng trễ Hysteresis', fontsize=11.5, fontweight='bold', pad=10)
 ax2.set_xlabel('Khoảng cách chuẩn đối chứng $d_{true}$ (cm)', fontsize=10.5, labelpad=6)
 ax2.set_ylabel('Sai số đo tuyệt đối $\Delta d = d_{meas} - d_{true}$ (cm)', fontsize=10.5, labelpad=6)
 ax2.set_xlim(0, 315)
-ax2.set_ylim(-2.0, 2.2)
+ax2.set_ylim(-2.0, 2.6)
 ax2.set_xticks([0, 50, 100, 150, 200, 250, 300])
 ax2.grid(True, linestyle=':', alpha=0.65)
-ax2.legend(loc='lower left', framealpha=0.92, edgecolor='#cccccc')
+ax2.legend(loc='upper left', framealpha=0.92, edgecolor='#cccccc')
 plt.tight_layout()
 plt.savefig(GRAPH_DIR / "hinh_3_6b_vong_tre_hysteresis_delta_d.png", dpi=300)
 plt.savefig(GRAPH_DIR / "hinh_3_6_vong_tre_hysteresis.png", dpi=300)
