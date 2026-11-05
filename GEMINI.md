@@ -254,3 +254,26 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
      * Tiêu đề: `1.3.4. Đánh giá Độ không đảm bảo đo` (loại bỏ đoạn văn dẫn nhập ISO/IEC Guide 98-3).
      * 4 gạch đầu dòng cô đọng: Loại A ($u_A = s / \sqrt{N}$); Loại B ($u_B = a / \sqrt{3}$); Tổng hợp ($u_c = \sqrt{u_A^2 + \sum u_{B,j}^2}$); Mở rộng ($U_{95\%} = 2 \cdot u_c$ với $k_p=2$).
      * Biểu diễn kết quả: $Y = \bar{d} \pm U_{95\%}$ (1.10).
+
+15. **Quy chuẩn Nội dung Mục 2.1 và 2.2 (Chương 2):**
+   - **Tiêu đề Chương 2:** `CHƯƠNG 2: THIẾT KẾ VÀ BỐ TRÍ THỰC NGHIỆM` (loại bỏ từ "HỆ THỐNG").
+   - **Mục 2.1: MỤC TIÊU THỰC NGHIỆM** (loại bỏ cụm "VÀ PHƯƠNG PHÁP LUẬN THỰC NGHIỆM").
+     * **2.1.1. Mục tiêu thực nghiệm:** Thu gọn thành 1 đoạn văn duy nhất, không dùng danh sách đánh số:
+       *"Nghiên cứu thực nghiệm được thiết kế nhằm mục đích kiểm chứng các đặc tính đo lường của module cảm biến siêu âm RCWL-1601: Khảo sát dải đo thực tế, định lượng độ chụm và độ chính xác, đánh giá độ tuyến tính, đánh giá ảnh hưởng của nhiệt độ môi trường, đánh giá ảnh hưởng của bề mặt phản xạ, đánh giá độ trễ"*
+     * **Loại bỏ hoàn toàn Mục 2.1.2** (Phương pháp luận thực nghiệm và sơ đồ khối ToF ASCII).
+   - **Mục 2.2: THIẾT KẾ PHẦN CỨNG VÀ KHÔNG GIAN THỰC NGHIỆM**
+     * **2.2.1. Thiết kế phần cứng và sơ đồ kết nối điện:**
+       - Đoạn văn mở đầu ngắn gọn: *"Module cảm biến siêu âm RCWL-1601 được kết nối trực tiếp với vi điều khiển ESP32. Các đường tín hiệu TRIG và ECHO giao tiếp trực tiếp với các chân GPIO của ESP32 ở mức logic 3.3 V."* (loại bỏ câu dài về vi mạch RCWL-9610 và dải điện áp).
+       - Tiêu đề bảng: `Bảng 2.1: Sơ đồ kết nối phần cứng giữa cảm biến RCWL-1601 và vi điều khiển ESP32`.
+       - Bảng gồm 3 cột chuẩn: `Chân RCWL-1601`, `Chân ESP32`, `Chức năng kỹ thuật` (4 hàng: `VCC` - `3V3`, `GND` - `GND`, `TRIG` - `GPIO 5`, `ECHO` - `GPIO 18`).
+     * **2.2.2. Thiết kế không gian thực nghiệm:**
+       - Tiêu đề ngắn gọn: `2.2.2. Thiết kế không gian thực nghiệm` (loại bỏ cụm "và kiểm soát điều kiện môi trường thực nghiệm").
+       - Loại bỏ câu văn dẫn nhập hình nón sóng âm. Gồm đúng 2 gạch đầu dòng:
+         1. `• Chiều cao bàn đo 85 cm: Hệ thống cảm biến và vật đo được đặt trên hai bàn thí nghiệm có độ cao 85.0 cm so với mặt sàn phòng đo.`
+         2. `• Phòng đo: Thực nghiệm được bố trí dọc theo hành lang kín gió dài 10 m, chiều rộng 2.8 m. Cảm biến đặt cách tường bên ít nhất 1.4 m. Trong suốt quá trình đo, hệ thống cửa được đóng kín tránh gió lùa và biến thiên nhiệt độ đột ngột.`
+     * **2.2.3. Bố trí mô hình và định vị thiết bị đo:**
+       - Đoạn mở đầu ngắn gọn: *"Để đảm bảo phép đo đạt độ chính xác cao, mô hình thực nghiệm được bố trí:"*
+       - Gồm 3 mục đánh số:
+         1. `1. Cố định cảm biến: RCWL-1601 được cắm cố định vững chắc trên breadboard, sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.`
+         2. `2. Vật thể phản xạ mục tiêu: Vật thể đo chuẩn là một viên gạch kích thước 40 cm × 40 cm có mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao 85 cm. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện với trục phát của cảm biến.`
+         3. `3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: Khoảng cách chuẩn d_true được xác định thủ công bằng thước dây. `
