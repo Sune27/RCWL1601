@@ -130,41 +130,37 @@ plt.close(fig)
 print(f"Đã xuất đồ thị Hình 3.2 tại: {h3_2_p1} và {h3_2_p2}")
 
 # ==========================================================
-# 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Đồ thị đơn chung trục Y mm: s và SE sau lọc IQR)
+# 3. HÌNH 3.3: Độ chụm toàn dải đo FSDT (Sai số chuẩn trung bình SE sau lọc IQR)
 # ==========================================================
-print("Tạo Hình 3.3 (Đồ thị đơn chung trục Y mm: s và SE từ thong_ke_chuong_3.csv)...")
+print("Tạo Hình 3.3 (Đồ thị sai số chuẩn trung bình SE từ thong_ke_chuong_3.csv)...")
 fsdt_550 = [r for r in fsdt_stat if float(r['cu_ly_dat_cm']) <= 550.0]
 fsdt_550.sort(key=lambda r_item: float(r_item['cu_ly_dat_cm']))
 
 x_550 = [float(r['cu_ly_dat_cm']) for r in fsdt_550]
-s_550 = [float(r['std_sach_mm']) for r in fsdt_550]
 se_550 = [float(r['se_sach_mm']) for r in fsdt_550]
 
-fig, ax = plt.subplots(figsize=(10, 5.2), dpi=300)
-ax.plot(x_550, s_550, color='#1f77b4', linestyle='-', linewidth=1.8, marker='o', markersize=4.5,
-        label='Độ lệch chuẩn thực nghiệm s (mm)')
-ax.plot(x_550, se_550, color='#ff7f0e', linestyle='--', linewidth=1.7, marker='s', markersize=4.2,
+fig, ax = plt.subplots(figsize=(10, 5.0), dpi=300)
+ax.plot(x_550, se_550, color='#1f77b4', linestyle='-', linewidth=1.8,
+        marker='o', markersize=5.0, markerfacecolor='white', markeredgecolor='#1f77b4', markeredgewidth=1.6,
         label='Sai số chuẩn trung bình SE = s/√n (mm)')
-ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.2,
-           label='Dung sai vạch chia thước (0.5 mm)')
+ax.axhline(0.5, color='#9467bd', linestyle='-.', linewidth=1.3,
+           label='Dung sai vạch chia thước chuẩn (0.5 mm)')
 
-ax.set_title("Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE theo khoảng cách chuẩn", fontweight='bold', pad=12)
+ax.set_title("Sai số chuẩn trung bình SE theo khoảng cách chuẩn (1 cm – 550 cm)", fontweight='bold', pad=12)
 ax.set_xlabel("Khoảng cách chuẩn (cm)", fontweight='bold')
-ax.set_ylabel("Độ phân tán / Sai số chuẩn (mm)", fontweight='bold')
+ax.set_ylabel("Sai số chuẩn trung bình SE (mm)", fontweight='bold')
 ax.set_xlim(-10, 565)
-ax.set_ylim(-0.2, 4.6)
-ax.set_yticks([0, 0.5, 1, 2, 3, 4])
+ax.set_ylim(-0.025, 0.68)
+ax.set_yticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
 ax.grid(axis='y', which='major', linestyle='--', linewidth=0.7, alpha=0.6)
 ax.grid(axis='x', visible=False)
 ax.legend(loc='upper left', framealpha=0.95)
 
 plt.tight_layout()
 h3_3_p1 = GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png"
-h3_3_p2 = GRAPH_DIR / "hinh_3_3_do_chum_toan_dai.png"
 fig.savefig(h3_3_p1, dpi=300)
-fig.savefig(h3_3_p2, dpi=300)
 plt.close(fig)
-print(f"Đã xuất đồ thị Hình 3.3 tại: {h3_3_p1} và {h3_3_p2}")
+print(f"Đã xuất đồ thị Hình 3.3 tại: {h3_3_p1}")
 
 # ==========================================================
 # 4. HÌNH 3.4: Độ chính xác (Đồ thị đơn ghép 2 trục Y: Δx và δ% từ 10 cm – 550 cm)

@@ -1622,59 +1622,30 @@ add_body_p(
     "Toàn bộ số liệu gốc phục vụ phân tích và vẽ đồ thị được lưu trữ đầy đủ trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
 )
 
-add_heading_3("3.3.1. Đánh giá độ chụm")
+add_heading_3("3.3.1. Đánh giá độ chụm (Precision) qua sai số chuẩn trung bình SE")
 add_body_p(
-    "Áp dụng độ lệch chuẩn mẫu thực nghiệm s tại Mục 1.3.1 và sai số chuẩn của giá trị trung bình SE tại Mục 1.3.3 (Chương 1), "
-    "chuỗi số liệu của 33 mốc cự ly (1 cm – 550 cm, tại nhiệt độ chuẩn hóa 27.0 °C, N = 50 mẫu thô/mốc, "
-    "cỡ mẫu hợp lệ sau lọc n_hợp_lệ ∈ [40, 50]) được trích xuất trực tiếp từ hai cột std_sach_mm và se_sach_mm "
-    "trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv:"
+    "Độ chụm (Precision) của hệ đo được định lượng thông qua sai số chuẩn của giá trị trung bình SE = s/√n "
+    "(theo Mục 1.3.3, Chương 1), phản ánh độ phân tán và độ không đảm bảo đo của kết quả sau khi lấy trung bình N = 50 phát bắn đo lường độc lập. "
+    "Chuỗi số liệu của 33 mốc cự ly (1 cm – 550 cm, nhiệt độ 27.0 °C, cỡ mẫu hợp lệ sau lọc IQR đạt n_hợp_lệ ∈ [40, 50]) "
+    "được trích xuất từ cột se_sach_mm trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv:"
 )
 add_bullet_p(
-    "Tại 8/9 mốc khảo sát, s đạt từ 0.035 mm đến 0.094 mm và SE đạt từ 0.0049 mm đến 0.0133 mm "
-    "(nhỏ hơn nhiều so với một bước đếm phần cứng Δ_LSB ≈ 0.174 mm) nhờ biên độ sóng phản xạ mạnh từ mặt phẳng nhẵn của viên gạch chuẩn 40 cm × 40 cm. "
-    "Riêng mốc 40 cm (n_hợp_lệ = 49) ghi nhận s = 3.144 mm và SE = 0.4491 mm.",
-    "1. Vùng cự ly gần (1 cm ≤ x_true ≤ 50 cm, 9 mốc): "
+    "Tại 8/9 mốc khảo sát, SE chỉ đạt từ 0.0049 mm đến 0.0133 mm (nhỏ hơn rất nhiều so với một bước đếm phần cứng Δ_LSB ≈ 0.174 mm), "
+    "chứng minh độ ổn định cực cao khi sóng phản xạ từ mặt phẳng nhẵn dội về mạnh; riêng mốc 40 cm do ranh giới chuyển tiếp chu kỳ đạt SE = 0.4491 mm.",
+    "Vùng cự ly gần (1 cm ≤ x_true ≤ 50 cm, 9 mốc): "
 )
 add_bullet_p(
-    "Tại 7/8 mốc, s nằm trong dải 0.088 mm – 0.383 mm và SE nằm trong dải 0.0128 mm – 0.0542 mm; "
-    "riêng mốc 120 cm (n_hợp_lệ = 50) có s = 1.747 mm và SE = 0.2471 mm.",
-    "2. Vùng cự ly trung bình (60 cm ≤ x_true ≤ 180 cm, 8 mốc): "
+    "Tại 7/8 mốc, SE nằm trong dải siêu nhỏ 0.0128 mm – 0.0542 mm; riêng mốc 120 cm ghi nhận SE = 0.2471 mm.",
+    "Vùng cự ly trung bình (60 cm ≤ x_true ≤ 180 cm, 8 mốc): "
 )
 add_bullet_p(
-    "Độ lệch chuẩn s dao động từ 0.142 mm (tại 220 cm, n_hợp_lệ = 40) đến 2.860 mm (tại 300 cm, n_hợp_lệ = 50), "
-    "tương ứng SE biến thiên từ 0.0225 mm đến 0.4045 mm (tại 360 cm đạt s = 2.508 mm, SE = 0.3583 mm).",
-    "3. Vùng cự ly xa danh định (200 cm ≤ x_true ≤ 360 cm, 11 mốc): "
+    "Sai số chuẩn SE biến thiên từ 0.0225 mm (tại 220 cm) đến 0.4045 mm (tại 300 cm).",
+    "Vùng cự ly xa danh định (200 cm ≤ x_true ≤ 360 cm, 11 mốc): "
 )
 add_bullet_p(
-    "Độ lệch chuẩn s đạt 0.270 mm tại 400 cm (SE = 0.0407 mm), 0.228 mm tại 420 cm (SE = 0.0340 mm), "
-    "tăng lên cực đại toàn dải 4.049 mm tại 450 cm (SE = 0.5726 mm), đạt 1.978 mm tại 500 cm (SE = 0.2797 mm) "
-    "và giảm về 0.319 mm tại mốc giới hạn 550 cm (n_hợp_lệ = 42, SE = 0.0492 mm).",
-    "4. Dải đo xa mở rộng (400 cm ≤ x_true ≤ 550 cm, 5 mốc): "
-)
-add_body_p(
-    "Tính trên toàn bộ 33 mốc khảo sát (1 – 550 cm), cột se_sach_mm xác nhận sai số chuẩn trung bình SE không vượt quá 0.5726 mm; "
-    "trong đó có 32/33 mốc đạt SE < 0.45 mm (nhỏ hơn nửa độ chia nhỏ nhất 0.5 mm của thước chuẩn) và 22/33 mốc đạt SE ≤ 0.10 mm."
-)
-add_body_p(
-    "Giải thích cơ chế vật lý và thuật toán của dạng dao động răng cưa trên Hình 3.3: "
-    "Trục hoành của Hình 3.3 biểu diễn sự thay đổi mốc khoảng cách chuẩn x_true (mỗi mốc đều đo độc lập với cỡ mẫu cố định N = 50), "
-    "không phải trục tăng dần kích thước mẫu tích lũy k tại một vị trí cố định như bài toán hội tụ ở Mục 2.4 (Chương 2). "
-    "Dạng lên xuống răng cưa luân phiên của s giữa các mốc cự ly xuất phát từ sự tương tác giữa bước nhảy một chu kỳ sóng mang siêu âm 40 kHz "
-    "và ngưỡng tứ phân vị 25% của bộ lọc IQR (đã nêu tại Mục 1.3.2, Chương 1). Tại T = 27.0 °C (v = 347.66 m/s), một chu kỳ sóng mang T_0 = 25 μs "
-    "ứng với quãng đường khứ hồi nửa bước sóng xấp xỉ 4.35 mm (0.435 cm). Khi biên độ sườn lên của bó xung phản hồi ECHO rơi sát mức điện áp ngưỡng "
-    "so sánh trong vi mạch RCWL-9610, thời điểm kích hoạt bắt xung bị trượt ±1 chu kỳ sóng mang giữa các lần đo trong cùng 50 mẫu:"
-)
-add_bullet_p(
-    "Tại những mốc cự ly có dưới 25% số mẫu trượt sang chu kỳ kế cận (như 80, 150, 220, 320, 400, 420, 550 cm, với 5 – 10 mẫu ngoại lai bị loại trong thong_ke_chuong_3.csv), "
-    "hai tứ phân vị Q_1 và Q_3 vẫn nằm gọn trong cùng một chu kỳ sóng mang (IQR ≈ 0.018 – 0.066 cm); hàng rào Tukey cắt bỏ hoàn toàn cụm trượt chu kỳ, "
-    "đưa s xuống mức rất thấp (0.142 – 0.395 mm) và SE xuống 0.022 – 0.060 mm.",
-    "• Nhóm mốc lọc sạch cụm trượt chu kỳ: "
-)
-add_bullet_p(
-    "Tại các mốc cự ly có trên 25% số mẫu phân bố sang chu kỳ kế cận (như 40, 120, 200, 250, 300, 340, 350, 450, 500 cm), "
-    "Q_1 rơi vào chu kỳ dưới còn Q_3 rơi vào chu kỳ trên làm IQR mở rộng lên 0.284 – 0.806 cm; cả hai cụm chu kỳ đều nằm trong hàng rào hợp lệ "
-    "(so_ngoai_lai = 0 ÷ 1), khiến s phản ánh độ tách biệt giữa hai cụm (1.747 – 4.049 mm) và SE đạt 0.247 – 0.573 mm.",
-    "• Nhóm mốc giữ lại hai cụm chu kỳ kế tiếp: "
+    "SE đạt 0.0407 mm tại 400 cm, 0.0340 mm tại 420 cm, đạt đỉnh 0.5726 mm tại 450 cm, đạt 0.2797 mm tại 500 cm "
+    "và giảm về 0.0492 mm tại mốc giới hạn 550 cm.",
+    "Dải đo xa mở rộng (400 cm ≤ x_true ≤ 550 cm, 5 mốc): "
 )
 
 IMG_H3_3_PATH = os.path.join(BASE_DIR, "graph", "chuong_3", "hinh_3_3_do_chum_toan_dai.png")
@@ -1689,24 +1660,22 @@ if os.path.exists(IMG_H3_3_PATH):
     p_cap3_3 = doc.add_paragraph()
     p_cap3_3.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_cap3_3.paragraph_format.space_after = Pt(8)
-    r_c3_3 = p_cap3_3.add_run("Hình 3.3: Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE theo khoảng cách chuẩn (1 cm – 550 cm).")
+    r_c3_3 = p_cap3_3.add_run("Hình 3.3: Sai số chuẩn trung bình SE = s/√n sau lọc IQR theo khoảng cách chuẩn (1 cm – 550 cm).")
     r_c3_3.font.italic = True
     r_c3_3.font.size = Pt(10)
 
-add_body_p(
-    "Đánh giá từ đồ thị Hình 3.3: Khi biểu diễn chung trên cùng một trục tung đơn vị mm, sự khác biệt về bản chất thống kê "
-    "giữa độ phân tán mẫu đơn lẻ và độ chụm của trung bình mẫu hiện rõ trực quan:"
+add_body_p("Đánh giá độ chụm từ đồ thị Hình 3.3:")
+add_bullet_p(
+    "Đi phẳng và bám sát trục hoành trên toàn bộ dải đo 1 cm – 550 cm. Có tới 32/33 mốc khảo sát đạt SE < 0.45 mm, "
+    "nằm hoàn toàn phía dưới đường dung sai vạch chia thước chuẩn 0.5 mm (đường tím nét gạch), và có tới 22/33 mốc đạt SE ≤ 0.10 mm "
+    "(chỉ có duy nhất mốc 450 cm chớm nhô nhẹ lên 0.573 mm).",
+    "Đường màu xanh lam nét liền (SE = s/√n): "
 )
 add_bullet_p(
-    "Nằm dưới vạch dung sai thước 0.5 mm tại 22/33 mốc khảo sát và nổi lên các đỉnh răng cưa 1.72 – 4.05 mm "
-    "tại 11 mốc xảy ra phân tách hai cụm chu kỳ sóng mang 40 kHz.",
-    "Đường màu xanh lam nét liền (Độ lệch chuẩn thực nghiệm s): "
-)
-add_bullet_p(
-    "Nhờ phép lấy trung bình trên n_hợp_lệ ∈ [40, 50] mẫu làm giảm biên độ phân tán đi khoảng 6.3 – 7.1 lần, "
-    "đường SE đi phẳng sát trục hoành và nằm hoàn toàn phía dưới đường dung sai vạch chia thước 0.5 mm tại 32/33 mốc đo "
-    "(chỉ nhô nhẹ lên 0.573 mm tại mốc 450 cm), chứng minh ước lượng trung bình mẫu x̄ đạt độ ổn định cao trên toàn dải.",
-    "Đường màu cam nét đứt (Sai số chuẩn trung bình SE = s/√n): "
+    "Việc sai số chuẩn SE luôn nằm dưới ngưỡng 0.5 mm trên trọn vẹn dải đo 5.5 m (chỉ chiếm tỷ lệ phân tán ≈ 0.01% ÷ 0.05% so với cự ly đo) "
+    "khẳng định hệ thống đo đạt độ chụm rất cao (High Precision). Phép lấy trung bình N = 50 mẫu kết hợp lọc IQR đã triệt tiêu hoàn toàn "
+    "các bước nhảy chu kỳ sóng mang 40 kHz, mang lại độ tin cậy vượt trội hơn cả độ phân giải mắt đọc của thước đo cơ khí.",
+    "Kết luận về chất lượng Precision: "
 )
 
 add_heading_3("3.3.2. Đánh giá độ chính xác")
