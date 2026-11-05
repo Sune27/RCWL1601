@@ -406,22 +406,22 @@ doc.add_page_break()
 # -------------------------------------------------------------
 # PHẦN 4: BẢNG QUY ƯỚC KÝ HIỆU (CÓ HEADING TRÊN NAVIGATION PANE)
 # -------------------------------------------------------------
-add_heading_1("BẢNG QUY ƯỚC KÝ HIỆU VÀ CẤU TRÚC DỮ LIỆU THỰC NGHIỆM")
+add_heading_1("BẢNG QUY ƯỚC KÝ HIỆU VÀ DỮ LIỆU THỰC NGHIỆM")
 
 p_cap = doc.add_paragraph()
 p_cap.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p_cap.paragraph_format.space_after = Pt(6)
-r_cap = p_cap.add_run("Bảng 0.1: Bảng quy ước định danh 4 tập dữ liệu thực nghiệm chuẩn hóa của đề tài")
+r_cap = p_cap.add_run("Bảng 0.1: Bảng quy ước tên 4 tập dữ liệu thực nghiệm chuẩn hóa của đề tài")
 r_cap.font.name = 'Times New Roman'
 r_cap.font.size = Pt(12)
 r_cap.font.bold = True
 
-table_conv = doc.add_table(rows=5, cols=5)
+table_conv = doc.add_table(rows=5, cols=4)
 table_conv.alignment = WD_TABLE_ALIGNMENT.CENTER
 table_conv.autofit = False
 
-col_widths = [Cm(2.5), Cm(2.5), Cm(3.2), Cm(2.8), Cm(5.0)]
-headers = ["Ký hiệu mã", "Chiều dịch chuyển", "Bề mặt phản xạ", "Nhiệt độ môi trường", "Mục đích nghiên cứu kiểm chứng"]
+col_widths = [Cm(3.0), Cm(4.0), Cm(4.5), Cm(3.5)]
+headers = ["Ký hiệu mã", "Chiều dịch chuyển", "Bề mặt phản xạ", "Nhiệt độ môi trường"]
 
 hdr_cells = table_conv.rows[0].cells
 for idx, text in enumerate(headers):
@@ -438,10 +438,10 @@ for idx, text in enumerate(headers):
         r.font.color.rgb = C_NAVY
 
 dataset_rows = [
-    ("FSDT", "Tiến (Forward)\n1 cm → 600 cm", "Phẳng nhẵn bóng\n(Specular)", "27.0 °C\n(Nhiệt độ phòng)", "Khảo sát toàn dải, vùng chết (1-3cm), dải xa mở rộng (550cm), độ chụm & độ chính xác."),
-    ("BSDT", "Lùi (Backward)\n300 cm → 10 cm", "Phẳng nhẵn bóng\n(Specular)", "27.0 °C\n(Nhiệt độ phòng)", "Đối chứng trực tiếp với FSDT trên 19 mốc cự ly để đánh giá hiện tượng Độ trễ (Hysteresis)."),
-    ("FRDT", "Tiến (Forward)\n10 cm → 375 cm", "Nhám gồ ghề\n(Diffuse)", "27.0 °C\n(Nhiệt độ phòng)", "Đánh giá hiện tượng tán xạ khuếch tán, độ suy giảm tỷ số S/N và giới hạn tầm đo trên bề mặt xốp."),
-    ("FSAT", "Tiến (Forward)\n10 cm → 300 cm", "Phẳng nhẵn bóng\n(Specular)", "20.0 °C\n(Phòng điều hòa)", "Khảo sát độ trôi cự ly do vận tốc âm và kiểm chứng hiệu quả thuật toán bù nhiệt Laplace.")
+    ("FSDT", "Tiến (Forward)\n", "Phẳng nhẵn bóng\n(Smooth)", "27.0 °C\n"),
+    ("BSDT", "Lùi (Backward)", "Phẳng nhẵn bóng\n(Smooth)", "27.0 °C"),
+    ("FRDT", "Tiến (Forward)", "Nhám gồ ghề\n(Rough)", "27.0 °C"),
+    ("FSAT", "Tiến (Forward)", "Phẳng nhẵn bóng\n(Smooth)", "20.0 °C")
 ]
 
 for row_idx, data in enumerate(dataset_rows, start=1):
@@ -452,7 +452,7 @@ for row_idx, data in enumerate(dataset_rows, start=1):
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.line_spacing = 1.15
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx < 4 else WD_ALIGN_PARAGRAPH.JUSTIFY
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         for r in p.runs:
             r.font.name = 'Times New Roman'
             r.font.size = Pt(11)
@@ -476,7 +476,7 @@ for c in table_conv.rows[-1].cells:
 p_sep = doc.add_paragraph()
 p_sep.paragraph_format.space_before = Pt(14)
 p_sep.paragraph_format.space_after = Pt(4)
-r_sep_t = p_sep.add_run("Phân định cấu trúc tổ chức dữ liệu dự án:")
+r_sep_t = p_sep.add_run("Cấu trúc tổ chức dữ liệu dự án:")
 r_sep_t.font.name = 'Times New Roman'
 r_sep_t.font.size = Pt(13)
 r_sep_t.font.bold = True
@@ -487,26 +487,28 @@ p_f1.paragraph_format.first_line_indent = Cm(1.0)
 p_f1.paragraph_format.space_after = Pt(4)
 r1 = p_f1.add_run("• Thư mục 'result/': ")
 r1.font.bold = True
-p_f1.add_run(
-    "Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu được ghi nhận trực tiếp từ vi điều khiển ESP32 theo từng mốc cự ly đơn lẻ. "
-    "Mỗi tệp bao gồm 50 dòng đo lường với 3 trường thông tin chuẩn hóa: thời gian bay hai chiều t (μs), khoảng cách đo được distance_cm (cm) "
-    "và nhiệt độ môi trường ghi nhận temperature_c (°C). Quy ước đặt tên tệp: <MÃ_TẬP>_<XXX>cm.csv (ví dụ: FSDT_010cm.csv, FSDT_100cm.csv)."
-)
+p_f1.add_run("Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu. Mỗi tệp bao gồm 50 dòng với 3 cột thông tin chuẩn hóa: thời gian bay t (μs), khoảng cách đo được distance_cm và nhiệt độ temperature_c.")
 for r in p_f1.runs:
     r.font.name = 'Times New Roman'
     r.font.size = Pt(12)
 
 p_f2 = doc.add_paragraph()
 p_f2.paragraph_format.first_line_indent = Cm(1.0)
-p_f2.paragraph_format.space_after = Pt(12)
+p_f2.paragraph_format.space_after = Pt(4)
 r2 = p_f2.add_run("• Thư mục 'du_lieu_tong_hop/': ")
 r2.font.bold = True
-p_f2.add_run(
-    "Lưu trữ các tệp dữ liệu tổng hợp đã được hợp nhất. Mỗi tệp tổ chức cấu trúc bảng ma trận với các cột là các mốc cự ly khảo sát "
-    "và các hàng là 50 lần đo tương ứng. Toàn bộ các phân tích định lượng, hồi quy ma trận và đánh giá độ không đảm bảo đo ở Chương 3 "
-    "đều được thực thi trực tiếp từ thư mục này."
-)
+p_f2.add_run("Lưu trữ các tệp dữ liệu tổng hợp và tính toán. Toàn bộ các phân tích định lượng, khớp hàm và đánh giá độ không đảm bảo đo ở Chương 3 đều được thực thi trực tiếp từ thư mục này.")
 for r in p_f2.runs:
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(12)
+
+p_f3 = doc.add_paragraph()
+p_f3.paragraph_format.first_line_indent = Cm(1.0)
+p_f3.paragraph_format.space_after = Pt(12)
+r3 = p_f3.add_run("• Thư mục ‘graph/’: ")
+r3.font.bold = True
+p_f3.add_run("Lưu trữ figure các đồ thị được sử dụng trong bài báo cáo này.")
+for r in p_f3.runs:
     r.font.name = 'Times New Roman'
     r.font.size = Pt(12)
 

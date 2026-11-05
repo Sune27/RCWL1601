@@ -210,3 +210,16 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
        2. Khảo sát các hiện tượng vật lý chuyên sâu ảnh hưởng đến phép đo siêu âm: độ trễ (Hysteresis), hiện tượng tán xạ trên bề mặt gồ ghề, và hiệu quả bù trôi vận tốc sóng âm Laplace theo nhiệt độ.
        3. Xây dựng chuỗi lọc số (Khoảng tứ phân vị IQR) và thiết kế hệ thống: 'Giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32'.
      * (Không liệt kê 5 chương ở cuối Lời nói đầu nhằm giữ bố cục súc tích, trang trọng).
+
+12. **Quy chuẩn Bảng Quy ước Dữ liệu (Bảng 0.1) và Cấu trúc Thư mục:**
+   - **Tiêu đề mục quy ước (Heading 1):** Bắt buộc dùng `BẢNG QUY ƯỚC KÝ HIỆU VÀ DỮ LIỆU THỰC NGHIỆM` (không thêm chữ "CẤU TRÚC").
+   - **Tiêu đề bảng:** Bắt buộc dùng `Bảng 0.1: Bảng quy ước tên 4 tập dữ liệu thực nghiệm chuẩn hóa của đề tài`.
+   - **Cấu trúc Bảng 0.1:** Bảng có đúng **4 cột** chuẩn hóa ký hiệu trực quan (loại bỏ cự ly chi tiết và mục đích dài dòng):
+     * Cột 1: `Ký hiệu mã` (`FSDT`, `BSDT`, `FRDT`, `FSAT`)
+     * Cột 2: `Chiều dịch chuyển` (`Tiến (Forward)`, `Lùi (Backward)`)
+     * Cột 3: `Bề mặt phản xạ` (`Phẳng nhẵn bóng (Smooth)`, `Nhám gồ ghề (Rough)`)
+     * Cột 4: `Nhiệt độ môi trường` (`27.0 °C`, `20.0 °C`)
+   - **Mô tả cấu trúc thư mục dữ liệu:** Tiêu đề `Cấu trúc tổ chức dữ liệu dự án:` gồm 3 gạch đầu dòng ngắn gọn:
+     * `• Thư mục 'result/': Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu. Mỗi tệp bao gồm 50 dòng với 3 cột thông tin chuẩn hóa: thời gian bay t (μs), khoảng cách đo được distance_cm và nhiệt độ temperature_c.`
+     * `• Thư mục 'du_lieu_tong_hop/': Lưu trữ các tệp dữ liệu tổng hợp và tính toán. Toàn bộ các phân tích định lượng, khớp hàm và đánh giá độ không đảm bảo đo ở Chương 3 đều được thực thi trực tiếp từ thư mục này.`
+     * `• Thư mục ‘graph/’: Lưu trữ figure các đồ thị được sử dụng trong bài báo cáo này.`

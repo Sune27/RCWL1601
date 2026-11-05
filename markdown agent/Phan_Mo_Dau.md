@@ -57,22 +57,29 @@ Xuất phát từ yêu cầu thực tiễn của học phần Kỹ thuật Đo l
 
 \newpage
 
-# QUY ƯỚC MÃ HÓA VÀ TỔ CHỨC DỮ LIỆU THỰC NGHIỆM
+# MỤC LỤC
 
-Toàn bộ dữ liệu thực nghiệm trong nghiên cứu được phân tách rõ ràng thành hai cấp độ lưu trữ: **Tập dữ liệu thô (Raw Datasets)** lưu trong thư mục `result/` và **Tập dữ liệu tổng hợp (Aggregated Datasets)** lưu trong thư mục `du_lieu_tong_hop/`.
-
-### 1. Bảng quy ước định danh 4 tập dữ liệu thực nghiệm chuẩn hóa của đề tài:
-
-| Ký hiệu mã | Chiều dịch chuyển | Bề mặt phản xạ | Nhiệt độ môi trường | Mục đích khảo sát đo lường |
-| :---: | :---: | :---: | :---: | :--- |
-| **`FSDT`** | Tiến (Forward)<br>$1\text{ cm} \to 600\text{ cm}$ | Phẳng nhẵn bóng<br>(Specular) | $27.0^\circ\text{C}$<br>(Nhiệt độ phòng) | Khảo sát đặc tính tĩnh toàn dải, xác định vùng chết ($1 \div 3\text{ cm}$), độ chụm, độ chính xác, độ tuyến tính và phân tích tổng hợp độ không đảm bảo đo ISO/GUM. |
-| **`BSDT`** | Lùi (Backward)<br>$300\text{ cm} \to 10\text{ cm}$ | Phẳng nhẵn bóng<br>(Specular) | $27.0^\circ\text{C}$<br>(Nhiệt độ phòng) | Đối chiếu với chuỗi tiến `FSDT` để đánh giá đặc tính động học, hiện tượng trễ cơ - điện (Hysteresis) và tính toán sai số trễ tương đối $\gamma_H\%$. |
-| **`FRDT`** | Tiến (Forward)<br>$10\text{ cm} \to 375\text{ cm}$ | Gồ ghề nhám xốp<br>(Diffuse) | $27.0^\circ\text{C}$<br>(Nhiệt độ phòng) | Đánh giá hiện tượng tán xạ khuếch tán, độ suy giảm tỷ số $S/N$ và giới hạn tầm đo trên bề mặt xốp. |
-| **`FSAT`** | Tiến (Forward)<br>$10\text{ cm} \to 300\text{ cm}$ | Phẳng nhẵn bóng<br>(Specular) | $20.0^\circ\text{C}$<br>(Phòng điều hòa) | Khảo sát độ trôi cự ly do vận tốc âm và kiểm chứng hiệu quả thuật toán bù nhiệt Laplace. |
+*(Nhấp chuột phải vào vùng mục lục trong file Word và chọn 'Update Field' để cập nhật tự động toàn bộ số trang)*
 
 ---
 
-### 2. Phân định cấu trúc tổ chức dữ liệu dự án:
+\newpage
 
-- **Thư mục `result/`:** Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu được ghi nhận trực tiếp từ vi điều khiển ESP32 theo từng mốc cự ly đơn lẻ. Mỗi tệp bao gồm 50 dòng đo lường với 3 trường thông tin chuẩn hóa: thời gian bay hai chiều $t$ ($\mu\text{s}$), khoảng cách đo được `distance_cm` ($\text{cm}$) và nhiệt độ môi trường ghi nhận `temperature_c` ($^\circ\text{C}$). Quy ước đặt tên tệp: `<MÃ_TẬP>_<XXX>cm.csv` (ví dụ: `FSDT_010cm.csv`, `FSDT_100cm.csv`).
-- **Thư mục `du_lieu_tong_hop/`:** Lưu trữ các tệp dữ liệu tổng hợp đã được hợp nhất. Mỗi tệp tổ chức cấu trúc bảng ma trận với các cột là các mốc cự ly khảo sát và các hàng là 50 lần đo tương ứng. Toàn bộ các phân tích định lượng, hồi quy ma trận và đánh giá độ không đảm bảo đo ở Chương 3 đều được thực thi trực tiếp từ thư mục này.
+# BẢNG QUY ƯỚC KÝ HIỆU VÀ DỮ LIỆU THỰC NGHIỆM
+
+#### Bảng 0.1: Bảng quy ước tên 4 tập dữ liệu thực nghiệm chuẩn hóa của đề tài
+
+| Ký hiệu mã | Chiều dịch chuyển | Bề mặt phản xạ | Nhiệt độ môi trường |
+| :---: | :---: | :---: | :---: |
+| **`FSDT`** | Tiến (Forward) | Phẳng nhẵn bóng<br>(Smooth) | $27.0^\circ\text{C}$ |
+| **`BSDT`** | Lùi (Backward) | Phẳng nhẵn bóng<br>(Smooth) | $27.0^\circ\text{C}$ |
+| **`FRDT`** | Tiến (Forward) | Nhám gồ ghề<br>(Rough) | $27.0^\circ\text{C}$ |
+| **`FSAT`** | Tiến (Forward) | Phẳng nhẵn bóng<br>(Smooth) | $20.0^\circ\text{C}$ |
+
+---
+
+### Cấu trúc tổ chức dữ liệu dự án:
+
+- **Thư mục 'result/':** Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu. Mỗi tệp bao gồm 50 dòng với 3 cột thông tin chuẩn hóa: thời gian bay $t$ ($\mu\text{s}$), khoảng cách đo được `distance_cm` và nhiệt độ `temperature_c`.
+- **Thư mục 'du_lieu_tong_hop/':** Lưu trữ các tệp dữ liệu tổng hợp và tính toán. Toàn bộ các phân tích định lượng, khớp hàm và đánh giá độ không đảm bảo đo ở Chương 3 đều được thực thi trực tiếp từ thư mục này.
+- **Thư mục 'graph/':** Lưu trữ figure các đồ thị được sử dụng trong bài báo cáo này.
