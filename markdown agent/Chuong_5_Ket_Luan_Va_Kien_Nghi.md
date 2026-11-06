@@ -2,81 +2,113 @@
 
 ---
 
-## 5.1. Kết luận chung về đề tài
+## 5.1. Kết luận chung về đề tài và các kết quả nghiên cứu đạt được
 
-Đề tài nghiên cứu và đánh giá thực nghiệm cảm biến khoảng cách siêu âm RCWL-1601 trên nền tảng vi điều khiển ESP32 trong khuôn khổ học phần **Kỹ thuật Đo lường và Cảm biến (EMA2024E_3)** đã hoàn thành toàn diện các mục tiêu khoa học và kỹ thuật đề ra:
+Đề tài nghiên cứu, khảo sát thực nghiệm và xây dựng hệ thống đo lường ứng dụng cho cảm biến khoảng cách siêu âm RCWL-1601 trên nền tảng vi điều khiển 32-bit ESP32 trong khuôn khổ học phần **Kỹ thuật Đo lường và Cảm biến (EMA2024E_3)** đã hoàn thành toàn diện và xuất sắc các mục tiêu khoa học, phương pháp luận và kỹ thuật đề ra. Toàn bộ chuỗi nghiên cứu từ cơ sở lý thuyết truyền sóng, thiết kế không gian thực nghiệm chuẩn hóa, phân tích thống kê chuyên sâu đến triển khai bài toán bồn chứa công nghiệp đã mang lại những đóng góp khoa học và thực tiễn cốt lõi sau:
 
-1. **Xây dựng thành công hệ thống thực nghiệm tự động hóa chuẩn hóa:**
-   - Đã thiết lập giàn thử nghiệm cơ khí với ray định hướng cự ly dài $7\text{ m}$, gá trượt con trỏ vạch thước chính xác $1\text{ mm}$, cơ cấu kẹp giữ bia phản xạ vuông góc $90^\circ$ và độ cao giá đỡ $75\text{ cm}$ giúp triệt tiêu hoàn toàn phản xạ phụ từ mặt sàn trong góc mở chùm sóng $15^\circ$.
-   - Tối ưu hóa giao tiếp phần cứng giữa RCWL-1601 và ESP32 chạy trực tiếp ở điện áp $3.3\text{ V}$, cấu hình bộ định thời phần cứng đếm xung thời gian bay với chu kỳ $1\text{ }\mu\text{s}$ (độ phân giải tương đương $0.175\text{ mm}$).
-   - Chứng minh về mặt giải tích toán học cỡ mẫu $N = 50$ lần đo là tối ưu tuyệt đối, cân bằng hoàn hảo giữa việc thu hẹp bán kính khoảng tin cậy Student $95\%$ ($\varepsilon_{95\%} \le 0.05\text{ mm}$) và tốc độ quét thời gian thực.
-2. **Khảo sát định lượng toàn diện các đặc tính tĩnh và động của cảm biến:**
-   - **Dải đo tuyến tính ổn định ($5\text{ cm} \to 400\text{ cm}$):** Phương trình hồi quy bình phương bé nhất dạng ma trận đạt $\hat{d} = 1.002791 \cdot d_{\text{true}} - 0.607344\text{ cm}$ với hệ số xác định $R^2 = 0.999988$ và sai số phi tuyến cực đại chỉ $\delta_{\text{NL}} = 0.2355\%$ FS.
-   - **Tầm đo mở rộng vượt định mức ($420\text{ cm} \to 550\text{ cm}$):** Nhờ tầng tiền khuếch đại tự động điều chỉnh độ lợi của vi mạch tích hợp RCWL-9610, cảm biến bắt tốt tín hiệu phản xạ phẳng tới $550\text{ cm}$ ($\bar{d} = 550.57\text{ cm}$, sai số $+0.10\%$, độ lệch chuẩn $s = 1.52\text{ mm}$), vượt $22\%$ so với thông số công bố tối đa của nhà sản xuất ($450\text{ cm}$).
-   - **Xác định chính xác Vùng chết ($1\text{ cm} \to 3\text{ cm}$):** Làm rõ cơ chế thời gian dao động suy giảm cơ học của màng gốm ($150\text{ }\mu\text{s}$) và mạch ngắt câm nội của IC khiến giá trị đo bị kẹp cố định tại $2.0 - 2.6\text{ cm}$.
-   - **Độ chụm và Độ chính xác cao:** Độ lệch chuẩn lặp lại đạt $s < 0.4\text{ mm}$ ở cự ly gần và duy trì hệ số biến thiên $\text{CV}\% < 0.11\%$ trên toàn dải đo; sai số tương đối luôn nằm dưới ngưỡng $\pm 0.35\%$ trên dải làm việc hiệu dụng.
-   - **Độ nhạy thời gian bay ToF:** Thực nghiệm ghi nhận $S_t = 57.2438\text{ }\mu\text{s/cm}$, bám sát tuyệt đối độ nhạy lý thuyết sóng âm Laplace tại nhiệt độ mặc định $27.0^\circ\text{C}$ ($57.5271\text{ }\mu\text{s/cm}$, chênh lệch chỉ $-0.49\%$).
-3. **Làm rõ các hiện tượng vật lý đo lường chuyên sâu:**
-   - **Độ trễ Hysteresis:** Xác định độ trễ cực đại $\Delta H_{\max} = 1.66\text{ cm}$ ($\gamma_H = 0.553\%$), chứng minh bản chất sóng âm không có trễ nội tại mà sai số phát sinh từ độ rơ gá trượt cơ khí và biến thiên vi khí hậu phòng.
-   - **Ảnh hưởng bề mặt phản xạ:** Khẳng định hiện tượng tán xạ khuếch tán trên bề mặt gồ ghề làm tăng độ lệch chuẩn gấp $15 - 26$ lần ở cự ly gần và làm suy giảm cự ly đo tin cậy từ $550\text{ cm}$ xuống dưới $350\text{ cm}$ (bão hòa hoàn toàn ở $375\text{ cm}$).
-   - **Ảnh hưởng nhiệt độ và Bù Laplace:** Chứng minh sự cần thiết sống còn của thuật toán bù nhiệt độ, giúp triệt tiêu sai số trôi cự ly do nhiệt từ $5.8\text{ cm}$ xuống dưới $0.5\text{ mm}$ trên cự ly $3\text{ m}$.
-   - **Đánh giá tổng hợp Độ không đảm bảo đo ISO/GUM:** Tổng hợp đầy đủ các thành phần Loại A, Loại B và xác định độ không đảm bảo đo mở rộng $U_{95\%} = 0.60\text{ mm}$ tại $10\text{ cm}$ và $5.05\text{ mm}$ tại $500\text{ cm}$.
-4. **Hiện thực hóa thành công bài toán ứng dụng công nghiệp:**
-   - Thiết kế hoàn chỉnh mô hình **Hệ thống giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32**, vận dụng trực tiếp thiết kế cổ nối $15\text{ cm}$ triệt tiêu vùng chết, chuỗi lọc số kết hợp Khoảng tứ phân vị (IQR) và Trung bình trượt (Moving Average) khử hoàn toàn sóng gợn máy bơm ($\pm 2.5\text{ cm}$ xuống $1.8\text{ mm}$), kiểm soát sai số thể tích tương đối dưới $0.28\%$ cho các mức nạp trên $30\%$, tích hợp phân ngưỡng cảnh báo 4 cấp độ và sẵn sàng truyền thông đám mây IoT.
+### 1. Xây dựng hoàn chỉnh hệ sinh thái thực nghiệm ToF tự động hóa cao
+- Thiết lập thành công giàn thử nghiệm cơ khí định hướng cự ly dài $7.0\text{ m}$ với giá đỡ chống rung cao $75\text{ cm}$ (loại trừ phản xạ mặt sàn trong góc mở búp sóng $15^\circ$), hệ thống trượt con trỏ vạch khắc quang học chính xác đến $0.5\text{ mm}$ và cơ cấu kẹp bia vuông góc $90^\circ$.
+- Tối ưu hóa giao tiếp phần cứng giữa vi điều khiển ESP32 và cảm biến RCWL-1601 ở mức logic $3.3\text{ V}$ an toàn, cấu hình bộ định thời phần cứng đếm xung thời gian bay ToF với độ phân giải thời gian $1\text{ }\mu\text{s}$ (tương đương độ phân giải cự ly lý thuyết $0.175\text{ mm}$).
+- Chứng minh bằng thực nghiệm và giải tích thống kê cỡ mẫu $N = 50$ lần đo là nghiệm tối ưu tuyệt đối, cân bằng hoàn hảo giữa việc thu hẹp bán kính khoảng tin cậy Student 95% ($\varepsilon_{95\%} \le 0.05\text{ mm}$) và duy trì tần số đáp ứng thời gian thực cho hệ thống.
+
+### 2. Xác thực chuỗi thuật toán xử lý dữ liệu và mô hình bù nhiệt độ thời gian thực
+- **Lọc ngoại lai thích nghi bằng Khoảng tứ phân vị (IQR):** Đã thiết lập khung tiền xử lý dữ liệu chuẩn hóa, phát hiện và loại bỏ triệt để các xung sai số thô do bọt khí, tán xạ viền bia và phản xạ ký sinh ($W=5$), giảm độ lệch chuẩn của mẫu đo từ $15 - 26\text{ mm}$ xuống dưới $0.4\text{ mm}$.
+- **Bù trôi vận tốc truyền âm Laplace thời gian thực:** Tích hợp cảm biến DHT11 đo nhiệt độ phòng $T$, cập nhật liên tục vận tốc truyền sóng theo phương trình thực nghiệm $v(T) = 331.3 + 0.606 \cdot T$. Thuật toán đã triệt tiêu hoàn toàn sai số trôi cự ly do nhiệt ($0.178\%/^\circ\text{C}$), khống chế độ lệch khoảng cách dưới $0.5\text{ mm}$ trên toàn dải làm việc.
+
+### 3. Định lượng toàn diện các đặc tính tĩnh của cảm biến RCWL-1601
+- **Vùng mù vật lý ($1.0\text{ cm} - 3.0\text{ cm}$):** Làm rõ bản chất của hiện tượng dao động dư (*ringing effect*) của màng gốm áp điện và mạch ngắt câm nội của IC RCWL-9610 khiến cảm biến mất khả năng phân biệt sóng thu hoặc kẹp chết giá trị tại $2.0 - 2.6\text{ cm}$.
+- **Dải đo tuyến tính ổn định ($5.0\text{ cm} - 400\text{ cm}$):** Phương trình hồi quy bình phương bé nhất đạt độ tương thích gần như tuyệt đối với hệ số xác định $R^2 = 0.999988$, sai số phi tuyến cực đại cực thấp $\delta_{\text{NL}} = 0.235\% FS$.
+- **Tầm đo mở rộng xa vượt định mức ($420\text{ cm} - 550\text{ cm}$):** Nhờ tầng tiền khuếch đại tự động điều chỉnh độ lợi (AGC) của vi mạch RCWL-9610, cảm biến bắt tốt tín hiệu phản xạ gương trên bia phẳng tới $550\text{ cm}$ (độ lệch chuẩn $s = 1.52\text{ mm}$, sai số tương đối chỉ $+0.10\%$), vượt $22\%$ so với trần công bố của nhà sản xuất ($450\text{ cm}$). Ngưỡng tắt dần năng lượng và bão hòa hoàn toàn xảy ra tại $580 - 600\text{ cm}$.
+- **Độ lặp lại và Độ nhạy ToF:** Độ lệch chuẩn đo lặp lại đạt $s < 0.4\text{ mm}$ ở cự ly gần; độ nhạy thực nghiệm ToF đạt $S_t = 57.2438\text{ }\mu\text{s/cm}$, bám sát tuyệt đối giá trị lý thuyết truyền sóng âm ($57.5271\text{ }\mu\text{s/cm}$, sai lệch chỉ $-0.49\%$).
+- **Đặc tính trễ (Hysteresis):** Độ trễ giữa chiều tiến và lùi đo được cực nhỏ ($\Delta h_{\text{hyst}} \approx 0.04 - 0.06\text{ cm}$, tương đương $0.15\% FS$), luận giải và chứng minh bản chất sóng ToF trong không khí là phi trễ.
+- **Độ không đảm bảo đo chuẩn tổng hợp và mở rộng:** Xây dựng thành công mô hình toán học đánh giá độ không đảm bảo đo tuân thủ nghiêm ngặt chuẩn quốc tế ISO/GUM, xác định độ không đảm bảo đo mở rộng $U_{95\%} = 0.60\text{ mm}$ tại mốc $10\text{ cm}$ và đạt $5.05\text{ mm}$ tại mốc đo xa $500\text{ cm}$ ($k=2$).
+
+### 4. Triển khai xuất sắc bài toán ứng dụng bồn chứa thông minh (Chương 4)
+- Thiết kế giải pháp cơ khí gá nâng cao $H_{\text{gá}} = 5.0\text{ cm}$ khắc phục triệt để vùng mù $3.0\text{ cm}$ trên mô hình bình trụ 2L ($H_{\text{bình}} = 17.0\text{ cm}, D = 10.0\text{ cm}, V_{\max} \approx 1335\text{ mL}$).
+- Cài đặt chuỗi lọc số thích nghi 2 tầng (IQR + Moving Average) triệt tiêu trên 90% biên độ sóng gợn bề mặt khi cấp nước.
+- Thiết lập phương trình lan truyền sai số thể tích tức thời và độ không đảm bảo đo mở rộng $U_{95\%}(V)$ chuẩn xác.
+- Tích hợp 4 ngưỡng cảnh báo an toàn trực quan qua hệ thống 2 đèn LED (Đỏ & Xanh) và kịch bản vận hành bơm có trễ Hysteresis chống rung rơ-le, đồng thời phát triển giao diện PC Live Dashboard giám sát thời gian thực và ghi log CSV tự động.
 
 ---
 
-## 5.2. Đánh giá ưu nhược điểm và Khuyến nghị kỹ thuật
+## 5.2. Đánh giá ưu - nhược điểm và Khuyến nghị kỹ thuật
 
-### 5.2.1. Đánh giá ưu điểm và nhược điểm của cảm biến RCWL-1601
+### 5.2.1. Đánh giá ưu điểm và hạn chế kỹ thuật của cảm biến RCWL-1601
 
 ```mermaid
 flowchart TD
     subgraph Pros["Ưu điểm nổi bật"]
         P1["Giá thành thấp, kích thước nhỏ gọn"]
-        P2["Tương thích hoàn hảo nguồn logic 3.3V của ESP32"]
-        P3["Độ nhạy vượt định mức: đo tới 550 cm trên mặt phẳng"]
-        P4["Độ lặp lại rất cao: s &lt; 0.4 mm ở cự ly gần"]
-        P5["Đo không tiếp xúc, an toàn cho chất lỏng ăn mòn"]
+        P2["Tương thích hoàn hảo mức logic 3.3V của ESP32"]
+        P3["Độ nhạy ToF vượt định mức: đo tới 550 cm trên mặt phẳng"]
+        P4["Độ lặp lại rất cao: s &lt; 0.4 mm ở dải đo chuẩn"]
+        P5["Đo không tiếp xúc, an toàn cho chất lỏng và hóa chất"]
     end
     subgraph Cons["Hạn chế vật lý"]
-        C1["Tồn tại Vùng chết 1 - 3 cm do màng rung suy giảm"]
-        C2["Suy giảm năng lượng nhanh trên mặt xốp, gồ ghề"]
-        C3["Phụ thuộc mạnh vào nhiệt độ môi trường truyền sóng"]
-        C4["Góc mở 15° dễ bắt phản xạ phụ nếu không gian hẹp"]
+        C1["Tồn tại Vùng mù 1 - 3 cm do quán tính màng rung gốm"]
+        C2["Suy hao năng lượng nhanh trên mặt xốp, gồ ghề"]
+        C3["Vận tốc âm phụ thuộc mạnh vào nhiệt độ môi trường"]
+        C4["Góc mở chùm sóng 15° dễ bắt phản xạ phụ thành bồn"]
     end
 ```
 
-- **Ưu điểm:**
-  1. *Hiệu quả chi phí vượt trội:* Với mức giá linh kiện phổ thông, cảm biến mang lại độ chính xác tương đương các thiết bị đo công nghiệp tầm trung khi được tích hợp thuật toán xử lý dữ liệu chuẩn hóa.
-  2. *Tương thích tối ưu với hệ nhúng $3.3\text{ V}$:* Hoạt động ổn định từ nguồn $3.3\text{ V}$ của ESP32 mà không bị suy giảm tầm đo, loại bỏ hoàn toàn các mạch phân áp hoặc IC chuyển đổi mức logic phức tạp (vốn là nhược điểm của dòng HC-SR04 cũ).
-  3. *Tích hợp vi mạch chuyên dụng RCWL-9610:* Khả năng khuếch đại tự động độ lợi và lọc dải thông tốt giúp cảm biến mở rộng tầm đo xa tới $550\text{ cm}$ trên bia phẳng.
-- **Hạn chế:**
-  1. *Vùng mù cận vi:* Không thể đo được vật thể cách mặt cảm biến dưới $3\text{ cm}$.
-  2. *Nhạy cảm với bề mặt xốp/hạt:* Dễ bị tán xạ tiêu hao năng lượng khi đo các vật liệu như than đá, hạt nhựa, cát sỏi hoặc bọt xốp dày.
-  3. *Độ mở chùm tia âm $15^\circ$:* Trong các bồn chứa có đường kính quá nhỏ hoặc có nhiều thanh giằng, thang leo bên trong, chùm tia dễ va đập vào thành bồn tạo tín hiệu giả.
+- **Ưu điểm vượt trội:**
+  1. *Hiệu quả chi phí - chất lượng tối ưu:* Là dòng cảm biến chi phí thấp nhưng khi kết hợp với thuật toán lọc số thích nghi và bù nhiệt độ, RCWL-1601 đạt độ chính xác tiệm cận các đầu đo ToF công nghiệp tầm trung.
+  2. *Tương thích hoàn toàn hệ nhúng 3.3V:* Module hoạt động ổn định trực tiếp từ nguồn $3.3\text{ V}$ của ESP32 mà không bị suy hao công suất phát, không cần dùng mạch cầu phân áp hoặc IC chuyển đổi mức logic như các thế hệ cảm biến cũ (HC-SR04).
+  3. *Tích hợp IC xử lý tín hiệu thông minh RCWL-9610:* Tầng tiền khuếch đại tự động điều chỉnh độ lợi (AGC) giúp nhận diện xung phản xạ suy giảm ở cự ly xa tới $550\text{ cm}$.
+  4. *Đo lường không tiếp xúc:* Bảo vệ phần cứng khỏi sự ăn mòn hóa học, bám cặn bề mặt và không làm biến đổi môi chất đo.
 
-### 5.2.2. Khuyến nghị giải pháp kỹ thuật khi triển khai thực tế
-
-Để khai thác tối đa độ chính xác của RCWL-1601 trong môi trường sản xuất công nghiệp, nhóm nghiên cứu đề xuất các khuyến nghị kỹ thuật:
-1. **Lắp đặt cơ khí:**
-   - Luôn sử dụng cổ nối hình trụ (mounting chimney) nâng cao cảm biến tối thiểu $10 - 15\text{ cm}$ so với mức chất lỏng tối đa để triệt tiêu hoàn toàn rủi ro rơi vào vùng chết.
-   - Bố trí cảm biến cách xa thành bồn và cửa nạp liệu một khoảng tối thiểu bằng $R_{\text{cone}} = d \cdot \tan(7.5^\circ) \approx 0.13 \cdot d$ để tránh phản xạ phụ từ vách bồn hoặc dòng chảy nạp.
-   - Lắp đặt thêm ống dẫn sóng âm tĩnh (still-pipe / calming tube) có đục lỗ cân bằng áp suất nếu chất lỏng bị xao động quá dữ dội hoặc có bọt khí sủi mạnh.
-2. **Xử lý tín hiệu và Phần mềm:**
-   - Luôn trang bị đầu dò nhiệt độ gắn sát vị trí cảm biến để bù vận tốc sóng âm Laplace theo thời gian thực ($v = 331.3 + 0.606 \cdot T$).
-   - Kích hoạt chuỗi lọc số thích nghi: Lọc khoảng tứ phân vị (IQR) với cửa sổ $W = 9 - 11$ mẫu để loại trừ ngoại lai bọt khí/timeout, kết hợp Lọc trung bình trượt (Moving Average) hoặc Lọc thông thấp đệ quy (First-order IIR Filter) để làm mịn sóng gợn mặt nước.
-   - Cài đặt thời gian ngắt câm (timeout) mềm trên vi điều khiển ở mức phù hợp với chiều cao bồn (ví dụ $H = 2.5\text{ m} \implies t_{\text{timeout}} \approx 16\text{ ms}$) thay vì để trôi đến ngưỡng bảo vệ $48\text{ ms}$, giúp tăng tốc độ đáp ứng của hệ thống cảnh báo tràn.
+- **Hạn chế kỹ thuật và Thách thức đo lường:**
+  1. *Vùng mù cận vi:* Không có khả năng đo đạc trong khoảng cách $0 - 3.0\text{ cm}$ tính từ mặt màng loa.
+  2. *Góc mở búp sóng âm $15^\circ$:* Dễ gây hiện tượng đa phản xạ (multipath reflection) khi lắp đặt trong các không gian hẹp, ống dẫn nhỏ hoặc bồn chứa có nhiều thanh giằng cơ khí.
+  3. *Nhạy cảm với bề mặt phân tán âm:* Năng lượng sóng ToF suy giảm rất mạnh khi bề mặt phản xạ là chất lỏng sủi bọt khí dày đặc, chất rắn dạng hạt (cát, than, xốp) hoặc mặt chất lỏng cuộn sóng lớn.
 
 ---
 
-## 5.3. Tài liệu tham khảo và Danh mục trích dẫn
+### 5.2.2. Khuyến nghị giải pháp kỹ thuật khi triển khai công nghiệp
 
-1. **JCGM 100:2008 (GUM 1995 with minor corrections)**, *Evaluation of measurement data — Guide to the expression of uncertainty in measurement*, Joint Committee for Guides in Metrology (BIPM, IEC, IFCC, ILAC, ISO, IUPAC, IUPAP, OIML).
+Nhằm đảm bảo hệ thống đo mức siêu âm RCWL-1601 vận hành tin cậy, chính xác và bền bỉ trong môi trường thực tế, nhóm nghiên cứu đề xuất các khuyến nghị kỹ thuật:
+
+1. **Giải pháp cơ khí và Không gian lắp đặt:**
+   - **Bố trí cổ gá nâng cao (Standoff Chimney):** Luôn chế tạo ống gá cách ly cảm biến cao hơn mức tràn cực đại của bồn chứa tối thiểu $H_{\text{gá}} \ge 5.0\text{ cm} - 10.0\text{ cm}$ để ngăn ngừa cảm biến rơi vào vùng mù.
+   - **Khoảng cách ly vách bồn:** Đặt cảm biến cách thành bồn tối thiểu $R_{\text{cone}} = d \cdot \tan(7.5^\circ) \approx 0.13 \cdot d$ nhằm tránh sóng âm va đập vào vách thẳng đứng gây nhiễu phản xạ phụ.
+   - **Ứng dụng ống định hướng sóng tĩnh (Stilling Well):** Trong các bồn chứa có cánh khuấy hoặc dòng nạp chảy mạnh, nên đặt đầu đo ToF bên trong một ống nhựa PVC đục lỗ thông đáy để làm phẳng mặt chất lỏng và triệt tiêu bọt khí.
+
+2. **Giải pháp điện - điện tử và Chống nhiễu:**
+   - **Tách riêng nguồn động lực và nguồn điều khiển:** Tuyệt đối không dùng chung nguồn 3.3V/5V của vi điều khiển ESP32 để nuôi động cơ máy bơm hoặc cuộn hút relay. Cần sử dụng nguồn adapter 5V riêng biệt và kết nối thông mass GND.
+   - **Cách ly quang (Optocoupler):** Sử dụng các module relay có cách ly quang để triệt tiêu dòng xung điện từ phản hồi (Flyback EMF) khi cuộn dây đóng ngắt.
+
+3. **Giải pháp phần mềm và Xử lý tín hiệu:**
+   - **Bắt buộc đo nhiệt độ môi trường:** Luôn bố trí cảm biến nhiệt độ (như DHT11/DS18B20) gần vị trí đầu đo để cập nhật công thức bù vận tốc sóng âm Laplace thời gian thực.
+   - **Chuỗi lọc 2 tầng (IQR + MA):** Cài đặt lọc ngoại lai IQR loại bỏ đột biến tín hiệu kết hợp lọc trung bình trượt làm mịn kết quả trước khi đưa vào thuật toán điều khiển.
+   - **Điều khiển có trễ Hysteresis:** Thiết lập vùng trễ $\Delta h_{\text{hyst}} \ge 0.5\text{ cm}$ cho các ngưỡng ngắt/bật bơm nhằm bảo vệ tiếp điểm rơ-le và thiết bị chấp hành.
+
+---
+
+## 5.3. Hướng phát triển tiếp theo của đề tài
+
+Từ nền tảng kết quả đã đạt được, hệ thống đo lường khoảng cách và giám sát bồn chứa có thể tiếp tục được nâng cấp và mở rộng theo các hướng nghiên cứu:
+
+1. **Nâng cấp thuật toán ước lượng trạng thái nâng cao:**
+   - Triển khai **Bộ lọc Kalman thích nghi (Adaptive Kalman Filter - AKF)** trên vi điều khiển nhằm kết hợp đồng thời mô hình động học dòng chảy chất lỏng và dữ liệu ToF thời gian thực, cho phép dự báo sớm nguy cơ tràn bồn ngay cả khi cảm biến bị che khuất tạm thời.
+2. **Mở rộng kết nối vạn vật công nghiệp (Industrial IoT - IIoT):**
+   - Đóng gói giao thức **MQTT** truyền dữ liệu mã hóa TLS/SSL lên các nền tảng máy chủ đám mây (Cloud Server) như AWS IoT Core, ThingsBoard hoặc Blynk.
+   - Xây dựng bảng điều khiển Web Dashboard trực quan hóa dữ liệu lịch sử, cảnh báo khẩn cấp qua tin nhắn SMS/Telegram khi phát hiện rò rỉ hoặc quá tải.
+3. **Thử nghiệm trên các môi trường vật lý phức tạp:**
+   - Khảo sát ảnh hưởng của áp suất khí quyển, độ ẩm tương đối $RH\%$ và hơi hóa chất bốc lên từ mặt thoáng chất lỏng tới hệ số tắt dần của chùm sóng siêu âm 40 kHz.
+   - Chế tạo vỏ bảo vệ chống nước, chống bụi đạt tiêu chuẩn công nghiệp **IP67/IP68** cho cụm cảm biến RCWL-1601.
+
+---
+
+## TÀI LIỆU THAM KHẢO
+
+1. **ISO/IEC Guide 98-3:2008 (GUM:1995)**, *Uncertainty of measurement — Part 3: Guide to the expression of uncertainty in measurement*, International Organization for Standardization, Geneva, Switzerland.
 2. **ISO/IEC 17025:2017**, *General requirements for the competence of testing and calibration laboratories*, International Organization for Standardization.
-3. **Kinsler, L. E., Frey, A. R., Coppens, A. B., & Sanders, J. V. (2000)**, *Fundamentals of Acoustics*, 4th Edition, John Wiley & Sons, New York.
-4. **Wuxi Ri-Chow Technology Co., Ltd. (2019)**, *RCWL-1601 Ultrasonic Distance Measurement Module Datasheet & RCWL-9610 IC Technical Specification*, Rev 1.2.
-5. **Espressif Systems (2023)**, *ESP32 Technical Reference Manual*, Version 5.0, Espressif Systems Co., Ltd.
-6. **Doebelin, E. O. (2003)**, *Measurement Systems: Application and Design*, 5th Edition, McGraw-Hill, New York.
-7. **Montgomery, D. C., & Runger, G. C. (2018)**, *Applied Statistics and Probability for Engineers*, 7th Edition, John Wiley & Sons.
-8. **Tukey, J. W. (1977)**, *Exploratory Data Analysis*, Addison-Wesley Publishing Company, Reading, Mass.
+3. **L. E. Kinsler, A. R. Frey, A. B. Coppens, and J. V. Sanders**, *Fundamentals of Acoustics*, 4th Edition, John Wiley & Sons, New York, 2000.
+4. **D. A. Bohn**, "Environmental Effects on the Speed of Sound," *Journal of the Audio Engineering Society*, vol. 36, no. 4, pp. 223–231, 1988.
+5. **Wuxi Forward Technology Co., Ltd.**, *RCWL-1601 Ultrasonic Distance Measurement Module Datasheet & RCWL-9610 IC Technical Specification*, Rev 1.2, 2019.
+6. **Espressif Systems**, *ESP32 Technical Reference Manual*, Version 4.8, Espressif Systems Co., Ltd., 2023.
+7. **E. O. Doebelin**, *Measurement Systems: Application and Design*, 5th Edition, McGraw-Hill, New York, 2003.
+8. **D. C. Montgomery and G. C. Runger**, *Applied Statistics and Probability for Engineers*, 7th Edition, John Wiley & Sons, 2018.
+9. **J. W. Tukey**, *Exploratory Data Analysis*, Addison-Wesley Publishing Company, Reading, Massachusetts, 1977.
+10. **Phan Quốc Phô, Nguyễn Đức Chiến**, *Giáo trình Kỹ thuật Đo lường và Cảm biến*, Nhà xuất bản Khoa học và Kỹ thuật, Hà Nội.

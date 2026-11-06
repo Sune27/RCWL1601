@@ -174,7 +174,11 @@ D:\đo lường\thực hành đo lường\RCWL1601\ứng dụng\
 │
 ├── hinh_4_1_nguyen_ly_bon_chua.png    # Hình 4.1: Nguyên lý cấu trúc hình học bồn chứa 2L & giá gá 5cm
 ├── hinh_4_2_mo_phong_loc_song_gon.png # Hình 4.2: Đánh giá hiệu quả chuỗi lọc số thích nghi 2 tầng IQR+MA
-└── hinh_4_3_danh_gia_sai_so_the_tich.png # Hình 4.3: Đánh giá sai số thể tích và dải tin cậy mở rộng ISO/GUM
+├── hinh_4_3_danh_gia_sai_so_the_tich.png # Hình 4.3: Đánh giá sai số thể tích và dải tin cậy mở rộng ISO/GUM
+├── hinh_4_4_mo_hinh_thuc_te.png       # Hình 4.4: Hình ảnh chụp thực tế mô hình đo thực nghiệm 2L & LED
+├── hinh_thuc_te_1.jpg                 # Ảnh chụp phần cứng ESP32, Shield và breadboard LED
+├── hinh_thuc_te_2.jpg                 # Ảnh chụp thử nghiệm đo ToF trên bình 2L với LED Đỏ cảnh báo
+└── hinh_thuc_te_3.jpg                 # Ảnh chụp góc chiếu thẳng đứng từ trên xuống mặt nước 2L
 ```
 
 ---
