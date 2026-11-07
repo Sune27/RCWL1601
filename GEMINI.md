@@ -393,3 +393,47 @@ Khi kết xuất hoặc định dạng tệp Microsoft Word (`.docx`), phải tu
      * **Hình 3.9:** `Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A (u_A) và Loại B (u_B) theo khoảng cách chuẩn.`
      * **Nhận xét & Kết luận đánh giá tổng quát:** Nhận xét sự chuyển dịch từ $u_{B1}$ ở cự ly gần sang $u_{B3}$ ở cự ly xa, toàn dải $U_{95\%} \le \pm 5.57\text{ mm}$. Đoạn kết luận tổng quát kết thúc Chương 3 khẳng định RCWL-1601 kết hợp ESP32 và bù Laplace đạt đặc tính vượt trội Datasheet, sẵn sàng triển khai vào ứng dụng bồn chứa ở Chương 4.
      * **Loại bỏ hoàn toàn:** Hình 3.10 (Biểu đồ $u_c$ và $U_{95\%}$), Tiểu mục 3.8.2 và Bảng 3.7 (Bảng đối chiếu Datasheet).
+
+21. **Quy chuẩn Nội dung Chương 4: Xây dựng và Phân tích Bài toán Ứng dụng Thực tế:**
+   - **Mục tiêu & Định hướng bài toán:**
+     * Chuyển hóa toàn bộ các phát hiện đo lường ở Chương 3 vào việc giải quyết bài toán vật lý - kỹ thuật cụ thể: **Giám sát mức và thể tích chất lỏng thông minh trên mô hình bình chứa chai 2L cắt, kết hợp bơm chìm mini 6V trên vi điều khiển ESP32**.
+     * Đối tượng mô hình: Chai nước ngọt 2L cắt bỏ chóp côn tạo thành bình trụ đứng đáy phẳng: $H_{\text{bình}} = 17.0\text{ cm}$, đường kính trong $D = 10.0\text{ cm}$ (bán kính $R = 5.0\text{ cm}$), gá cảm biến cao $H_{\text{gá}} = 5.0\text{ cm}$ trên miệng chai ($H_{\text{tổng}} = 22.0\text{ cm}$).
+   - **Cấu trúc phân cấp Chương 4:**
+     * Heading 1: `CHƯƠNG 4: XÂY DỰNG VÀ PHÂN TÍCH BÀI TOÁN ỨNG DỤNG THỰC TẾ`
+     * Heading 2: `4.1. Tổng quan tiềm năng ứng dụng từ kết quả thực nghiệm của RCWL-1601`
+       - Heading 3: `4.1.1. Các đặc tính đo lường cốt lõi định hình không gian ứng dụng` (Dải tuyến tính $5 – 350\text{ cm}$, Vùng chết vật lý $0 – 3\text{ cm}$, Độ nhạy nhiệt độ $+0.606\text{ m/s/}^\circ\text{C}$, Phản xạ gương mặt thoáng chất lỏng).
+       - Heading 3: `4.1.2. Định hướng bài toán và lựa chọn bài toán trọng tâm`.
+     * Heading 2: `4.2. Thiết kế hệ thống giám sát mức và thể tích bình chứa chai 2L`
+       - Heading 3: `4.2.1. Mô hình hình học và chuyển đổi toán học bình chứa chai 2L`:
+         + Công thức (4.1): $S_{\text{base}} = \pi \cdot R^2 = \pi \cdot 5.0^2 \approx 78.54\text{ cm}^2$
+         + Công thức (4.2): $V_{\max} = S_{\text{base}} \cdot H_{\text{bình}} = 78.54 \cdot 17.0 \approx 1335.2\text{ cm}^3 \approx 1335\text{ mL}$
+         + **Hình 4.1:** `Hình 4.1: Sơ đồ nguyên lý mô hình bình chứa chai 2L cắt (H = 17 cm, D = 10 cm) và cơ cấu gá cảm biến RCWL-1601.`
+         + Chuỗi công thức chuyển đổi ToF sang $h(t)$ và $V(t)$: (4.3) $v(T) = 331.3 + 0.606 \cdot T$, (4.4) $d_{\text{comp}}(t) = v(T) \cdot t_{\text{echo}} / 2$, (4.5) $h(t) = 22.0 - d_{\text{comp}}(t)$, (4.6) $V(t) = S_{\text{base}} \cdot h(t)$.
+       - Heading 3: `4.2.2. Vận dụng 4 phát hiện thực nghiệm vào thiết kế hệ thống`:
+         + 1. Vượt vùng chết cơ khí ($H_{\text{gá}} = 5.0\text{ cm}$, cự ly luôn $d \ge 8.0\text{ cm} > 3.0\text{ cm}$).
+         + 2. Bù nhiệt độ Laplace tự động thời gian thực bằng cảm biến DHT11.
+         + 3. Chuỗi lọc số thích nghi 2 tầng: Lọc IQR ($N = 5$) triệt tiêu xung gai bọt khí + Moving Average ($W = 7$) san phẳng sóng gợn khi bơm nạp.
+         + 4. Lan truyền Độ không đảm bảo đo theo ISO/GUM: Công thức (4.7) $u_c^2(V) = c_R^2 \cdot u_R^2 + c_h^2 \cdot u_c^2(h)$ và (4.8) $U_{95\%}(V) = 2 \cdot u_c(V) = 2 \cdot \sqrt{(2\pi R h \cdot u_R)^2 + (S_{\text{base}} \cdot u_h)^2}$.
+       - Heading 3: `4.2.3. Bố trí mô hình thực nghiệm phần cứng thực tế`:
+         + Mô tả phần cứng: ESP32, Sensor Shield, DHT11 ($T \approx 30.8^\circ\text{C}$), RCWL-1601 vuông góc mặt nước, LED Xanh/Đỏ trên breadboard.
+         + **Hình 4.4:** `Hình 4.4: Mô hình thực tế.`
+     * Heading 2: `4.3. Kết quả thử nghiệm mô phỏng và Đánh giá hiệu năng ứng dụng`
+       - Heading 3: `4.3.1. Mô phỏng động học quá trình bơm nạp và hiệu quả lọc sóng gợn`:
+         + Quá trình nạp nước $t = 50\text{ s}$ ($h = 2.0 \to 14.5\text{ cm}$), dao động sóng gợn thô $\pm 0.7\text{ cm}$. Bộ lọc 2 tầng nén sai số xuống $< \pm 0.08\text{ cm}$.
+         + **Hình 4.2:** `Hình 4.2: Mô phỏng quá trình bơm nạp bình 2L và hiệu quả lọc sóng gợn bằng chuỗi lọc thích nghi IQR + Moving Average.`
+       - Heading 3: `4.3.2. Đánh giá thể tích chất lỏng tức thời và Độ không đảm bảo đo mở rộng`:
+         + Đánh giá $U_{95\%}(V)$ theo mức nước $h$. Tại mốc vận hành chuẩn $h = 10.1\text{ cm}$: $V = 792.5\text{ mL}$, $u_c(V) = \pm 13.8\text{ mL}$, $U_{95\%}(V) = \pm 27.7\text{ mL}$ ($k = 2$), sai số tương đối $\delta_V = \pm 3.49\% < 5\%$.
+         + **Hình 4.3:** `Hình 4.3: Đặc tính thể tích chất lỏng V và Đánh giá Độ không đảm bảo đo mở rộng U_95%(V) theo tiêu chuẩn ISO/GUM.`
+       - Heading 3: `4.3.3. Phân cấp 4 ngưỡng cảnh báo an toàn và Kịch bản vận hành bơm mini 6V`:
+         + **Bảng 4.1:** `Bảng 4.1: Phân cấp 4 ngưỡng trạng thái giám sát và kịch bản điều khiển bơm mini 6V` (gồm 6 cột: Cấp trạng thái, Mức nước $h$, Thể tích $V$, Tỷ lệ, Chỉ thị & Còi báo, Kịch bản điều khiển bơm 6V; phân thành 4 cấp: Cạn khẩn cấp Low-Low $\le 2.5\text{ cm}$, Cảnh báo cạn Low $2.5 < h \le 5.0\text{ cm}$, Bình thường Normal $5.0 < h < 14.0\text{ cm}$, Tràn khẩn cấp High-High $\ge 14.0\text{ cm}$).
+         + Cơ chế trễ ngưỡng (hysteretic deadband): Tránh rung giật relay (chattering) khi mức nước dao động quanh ranh giới.
+
+22. **Quy chuẩn Nội dung Chương 5: Kết luận và Kiến nghị:**
+   - **Độ dài và phong cách:** Trình bày ngắn gọn, cô đọng (khoảng 1.5 – 2 trang), tổng kết súc tích toàn bộ kết quả khoa học và kỹ thuật từ Chương 1 đến Chương 4, loại bỏ các diễn giải dài dòng.
+   - **Cấu trúc phân cấp 3 mục chính:**
+     * 5.1. Kết luận chung về đề tài: Gồm 3 khối tổng kết cô đọng: (1) Hệ thống thực nghiệm chuẩn hóa (bố trí trên hai bàn cao 85 cm, viên gạch chuẩn $40 \times 40\text{ cm}$, ESP32 $1\text{ }\mu\text{s}$, tối ưu $N = 50$ mẫu tin cậy 95%); (2) Đặc tính đo lường định lượng thực nghiệm (lọc IQR $4.800$ mẫu, OLS Bậc 1 $\hat{y} = 1.00273x - 0.48427\text{ cm}$ tối ưu trên tập Test 10 mốc với $\sum|e| = 41.07\text{ mm}$, đo xa 550 cm vượt 22% datasheet, vùng chết 0 - 3 cm, độ chụm cao $s < 0.4\text{ mm}$, $\text{SE} \le 0.57\text{ mm}$, trễ 0.553%, bù nhiệt Laplace $v(T)$, đánh giá tổng hợp độ không đảm bảo đo ISO/GUM $U_{95\%} \le 0.77\text{ mm}$ dải gần và $\le 5.57\text{ mm}$ toàn dải 550 cm); (3) Hiện thực hóa bài toán ứng dụng (bình chai 2L cắt $H = 17\text{ cm}, D = 10\text{ cm}$, bơm 6V, gá cao 5 cm vượt vùng chết, chuỗi lọc IQR + MA nén sóng gợn $< \pm 0.08\text{ cm}$, $U_{95\%}(V)$ đạt $\delta_V = \pm 3.49\% < 5\%$, điều khiển bơm 4 ngưỡng có trễ logic an toàn).
+     * 5.2. Đánh giá ưu nhược điểm và Khuyến nghị kỹ thuật:
+       - 5.2.1. Đánh giá ưu điểm và hạn chế của cảm biến RCWL-1601: Ưu điểm (chi phí thấp, tương thích 3.3V ESP32, đo xa 550 cm mặt nhẵn, đo không tiếp xúc); Hạn chế (vùng chết 0 - 3 cm, nhạy cảm nhiệt độ, suy hao trên mặt gồ ghề/xốp co hẹp còn 350 cm).
+       - 5.2.2. Khuyến nghị kỹ thuật khi triển khai thực tế: 4 khuyến nghị then chốt: (1) Bố trí khoảng cách ly tối thiểu 5 - 10 cm vượt vùng chết và tránh vách bồn; (2) Tích hợp cảm biến bù nhiệt độ Laplace thời gian thực $v(T)$; (3) Chuỗi lọc số thích nghi IQR + Moving Average; (4) Điều khiển có dải trễ logic (deadband) chống rung giật relay.
+     * 5.3. Tài liệu tham khảo: Danh mục trích dẫn chính thống chuẩn quốc tế và quốc gia (JCGM 100:2008 GUM, TCVN 9595-3:2013, ISO/IEC 17025:2017, Kinsler Acoustics, Bohn JAES 1988, Wuxi Richen IoT RCWL-1601/RCWL-9610 & Adafruit 4007, ESP32 Manual, Tukey EDA, Doebelin, Montgomery, Phan Quốc Phô & Nguyễn Đức Chiến - *Giáo trình Cảm biến*).
+
