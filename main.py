@@ -16,7 +16,7 @@ class DistanceMonitorApp:
         trig_pin: int = 5,
         echo_pin: int = 18,
         dht_pin: int = 4,
-        temperature_c: float = 25.0,
+        temperature_c: float = 27.0,
         interval_ms: int = 250,
     ):
         self.dht_sensor = DHT11Sensor(data_pin=dht_pin, default_temp_c=temperature_c)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         trig_pin=5,
         echo_pin=18,
         dht_pin=4,
-        temperature_c=25.0,
+        temperature_c=27.0,
         interval_ms=250,
     )
     app.run_interactive(use_filter=True)

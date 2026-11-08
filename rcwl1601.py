@@ -20,7 +20,7 @@ class DHT11Sensor:
     Dùng để đo nhiệt độ môi trường thực tế và bù vận tốc âm thanh cho RCWL-1601.
     """
 
-    def __init__(self, data_pin: int = 4, default_temp_c: float = 25.0):
+    def __init__(self, data_pin: int = 4, default_temp_c: float = 27.0):
         self.pin = Pin(data_pin, Pin.IN, Pin.PULL_UP)
         self._dht = dht.DHT11(self.pin)
         self.last_temp_c = default_temp_c
@@ -64,7 +64,7 @@ class RCWL1601:
         trig_pin: int = 5,
         echo_pin: int = 18,
         timeout_us: int = 30000,
-        temperature_c: float = 25.0,
+        temperature_c: float = 27.0,
     ):
         self.trig = Pin(trig_pin, Pin.OUT, value=0)
         self.echo = Pin(echo_pin, Pin.IN)

@@ -1,0 +1,2191 @@
+# -*- coding: utf-8 -*-
+"""
+Kịch bản xuất bản Báo Cáo Thực Nghiệm RCWL-1601 (Word .docx)
+Tuân thủ tuyệt đối quy chuẩn GEMINI.md cập nhật:
+1. Hệ thống Headings tương tác cho Navigation Pane (Thanh điều hướng Ctrl+F / View -> Navigation Pane):
+   - Heading 1: Tên Chương (16pt, Bold, C_NAVY)
+   - Heading 2: Mục lớn X.Y (14pt, Bold, C_NAVY)
+   - Heading 3: Tiểu mục X.Y.Z (13pt, Bold, C_MAROON)
+2. Công thức toán học chuẩn Microsoft Word Equation (OMML, tương đương phím tắt Alt + =):
+   - Có phân số thực thụ, căn bậc hai, tổng sigma, ma trận, chỉ số trên/dưới.
+3. Bảo toàn 100% các chỉnh sửa thủ công của người dùng trên Trang bìa và Lời nói đầu.
+"""
+
+import os
+import sys
+import docx
+from docx import Document
+from docx.shared import Inches, Pt, RGBColor, Cm
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ROW_HEIGHT_RULE, WD_ALIGN_VERTICAL
+from docx.oxml import parse_xml, OxmlElement
+from docx.oxml.ns import nsdecls, qn
+
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
+OUTPUT_FILE = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\Bao_Cao_Thuc_Nghiem_RCWL1601.docx"
+IMG_H2_1_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_2\hinh_2_1_hoi_tu_sai_so_N.png"
+IMG_H2_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_2\hinh_2_2_dao_ham_diem_khuyu_tay.png"
+
+doc = Document()
+
+# Màu sắc chuẩn giao diện báo cáo kỹ thuật
+C_NAVY = RGBColor(0, 51, 102)     # #003366
+C_MAROON = RGBColor(128, 0, 0)   # #800000
+C_BLACK = RGBColor(0, 0, 0)
+C_GRAY = RGBColor(100, 100, 100)
+
+# Cấu hình Trang in A4 (Lề Trái 3.0cm, Phải 2.0cm, Trên 2.0cm, Dưới 2.0cm)
+section = doc.sections[0]
+section.page_width = Cm(21.0)
+section.page_height = Cm(29.7)
+section.top_margin = Cm(2.0)
+section.bottom_margin = Cm(2.0)
+section.left_margin = Cm(3.0)
+section.right_margin = Cm(2.0)
+
+# Cấu hình Style Normal
+style_normal = doc.styles['Normal']
+style_normal.font.name = 'Times New Roman'
+style_normal.font.size = Pt(13)
+style_normal.font.color.rgb = C_BLACK
+style_normal.paragraph_format.line_spacing = 1.35
+style_normal.paragraph_format.space_after = Pt(6)
+style_normal.paragraph_format.space_before = Pt(0)
+style_normal.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+
+# Cấu hình Style Heading 1
+style_h1 = doc.styles['Heading 1']
+style_h1.font.name = 'Times New Roman'
+style_h1.font.size = Pt(16)
+style_h1.font.bold = True
+style_h1.font.color.rgb = C_NAVY
+style_h1.paragraph_format.space_before = Pt(16)
+style_h1.paragraph_format.space_after = Pt(10)
+style_h1.paragraph_format.keep_with_next = True
+style_h1.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+# Cấu hình Style Heading 2
+style_h2 = doc.styles['Heading 2']
+style_h2.font.name = 'Times New Roman'
+style_h2.font.size = Pt(14)
+style_h2.font.bold = True
+style_h2.font.color.rgb = C_NAVY
+style_h2.paragraph_format.space_before = Pt(12)
+style_h2.paragraph_format.space_after = Pt(6)
+style_h2.paragraph_format.keep_with_next = True
+style_h2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+# Cấu hình Style Heading 3
+style_h3 = doc.styles['Heading 3']
+style_h3.font.name = 'Times New Roman'
+style_h3.font.size = Pt(13)
+style_h3.font.bold = True
+style_h3.font.color.rgb = C_MAROON
+style_h3.paragraph_format.space_before = Pt(8)
+style_h3.paragraph_format.space_after = Pt(4)
+style_h3.paragraph_format.keep_with_next = True
+style_h3.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+def set_cell_border(cell, **kwargs):
+    tcPr = cell._tc.get_or_add_tcPr()
+    tcBorders = parse_xml(f'<w:tcBorders {nsdecls("w")}/>')
+    for edge in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
+        edge_data = kwargs.get(edge)
+        if edge_data:
+            tag = f'w:{edge}'
+            element = parse_xml(f'<{tag} {nsdecls("w")} w:val="{edge_data.get("val", "single")}" w:sz="{edge_data.get("sz", 4)}" w:space="0" w:color="{edge_data.get("color", "auto")}"/>')
+            tcBorders.append(element)
+    tcPr.append(tcBorders)
+
+def set_cell_background(cell, hex_color):
+    shading_elm = parse_xml(f'<w:shd {nsdecls("w")} w:fill="{hex_color}"/>')
+    cell._tc.get_or_add_tcPr().append(shading_elm)
+
+def add_heading_1(text):
+    p = doc.add_heading(level=1)
+    p.paragraph_format.space_before = Pt(14)
+    p.paragraph_format.space_after = Pt(6)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(15)
+    r.font.bold = True
+    r.font.color.rgb = C_NAVY
+    rPr = r._r.get_or_add_rPr()
+    rFonts = rPr.get_or_add_rFonts()
+    rFonts.set(qn('w:ascii'), 'Times New Roman')
+    rFonts.set(qn('w:hAnsi'), 'Times New Roman')
+    rFonts.set(qn('w:cs'), 'Times New Roman')
+    return p
+
+def add_heading_2(text):
+    p = doc.add_heading(level=2)
+    p.paragraph_format.space_before = Pt(10)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(13.5)
+    r.font.bold = True
+    r.font.color.rgb = C_NAVY
+    rPr = r._r.get_or_add_rPr()
+    rFonts = rPr.get_or_add_rFonts()
+    rFonts.set(qn('w:ascii'), 'Times New Roman')
+    rFonts.set(qn('w:hAnsi'), 'Times New Roman')
+    rFonts.set(qn('w:cs'), 'Times New Roman')
+    return p
+
+def add_heading_3(text):
+    p = doc.add_heading(level=3)
+    p.paragraph_format.space_before = Pt(8)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(12.5)
+    r.font.bold = True
+    r.font.color.rgb = C_BLACK
+    rPr = r._r.get_or_add_rPr()
+    rFonts = rPr.get_or_add_rFonts()
+    rFonts.set(qn('w:ascii'), 'Times New Roman')
+    rFonts.set(qn('w:hAnsi'), 'Times New Roman')
+    rFonts.set(qn('w:cs'), 'Times New Roman')
+    return p
+
+def add_body_p(text, indent=True):
+    p = doc.add_paragraph()
+    if indent:
+        p.paragraph_format.first_line_indent = Cm(1.0)
+    p.paragraph_format.space_after = Pt(6)
+    p.paragraph_format.line_spacing = 1.35
+    p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(13)
+    r.font.color.rgb = C_BLACK
+    return p
+
+def add_bullet_p(text, bold_prefix=""):
+    p = doc.add_paragraph()
+    p.paragraph_format.left_indent = Cm(1.0)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.line_spacing = 1.25
+    p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    if bold_prefix:
+        r_b = p.add_run(bold_prefix)
+        r_b.font.name = 'Times New Roman'
+        r_b.font.size = Pt(13)
+        r_b.font.bold = True
+    r = p.add_run(text)
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(13)
+    return p
+
+def add_native_equation(omml_xml_content, eq_num=""):
+    """
+    Chèn đối tượng công thức toán học chuẩn Microsoft Word Equation (OMML Alt + =)
+    Căn giữa trang, đánh số ở lề phải nếu có eq_num.
+    """
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(4)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.line_spacing = 1.2
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    
+    # Tạo bao bọc oMathPara
+    wrapper_xml = (
+        f'<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+        f'<m:oMath>{omml_xml_content}</m:oMath>'
+        f'</m:oMathPara>'
+    )
+    p._p.append(parse_xml(wrapper_xml))
+    
+    if eq_num:
+        # Thêm số công thức lề phải
+        p_num = doc.add_paragraph()
+        p_num.paragraph_format.space_before = Pt(0)
+        p_num.paragraph_format.space_after = Pt(4)
+        p_num.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        r = p_num.add_run(f"({eq_num})")
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(11)
+        r.font.color.rgb = C_GRAY
+    return p
+
+# -------------------------------------------------------------
+# PHẦN 1: TRANG BÌA (COVER PAGE - ĐÃ CẬP NHẬT TÊN RÚT GỌN CỦA BẠN)
+# -------------------------------------------------------------
+cover_table = doc.add_table(rows=1, cols=1)
+cover_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+cover_cell = cover_table.cell(0, 0)
+cover_cell.width = Cm(16.0)
+# Khung bìa bao toàn bộ vùng in của trang (cao 25.7 cm, trừ phần cho đoạn ngắt trang phía sau)
+cover_row = cover_table.rows[0]
+cover_row.height = Cm(24.8)
+cover_row.height_rule = WD_ROW_HEIGHT_RULE.EXACTLY
+cover_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+set_cell_border(cover_cell,
+    top=dict(val='double', sz=12, color='003366'),
+    bottom=dict(val='double', sz=12, color='003366'),
+    left=dict(val='double', sz=12, color='003366'),
+    right=dict(val='double', sz=12, color='003366')
+)
+
+p_b1 = cover_cell.paragraphs[0]
+p_b1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_b1.paragraph_format.space_before = Pt(12)
+p_b1.paragraph_format.space_after = Pt(4)
+r = p_b1.add_run("BỘ GIÁO DỤC VÀ ĐÀO TẠO\nTRƯỜNG ĐẠI HỌC BÁCH KHOA HÀ NỘI")
+r.font.name = 'Times New Roman'
+r.font.size = Pt(13)
+r.font.bold = True
+r.font.color.rgb = C_NAVY
+
+p_b2 = cover_cell.add_paragraph()
+p_b2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_b2.paragraph_format.space_before = Pt(0)
+p_b2.paragraph_format.space_after = Pt(24)
+r = p_b2.add_run("VIỆN CƠ KHÍ / TRƯỜNG CƠ KHÍ")
+r.font.name = 'Times New Roman'
+r.font.size = Pt(13)
+r.font.bold = True
+r.font.color.rgb = C_NAVY
+
+p_line = cover_cell.add_paragraph()
+p_line.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_line.paragraph_format.space_after = Pt(28)
+r_line = p_line.add_run("━━━━━━━━━━━━━━━━━━━")
+r_line.font.name = 'Times New Roman'
+r_line.font.color.rgb = C_MAROON
+
+p_main = cover_cell.add_paragraph()
+p_main.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_main.paragraph_format.space_after = Pt(8)
+r_rep = p_main.add_run("BÁO CÁO THỰC NGHIỆM HỌC PHẦN")
+r_rep.font.name = 'Times New Roman'
+r_rep.font.size = Pt(18)
+r_rep.font.bold = True
+r_rep.font.color.rgb = C_MAROON
+
+p_course = cover_cell.add_paragraph()
+p_course.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_course.paragraph_format.space_after = Pt(28)
+r_course = p_course.add_run("KỸ THUẬT ĐO LƯỜNG VÀ CẢM BIẾN\nMÃ HỌC PHẦN: EMA2024E_3")
+r_course.font.name = 'Times New Roman'
+r_course.font.size = Pt(14)
+r_course.font.bold = True
+r_course.font.color.rgb = C_NAVY
+
+p_topic = cover_cell.add_paragraph()
+p_topic.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_topic.paragraph_format.space_after = Pt(8)
+r_lbl = p_topic.add_run("ĐỀ TÀI:")
+r_lbl.font.name = 'Times New Roman'
+r_lbl.font.size = Pt(13)
+r_lbl.font.bold = True
+r_lbl.font.color.rgb = C_MAROON
+
+# Tên đề tài rút gọn đúng theo ý bạn
+p_title = cover_cell.add_paragraph()
+p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_title.paragraph_format.space_after = Pt(50)
+r_title = p_title.add_run("KHẢO SÁT THỰC NGHIỆM ĐẶC TÍNH ĐO LƯỜNG CỦA CẢM BIẾN SIÊU ÂM RCWL-1601")
+r_title.font.name = 'Times New Roman'
+r_title.font.size = Pt(16)
+r_title.font.bold = True
+r_title.font.color.rgb = C_NAVY
+
+p_info = cover_cell.add_paragraph()
+p_info.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_info.paragraph_format.left_indent = Cm(1.5)
+p_info.paragraph_format.space_after = Pt(40)
+
+r_gv = p_info.add_run("Giảng viên hướng dẫn:\t")
+r_gv.font.bold = True
+r_gvn = p_info.add_run("[TS. / ThS. Điền tên Giảng viên]\n")
+r_gvn.font.italic = True
+
+r_lp = p_info.add_run("Lớp học phần:\t\t")
+r_lp.font.bold = True
+p_info.add_run("EMA2024E_3\n")
+
+r_sv = p_info.add_run("Nhóm sinh viên thực hiện:\n")
+r_sv.font.bold = True
+p_info.add_run("  1. [Họ và tên Sinh viên 1]\t-\tMSSV: [Điền MSSV 1]\n")
+p_info.add_run("  2. [Họ và tên Sinh viên 2]\t-\tMSSV: [Điền MSSV 2]\n")
+p_info.add_run("  3. [Họ và tên Sinh viên 3]\t-\tMSSV: [Điền MSSV 3]\n")
+p_info.add_run("  4. [Họ và tên Sinh viên 4]\t-\tMSSV: [Điền MSSV 4]\n")
+p_info.add_run("  5. [Họ và tên Sinh viên 5]\t-\tMSSV: [Điền MSSV 5]\n")
+
+for run in p_info.runs:
+    run.font.name = 'Times New Roman'
+    run.font.size = Pt(12)
+
+p_date = cover_cell.add_paragraph()
+p_date.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_date.paragraph_format.space_after = Pt(12)
+r_date = p_date.add_run("HÀ NỘI, THÁNG 11 NĂM 2026")
+r_date.font.name = 'Times New Roman'
+r_date.font.size = Pt(12)
+r_date.font.bold = True
+r_date.font.color.rgb = C_NAVY
+
+doc.add_page_break()
+
+# -------------------------------------------------------------
+# PHẦN 2: LỜI NÓI ĐẦU (CÓ HEADING ĐỂ HIỆN TRÊN NAVIGATION PANE)
+# -------------------------------------------------------------
+add_heading_1("LỜI NÓI ĐẦU")
+
+preface_paragraphs = [
+    "Trong tiến trình tự động hóa công nghiệp và phát triển các hệ thống điều khiển thông minh, "
+    "bài toán đo lường cự ly, vị trí và mức chất lỏng không tiếp xúc đóng vai trò mang tính sống còn. "
+    "Các hệ thống cảnh báo va chạm của xe tự hành AGV trong nhà máy, trạm phân loại kích thước bao bì kiện hàng "
+    "trên băng tải logistics, hay các bồn chứa hóa chất ăn mòn đều đòi hỏi phương pháp đo đạc không tiếp xúc vật lý "
+    "nhằm tránh hỏng hóc cơ học, tránh gây nhiễm bẩn dung dịch và bảo đảm khả năng vận hành liên tục 24/7.",
+
+    "Trong số các công nghệ đo khoảng cách hiện nay (Laser LiDAR, Radar sóng milimét, Cảm biến quang học hồng ngoại và Siêu âm), "
+    "cảm biến siêu âm nổi lên như một giải pháp cân bằng tối ưu giữa chi phí sản xuất cực thấp, độ bền cơ học cao, "
+    "không phụ thuộc vào màu sắc hay độ trong suốt của vật thể phản xạ, và đặc biệt an toàn cho người vận hành.",
+
+    "Module cảm biến siêu âm RCWL-1601 thế hệ mới là phiên bản nâng cấp phần cứng vượt trội so với dòng cảm biến kinh điển HC-SR04. "
+    "Được tích hợp vi mạch điều khiển chuyên dụng RCWL-9610, RCWL-1601 hoàn toàn tương thích mức logic 3.3 V của vi điều khiển ESP32. "
+    "Bên cạnh đó, việc vận tốc lan truyền sóng âm trong không khí phụ thuộc vào nhiệt độ môi trường là nguồn gốc của sai số trôi cự ly "
+    "lớn trong điều kiện khí hậu nóng ẩm tại Việt Nam.",
+
+    "Xuất phát từ yêu cầu thực tiễn của học phần Kỹ thuật Đo lường và Cảm biến, nhóm sinh viên đã lựa chọn "
+    "và thực hiện đề tài: 'Khảo sát thực nghiệm đặc tính đo lường của cảm biến siêu âm RCWL-1601'. Mục tiêu của báo cáo bao gồm:",
+
+    "1. Khảo sát toàn diện đặc tính tĩnh và động học của cảm biến RCWL-1601 trên giàn thực nghiệm chuẩn hóa: xác định dải đo, "
+    "độ chụm, độ chính xác, đánh giá độ không đảm bảo đo mở rộng.",
+
+    "2. Khảo sát các hiện tượng vật lý chuyên sâu ảnh hưởng đến phép đo siêu âm: độ trễ (Hysteresis), hiện tượng tán xạ trên "
+    "bề mặt gồ ghề, và hiệu quả bù trôi vận tốc sóng âm Laplace theo nhiệt độ.",
+
+    "3. Xây dựng chuỗi lọc số (Khoảng tứ phân vị IQR) và thiết kế hệ thống: "
+    "'Giám sát mức và thể tích bồn chứa thông minh có bù nhiệt độ trên ESP32'."
+]
+
+for para_text in preface_paragraphs:
+    add_body_p(para_text)
+
+doc.add_page_break()
+
+# -------------------------------------------------------------
+# PHẦN 3: MỤC LỤC TỰ ĐỘNG (CÓ HEADING TRÊN NAVIGATION PANE)
+# -------------------------------------------------------------
+add_heading_1("MỤC LỤC")
+
+p_toc_hint = doc.add_paragraph()
+p_toc_hint.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_toc_hint.paragraph_format.space_after = Pt(12)
+r_hint = p_toc_hint.add_run("(Nhấp chuột phải vào vùng mục lục bên dưới và chọn 'Update Field' để cập nhật tự động toàn bộ số trang)")
+r_hint.font.name = 'Times New Roman'
+r_hint.font.size = Pt(11)
+r_hint.font.italic = True
+r_hint.font.color.rgb = RGBColor(128, 128, 128)
+
+p_toc_field = doc.add_paragraph()
+p_toc_field.paragraph_format.space_after = Pt(24)
+fld_xml = parse_xml(r'''
+    <w:p xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+        <w:r>
+            <w:fldChar w:fldCharType="begin"/>
+        </w:r>
+        <w:r>
+            <w:instrText xml:space="preserve"> TOC \o "1-3" \h \z \u </w:instrText>
+        </w:r>
+        <w:r>
+            <w:fldChar w:fldCharType="separate"/>
+        </w:r>
+        <w:r>
+            <w:fldChar w:fldCharType="end"/>
+        </w:r>
+    </w:p>
+''')
+p_toc_field._p.addnext(fld_xml)
+
+doc.add_page_break()
+
+# -------------------------------------------------------------
+# PHẦN 4: BẢNG QUY ƯỚC KÝ HIỆU (CÓ HEADING TRÊN NAVIGATION PANE)
+# -------------------------------------------------------------
+add_heading_1("BẢNG QUY ƯỚC KÝ HIỆU VÀ DỮ LIỆU THỰC NGHIỆM")
+
+p_cap = doc.add_paragraph()
+p_cap.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap.paragraph_format.space_after = Pt(6)
+r_cap = p_cap.add_run("Bảng 0.1: Bảng quy ước tên 4 tập dữ liệu thực nghiệm chuẩn hóa của đề tài")
+r_cap.font.name = 'Times New Roman'
+r_cap.font.size = Pt(12)
+r_cap.font.bold = True
+
+table_conv = doc.add_table(rows=5, cols=4)
+table_conv.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_conv.autofit = False
+
+col_widths = [Cm(3.0), Cm(4.0), Cm(4.5), Cm(3.5)]
+headers = ["Ký hiệu mã", "Chiều dịch chuyển", "Bề mặt phản xạ", "Nhiệt độ môi trường"]
+
+hdr_cells = table_conv.rows[0].cells
+for idx, text in enumerate(headers):
+    hdr_cells[idx].text = text
+    set_cell_background(hdr_cells[idx], "D9E1F2")
+    p = hdr_cells[idx].paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_before = Pt(2)
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(11)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+dataset_rows = [
+    ("FSDT", "Tiến (Forward)\n", "Phẳng nhẵn bóng\n(Smooth)", "27.0 °C\n"),
+    ("BSDT", "Lùi (Backward)", "Phẳng nhẵn bóng\n(Smooth)", "27.0 °C"),
+    ("FRDT", "Tiến (Forward)", "Nhám gồ ghề\n(Rough)", "27.0 °C"),
+    ("FSAT", "Tiến (Forward)", "Phẳng nhẵn bóng\n(Smooth)", "20.0 °C")
+]
+
+for row_idx, data in enumerate(dataset_rows, start=1):
+    row_cells = table_conv.rows[row_idx].cells
+    for col_idx, text in enumerate(data):
+        row_cells[col_idx].text = text
+        p = row_cells[col_idx].paragraphs[0]
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.line_spacing = 1.15
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(11)
+            if col_idx == 0:
+                r.font.bold = True
+                r.font.color.rgb = C_MAROON
+
+for row in table_conv.rows:
+    for idx, width in enumerate(col_widths):
+        row.cells[idx].width = width
+        set_cell_border(row.cells[idx],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_conv.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_conv.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+p_sep = doc.add_paragraph()
+p_sep.paragraph_format.space_before = Pt(14)
+p_sep.paragraph_format.space_after = Pt(4)
+r_sep_t = p_sep.add_run("Cấu trúc tổ chức dữ liệu dự án:")
+r_sep_t.font.name = 'Times New Roman'
+r_sep_t.font.size = Pt(13)
+r_sep_t.font.bold = True
+r_sep_t.font.color.rgb = C_NAVY
+
+p_f1 = doc.add_paragraph()
+p_f1.paragraph_format.first_line_indent = Cm(1.0)
+p_f1.paragraph_format.space_after = Pt(4)
+r1 = p_f1.add_run("• Thư mục 'result/': ")
+r1.font.bold = True
+p_f1.add_run("Lưu trữ toàn bộ các tệp dữ liệu thô ban đầu. Mỗi tệp bao gồm 50 dòng với 3 cột thông tin chuẩn hóa: thời gian bay t (μs), khoảng cách đo được distance_cm và nhiệt độ temperature_c.")
+for r in p_f1.runs:
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(12)
+
+p_f2 = doc.add_paragraph()
+p_f2.paragraph_format.first_line_indent = Cm(1.0)
+p_f2.paragraph_format.space_after = Pt(4)
+r2 = p_f2.add_run("• Thư mục 'du_lieu_tong_hop/': ")
+r2.font.bold = True
+p_f2.add_run("Lưu trữ các tệp dữ liệu tổng hợp và tính toán. Toàn bộ các phân tích định lượng, khớp hàm và đánh giá độ không đảm bảo đo ở Chương 3 đều được thực thi trực tiếp từ thư mục này.")
+for r in p_f2.runs:
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(12)
+
+p_f3 = doc.add_paragraph()
+p_f3.paragraph_format.first_line_indent = Cm(1.0)
+p_f3.paragraph_format.space_after = Pt(12)
+r3 = p_f3.add_run("• Thư mục ‘graph/’: ")
+r3.font.bold = True
+p_f3.add_run("Lưu trữ figure các đồ thị được sử dụng trong bài báo cáo này.")
+for r in p_f3.runs:
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(12)
+
+# -------------------------------------------------------------
+# PHẦN 5: CHƯƠNG 1 (CƠ SỞ LÝ THUYẾT & NATIVE WORD EQUATIONS)
+# -------------------------------------------------------------
+doc.add_page_break()
+
+add_heading_1("CHƯƠNG 1: CƠ SỞ LÝ THUYẾT ĐO LƯỜNG VÀ CẢM BIẾN SIÊU ÂM")
+
+# 1.1
+add_heading_2("1.1. NGUYÊN LÝ ĐO KHOẢNG CÁCH THỜI GIAN BAY VÀ MÔ HÌNH BÙ NHIỆT ĐỘ MÔI TRƯỜNG")
+
+add_heading_3("1.1.1. Phương trình lan truyền sóng siêu âm thời gian bay")
+add_body_p(
+    "Phương pháp đo khoảng cách bằng sóng siêu âm dựa trên nguyên lý đo thời gian bay (Time-of-Flight - ToF). "
+    "Module cảm biến phát ra một chuỗi xung kích siêu âm hình sin ở tần số 40 kHz. "
+    "Sóng âm lan truyền trong không gian tự do với vận tốc v, gặp mặt phẳng vật cản và phản xạ dội ngược trở lại đầu thu. "
+    "Đầu thu áp điện chuyển đổi năng lượng dao động cơ học của sóng âm dội về thành tín hiệu điện áp phản hồi."
+)
+add_body_p("Khoảng cách d từ cảm biến đến vật cản được xác định từ thời gian bay tổng cộng t của sóng âm theo phương trình:")
+
+# Native Word Equation 1.1: d = (v · t) / 2
+add_native_equation(
+    '<m:r><m:t>d</m:t></m:r>'
+    '<m:r><m:t> = </m:t></m:r>'
+    '<m:f>'
+    '<m:num><m:r><m:t>v · t</m:t></m:r></m:num>'
+    '<m:den><m:r><m:t>2</m:t></m:r></m:den>'
+    '</m:f>',
+    eq_num="1.1"
+)
+
+add_body_p(
+    "Trong đó: d là khoảng cách đo từ mặt trước màng rung cảm biến đến bề mặt phản xạ (m); "
+    "v là vận tốc truyền sóng âm trong không khí (m/s); t là thời gian bay khứ hồi (s). "
+)
+
+add_heading_3("1.1.2. Sự ảnh hưởng của nhiệt độ tới vận tốc âm thanh")
+add_body_p(
+    "Trong chất khí lý tưởng, sóng âm lan truyền dưới dạng sóng dọc thông qua quá trình nén và giãn nở đoạn nhiệt. "
+    "Vận tốc truyền sóng âm:"
+)
+
+# Native Word Equation 1.2: v = sqrt(gamma * R * T_K / M)
+add_native_equation(
+    '<m:r><m:t>v</m:t></m:r>'
+    '<m:r><m:t> = </m:t></m:r>'
+    '<m:rad>'
+    '<m:deg/>'
+    '<m:e>'
+    '<m:f>'
+    '<m:num>'
+    '<m:r><m:t>γ · R · </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>T</m:t></m:r></m:e><m:sub><m:r><m:t>K</m:t></m:r></m:sub></m:sSub>'
+    '</m:num>'
+    '<m:den><m:r><m:t>M</m:t></m:r></m:den>'
+    '</m:f>'
+    '</m:e>'
+    '</m:rad>',
+    eq_num="1.2"
+)
+
+add_body_p(
+    "Trong đó: γ là hệ số đoạn nhiệt của không khí khô (γ ≈ 1.402); R là hằng số khí lý tưởng phổ quát (R = 8.314 J/(mol·K)); "
+    "M là khối lượng mol biểu kiến trung bình của không khí khô (M ≈ 0.028964 kg/mol); T_K là nhiệt độ tuyệt đối của môi trường (K)."
+)
+add_body_p(
+    "Khai triển chuỗi Taylor bậc nhất của vận tốc sóng âm quanh điểm chuẩn 0 °C (T_0 = 273.15 K, v_0 ≈ 331.3 m/s) ta thu được phương trình:"
+)
+
+# Native Word Equation 1.3: v(T) = 331.3 + 0.606 * T
+add_native_equation(
+    '<m:r><m:t>v(T) = 331.3 + 0.606 · T    (m/s)</m:t></m:r>',
+    eq_num="1.3"
+)
+
+add_heading_3("1.1.3. Sự suy hao năng lượng sóng âm theo cự ly")
+add_body_p("Năng lượng và biên độ áp suất âm p(d) của sóng âm suy giảm mạnh theo khoảng cách do:")
+add_body_p("1. Phân kỳ hình học: Do chùm sóng âm phát đi theo dạng hình nón. Mật độ công suất âm suy giảm tỷ lệ nghịch với bình phương khoảng cách: I(d) ~ 1/d².", indent=False)
+add_body_p("2. Ma sát với không khí: Quá trình truyền sóng gây ma sát trong chất khí, làm suy hao năng lượng. ", indent=False)
+
+# 1.2
+add_heading_2("1.2. ĐẶC TÍNH VÀ THÔNG SỐ CỦA MODULE RCWL-1601")
+
+add_heading_3("1.2.1. Giản đồ xung kích hoạt và phản hồi thời gian bay")
+add_body_p("Module RCWL-1601 giao tiếp với vi điều khiển ESP32 thông qua giao thức xung kỹ thuật số hai chân (Trigger và Echo):")
+add_body_p("• Bước 1 - Kích hoạt xung (Trigger Pulse): Vi điều khiển chủ động kéo chân TRIG lên mức logic CAO để phát lệnh đo.", indent=False)
+add_body_p("• Bước 2 - Phát chùm sóng siêu âm: Khi nhận được xung TRIG, cảm biến phát chuỗi 8 chu kỳ xung siêu âm dạng sóng vuông ở tần số 40 kHz. Đồng thời, chân ECHO được kéo lên mức CAO để báo hiệu bắt đầu chu kỳ bay.", indent=False)
+add_body_p("• Bước 3 - Thu nhận sóng phản xạ và ngắt xung (Echo Pulse): Sóng âm dội về tác động lên màng thu và cảm biến ghi nhận thay đổi. Ngay sau đó, IC lập tức kéo chân ECHO xuống mức THẤP.", indent=False)
+add_body_p("• Bước 4 - Đo thời gian bay ToF: Độ rộng mức cao của xung ECHO (t_echo) tỷ lệ thuận chính xác với thời gian bay hai chiều t của sóng âm.", indent=False)
+
+add_heading_3("1.2.2. Bảng thông số kỹ thuật của RCWL-1601")
+p_tbl = doc.add_paragraph()
+p_tbl.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_tbl.paragraph_format.space_after = Pt(4)
+r_tcap = p_tbl.add_run("Bảng 1.1: Bảng thông số kỹ thuật của module cảm biến siêu âm RCWL-1601")
+r_tcap.font.name = 'Times New Roman'
+r_tcap.font.size = Pt(12)
+r_tcap.font.bold = True
+
+ds_data = [
+    ("Điện áp hoạt động (V_CC)", "2.8 V – 5.5 V (Một chiều - DC)"),
+    ("Dòng điện tiêu thụ tĩnh", "< 2 mA"),
+    ("Dòng điện cực đại khi phát", "≈ 15 mA – 20 mA"),
+    ("Tần số sóng siêu âm", "40 kHz ± 1.0 kHz"),
+    ("Dải đo công bố", "2 cm – 400 cm (hoặc 450 cm)"),
+    ("Độ phân giải lý thuyết", "1 mm"),
+    ("Góc mở chùm sóng âm", "≈ 15°"),
+    ("Tín hiệu kích hoạt (TRIG)", "Xung mức CAO (HIGH) ≥ 10 μs"),
+    ("Tín hiệu phản hồi (ECHO)", "Độ rộng xung mức CAO (PWM)")
+]
+
+table_ds = doc.add_table(rows=len(ds_data)+1, cols=2)
+table_ds.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_ds.autofit = False
+
+ds_widths = [Cm(7.5), Cm(8.5)]
+ds_headers = ["Thông số kỹ thuật", "Giá trị công bố"]
+
+for idx, text in enumerate(ds_headers):
+    c = table_ds.rows[0].cells[idx]
+    c.text = text
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(11)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, data in enumerate(ds_data, start=1):
+    for col_idx, text in enumerate(data):
+        c = table_ds.rows[row_idx].cells[col_idx]
+        c.text = text
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.15
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 else WD_ALIGN_PARAGRAPH.CENTER
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(11)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_ds.rows:
+    for idx, width in enumerate(ds_widths):
+        row.cells[idx].width = width
+        set_cell_border(row.cells[idx],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_ds.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_ds.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+# 1.3
+add_heading_2("1.3. CƠ SỞ LÝ THUYẾT XỬ LÝ SỐ LIỆU ĐO LƯỜNG VÀ ĐỘ KHÔNG ĐẢM BẢO ĐO")
+
+add_heading_3("1.3.1. Các đại lượng thống kê mô tả mẫu đo")
+add_body_p(
+    "Tại mỗi mốc cự ly chuẩn, thực hiện lặp lại N lần đo độc lập trong điều kiện môi trường ổn định, "
+    "thu được tập mẫu đo khoảng cách: X = {x_1, x_2, ..., x_N}. Các đại lượng thống kê cơ bản bao gồm:"
+)
+add_bullet_p("Đại diện cho giá trị xu thế trung tâm của tập mẫu đo lặp:", "• Giá trị trung bình mẫu: ")
+
+# Native Word Equation 1.4: x_bar = 1/N * sum(x_i)
+add_native_equation(
+    '<m:acc>'
+    '<m:accPr><m:chr m:val="̄"/></m:accPr>'
+    '<m:e><m:r><m:t>x</m:t></m:r></m:e>'
+    '</m:acc>'
+    '<m:r><m:t> = </m:t></m:r>'
+    '<m:f>'
+    '<m:num><m:r><m:t>1</m:t></m:r></m:num>'
+    '<m:den><m:r><m:t>N</m:t></m:r></m:den>'
+    '</m:f>'
+    '<m:nary>'
+    '<m:naryPr><m:chr m:val="∑"/></m:naryPr>'
+    '<m:sub><m:r><m:t>i=1</m:t></m:r></m:sub>'
+    '<m:sup><m:r><m:t>N</m:t></m:r></m:sup>'
+    '<m:e><m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>i</m:t></m:r></m:sub></m:sSub></m:e>'
+    '</m:nary>',
+    eq_num="1.4"
+)
+
+add_bullet_p("Đại diện cho mức độ phân tán ngẫu nhiên của các giá trị đo quanh giá trị trung bình:", "• Độ lệch chuẩn mẫu thực nghiệm: ")
+
+# Native Word Equation 1.5: s = sqrt(1/(N-1) * sum((x_i - x_bar)^2))
+add_native_equation(
+    '<m:r><m:t>s</m:t></m:r>'
+    '<m:r><m:t> = </m:t></m:r>'
+    '<m:rad>'
+    '<m:deg/>'
+    '<m:e>'
+    '<m:f>'
+    '<m:num><m:r><m:t>1</m:t></m:r></m:num>'
+    '<m:den><m:r><m:t>N - 1</m:t></m:r></m:den>'
+    '</m:f>'
+    '<m:nary>'
+    '<m:naryPr><m:chr m:val="∑"/></m:naryPr>'
+    '<m:sub><m:r><m:t>i=1</m:t></m:r></m:sub>'
+    '<m:sup><m:r><m:t>N</m:t></m:r></m:sup>'
+    '<m:e>'
+    '<m:sSup>'
+    '<m:e>'
+    '<m:d>'
+    '<m:e>'
+    '<m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>i</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> - </m:t></m:r>'
+    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>x</m:t></m:r></m:e></m:acc>'
+    '</m:e>'
+    '</m:d>'
+    '</m:e>'
+    '<m:sup><m:r><m:t>2</m:t></m:r></m:sup>'
+    '</m:sSup>'
+    '</m:e>'
+    '</m:nary>'
+    '</m:e>'
+    '</m:rad>',
+    eq_num="1.5"
+)
+
+add_bullet_p("Giá trị chia đôi tập dữ liệu đã sắp xếp thứ tự: Med = x_((N+1)/2) với N lẻ. Giá trị trung vị có tính chất thống kê bền vững, hoàn toàn không bị ảnh hưởng bởi các xung nhiễu đột biến cực đoan.", "• Giá trị trung vị mẫu (Median): ")
+
+add_heading_3("1.3.2. Lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
+add_body_p(
+    "Trong đo đạc thực nghiệm sóng siêu âm, các xung nhiễu điện từ, bọt khí bề mặt, góc phản xạ dị thường hoặc hiện tượng mất xung phản hồi "
+    "ở cự ly xa (dẫn đến tràn thời gian bay bão hòa) có thể tạo ra các mẫu đo ngoại lai có giá trị sai lệch nghiêm trọng. "
+    "Nhóm lựa chọn phương pháp Lọc Khoảng tứ phân vị (Interquartile Range - IQR) làm giải thuật lọc số:"
+)
+
+# Native Word Equation 1.6: IQR = Q_3 - Q_1
+add_native_equation(
+    '<m:r><m:t>IQR = </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>Q</m:t></m:r></m:e><m:sub><m:r><m:t>3</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> - </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>Q</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub>',
+    eq_num="1.6"
+)
+
+add_body_p("Cận dưới và Cận trên được xác định theo:")
+
+# Native Word Equation 1.7: LF & UF
+add_native_equation(
+    '<m:r><m:t>LF = </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>Q</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> - 1.5 · IQR,          UF = </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>Q</m:t></m:r></m:e><m:sub><m:r><m:t>3</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> + 1.5 · IQR</m:t></m:r>',
+    eq_num="1.7"
+)
+
+add_body_p("Mẫu đo x_i được chấp nhận là giá trị hợp lệ nếu nằm trong khoảng:")
+
+# Native Word Equation 1.8: x_i in [LF, UF]
+add_native_equation(
+    '<m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>i</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> ∈ [LF, UF]   ⇔   </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>Q</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> - 1.5 · IQR  ≤  </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>i</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t>  ≤  </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>Q</m:t></m:r></m:e><m:sub><m:r><m:t>3</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> + 1.5 · IQR</m:t></m:r>',
+    eq_num="1.8"
+)
+
+add_heading_3("1.3.3. Hệ thống công thức đánh giá các Đặc tính tĩnh của cảm biến")
+add_bullet_p(
+    "Đánh giá mức độ lặp lại nhất quán của phép đo thông qua độ lệch chuẩn thực nghiệm mẫu s và sai số chuẩn của giá trị trung bình SE = s / √N "
+    "(phản ánh độ chụm của ước lượng trung bình mẫu x̄ khi thực hiện N lần đo lặp độc lập).",
+    "1. Độ chụm và Sai số chuẩn trung bình: "
+)
+add_bullet_p("Đánh giá mức độ sai lệch giữa giá trị đo trung bình và giá trị chuẩn: Sai số tuyệt đối Δd = d̄ - d_true; Sai số tương đối δ% = (Δd / d_true) · 100%.", "2. Sai số đo lường: ")
+add_bullet_p(
+    "Đánh giá mức độ bám sát của đặc tính tĩnh thực nghiệm với đường thẳng lý thuyết ŷ = a · x + b. "
+    "Áp dụng phương pháp bình phương bé nhất dưới dạng phương trình ma trận chuẩn tắc, vector hệ số hồi quy được giải trực tiếp theo:",
+    "3. Độ tuyến tính và Sai số phi tuyến (Linearity): "
+)
+
+# Native Word Equation 1.9: beta_hat = [a, b]^T = (X^T * X)^(-1) * X^T * Y
+add_native_equation(
+    '<m:acc><m:accPr><m:chr m:val="̂"/></m:accPr><m:e><m:r><m:t>β</m:t></m:r></m:e></m:acc>'
+    '<m:r><m:t> = </m:t></m:r>'
+    '<m:d><m:e><m:m><m:mr><m:e><m:r><m:t>a</m:t></m:r></m:e></m:mr><m:mr><m:e><m:r><m:t>b</m:t></m:r></m:e></m:mr></m:m></m:e></m:d>'
+    '<m:r><m:t> = </m:t></m:r>'
+    '<m:sSup><m:e><m:d><m:e><m:sSup><m:e><m:r><m:t>X</m:t></m:r></m:e><m:sup><m:r><m:t>T</m:t></m:r></m:sup></m:sSup><m:r><m:t> · X</m:t></m:r></m:e></m:d></m:e><m:sup><m:r><m:t>-1</m:t></m:r></m:sup></m:sSup>'
+    '<m:sSup><m:e><m:r><m:t> · X</m:t></m:r></m:e><m:sup><m:r><m:t>T</m:t></m:r></m:sup></m:sSup>'
+    '<m:r><m:t> · Y</m:t></m:r>',
+    eq_num="1.9"
+)
+
+add_bullet_p(
+    "Phản ánh sự bất đối xứng của giá trị đo tại cùng một điểm cự ly khi tiếp cận theo hai hướng ngược nhau (Chiều tiến Forward và Chiều lùi Backward): "
+    "ΔH_k = |d̄_forward,k - d̄_backward,k|. "
+    "Sai số trễ tương đối toàn dải: γ_H% = (max_k ΔH_k / d_FS) · 100%.",
+    "5. Độ trễ (Hysteresis): "
+)
+
+add_heading_3("1.3.4. Đánh giá Độ không đảm bảo đo")
+add_bullet_p("Đánh giá bằng phương pháp phân tích thống kê chuỗi quan sát lặp lại: u_A = s / √N.", "• Độ không đảm bảo đo Loại A (u_A): ")
+add_bullet_p(
+    "Độ không đảm bảo chuẩn thành phần là: u_B = a / √3, trong đó a là nửa khoảng dung sai cho phép.",
+    "• Độ không đảm bảo đo Loại B (u_B): "
+)
+add_bullet_p("Kết hợp toàn bộ các thành phần theo định luật lan truyền sai số: u_c = √(u_A² + ∑ u_{B,j}²).", "• Độ không đảm bảo đo chuẩn tổng hợp (u_c): ")
+add_bullet_p("Mở rộng khoảng tin cậy với hệ số phủ k_p = 2 (tương ứng mức tin cậy xấp xỉ 95% đối với bậc tự do lớn): U_95% = k_p · u_c = 2 · u_c.", "• Độ không đảm bảo đo mở rộng (U_95%): ")
+add_body_p("Kết quả đo hoàn chỉnh của phép đo khoảng cách được biểu diễn:")
+
+# Native Word Equation 1.10: Y = d_bar +- U_95%
+add_native_equation(
+    '<m:r><m:t>Y = </m:t></m:r>'
+    '<m:acc><m:accPr><m:chr m:val="̄"/></m:accPr><m:e><m:r><m:t>d</m:t></m:r></m:e></m:acc>'
+    '<m:r><m:t> ± </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>U</m:t></m:r></m:e><m:sub><m:r><m:t>95%</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t>   (với </m:t></m:r>'
+    '<m:sSub><m:e><m:r><m:t>k</m:t></m:r></m:e><m:sub><m:r><m:t>p</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><m:t> = 2, Mức tin cậy 95%)</m:t></m:r>',
+    eq_num="1.10"
+)
+
+# -------------------------------------------------------------
+# PHẦN 6: CHƯƠNG 2 (THIẾT KẾ THỰC NGHIỆM & HÌNH ẢNH N=50)
+# -------------------------------------------------------------
+doc.add_page_break()
+
+add_heading_1("CHƯƠNG 2: THIẾT KẾ VÀ BỐ TRÍ THỰC NGHIỆM")
+
+# 2.1
+add_heading_2("2.1. MỤC TIÊU THỰC NGHIỆM")
+
+add_heading_3("2.1.1. Mục tiêu thực nghiệm")
+add_body_p(
+    "Nghiên cứu thực nghiệm được thiết kế nhằm mục đích kiểm chứng các đặc tính đo lường của module cảm biến siêu âm RCWL-1601: "
+    "Khảo sát dải đo thực tế, định lượng độ chụm và độ chính xác, đánh giá độ tuyến tính, đánh giá ảnh hưởng của nhiệt độ môi trường, "
+    "đánh giá ảnh hưởng của bề mặt phản xạ, đánh giá độ trễ"
+)
+
+# 2.2
+add_heading_2("2.2. THIẾT KẾ PHẦN CỨNG VÀ KHÔNG GIAN THỰC NGHIỆM")
+
+add_heading_3("2.2.1. Thiết kế phần cứng và sơ đồ kết nối điện")
+add_body_p(
+    "Module cảm biến siêu âm RCWL-1601 được kết nối trực tiếp với vi điều khiển ESP32. "
+    "Các đường tín hiệu TRIG và ECHO giao tiếp trực tiếp với các chân GPIO của ESP32 ở mức logic 3.3 V."
+)
+
+p_tbl1 = doc.add_paragraph()
+p_tbl1.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_tbl1.paragraph_format.space_after = Pt(4)
+r_t1 = p_tbl1.add_run("Bảng 2.1: Sơ đồ kết nối phần cứng giữa cảm biến RCWL-1601 và vi điều khiển ESP32")
+r_t1.font.name = 'Times New Roman'
+r_t1.font.size = Pt(12)
+r_t1.font.bold = True
+
+pin_data = [
+    ("VCC", "3V3", "Cấp nguồn nuôi cảm biến"),
+    ("GND", "GND", "Nối đất chung hệ thống"),
+    ("TRIG", "GPIO 5", "Ngõ vào kích phát xung siêu âm"),
+    ("ECHO", "GPIO 18", "Ngõ ra phản hồi thời gian bay ToF")
+]
+
+table_pin = doc.add_table(rows=len(pin_data)+1, cols=3)
+table_pin.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_pin.autofit = False
+
+pin_widths = [Cm(4.0), Cm(4.0), Cm(8.0)]
+pin_headers = ["Chân RCWL-1601", "Chân ESP32", "Chức năng kỹ thuật"]
+
+for idx, text in enumerate(pin_headers):
+    c = table_pin.rows[0].cells[idx]
+    c.text = text
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(11)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, data in enumerate(pin_data, start=1):
+    for col_idx, text in enumerate(data):
+        c = table_pin.rows[row_idx].cells[col_idx]
+        c.text = text
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.15
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx in (0, 1) else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(11)
+            if col_idx in (0, 1):
+                r.font.bold = True
+
+for row in table_pin.rows:
+    for idx, width in enumerate(pin_widths):
+        row.cells[idx].width = width
+        set_cell_border(row.cells[idx],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_pin.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_pin.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+add_heading_3("2.2.2. Thiết kế không gian thực nghiệm")
+add_bullet_p("Hệ thống cảm biến và vật đo được đặt trên hai bàn thí nghiệm có độ cao 85.0 cm so với mặt sàn phòng đo.", "• Chiều cao bàn đo 85 cm: ")
+add_bullet_p("Thực nghiệm được bố trí dọc theo hành lang kín gió dài 10 m, chiều rộng 2.8 m. Cảm biến đặt cách tường bên ít nhất 1.4 m. Trong suốt quá trình đo, hệ thống cửa được đóng kín tránh gió lùa và biến thiên nhiệt độ đột ngột.", "• Phòng đo: ")
+
+add_heading_3("2.2.3. Bố trí mô hình và định vị thiết bị đo")
+add_body_p("Để đảm bảo phép đo đạt độ chính xác cao, mô hình thực nghiệm được bố trí:")
+add_bullet_p("RCWL-1601 được cắm cố định vững chắc trên breadboard, sát mép bàn, hướng hai mắt phát - thu trực diện ra ngoài.", "1. Cố định cảm biến: ")
+add_bullet_p("Vật thể đo chuẩn là một viên gạch kích thước 40 cm × 40 cm có mặt trước phẳng nhẵn và mặt sau gồ ghề. Viên gạch được dựng thẳng đứng sát mép của chiếc bàn có cùng chiều cao 85 cm. Khi tiến hành đo, viên gạch luôn được căn chỉnh vuông góc với mặt bàn và đối diện với trục phát của cảm biến.", "2. Vật thể phản xạ mục tiêu: ")
+add_bullet_p("Khoảng cách chuẩn d_true được xác định thủ công bằng thước dây. ", "3. Căn chỉnh cự ly bằng thước đo tiêu chuẩn: ")
+
+# 2.3
+add_heading_2("2.3. CÁC TRƯỜNG HỢP ĐO VÀ ĐIỀU KIỆN THỰC NGHIỆM")
+add_body_p(
+    "Để đánh giá đầy đủ, độc lập và toàn diện các đặc tính kỹ thuật, nghiên cứu thiết lập 4 trường hợp đo chuyên biệt với các điều kiện môi trường tương ứng:"
+)
+
+p_tbl2 = doc.add_paragraph()
+p_tbl2.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_tbl2.paragraph_format.space_after = Pt(4)
+r_t2 = p_tbl2.add_run("Bảng 2.2: Bảng tổng hợp các trường hợp đo và thông số thực nghiệm")
+r_t2.font.name = 'Times New Roman'
+r_t2.font.size = Pt(12)
+r_t2.font.bold = True
+
+sc_data = [
+    ("Bề mặt phản xạ", "Mặt nhẵn", "Mặt nhẵn", "Mặt gồ ghề", "Mặt nhẵn"),
+    ("Chiều di chuyển", "Tiến (1 – 600 cm)", "Lùi (300 – 10 cm)", "Tiến (10 – 375 cm)", "Tiến (10 – 300 cm)"),
+    ("Số mốc cự ly", "35", "19", "23", "19"),
+    ("Nhiệt độ môi trường", "27.0 °C", "27.0 °C", "27.0 °C", "20.0 °C"),
+    ("Tổng số mẫu", "1.750", "950", "1.150", "950"),
+    ("Mục đích", "Khảo sát toàn dải, độ chụm, độ chính xác, độ nhạy", "Khảo sát độ trễ", "Khảo sát tán xạ bề mặt", "Khảo sát trôi nhiệt độ")
+]
+
+table_sc = doc.add_table(rows=len(sc_data)+1, cols=5)
+table_sc.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_sc.autofit = False
+
+sc_widths = [Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2), Cm(3.2)]
+sc_headers = ["Tham số", "FSDT", "BSDT", "FRDT", "FSAT"]
+
+for idx, text in enumerate(sc_headers):
+    c = table_sc.rows[0].cells[idx]
+    c.text = text
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(10.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, data in enumerate(sc_data, start=1):
+    for col_idx, text in enumerate(data):
+        c = table_sc.rows[row_idx].cells[col_idx]
+        c.text = text
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.15
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT if col_idx == 0 else WD_ALIGN_PARAGRAPH.CENTER
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(10)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_sc.rows:
+    for idx, width in enumerate(sc_widths):
+        row.cells[idx].width = width
+        set_cell_border(row.cells[idx],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_sc.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_sc.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+# 2.4
+add_heading_2("2.4. XÁC ĐỊNH CỠ MẪU TỐI ƯU")
+
+add_heading_3("2.4.1. Tối ưu cỡ mẫu")
+add_body_p(
+    "Trong kỹ thuật đo lường, kết quả đo khoảng cách thực nghiệm không thể là một giá trị đơn độc, mà luôn được biểu diễn dưới dạng một khoảng tin cậy: "
+    "d ∈ [d̄ - ε, d̄ + ε] (tương đương d = d̄ ± ε), trong đó d̄ là trung bình mẫu và ε là bán kính sai số ngẫu nhiên giới hạn của giá trị trung bình ở mức tin cậy 95%."
+)
+add_body_p(
+    "Theo lý thuyết xác suất thống kê và phân phối Student, bán kính sai số ε được xác định bởi mô hình:"
+)
+
+add_native_equation(
+    '<m:f>'
+    '<m:num><m:r><m:t>t</m:t></m:r><m:sSub><m:e><m:r><m:t>0.975</m:t></m:r></m:e><m:sub><m:r><m:t>N-1</m:t></m:r></m:sub></m:sSub><m:r><m:t>·s</m:t></m:r></m:num>'
+    '<m:den>'
+    '<m:rad><m:deg/><m:e><m:r><m:t>N</m:t></m:r></m:e></m:rad>'
+    '</m:den>'
+    '</m:f>',
+    eq_num="2.1"
+)
+
+add_body_p(
+    "Trong đó: s là độ lệch chuẩn thực nghiệm đại diện cho độ tán xạ và nhiễu phần cứng thực tế trong môi trường truyền sóng; "
+    "thừa số 1/√N đóng vai trò nén sai số khi tăng số lần đo lặp N. "
+)
+
+add_body_p(
+    "Mâu thuẫn đặt ra là: muốn sai số ε cực nhỏ thì phải tăng N thật lớn, nhưng N càng lớn thì thời gian đo càng dài. "
+    "Mục tiêu bài toán là xác định kích thước mẫu N tối ưu để sai số ε < 0.5 mm (dung sai vạch chia thước), "
+    "tốc độ đạo hàm đạt ngưỡng dừng bão hòa (|dε/dN| ≈ 0), và thời gian đo đủ ngắn."
+)
+
+add_heading_3("2.4.2. Phân tích dữ liệu thực nghiệm")
+add_body_p(
+    "Thực nghiệm tiến hành đo liên tục 100 lần tại 3 cự ly: 50 cm, 100 cm và 150 cm (nhiệt độ 27.0°C). "
+    "Dữ liệu được lưu trữ tại “du_lieu_tong_hop/mau_100.csv”. "
+    "Tính độ lệch chuẩn tích lũy s(k), bán kính sai số ε_95%(k) và đạo hàm bậc 1. "
+    "Kết quả tính toán được ghi lại trong “du_lieu_tong_hop/chuong_2”"
+)
+
+# Chèn ảnh Hình 2.1
+if os.path.exists(IMG_H2_1_PATH):
+    p_img1 = doc.add_paragraph()
+    p_img1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img1.paragraph_format.space_before = Pt(8)
+    p_img1.paragraph_format.space_after = Pt(4)
+    run_img1 = p_img1.add_run()
+    run_img1.add_picture(IMG_H2_1_PATH, width=Cm(15.0))
+
+    p_cap1 = doc.add_paragraph()
+    p_cap1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap1.paragraph_format.space_after = Pt(6)
+    r_c1 = p_cap1.add_run("Hình 2.1: Bán kính sai số ngẫu nhiên theo tích lũy cỡ mẫu.")
+    r_c1.font.name = 'Times New Roman'
+    r_c1.font.size = Pt(10)
+    r_c1.font.italic = True
+
+add_body_p(
+    "Đánh giá từ đồ thị Hình 2.1: Khi số lần đo k tăng từ 2 đến khoảng 30, bán kính sai số ngẫu nhiên ε_95% giảm nhanh ở cả 3 cự ly. "
+    "Từ k ≥ 40 - 50, đường cong bắt đầu đi ngang và hội tụ ổn định. "
+)
+
+# Chèn ảnh Hình 2.2
+if os.path.exists(IMG_H2_2_PATH):
+    p_img2 = doc.add_paragraph()
+    p_img2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img2.paragraph_format.space_before = Pt(8)
+    p_img2.paragraph_format.space_after = Pt(4)
+    run_img2 = p_img2.add_run()
+    run_img2.add_picture(IMG_H2_2_PATH, width=Cm(15.0))
+
+    p_cap2 = doc.add_paragraph()
+    p_cap2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap2.paragraph_format.space_after = Pt(6)
+    r_c2 = p_cap2.add_run("Hình 2.2: Tốc độ biến thiên sai số |dε_95%/dk| theo cỡ mẫu k.")
+    r_c2.font.name = 'Times New Roman'
+    r_c2.font.size = Pt(10)
+    r_c2.font.italic = True
+
+add_body_p(
+    "Đánh giá từ đồ thị Hình 2.2: Đồ thị thể hiện tốc độ suy giảm sai số |dε_95%/dk| sau mỗi lần đo bổ sung. "
+    "Ở các giá trị k < 20, tốc độ biến thiên cực lớn, cho thấy việc tăng số lần đo ở giai đoạn đầu giảm sai số rất hiệu quả. "
+    "Khi k tiến dần đến 50, tốc độ biến thiên giảm nhanh, đường đồ thị chuyển sang đi ngang, "
+    "việc đo thêm sau mốc 50 hầu như không làm sai số giảm hiệu quả như ban đầu."
+)
+
+add_body_p(
+    "Kết luận: Dựa trên các phân tích và đánh giá từ hai đồ thị và bảng số liệu nêu trên, "
+    "nhóm nghiên cứu đưa ra quyết định lựa chọn cỡ mẫu N = 50 cho toàn bộ các phép đo thực nghiệm."
+)
+
+# ==========================================================
+# PHẦN 7: CHƯƠNG 3 (PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM)
+# ==========================================================
+add_heading_1("CHƯƠNG 3: PHÂN TÍCH KẾT QUẢ THỰC NGHIỆM")
+
+add_body_p("Chương 3 trình bày việc xử lý số liệu và phân tích kết quả đo từ dữ liệu thực nghiệm: ")
+
+add_heading_2("3.1. Tiền xử lý dữ liệu và Đánh giá hiệu quả lọc sai số thô bằng Khoảng tứ phân vị (IQR)")
+
+add_heading_3("3.1.1. Khung tiền xử lý và cơ chế hình thành ngoại lai trong phép đo siêu âm")
+add_body_p(
+    "Theo thuật toán phát hiện sai số thô bằng Khoảng tứ phân vị đã nêu tại Mục 1.3.2, dữ liệu từ 4 tập thực nghiệm được xử lý. "
+    "Mẫu nào nằm ngoài khoảng hợp lệ [LF, UF] sẽ được chuyển thành giá trị NaN."
+)
+
+add_heading_3("3.1.2. Tổng hợp kết quả lọc")
+add_body_p(
+    "Kết quả tính toán chi tiết của từng mốc cự ly được lưu tại bảng dữ liệu “du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv”, "
+    "và dữ liệu sau khi lọc được lưu tại 4 tệp: FSDT_clean.csv, BSDT_clean.csv, FRDT_clean.csv, FSAT_clean.csv. "
+)
+add_body_p("Kết quả có thể được tóm tắt ngắn gọn qua bảng sau:")
+
+p_cap_t31 = doc.add_paragraph()
+p_cap_t31.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap_t31.paragraph_format.space_before = Pt(4)
+p_cap_t31.paragraph_format.space_after = Pt(4)
+r_t31 = p_cap_t31.add_run("Bảng 3.1: Tổng hợp kết quả xử lý sai số thô bằng Khoảng tứ phân vị (IQR) trên toàn bộ 4.800 mẫu đo.")
+r_t31.font.name = 'Times New Roman'
+r_t31.font.size = Pt(9.5)
+r_t31.font.italic = True
+
+t31_data = [
+    ("FSDT.csv", "Chiều tiến – Mặt nhẵn (27.0°C)", "1.750", "16 mốc", "77", "4.40%", "1.673", "95.60%"),
+    ("BSDT.csv", "Chiều lùi – Mặt nhẵn (27.0°C)", "950", "12 mốc", "61", "6.42%", "889", "93.58%"),
+    ("FRDT.csv", "Chiều tiến – Mặt nhám (27.0°C)", "1.150", "11 mốc", "59", "5.13%", "1.091", "94.87%"),
+    ("FSAT.csv", "Chiều tiến – Phòng lạnh (20.0°C)", "950", "8 mốc", "38", "4.00%", "912", "96.00%"),
+    ("TỔNG HỢP", "Cả 4 tập thực nghiệm", "4.800", "47 mốc", "235", "4.90%", "4.565", "95.10%"),
+]
+
+table_31 = doc.add_table(rows=len(t31_data)+1, cols=8)
+table_31.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_31.autofit = False
+
+t31_widths = [Cm(2.2), Cm(3.6), Cm(1.6), Cm(1.8), Cm(1.6), Cm(1.6), Cm(1.8), Cm(1.8)]
+t31_headers = ["Tệp dữ liệu", "Điều kiện đo", "Tổng mẫu", "Mốc có ngoại lai", "Mẫu ngoại lai", "Tỷ lệ (%)", "Mẫu hợp lệ", "Tỷ lệ hợp lệ (%)"]
+
+for col_idx, text_h in enumerate(t31_headers):
+    c = table_31.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t31_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_31.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx not in [0, 1] else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if row_idx == len(t31_data) or col_idx == 0:
+                r.font.bold = True
+                if row_idx == len(t31_data):
+                    r.font.color.rgb = C_MAROON
+
+for row in table_31.rows:
+    for idx_w, width in enumerate(t31_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_31.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_31.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+add_body_p(
+    "Nhận xét từ kết quả Bảng 3.1: Hệ thống đo duy trì độ ổn định tốt; chỉ có 4.90% mẫu bị loại bỏ trên toàn bộ 4.800 lần đo. "
+    "Tỷ lệ ngoại lai giữa FSDT (4.40%) và BSDT (6.42%) gần tương đương nhau, cho thấy điều kiện môi trường đo ổn định. "
+    "Bề mặt nhám (FRDT) xuất hiện nhiều xung tán xạ hơn so với mặt nhẵn. Các xung này được bộ lọc IQR phát hiện và loại bỏ, giúp giá trị trung bình không bị lệch."
+)
+
+add_heading_3("3.1.3. Đánh giá hiệu quả sau khi lọc")
+add_body_p("Hình 3.1 thể hiện biến thiên của độ lệch chuẩn s trước và sau khi lọc trên thang logarit.")
+
+IMG_H3_1_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_1_loc_sai_so_tho.png"
+if os.path.exists(IMG_H3_1_PATH):
+    p_img3_1 = doc.add_paragraph()
+    p_img3_1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_1.paragraph_format.space_before = Pt(8)
+    p_img3_1.paragraph_format.space_after = Pt(4)
+    run_img3_1 = p_img3_1.add_run()
+    run_img3_1.add_picture(IMG_H3_1_PATH, width=Cm(15.0))
+    
+    p_cap3_1 = doc.add_paragraph()
+    p_cap3_1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_1.paragraph_format.space_after = Pt(8)
+    r_c3_1 = p_cap3_1.add_run("Hình 3.1: Độ lệch chuẩn trước và sau khi lọc IQR.")
+    r_c3_1.font.name = 'Times New Roman'
+    r_c3_1.font.italic = True
+    r_c3_1.font.size = Pt(10)
+
+add_body_p(
+    "Đánh giá từ đồ thị Hình 3.1: Trước khi lọc, độ lệch chuẩn duy trì ở mức dưới 1.0 mm. "
+    "Tại các cự ly xa (580 cm và 600 cm), do sóng phản xạ suy hao mạnh dẫn đến các mẫu quá hạn, "
+    "độ lệch chuẩn thô tăng lên lần lượt s = 346.05 mm và s = 2621.02 mm."
+)
+
+p_green = doc.add_paragraph()
+p_green.paragraph_format.first_line_indent = Cm(1.0)
+p_green.paragraph_format.space_after = Pt(6)
+p_green.paragraph_format.line_spacing = 1.35
+p_green.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+r_g_title = p_green.add_run("Đường màu xanh nét liền (Độ lệch chuẩn sau khi lọc IQR): ")
+r_g_title.font.name = 'Times New Roman'
+r_g_title.font.size = Pt(13)
+r_g_title.font.bold = True
+r_g_body = p_green.add_run(
+    "Sau khi loại bỏ các giá trị ngoại lai bằng bộ lọc IQR kết hợp ngưỡng phân giải Δ_LSB = 0.0175 cm, "
+    "đường độ lệch chuẩn duy trì ổn định trong dải 0.09 - 4.0 mm trên toàn dải đo 6 m, tiệm cận đường dung sai của thước cơ khí (0.5 mm)."
+)
+r_g_body.font.name = 'Times New Roman'
+r_g_body.font.size = Pt(13)
+
+p_cap_t32 = doc.add_paragraph()
+p_cap_t32.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap_t32.paragraph_format.space_before = Pt(4)
+p_cap_t32.paragraph_format.space_after = Pt(4)
+r_t32 = p_cap_t32.add_run("Bảng 3.2: Đối chiếu độ lệch chuẩn trước và sau khi lọc IQR tại các mốc tiêu biểu.")
+r_t32.font.name = 'Times New Roman'
+r_t32.font.size = Pt(9.5)
+r_t32.font.italic = True
+
+t32_data = [
+    ("50 cm", "0.094 mm", "0.094 mm", "1.0 lần", "0 / 50 (0%)", "Vùng đo ổn định, không có ngoại lai"),
+    ("100 cm", "0.383 mm", "0.383 mm", "1.0 lần", "0 / 50 (0%)", "Nhỏ hơn dung sai thước (0.5 mm), giữ lại 100% mẫu"),
+    ("360 cm", "90.33 mm", "2.51 mm", "Giảm 36.0 lần", "1 / 50 (2%)", "Loại bỏ xung trượt chu kỳ sóng ToF"),
+    ("580 cm", "346.05 mm", "3.30 mm", "Giảm 104.8 lần", "4 / 50 (8%)", "Loại bỏ xung bão hòa timeout 824.6 cm"),
+    ("600 cm", "2621.02 mm", "0.63 mm", "Giảm 4153.8 lần", "7 / 50 (14%)", "Cắt bỏ các xung quá hạn ở giới hạn cự ly"),
+]
+
+table_32 = doc.add_table(rows=len(t32_data)+1, cols=6)
+table_32.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_32.autofit = False
+
+t32_widths = [Cm(2.6), Cm(2.4), Cm(2.4), Cm(2.2), Cm(2.2), Cm(4.2)]
+t32_headers = ["Khoảng cách chuẩn", "Độ lệch chuẩn thô", "Độ lệch chuẩn sạch", "Tỷ lệ giảm s", "Số mẫu ngoại lai", "Nguyên nhân hiện tượng"]
+
+for col_idx, text_h in enumerate(t32_headers):
+    c = table_32.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t32_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_32.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER if col_idx != 5 else WD_ALIGN_PARAGRAPH.LEFT
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_32.rows:
+    for idx_w, width in enumerate(t32_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_32.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_32.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+# 3.2
+add_heading_2("3.2. Khảo sát Dải đo thực tế")
+
+add_body_p(
+    "Để xác định dải làm việc thực tế của cảm biến RCWL-1601, chuỗi dữ liệu thực nghiệm gồm 35 mốc cự ly "
+    "từ 1 cm đến 600 cm thuộc tập chuẩn FSDT_clean.csv được đưa vào phân tích sai số: "
+    "sai số tuyệt đối Δd = d̄ - d_chuẩn (mm) và sai số tương đối δ = ((d̄ - d_chuẩn) / d_chuẩn) × 100% (%). "
+    "Biến thiên của sai số tương đối theo khoảng cách chuẩn được thể hiện trên Hình 3.2."
+)
+
+IMG_H3_2_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_2_sai_so_tuong_doi.png"
+if os.path.exists(IMG_H3_2_PATH):
+    p_img3_2 = doc.add_paragraph()
+    p_img3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_2.paragraph_format.space_before = Pt(8)
+    p_img3_2.paragraph_format.space_after = Pt(4)
+    run_img3_2 = p_img3_2.add_run()
+    run_img3_2.add_picture(IMG_H3_2_PATH, width=Cm(15.0))
+    
+    p_cap3_2 = doc.add_paragraph()
+    p_cap3_2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_2.paragraph_format.space_after = Pt(8)
+    r_c3_2 = p_cap3_2.add_run("Hình 3.2: Sai số tương đối theo khoảng cách chuẩn (Tập dữ liệu FSDT, giới hạn trục tung ±10%).")
+    r_c3_2.font.name = 'Times New Roman'
+    r_c3_2.font.italic = True
+    r_c3_2.font.size = Pt(9.5)
+
+add_body_p(
+    "Từ diễn biến của đường sai số trên đồ thị Hình 3.2, đặc tính làm việc của cảm biến có thể được phân chia thành 4 vùng: "
+    "Vùng chết (0 cm – 3 cm), dải đo tuyến tính ổn định (5 cm – 400 cm), dải đo xa vượt định mức (420 cm – 550 cm), ngưỡng bão hòa xa (580 cm – 600 cm)"
+)
+
+add_body_p(
+    "Kết luận: Dải làm việc tin cậy và đạt chuẩn độ chính xác cao của cảm biến RCWL-1601 trong thực tế là từ 10 cm đến 550 cm."
+)
+
+p_cap_t33 = doc.add_paragraph()
+p_cap_t33.alignment = WD_ALIGN_PARAGRAPH.LEFT
+p_cap_t33.paragraph_format.space_before = Pt(4)
+p_cap_t33.paragraph_format.space_after = Pt(4)
+r_t33 = p_cap_t33.add_run("Bảng 3.3: Tổng hợp các vùng làm việc và đặc tính đo thực nghiệm trên toàn dải đo.")
+r_t33.font.name = 'Times New Roman'
+r_t33.font.italic = True
+r_t33.font.size = Pt(9.5)
+
+t33_data = [
+    ("1.0 cm", "2.030 cm", "+10.30 mm", "+103.05%", "0.035 mm"),
+    ("2.0 cm", "2.352 cm", "+3.52 mm", "+17.59%", "0.085 mm"),
+    ("3.0 cm", "2.679 cm", "-3.21 mm", "-10.72%", "0.056 mm"),
+    ("5.0 cm", "4.295 cm", "-7.05 mm", "-14.10%", "0.085 mm"),
+    ("10.0 cm", "10.570 cm", "+5.70 mm", "+5.70%", "0.061 mm"),
+    ("50.0 cm", "49.847 cm", "-1.53 mm", "-0.31%", "0.094 mm"),
+    ("100.0 cm", "99.429 cm", "-5.71 mm", "-0.57%", "0.383 mm"),
+    ("200.0 cm", "200.351 cm", "+3.51 mm", "+0.18%", "2.192 mm"),
+    ("300.0 cm", "299.718 cm", "-2.82 mm", "-0.09%", "2.860 mm"),
+    ("400.0 cm", "401.399 cm", "+13.99 mm", "+0.35%", "0.270 mm"),
+    ("500.0 cm", "500.691 cm", "+6.91 mm", "+0.14%", "1.978 mm"),
+    ("550.0 cm", "550.630 cm", "+6.30 mm", "+0.11%", "0.319 mm"),
+    ("580.0 cm", "579.850 cm", "-1.50 mm", "-0.03%", "3.303 mm"),
+    ("600.0 cm", "824.562 cm", "+2245.62 mm", "+37.43%", "0.631 mm"),
+]
+
+table_33 = doc.add_table(rows=len(t33_data)+1, cols=5)
+table_33.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_33.autofit = False
+
+t33_widths = [Cm(2.6), Cm(2.8), Cm(2.8), Cm(2.8), Cm(3.0)]
+t33_headers = ["Khoảng cách chuẩn", "Giá trị trung bình", "Sai số tuyệt đối", "Sai số tương đối", "Độ lệch chuẩn s"]
+
+for col_idx, text_h in enumerate(t33_headers):
+    c = table_33.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t33_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_33.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_33.rows:
+    for idx_w, width in enumerate(t33_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_33.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_33.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+add_heading_2("3.3. Đánh giá Độ chụm và Độ chính xác")
+
+add_body_p(
+    "Trên cơ sở tập dữ liệu chuẩn chiều tiến mặt nhẵn FSDT sau khi xử lý ngoại lai tại Mục 3.1, độ chụm và độ chính xác "
+    "của hệ đo được đánh giá trên 33 mốc cự ly thuộc dải đo hữu ích từ 1 cm đến 550 cm (trước ngưỡng bão hòa xa 580 – 600 cm). "
+    "Toàn bộ số liệu gốc phục vụ phân tích và vẽ đồ thị được lưu trữ đầy đủ trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv."
+)
+
+add_heading_3("3.3.1. Đánh giá độ chụm")
+
+add_body_p(
+    "Áp dụng độ lệch chuẩn mẫu thực nghiệm s tại Mục 1.3.1 và sai số chuẩn của giá trị trung bình SE tại Mục 1.3.3 (Chương 1), "
+    "chuỗi số liệu của 33 mốc cự ly (1 cm – 550 cm, tại nhiệt độ chuẩn hóa 27.0 °C, N = 50 mẫu thô/mốc, "
+    "cỡ mẫu hợp lệ sau lọc n_hợp_lệ ∈ [40, 50]) được trích xuất trực tiếp từ hai cột std_sach_mm và se_sach_mm trong tệp du_lieu_tong_hop/chuong_3/thong_ke_chuong_3.csv:"
+)
+
+add_body_p(
+    "1. Vùng cự ly gần (1 cm ≤ x_true ≤ 50 cm, 9 mốc): Tại 8/9 mốc khảo sát, s đạt từ 0.035 mm đến 0.094 mm và SE đạt từ 0.0049 mm "
+    "đến 0.0133 mm (nhỏ hơn nhiều so với một bước đếm phần cứng Δ_LSB ≈ 0.174 mm) nhờ biên độ sóng phản xạ mạnh từ mặt phẳng nhẵn "
+    "của viên gạch chuẩn 40 cm × 40 cm. Riêng mốc 40 cm (n_hợp_lệ = 49) ghi nhận s = 3.144 mm và SE = 0.4491 mm."
+)
+
+add_body_p(
+    "2. Vùng cự ly trung bình (60 cm ≤ x_true ≤ 180 cm, 8 mốc): Tại 7/8 mốc, s nằm trong dải 0.088 mm – 0.383 mm và SE nằm trong "
+    "dải 0.0128 mm – 0.0542 mm; riêng mốc 120 cm (n_hợp_lệ = 50) có s = 1.747 mm và SE = 0.2471 mm."
+)
+
+add_body_p(
+    "3. Vùng cự ly xa danh định (200 cm ≤ x_true ≤ 360 cm, 11 mốc): Độ lệch chuẩn s dao động từ 0.142 mm (tại 220 cm, n_hợp_lệ = 40) "
+    "đến 2.860 mm (tại 300 cm, n_hợp_lệ = 50), tương ứng SE biến thiên từ 0.0225 mm đến 0.4045 mm (tại 360 cm đạt s = 2.508 mm, SE = 0.3583 mm)."
+)
+
+add_body_p(
+    "4. Dải đo xa mở rộng (400 cm ≤ x_true ≤ 550 cm, 5 mốc): Độ lệch chuẩn s đạt 0.270 mm tại 400 cm (SE = 0.0407 mm), 0.228 mm tại 420 cm "
+    "(SE = 0.0340 mm), tăng lên cực đại toàn dải 4.049 mm tại 450 cm (SE = 0.5726 mm), đạt 1.978 mm tại 500 cm (SE = 0.2797 mm) "
+    "và giảm về 0.319 mm tại mốc giới hạn 550 cm (n_hợp_lệ = 42, SE = 0.0492 mm)."
+)
+
+add_body_p(
+    "Tính trên toàn bộ 33 mốc khảo sát (1 – 550 cm), cột se_sach_mm xác nhận sai số chuẩn trung bình SE không vượt quá 0.5726 mm; "
+    "trong đó có 32/33 mốc đạt SE < 0.45 mm (nhỏ hơn nửa độ chia nhỏ nhất 0.5 mm của thước chuẩn) và 22/33 mốc đạt SE ≤ 0.10 mm."
+)
+
+add_body_p(
+    "Giải thích cơ chế vật lý và thuật toán của dạng dao động răng cưa trên Hình 3.3: Trục hoành của Hình 3.3 biểu diễn sự thay đổi "
+    "mốc khoảng cách chuẩn x_true (mỗi mốc đều đo độc lập với cỡ mẫu cố định N = 50), không phải trục tăng dần kích thước mẫu tích lũy k "
+    "tại một vị trí cố định như bài toán hội tụ ở Mục 2.4 (Chương 2). Dạng lên xuống răng cưa luân phiên của s giữa các mốc cự ly "
+    "xuất phát từ sự tương tác giữa bước nhảy một chu kỳ sóng mang siêu âm 40 kHz và ngưỡng tứ phân vị 25% của bộ lọc IQR "
+    "(đã nêu tại Mục 1.3.2, Chương 1). Tại T = 27.0 °C (v = 347.66 m/s), một chu kỳ sóng mang T_0 = 25 μs ứng với quãng đường "
+    "khứ hồi nửa bước sóng xấp xỉ 4.35 mm (0.435 cm). Khi biên độ sườn lên của bó xung phản hồi ECHO rơi sát mức điện áp ngưỡng so sánh "
+    "trong vi mạch RCWL-9610, thời điểm kích hoạt bắt xung bị trượt ±1 chu kỳ sóng mang giữa các lần đo trong cùng 50 mẫu:"
+)
+
+add_bullet_p(
+    "Tại những mốc cự ly có dưới 25% số mẫu trượt sang chu kỳ kế cận (như 80, 150, 220, 320, 400, 420, 550 cm, với 5 – 10 mẫu "
+    "ngoại lai bị loại trong thong_ke_chuong_3.csv), hai tứ phân vị Q_1 và Q_3 vẫn nằm gọn trong cùng một chu kỳ sóng mang (IQR ≈ 0.018 – 0.066 cm); "
+    "hàng rào Tukey cắt bỏ hoàn toàn cụm trượt chu kỳ, đưa s xuống mức rất thấp (0.142 – 0.395 mm) và SE xuống 0.022 – 0.060 mm.",
+    "• Nhóm mốc lọc sạch cụm trượt chu kỳ: "
+)
+
+add_bullet_p(
+    "Tại các mốc cự ly có trên 25% số mẫu phân bố sang chu kỳ kế cận (như 40, 120, 200, 260, 300, 360, 450 cm, có 0 – 3 mẫu bị loại), "
+    "cả hai cụm đều lọt vào giữa Q_1 và Q_3 làm IQR mở rộng lên đúng một bước nhảy sóng mang (IQR ≈ 0.435 cm); phân bố hai đỉnh "
+    "đẩy độ lệch chuẩn mẫu s lên vùng 1.7 – 4.0 mm. Tuy nhiên, sai số chuẩn của giá trị trung bình SE = s/√n luôn được nén xuống "
+    "dưới 0.57 mm, bảo đảm độ tin cậy thống kê tuyệt đối cho phép lấy trung bình.",
+    "• Nhóm mốc giữ lại hai cụm chu kỳ kế tiếp: "
+)
+
+IMG_H3_3_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_3_do_chum_toan_dai.png"
+if os.path.exists(IMG_H3_3_PATH):
+    p_img3_3 = doc.add_paragraph()
+    p_img3_3.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_3.paragraph_format.space_before = Pt(8)
+    p_img3_3.paragraph_format.space_after = Pt(4)
+    run_img3_3 = p_img3_3.add_run()
+    run_img3_3.add_picture(IMG_H3_3_PATH, width=Cm(15.0))
+    
+    p_cap3_3 = doc.add_paragraph()
+    p_cap3_3.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_3.paragraph_format.space_after = Pt(8)
+    r_c3_3 = p_cap3_3.add_run("Hình 3.3: Độ lệch chuẩn thực nghiệm s và sai số chuẩn trung bình SE theo khoảng cách chuẩn (1 cm – 550 cm).")
+    r_c3_3.font.italic = True
+    r_c3_3.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị Hình 3.3: Khi biểu diễn chung trên cùng một trục tung đơn vị mm, sự khác biệt giữa hai đường phản ánh rõ năng lực của phép đo:")
+add_body_p(
+    "Đường màu xanh lam nét liền (Độ lệch chuẩn thực nghiệm s): Nằm dưới vạch dung sai thước 0.5 mm tại phần lớn các mốc đơn chu kỳ "
+    "và chỉ nhô lên tại các điểm giao thoa ngưỡng trượt chu kỳ sóng mang 40 kHz."
+)
+add_body_p(
+    "Đường màu cam nét đứt (Sai số chuẩn trung bình SE = s/√n): Nhờ phép lấy trung bình trên n_hợp_lệ ≥ 40 mẫu, "
+    "đường SE bị nén phẳng hoàn toàn sát đáy trục hoành (dao động cực nhỏ từ 0.0049 mm đến 0.5726 mm), "
+    "chứng minh tính hội tụ cao và triệt tiêu gần như hoàn toàn sai số ngẫu nhiên của hệ thống đo."
+)
+
+add_heading_3("3.3.2. Đánh giá độ chính xác")
+
+add_body_p(
+    "Sử dụng sai số tuyệt đối Δx và sai số tương đối δ (%) đã định nghĩa tại Mục 1.3.3 (Chương 1), chuỗi số liệu được trích xuất "
+    "từ cột sai_so_tuyet_doi_mm và sai_so_tuong_doi_pct trong thong_ke_chuong_3.csv:"
+)
+
+add_body_p(
+    "Sai số tuyệt đối (Δx): Trong dải từ 50 cm đến 550 cm (25 mốc), Δx biến thiên trong khoảng hẹp từ -5.71 mm đến +14.02 mm; "
+    "có 17/25 mốc có sai số tuyệt đối không vượt quá ±5.0 mm và 22/25 mốc nằm trong phạm vi ±8.0 mm."
+)
+
+add_body_p(
+    "Sai số tương đối (δ%): Ở vùng đầu dải đo danh định (10 cm – 40 cm), do mẫu số x_true nhỏ nên δ% đạt từ -3.36% đến +5.70%; "
+    "tuy nhiên khi khoảng cách tăng lên từ 50 cm đến 550 cm, sai số tương đối nhanh chóng hội tụ và nằm hoàn toàn trong dải hẹp "
+    "[-0.57%; +0.35%]. Tại các cự ly lớn (300 cm, 500 cm, 550 cm), sai số tương đối chỉ còn -0.09%, +0.14% và +0.11%."
+)
+
+add_body_p(
+    "Nguồn gốc sai số hệ thống: Độ lệch tuyệt đối cỡ vài milimét bắt nguồn từ hai yếu tố thực tế: khoảng cách thụt lùi cơ khí "
+    "của màng rung gốm áp điện nằm sâu bên trong ống bảo vệ kim loại so với mép ngoài bo mạch (~4.84 mm, hoàn toàn trùng khớp "
+    "với hệ số tự do của phương trình hồi quy tuyến tính tại Mục 3.4) và sai số định vị mép chân gạch trên thước thép chuẩn."
+)
+
+IMG_H3_4_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_4_do_chinh_xac_sai_so.png"
+if os.path.exists(IMG_H3_4_PATH):
+    p_img3_4 = doc.add_paragraph()
+    p_img3_4.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_4.paragraph_format.space_before = Pt(8)
+    p_img3_4.paragraph_format.space_after = Pt(4)
+    run_img3_4 = p_img3_4.add_run()
+    run_img3_4.add_picture(IMG_H3_4_PATH, width=Cm(15.0))
+    
+    p_cap3_4 = doc.add_paragraph()
+    p_cap3_4.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_4.paragraph_format.space_after = Pt(8)
+    r_c3_4 = p_cap3_4.add_run("Hình 3.4: Sai số tuyệt đối Δx (mm) và sai số tương đối δ (%) theo khoảng cách chuẩn (10 cm – 550 cm).")
+    r_c3_4.font.italic = True
+    r_c3_4.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị Hình 3.4: Biểu đồ đơn ghép hai trục tung Y (đồng bộ đường chuẩn gốc 0 giữa hai trục) cho thấy hai xu hướng đối chiếu trực quan:")
+add_body_p(
+    "Đường màu xanh lá nét liền (Sai số tuyệt đối Δx, trục trái): Dao động quanh trục 0 mm trong biên độ hẹp [-5.71; +14.02] mm "
+    "trên toàn bộ dải đo, khẳng định hệ thống không bị hiện tượng trôi tích lũy dốc theo khoảng cách."
+)
+add_body_p(
+    "Đường màu xanh lam nét đứt (Sai số tương đối δ%, trục phải): Hội tụ rất nhanh từ ngưỡng +5.70% ở cự ly gần về sát vạch chuẩn 0% "
+    "khi x_true ≥ 50 cm (luôn nằm dưới 0.57%), minh chứng cho độ chính xác cao của hệ đo RCWL-1601."
+)
+# MỤC 3.4: ĐÁNH GIÁ ĐỘ TUYẾN TÍNH (LINEARITY)
+# ==============================================================================
+add_heading_2("3.4. Đánh giá Độ tuyến tính (Linearity)")
+
+add_heading_3("3.4.1. Đánh giá Độ tuyến tính (Linearity)")
+
+add_body_p(
+    "Độ tuyến tính (Linearity) là đặc tính phản ánh mức độ quan hệ giữa khoảng cách dịch chuyển thực tế "
+    "và giá trị đo hiển thị của cảm biến. Để đánh giá, toàn bộ 34 mốc thực nghiệm trên toàn dải đo (1.0 cm đến 580.0 cm) "
+    "đã được phân chia ngẫu nhiên có kiểm soát theo tỷ lệ chuẩn thực nghiệm 70% dữ liệu Huấn luyện (24 mốc) "
+    "và 30% dữ liệu Kiểm thử (10 mốc)."
+)
+
+add_body_p(
+    "Tập huấn luyện gồm 24 mốc cự ly được dùng để thiết lập hệ phương trình: Bậc 1 (y = a₁x + b₁), "
+    "Bậc 2 (y = a₂x² + b₂x + c₂), và Bậc 3 (y = a₃x³ + b₃x² + c₃x + d₃). Tập kiểm thử gồm 10 mốc, "
+    "được ghi trong file \"du_lieu_tong_hop\\chuong_3\\ [3.4].FSDT_split_70_30.csv\""
+)
+
+add_body_p(
+    "Giải hệ phương trình chuẩn tắc trên 24 mốc thực nghiệm tập Train (70%), kết quả tính toán xác định "
+    "được phương trình của 3 mô hình hồi quy đa thức như sau:"
+)
+
+add_body_p("Bậc 1 (Tuyến tính): ŷ₁ = 1.00273 · x - 0.48427 (cm).")
+add_body_p("Bậc 2: ŷ₂ = 3.56559·10⁻⁶ · x² + 1.00103 · x - 0.37940 (cm). ")
+add_body_p("Bậc 3: ŷ₃ = -1.04345·10⁻⁷ · x³ + 8.50580·10⁻⁵ · x² + 0.98551 · x - 0.00036 (cm). ")
+
+add_body_p(
+    "Ghi chú: Toàn bộ các tổng ma trận chuẩn tắc phục vụ tính toán được lưu trữ trong tệp cơ sở dữ liệu "
+    "“du_lieu_tong_hop/chuong_3/cac_tong_hoi_quy.csv”."
+)
+
+add_body_p(
+    "Cả ba mô hình đều có cùng độ dốc và bám rất sát chuỗi dữ liệu thực nghiệm, nên mắt thường không thể "
+    "phân biệt được mô hình nào tối ưu nếu chỉ nhìn vào đường hồi quy tổng thể. Do đó, để xác định mô hình "
+    "phản ánh trung thực bản chất vật lý của cảm biến, ta thực hiện đối sánh định lượng sai số dự đoán trên "
+    "10 mốc kiểm thử và phóng đại thang đo sai số lên mức milimét."
+)
+
+# BẢNG 3.4: ĐỐI SÁNH TRÊN 10 MỐC TEST
+t34_data = [
+    ("2.0 cm", "2.352 cm", "1.521 cm", "+8.31 mm", "1.623 cm", "+7.29 mm", "1.971 cm", "+3.81 mm"),
+    ("20.0 cm", "19.328 cm", "19.570 cm", "-2.42 mm", "19.643 cm", "-3.15 mm", "19.743 cm", "-4.15 mm"),
+    ("50.0 cm", "49.847 cm", "49.652 cm", "+1.95 mm", "49.681 cm", "+1.66 mm", "49.475 cm", "+3.73 mm"),
+    ("80.0 cm", "80.083 cm", "79.734 cm", "+3.48 mm", "79.726 cm", "+3.56 mm", "79.331 cm", "+7.51 mm"),
+    ("150.0 cm", "149.957 cm", "149.926 cm", "+0.31 mm", "149.856 cm", "+1.01 mm", "149.388 cm", "+5.69 mm"),
+    ("220.0 cm", "220.086 cm", "220.117 cm", "-0.31 mm", "220.021 cm", "+0.65 mm", "219.818 cm", "+2.68 mm"),
+    ("280.0 cm", "280.528 cm", "280.281 cm", "+2.47 mm", "280.190 cm", "+3.38 mm", "280.321 cm", "+2.08 mm"),
+    ("350.0 cm", "349.550 cm", "350.473 cm", "-9.23 mm", "350.420 cm", "-8.70 mm", "350.874 cm", "-13.25 mm"),
+    ("450.0 cm", "450.739 cm", "450.746 cm", "-0.07 mm", "450.808 cm", "-0.69 mm", "451.195 cm", "-4.56 mm"),
+    ("580.0 cm", "579.850 cm", "581.102 cm", "-12.52 mm", "581.420 cm", "-15.71 mm", "579.850 cm", "-0.01 mm"),
+]
+
+table_34 = doc.add_table(rows=len(t34_data)+1, cols=8)
+table_34.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_34.autofit = False
+
+t34_widths = [Cm(1.8), Cm(2.0), Cm(2.0), Cm(1.8), Cm(2.0), Cm(1.8), Cm(2.0), Cm(1.8)]
+t34_headers = ["Mốc Test x", "y thực tế", "ŷ Bậc 1", "e Bậc 1", "ŷ Bậc 2", "e Bậc 2", "ŷ Bậc 3", "e Bậc 3"]
+
+for col_idx, text_h in enumerate(t34_headers):
+    c = table_34.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t34_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_34.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+
+for row in table_34.rows:
+    for idx_w, width in enumerate(t34_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_34.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_34.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+p_cap_t34 = doc.add_paragraph()
+p_cap_t34.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_cap_t34.paragraph_format.space_before = Pt(4)
+p_cap_t34.paragraph_format.space_after = Pt(8)
+r_t34 = p_cap_t34.add_run("Bảng 3.4: Đối sánh sai số dự đoán của 3 mô hình hồi quy trên 10 mốc kiểm thử độc lập.")
+r_t34.font.name = 'Times New Roman'
+r_t34.font.italic = True
+r_t34.font.size = Pt(9.5)
+
+# CHÈN HÌNH 3.3: SO SÁNH SAI SỐ TUYỆT ĐỐI TẠI CÁC MỐC TEST
+IMG_H3_6_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_6_sai_so_phan_du_3_mo_hinh.png"
+if os.path.exists(IMG_H3_6_PATH):
+    p_img3_6 = doc.add_paragraph()
+    p_img3_6.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_6.paragraph_format.space_before = Pt(8)
+    p_img3_6.paragraph_format.space_after = Pt(4)
+    run_img3_6 = p_img3_6.add_run()
+    run_img3_6.add_picture(IMG_H3_6_PATH, width=Cm(15.0))
+
+    p_cap3_6 = doc.add_paragraph()
+    p_cap3_6.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_6.paragraph_format.space_after = Pt(8)
+    r_c3_6 = p_cap3_6.add_run("Hình 3.3: So sánh sai số tuyệt đối tại các mốc kiểm thử của 3 mô hình hồi quy.")
+    r_c3_6.font.italic = True
+    r_c3_6.font.size = Pt(10)
+
+# CHÈN HÌNH 3.4: BIỂU ĐỒ MIỀN TÍCH LŨY SAI SỐ TUYỆT ĐỐI
+IMG_H3_7_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_7_tich_luy_sai_so_phan_du.png"
+if os.path.exists(IMG_H3_7_PATH):
+    p_img3_7 = doc.add_paragraph()
+    p_img3_7.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7.paragraph_format.space_before = Pt(8)
+    p_img3_7.paragraph_format.space_after = Pt(4)
+    run_img3_7 = p_img3_7.add_run()
+    run_img3_7.add_picture(IMG_H3_7_PATH, width=Cm(15.0))
+
+    p_cap3_7 = doc.add_paragraph()
+    p_cap3_7.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7.paragraph_format.space_after = Pt(8)
+    r_c3_7 = p_cap3_7.add_run("Hình 3.4: Biểu đồ miền tích lũy sai số tuyệt đối trên 10 mốc kiểm thử độc lập.")
+    r_c3_7.font.italic = True
+    r_c3_7.font.size = Pt(10)
+
+add_body_p(
+    "Đồ thị Hình 3.3 và biểu đồ miền tích lũy tại Hình 3.4 cung cấp cái nhìn trực quan về sự tích lũy sai số: "
+    "Trong khoảng dải đo làm việc từ 50 cm đến 450 cm, đường tích lũy sai số của mô hình Bậc 1 gần như đi ngang "
+    "phẳng lì, giúp giữ tổng sai số tích lũy toàn dải ở mức thấp nhất (41.07 mm). Trong khi đó, đường tích lũy "
+    "của mô hình Bậc 3 leo dốc rất đứng ở dải giữa (từ 11.69 mm vọt lên 42.89 mm tại 350 cm), khiến tổng sai số "
+    "tích lũy lên tới 47.45 mm."
+)
+
+add_body_p(
+    "Vậy thì ta thấy phương trình tuyến tính Bậc 1 y = 1.00273 · x - 0.48427 phù hợp nhất để làm phương trình "
+    "đặc tính tĩnh chuẩn của hệ thống đo RCWL-1601. "
+)
+
+# MỤC 3.5: PHÂN TÍCH ĐỘ TRỄ (HYSTERESIS) GIỮA CHIỀU TIẾN VÀ CHIỀU LÙI
+# ==============================================================================
+add_heading_2("3.5. Phân tích Độ trễ (Hysteresis) giữa Chiều tiến và Chiều lùi")
+
+add_heading_3("3.5.1. Khảo sát thực nghiệm đối xứng, Đồ thị trực quan và Định lượng Sai số trễ")
+
+add_body_p(
+    "Nhằm đánh giá tính đối xứng và độ ổn định của cảm biến RCWL-1601 khi đo khoảng cách hai chiều, "
+    "kịch bản thực nghiệm đối xứng được thiết lập với hai chuỗi đo độc lập trên cùng một ray trượt định hướng "
+    "và bia phản xạ phẳng nhẵn ở nhiệt độ phòng chuẩn hóa 27.0°C: Chiều tiến (FSDT, tịnh tiến xa từ 10 cm đến 300 cm) "
+    "và Chiều lùi (BSDT, thu hẹp khoảng cách từ 300 cm về 10 cm). Hai chuỗi đo giao nhau tại 19 mốc cự ly đối ứng chuẩn (10, 20, 40, ..., 300 cm)."
+)
+
+IMG_H3_6A_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_6a_dac_tinh_hai_chieu.png"
+if os.path.exists(IMG_H3_6A_PATH):
+    p_img3_6a = doc.add_paragraph()
+    p_img3_6a.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_6a.paragraph_format.space_before = Pt(8)
+    p_img3_6a.paragraph_format.space_after = Pt(4)
+    run_img3_6a = p_img3_6a.add_run()
+    run_img3_6a.add_picture(IMG_H3_6A_PATH, width=Cm(15.0))
+    
+    p_cap3_6a = doc.add_paragraph()
+    p_cap3_6a.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_6a.paragraph_format.space_after = Pt(8)
+    r_c3_6a = p_cap3_6a.add_run("Hình 3.6a: Đặc tính đo khoảng cách hai chiều Chiều tiến vs Chiều lùi so với đường chuẩn lý tưởng 1:1.")
+    r_c3_6a.font.italic = True
+    r_c3_6a.font.size = Pt(10)
+
+add_body_p(
+    "Trên đồ thị Hình 3.6a, cả hai đường Chiều tiến và Chiều lùi đều bám sát hoàn hảo vào đường tham chiếu lý tưởng y = x. "
+    "Để quan sát rõ nét sự chênh lệch vi mô giữa hai chiều dịch chuyển, phân bố sai số đo tuyệt đối Δd = d_meas - d_true "
+    "được phân tích chi tiết trên đồ thị Hình 3.6b."
+)
+
+IMG_H3_6B_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_6b_vong_tre_hysteresis.png"
+if os.path.exists(IMG_H3_6B_PATH):
+    p_img3_6b = doc.add_paragraph()
+    p_img3_6b.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_6b.paragraph_format.space_before = Pt(8)
+    p_img3_6b.paragraph_format.space_after = Pt(4)
+    run_img3_6b = p_img3_6b.add_run()
+    run_img3_6b.add_picture(IMG_H3_6B_PATH, width=Cm(15.0))
+    
+    p_cap3_6b = doc.add_paragraph()
+    p_cap3_6b.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_6b.paragraph_format.space_after = Pt(8)
+    r_c3_6b = p_cap3_6b.add_run("Hình 3.6b: Phân bố Sai số đo tuyệt đối Δd và Vòng trễ Hysteresis giữa Chiều tiến và Chiều lùi.")
+    r_c3_6b.font.italic = True
+    r_c3_6b.font.size = Pt(10)
+
+add_body_p(
+    "Từ đồ thị Hình 3.6b, sai số đo tuyệt đối Δd của hai chiều dao động trong biên độ rất hẹp [-1.48 cm; +1.45 cm], "
+    "quấn quanh trục tham chiếu Δd = 0 cm và tạo thành vòng trễ khép kín với khoảng hở vi mô. "
+    "Độ lệch trễ tuyệt đối tại từng mốc cự ly d_true,k được xác định theo hiệu số khoảng cách đo trung bình giữa Chiều tiến và Chiều lùi sau khi lọc IQR:"
+)
+
+# Native Equation 3.12
+eq_3_12_omml = (
+    '<m:r><m:rPr><m:sty m:val="p"/></m:rPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>Δ</m:t></m:r>'
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>H</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>k</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>=|</m:t></m:r>'
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>d</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>meas,forward</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>-</m:t></m:r>'
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>d</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>meas,backward</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>|</m:t></m:r>'
+)
+add_native_equation(eq_3_12_omml, eq_num="3.12")
+
+add_body_p(
+    "Phân tích trên toàn bộ 19 mốc cự ly ghi nhận độ lệch trễ cực đại ΔH_max = 1.6598 cm (tại mốc 200 cm, "
+    "được định vị trực quan trên Hình 3.6b), độ lệch trễ trung bình ΔH_mean = 0.5342 cm và độ lệch chuẩn s_H = 0.4496 cm. "
+    "Sai số trễ tương đối γ_H% được tính toán song song theo Thang đo thử nghiệm (Span_test = 300 cm) và Thang đo hiệu dụng toàn dải (Span_FS = 550 cm):"
+)
+
+# Native Equation 3.13
+eq_3_13_omml = (
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><m:rPr><m:sty m:val="p"/></m:rPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>γ</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>H,300</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>%=</m:t></m:r>'
+    '<m:f><m:fPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:fPr>'
+    '<m:num><m:r><m:rPr><m:sty m:val="p"/></m:rPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>Δ</m:t></m:r>'
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>H</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>max</m:t></m:r></m:sub></m:sSub></m:num>'
+    '<m:den><m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>d</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>F.S.</m:t></m:r></m:sub></m:sSub></m:den></m:f>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>×100%=</m:t></m:r>'
+    '<m:f><m:fPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:fPr>'
+    '<m:num><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>1.6598 cm</m:t></m:r></m:num>'
+    '<m:den><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>300 cm</m:t></m:r></m:den></m:f>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>×100%=0.553%</m:t></m:r>'
+)
+add_native_equation(eq_3_13_omml, eq_num="3.13")
+
+# Native Equation 3.14
+eq_3_14_omml = (
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><m:rPr><m:sty m:val="p"/></m:rPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>γ</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>H,550</m:t></m:r></m:sub></m:sSub>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>%=</m:t></m:r>'
+    '<m:f><m:fPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:fPr>'
+    '<m:num><m:r><m:rPr><m:sty m:val="p"/></m:rPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>Δ</m:t></m:r>'
+    '<m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>H</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>max</m:t></m:r></m:sub></m:sSub></m:num>'
+    '<m:den><m:sSub><m:sSubPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:sSubPr>'
+    '<m:e><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>d</m:t></m:r></m:e>'
+    '<m:sub><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>F.S.</m:t></m:r></m:sub></m:sSub></m:den></m:f>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>×100%=</m:t></m:r>'
+    '<m:f><m:fPr><m:ctrlPr><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr></m:ctrlPr></m:fPr>'
+    '<m:num><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>1.6598 cm</m:t></m:r></m:num>'
+    '<m:den><m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>550 cm</m:t></m:r></m:den></m:f>'
+    '<m:r><w:rPr><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/></w:rPr><m:t>×100%=0.302%</m:t></m:r>'
+)
+add_native_equation(eq_3_14_omml, eq_num="3.14")
+
+add_body_p(
+    "Đánh giá: Cả hai chỉ số sai số trễ tương đối đều ở mức rất nhỏ (γ_H% ≤ 0.55%), "
+    "đáp ứng xuất sắc yêu cầu định vị hai chiều tin cậy trong các bài toán công nghiệp và robot tự hành."
+)
+
+add_heading_3("3.5.2. Luận giải Bản chất vật lý phi trễ của sóng siêu âm và Truy vết nguyên nhân sai số ngoại cảnh")
+
+add_body_p(
+    "Dựa trên kết quả thực nghiệm, mức sai số trễ rất nhỏ (γ_H ≈ 0.55%) được luận giải qua hai lý do cốt lõi: "
+    "Thứ nhất, về bản chất vật lý, RCWL-1601 đo khoảng cách thuần túy bằng thời gian bay (ToF) của sóng siêu âm "
+    "lan truyền trong không khí, không có ma sát cơ học hay hiện tượng trễ vật liệu nên hoàn toàn không tồn tại độ trễ nội tại; "
+    "Thứ hai, độ lệch trễ vi mô cực đại ΔH_max = 1.66 cm tại mốc 200 cm thực chất bắt nguồn từ các tác nhân ngoại cảnh khách quan "
+    "gồm độ rơ cơ khí và góc tỳ tay khi đảo chiều trên ray trượt dài 3 m, sự biến thiên nhẹ của vi khí hậu phòng thí nghiệm "
+    "giữa hai lượt đo, cùng độ phân giải đếm thời gian 1 μs (≈ 0.174 mm) của vi điều khiển ESP32."
+)
+
+# ==============================================================================
+# MỤC 3.6: PHÂN TÍCH ẢNH HƯỞNG CỦA BỀ MẶT PHẢN XẠ
+# ==============================================================================
+add_heading_2("3.6. Phân tích ảnh hưởng của Bề mặt phản xạ")
+
+add_body_p(
+    "Để khảo sát ảnh hưởng của bề mặt (Mục 1.1.3, Chương 1), thí nghiệm đối chứng được thực hiện ở cùng nhiệt độ phòng mặc định "
+    "27.0 °C (v = 347.662 m/s) trên hai mặt của cùng một viên gạch 40 cm × 40 cm (Mục 2.2 và Mục 2.3, Chương 2): "
+    "Số liệu thống kê trên 22 mốc chung (10 cm – 350 cm) “du_lieu_tong_hop/chuong_3/ thong_ke_chuong_3.csv”."
+)
+
+add_heading_3("3.6.1. Tác động của tán xạ bề mặt lên độ chụm (Precision) và độ chính xác (Accuracy)")
+
+add_body_p(
+    "Để trực quan hóa sự suy giảm chất lượng đo lường do bề mặt nhám gồ ghề gây ra, nhóm đã sử dụng mô hình bia ngắm:"
+)
+
+# CHÈN HÌNH 3.7A: BIA NGẮM ACCURACY & PRECISION MỐC GẦN
+IMG_H3_7A_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_7a_bia_ngam_accuracy_precision.png"
+if os.path.exists(IMG_H3_7A_PATH):
+    p_img3_7a = doc.add_paragraph()
+    p_img3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7a.paragraph_format.space_before = Pt(8)
+    p_img3_7a.paragraph_format.space_after = Pt(4)
+    run_img3_7a = p_img3_7a.add_run()
+    run_img3_7a.add_picture(IMG_H3_7A_PATH, width=Cm(15.0))
+
+    p_cap3_7a = doc.add_paragraph()
+    p_cap3_7a.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7a.paragraph_format.space_after = Pt(8)
+    r_c3_7a = p_cap3_7a.add_run("Hình 3.7a: Bia ngắm Accuracy & Precision giữa tại các mốc 10 cm, 50 cm, 60 cm, 120 cm và 180 cm.")
+    r_c3_7a.font.italic = True
+    r_c3_7a.font.size = Pt(10)
+
+# CHÈN HÌNH 3.7B: BIA NGẮM ACCURACY & PRECISION MỐC XA
+IMG_H3_7B_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_7b_bia_ngam_accuracy_precision.png"
+if os.path.exists(IMG_H3_7B_PATH):
+    p_img3_7b = doc.add_paragraph()
+    p_img3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_7b.paragraph_format.space_before = Pt(8)
+    p_img3_7b.paragraph_format.space_after = Pt(4)
+    run_img3_7b = p_img3_7b.add_run()
+    run_img3_7b.add_picture(IMG_H3_7B_PATH, width=Cm(15.0))
+
+    p_cap3_7b = doc.add_paragraph()
+    p_cap3_7b.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_7b.paragraph_format.space_after = Pt(8)
+    r_c3_7b = p_cap3_7b.add_run("Hình 3.7b: Accuracy & Precision giữa tại các mốc 220 cm, 240 cm, 260 cm, 280 cm và 350 cm.")
+    r_c3_7b.font.italic = True
+    r_c3_7b.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị bia ngắm Hình 3.7a và Hình 3.7b:")
+add_body_p(
+    "Mặt phẳng nhẵn thể hiện độ chụm vượt trội. các điểm luôn gom chặt thành một cụm tròn nhỏ sát tâm với độ lệch chuẩn s nhỏ. "
+    "Mặt gồ ghề tán xạ làm độ lệch chuẩn s tăng gấp từ 3 đến 26 lần so với mặt nhẵn. Đồng thời điểm x_mean bị dạt lệch xa hồng tâm."
+)
+
+add_heading_3("3.6.2. Suy hao năng lượng và thu hẹp giới hạn đo do tán xạ")
+
+# BẢNG ĐỐI SÁNH ĐỘ LỆCH CHUẨN
+t_bemat_data = [
+    ("10 cm", "0.061", "1.620"),
+    ("100 cm", "0.383", "0.101"),
+    ("200 cm", "2.192", "0.253"),
+    ("300 cm", "2.860", "0.215"),
+    ("350 cm", "2.491", "2.618"),
+    ("375 cm", "2.508", "2140.734"),
+    ("380 cm", "5.531", "Mất tín hiệu"),
+]
+
+table_bemat = doc.add_table(rows=len(t_bemat_data)+1, cols=3)
+table_bemat.alignment = WD_TABLE_ALIGNMENT.CENTER
+table_bemat.autofit = False
+
+t_bm_widths = [Cm(4.0), Cm(5.0), Cm(5.0)]
+t_bm_headers = ["Mốc cự ly\n(cm)", "FSDT - std sạch\n(mm)", "FRDT - std sạch\n(mm)"]
+
+for col_idx, text_h in enumerate(t_bm_headers):
+    c = table_bemat.rows[0].cells[col_idx]
+    c.text = text_h
+    set_cell_background(c, "D9E1F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(3)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.line_spacing = 1.05
+    for r in p.runs:
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        r.font.bold = True
+        r.font.color.rgb = C_NAVY
+
+for row_idx, row_vals in enumerate(t_bemat_data, start=1):
+    for col_idx, text_val in enumerate(row_vals):
+        c = table_bemat.rows[row_idx].cells[col_idx]
+        c.text = text_val
+        p = c.paragraphs[0]
+        p.paragraph_format.space_before = Pt(2)
+        p.paragraph_format.space_after = Pt(2)
+        p.paragraph_format.line_spacing = 1.05
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for r in p.runs:
+            r.font.name = 'Times New Roman'
+            r.font.size = Pt(8.5)
+            if col_idx == 0:
+                r.font.bold = True
+            if "2140" in text_val:
+                r.font.bold = True
+
+for row in table_bemat.rows:
+    for idx_w, width in enumerate(t_bm_widths):
+        row.cells[idx_w].width = width
+        set_cell_border(row.cells[idx_w],
+            top=dict(sz=4, val='single', color='B0C4DE'),
+            bottom=dict(sz=4, val='single', color='B0C4DE'),
+            left=dict(val='none'), right=dict(val='none'))
+
+for c in table_bemat.rows[0].cells:
+    set_cell_border(c, top=dict(sz=12, val='single', color='003366'), bottom=dict(sz=8, val='single', color='003366'), left=dict(val='none'), right=dict(val='none'))
+for c in table_bemat.rows[-1].cells:
+    set_cell_border(c, bottom=dict(sz=12, val='single', color='003366'), top=dict(sz=4, val='single', color='B0C4DE'), left=dict(val='none'), right=dict(val='none'))
+
+add_body_p(
+    "Tác động bất lợi nhất của bề mặt gồ ghề là làm suy giảm đột ngột cự ly hoạt động: "
+    "Chớm mất xung tại 350 cm trên mặt gồ ghề, mất hoàn toàn xung tại phép đo 375 cm."
+)
+
+add_body_p(
+    "Kết luận: Bề mặt gồ ghề thu hẹp dải đo từ 550 cm xuống 350 cm. Với chất lỏng tĩnh phẳng nhẵn trong bồn kín, "
+    "cảm biến RCWL-1601 dùng được toàn dải xa; với vật liệu rắn dạng hạt, bề mặt nhám xốp hoặc mặt thoáng gợn sóng mạnh, "
+    "chiều cao lắp đặt tối đa nên giới hạn dưới 300 – 350 cm (cơ sở cho thiết kế ở Chương 4)."
+)
+
+# MỤC 3.7: PHÂN TÍCH ẢNH HƯỞNG CỦA NHIỆT ĐỘ MÔI TRƯỜNG
+# ==============================================================================
+add_heading_2("3.7. Phân tích ảnh hưởng của Nhiệt độ môi trường")
+
+add_body_p(
+    "Để đánh giá sự ảnh hưởng của nhiệt độ, thí nghiệm đối chứng được thực hiện trên mặt phẳng nhẵn dọc 19 mốc cự ly "
+    "từ 10 cm đến 300 cm ở nhiệt độ phòng và nhiệt độ điều hòa. Số liệu được lấy từ tệp “du_lieu_tong_hop/chuong_3/ thong_ke_chuong_3.csv”."
+)
+
+add_heading_3("3.7.1. Định lượng sai số trôi nhiệt và hiệu quả khử trôi của thuật toán Laplace")
+
+add_body_p(
+    "Đối chứng khoảng cách khi chưa bù nhiệt (x̄_chưa_bù = 0.5 · v(27.0 °C) · t̄_FSAT) và sau khi bù nhiệt Laplace "
+    "thời gian thực trên ESP32 cho thấy:"
+)
+
+add_body_p(
+    "Khi không bù nhiệt độ (sai_so_chua_bu_27c_mm): Do giữ cứng vận tốc ở 27.0 °C trong khi sóng âm truyền chậm hơn ở 20.0 °C, "
+    "kết quả đo bị phóng đại +1.235% quãng đường. Lượng trôi nhiệt tích lũy tuyến tính theo cự ly: đạt +12.28 mm tại 100 cm, "
+    "+22.46 mm tại 200 cm, và đẩy sai số Δx lên mức cực đại +39.92 mm (≈ +4.0 cm) tại 280 cm và +32.52 mm tại 300 cm."
+)
+
+add_body_p(
+    "Khi kích hoạt bù nhiệt Laplace (sai_so_tuyet_doi_mm): Thuật toán tự động cập nhật v(T) theo nhiệt độ đo tức thời từ cảm biến, "
+    "triệt tiêu hoàn toàn thành phần trôi nhiệt hàng xentimét. Sai số Δx được kéo về dao động quanh đường chuẩn 0 mm "
+    "(-5.73 mm tại 100 cm, +3.50 mm tại 200 cm, -2.79 mm tại 300 cm), giúp 14/14 mốc từ 80 – 300 cm (trừ mốc 160 cm) "
+    "đạt sai số tương đối |δ%| ≤ 0.57%."
+)
+
+# CHÈN HÌNH 3.8: SO SÁNH SAI SỐ TRÔI NHIỆT VÀ BÙ LAPLACE
+IMG_H3_8_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_8_anh_huong_nhiet_do_bu_laplace.png"
+if os.path.exists(IMG_H3_8_PATH):
+    p_img3_8 = doc.add_paragraph()
+    p_img3_8.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_8.paragraph_format.space_before = Pt(8)
+    p_img3_8.paragraph_format.space_after = Pt(4)
+    run_img3_8 = p_img3_8.add_run()
+    run_img3_8.add_picture(IMG_H3_8_PATH, width=Cm(15.0))
+
+    p_cap3_8 = doc.add_paragraph()
+    p_cap3_8.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_8.paragraph_format.space_after = Pt(8)
+    r_c3_8 = p_cap3_8.add_run("Hình 3.8: So sánh sai số tuyệt đối Δx tại phòng lạnh 20.0 °C trước và sau khi kích hoạt thuật toán bù nhiệt độ Laplace trên dải 10 cm – 300 cm.")
+    r_c3_8.font.italic = True
+    r_c3_8.font.size = Pt(10)
+
+add_body_p("Đánh giá từ đồ thị Hình 3.8:")
+add_body_p(
+    "Đường màu đỏ nét liền (Chưa bù nhiệt): Tách xa gốc 0 mm và dốc tuyến tính lên vùng +26 ÷ +40 mm ở cự ly xa "
+    "(200 – 300 cm) do tích lũy sai số vận tốc âm."
+)
+add_body_p(
+    "Đường màu xanh lá nét đứt (Đã bù nhiệt Laplace): Kéo toàn bộ sai số về bám sát đường chuẩn 0 mm trên toàn dải 10 – 300 cm. "
+    "Kết quả chứng minh việc tích hợp cảm biến nhiệt độ và thuật toán bù Laplace là điều kiện bắt buộc để hệ thống đo "
+    "đạt độ chính xác cao trong ứng dụng thực tế."
+)
+
+# ==============================================================================
+# MỤC 3.8: TỔNG HỢP ĐỘ KHÔNG ĐẢM BẢO ĐO
+# ==============================================================================
+add_heading_2("3.8. Tổng hợp Độ không đảm bảo đo")
+
+add_heading_3("3.8.1. Đánh giá Độ không đảm bảo đo mở rộng toàn dải")
+
+add_body_p(
+    "Độ không đảm bảo đo Loại A (u_A): Đánh giá độ phân tán ngẫu nhiên qua N lần đo: u_A = s / √N.\n"
+    "Độ không đảm bảo đo Loại B (u_B): (a / √3):\n"
+    "• u_B1 (Vạch chia thước chuẩn 1 mm, a₁ = 0.5 mm): u_B1 = 0.5 / √3 ≈ 0.289 mm.\n"
+    "• u_B2 (Timer ESP32 1 μs ⇒ Δd_LSB ≈ 0.174 mm, a₂ = 0.087 mm): u_B2 = 0.087 / √3 ≈ 0.050 mm.\n"
+    "• u_B3 (Nhiệt độ môi trường ±0.5 °C ⇒ u_T = 0.289 °C): u_B3(d) = c_T · u_T ≈ 0.000503 · d (mm).\n"
+    "3. Độ không đảm bảo đo chuẩn tổng hợp và Mở rộng (k = 2, độ tin cậy 95%):"
+)
+
+# BẢNG 3.6: 9 CỘT THEO CHUẨN DOCX MỚI
+table_gum_data = [
+    ("10 cm", "0.060 mm", "0.008 mm", "0.289 mm", "0.050 mm", "0.050 mm", "0.297 mm", "0.59 mm", "10.57 ± 0.06 cm"),
+    ("50 cm", "0.092 mm", "0.013 mm", "0.289 mm", "0.050 mm", "0.252 mm", "0.386 mm", "0.77 mm", "49.84 ± 0.08 cm"),
+    ("100 cm", "0.375 mm", "0.053 mm", "0.289 mm", "0.050 mm", "0.503 mm", "0.585 mm", "1.17 mm", "99.43 ± 0.12 cm"),
+    ("150 cm", "0.284 mm", "0.043 mm", "0.289 mm", "0.050 mm", "0.755 mm", "0.811 mm", "1.62 mm", "149.96 ± 0.16 cm"),
+    ("200 cm", "2.135 mm", "0.302 mm", "0.289 mm", "0.050 mm", "1.006 mm", "1.091 mm", "2.18 mm", "200.35 ± 0.22 cm"),
+    ("250 cm", "2.057 mm", "0.291 mm", "0.289 mm", "0.050 mm", "1.258 mm", "1.324 mm", "2.65 mm", "250.00 ± 0.26 cm"),
+    ("300 cm", "2.837 mm", "0.401 mm", "0.289 mm", "0.050 mm", "1.510 mm", "1.589 mm", "3.18 mm", "299.72 ± 0.32 cm"),
+    ("350 cm", "2.618 mm", "0.390 mm", "0.289 mm", "0.050 mm", "1.761 mm", "1.828 mm", "3.65 mm", "351.09 ± 0.37 cm"),
+    ("400 cm", "0.270 mm", "0.041 mm", "0.289 mm", "0.050 mm", "2.013 mm", "2.034 mm", "4.07 mm", "401.40 ± 0.41 cm"),
+    ("450 cm", "4.049 mm", "0.573 mm", "0.289 mm", "0.050 mm", "2.264 mm", "2.354 mm", "4.71 mm", "450.74 ± 0.47 cm"),
+    ("500 cm", "1.978 mm", "0.280 mm", "0.289 mm", "0.050 mm", "2.516 mm", "2.548 mm", "5.10 mm", "500.69 ± 0.51 cm"),
+    ("550 cm", "0.319 mm", "0.049 mm", "0.289 mm", "0.050 mm", "2.768 mm", "2.783 mm", "5.57 mm", "550.63 ± 0.56 cm"),
+]
+
+gum_headers = ["Cự ly chuẩn d", "Độ lệch chuẩn s", "u_A", "u_B1 (Thước)", "u_B2 (Timer)", "u_B3 (Nhiệt độ)", "u_c tổng", "U_95% (k=2)", "Kết quả đo chuẩn Y"]
+tbl_gum = doc.add_table(rows=len(table_gum_data)+1, cols=len(gum_headers))
+tbl_gum.alignment = WD_TABLE_ALIGNMENT.CENTER
+tbl_gum.autofit = False
+
+gum_widths = [Cm(2.0), Cm(1.6), Cm(1.3), Cm(1.4), Cm(1.4), Cm(1.5), Cm(1.4), Cm(1.6), Cm(2.6)]
+for col_idx, h_text in enumerate(gum_headers):
+    c = tbl_gum.rows[0].cells[col_idx]
+    c.text = h_text
+    c.width = gum_widths[col_idx]
+    set_cell_background(c, "F2F2F2")
+    p = c.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = p.runs[0]
+    r.font.name = 'Times New Roman'
+    r.font.size = Pt(8.5)
+    r.font.bold = True
+    r.font.color.rgb = C_NAVY
+
+for row_idx, r_data in enumerate(table_gum_data):
+    for col_idx, val in enumerate(r_data):
+        c = tbl_gum.rows[row_idx+1].cells[col_idx]
+        c.text = val
+        c.width = gum_widths[col_idx]
+        p = c.paragraphs[0]
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r = p.runs[0]
+        r.font.name = 'Times New Roman'
+        r.font.size = Pt(8.5)
+        if col_idx == 7:
+            r.font.bold = True
+            r.font.color.rgb = C_MAROON
+
+for row in tbl_gum.rows:
+    for c in row.cells:
+        set_cell_border(c,
+            top=dict(val='single', sz=4, color='D3D3D3'),
+            bottom=dict(val='single', sz=4, color='D3D3D3'),
+            left=dict(val='none', sz=0, color='auto'),
+            right=dict(val='none', sz=0, color='auto')
+        )
+
+for c in tbl_gum.rows[0].cells:
+    set_cell_border(c, top=dict(val='single', sz=12, color='003366'), bottom=dict(val='single', sz=12, color='003366'))
+for c in tbl_gum.rows[-1].cells:
+    set_cell_border(c, bottom=dict(val='single', sz=12, color='003366'))
+
+p_cap_gum = doc.add_paragraph()
+p_cap_gum.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p_cap_gum.paragraph_format.space_before = Pt(4)
+p_cap_gum.paragraph_format.space_after = Pt(8)
+r_gum = p_cap_gum.add_run("Bảng 3.6: Bảng tổng hợp các thành phần Độ không đảm bảo đo theo tiêu chuẩn.")
+r_gum.font.name = 'Times New Roman'
+r_gum.font.italic = True
+r_gum.font.size = Pt(9.5)
+
+# --- HÌNH 3.9: Loại A và Loại B ---
+IMG_H3_9_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\chuong_3\hinh_3_9_do_khong_dam_bao_do_loai_a_b.png"
+if not os.path.exists(IMG_H3_9_PATH):
+    IMG_H3_9_PATH = r"D:\ki5\[EMA2024E_3] Kỹ thuật đo lường và cảm biến\RCWL1601\graph\hinh_3_9_do_khong_dam_bao_do_loai_a_b.png"
+
+if os.path.exists(IMG_H3_9_PATH):
+    p_img3_9 = doc.add_paragraph()
+    p_img3_9.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_img3_9.paragraph_format.space_before = Pt(8)
+    p_img3_9.paragraph_format.space_after = Pt(4)
+    run_img3_9 = p_img3_9.add_run()
+    run_img3_9.add_picture(IMG_H3_9_PATH, width=Cm(15.0))
+    
+    p_cap3_9 = doc.add_paragraph()
+    p_cap3_9.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap3_9.paragraph_format.space_after = Pt(8)
+    r_c3_9 = p_cap3_9.add_run("Hình 3.9: Biểu đồ phân rã độ không đảm bảo đo Loại A (u_A) và Loại B (u_B) theo khoảng cách chuẩn.")
+    r_c3_9.font.italic = True
+    r_c3_9.font.size = Pt(10)
+
+add_body_p(
+    "Nhận xét: Ở cự ly gần (d ≤ 50 cm), U_95% ≤ 0.77 mm, thành phần sai số vạch chia thước chuẩn u_B1 = 0.289 mm chiếm ưu thế chủ đạo. "
+    "Khi cự ly tăng lên 300 – 550 cm, thành phần lan truyền sai số nhiệt độ u_B3 tăng tuyến tính. "
+    "Trên toàn bộ dải đo hữu ích đến 5.5 m, U_95% luôn duy trì dưới ngưỡng ±5.57 mm (dưới ±0.56 cm), khẳng định độ tin cậy khoa học cao của phép đo."
+)
+
+add_body_p(
+    "Kết luận đánh giá tổng quát: Module cảm biến siêu âm RCWL-1601 khi kết hợp với bộ đếm thời gian vi điều khiển ESP32 "
+    "và giải thuật bù nhiệt Laplace đã thể hiện các đặc tính kỹ thuật vượt trội so với các thông số công bố tối thiểu của nhà sản xuất."
+)
+
+
+# Lưu tệp Word an toàn
+try:
+    doc.save(OUTPUT_FILE)
+    print(f"Xuất bản thành công tài liệu Word hoàn chỉnh chuẩn Headings và Equation: {OUTPUT_FILE}")
+except PermissionError:
+    alt_file = OUTPUT_FILE.replace(".docx", "_sync_test.docx")
+    doc.save(alt_file)
+    print(f"WINWORD đang mở tệp chính! Đã lưu an toàn vào bản sao đồng bộ: {alt_file}")

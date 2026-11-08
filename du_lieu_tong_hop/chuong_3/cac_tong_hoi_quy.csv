@@ -1,0 +1,21 @@
+Phan_loai,Ky_hieu,Gia_tri,Mo_ta_chi_tiet
+Tong_hoi_quy,N,24,So moc thuc nghiem tap Train (sum x^0) - Ty le 70%
+Tong_hoi_quy,sum_x,4967.000000,Tong bac 1 cua x (cm)
+Tong_hoi_quy,sum_x2,1661599.000000,Tong bac 2 cua x (cm^2)
+Tong_hoi_quy,sum_x3,6.458977e+08,Tong bac 3 cua x (cm^3)
+Tong_hoi_quy,sum_x4,2.752744e+11,Tong bac 4 cua x (cm^4)
+Tong_hoi_quy,sum_x5,1.249275e+14,Tong bac 5 cua x (cm^5)
+Tong_hoi_quy,sum_x6,5.928552e+16,Tong bac 6 cua x (cm^6)
+Tong_hoi_quy,sum_y,4968.959300,Tong gia tri do thuc nghiem y (cm)
+Tong_hoi_quy,sum_xy,1663737.119120,Tong tich x*y
+Tong_hoi_quy,sum_x2y,6.469172e+08,Tong tich (x^2)*y
+Tong_hoi_quy,sum_x3y,2.757256e+11,Tong tich (x^3)*y
+He_so_bac_1,a1,1.00273441,He so goc a1 (mo hinh y = a1*x + b1)
+He_so_bac_1,b1,-0.48427223,He so tu do b1 - Offset (cm)
+He_so_bac_2,a2,3.56559128e-06,He so a2 (mo hinh y = a2*x^2 + b2*x + c2)
+He_so_bac_2,b2,1.00103491,He so b2
+He_so_bac_2,c2,-0.37940440,He so tu do c2 (cm)
+He_so_bac_3,a3,-1.04345666e-07,He so a3 (mo hinh y = a3*x^3 + b3*x^2 + c3*x + d3)
+He_so_bac_3,b3,8.50580899e-05,He so b3
+He_so_bac_3,c3,0.98551084,He so c3
+He_so_bac_3,d3,-0.00036859,He so tu do d3 (cm)
