@@ -17,7 +17,7 @@ import docx
 from docx import Document
 from docx.shared import Inches, Pt, RGBColor, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ROW_HEIGHT_RULE, WD_ALIGN_VERTICAL
 from docx.oxml import parse_xml, OxmlElement
 from docx.oxml.ns import nsdecls, qn
 
@@ -221,6 +221,11 @@ cover_table = doc.add_table(rows=1, cols=1)
 cover_table.alignment = WD_TABLE_ALIGNMENT.CENTER
 cover_cell = cover_table.cell(0, 0)
 cover_cell.width = Cm(16.0)
+# Khung bìa bao toàn bộ vùng in của trang (cao 25.7 cm, trừ phần cho đoạn ngắt trang phía sau)
+cover_row = cover_table.rows[0]
+cover_row.height = Cm(24.8)
+cover_row.height_rule = WD_ROW_HEIGHT_RULE.EXACTLY
+cover_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
 
 set_cell_border(cover_cell,
     top=dict(val='double', sz=12, color='003366'),
@@ -312,6 +317,8 @@ r_sv.font.bold = True
 p_info.add_run("  1. [Họ và tên Sinh viên 1]\t-\tMSSV: [Điền MSSV 1]\n")
 p_info.add_run("  2. [Họ và tên Sinh viên 2]\t-\tMSSV: [Điền MSSV 2]\n")
 p_info.add_run("  3. [Họ và tên Sinh viên 3]\t-\tMSSV: [Điền MSSV 3]\n")
+p_info.add_run("  4. [Họ và tên Sinh viên 4]\t-\tMSSV: [Điền MSSV 4]\n")
+p_info.add_run("  5. [Họ và tên Sinh viên 5]\t-\tMSSV: [Điền MSSV 5]\n")
 
 for run in p_info.runs:
     run.font.name = 'Times New Roman'
