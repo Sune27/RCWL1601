@@ -178,7 +178,8 @@ D:\đo lường\thực hành đo lường\RCWL1601\ứng dụng\
 ├── hinh_4_4_mo_hinh_thuc_te.png       # Hình 4.4: Hình ảnh chụp thực tế mô hình đo thực nghiệm 2L & LED
 ├── hinh_thuc_te_1.jpg                 # Ảnh chụp phần cứng ESP32, Shield và breadboard LED
 ├── hinh_thuc_te_2.jpg                 # Ảnh chụp thử nghiệm đo ToF trên bình 2L với LED Đỏ cảnh báo
-└── hinh_thuc_te_3.jpg                 # Ảnh chụp góc chiếu thẳng đứng từ trên xuống mặt nước 2L
+├── hinh_thuc_te_3.jpg                 # Ảnh chụp góc chiếu thẳng đứng từ trên xuống mặt nước 2L
+└── video_demo_giam_sat_muc_nuoc_27s.mp4 # Video clip thực nghiệm 27 giây ghi lại quá trình đo & cảnh báo LED
 ```
 
 ---
@@ -194,3 +195,11 @@ D:\đo lường\thực hành đo lường\RCWL1601\ứng dụng\
 3. **Mặt nước bị sóng gợn mạnh khi bơm chạy khiến số đo nhảy liên tục:**
    - *Nguyên nhân:* Dòng nước xả trực tiếp vào vùng phản xạ của chùm sóng siêu âm ($15^\circ$).
    - *Khắc phục:* Ống xả nước nên cho chảy sát mép vách bình chai; chuỗi lọc số 2 tầng (IQR + MA) trong code đã được tối ưu sẵn để triệt tiêu trên 90% biên độ sóng gợn này.
+
+
+---
+
+## 7. LINK VIDEO THỰC NGHIỆM MINH CHỨNG VÀ TRÌNH CHIẾU
+- **Link Google Drive xem trực tuyến:** [https://drive.google.com/file/d/1q7BDve7W911czojQXaRA-I49W2jXUlJU/view?usp=sharing](https://drive.google.com/file/d/1q7BDve7W911czojQXaRA-I49W2jXUlJU/view?usp=sharing)
+- **Tệp video ghép song song tinh gọn (cục bộ):** ideo_ghep_song_song_thuc_nghiem_va_do_thi.mp4 (2126x720, không chữ, không nền, đồng bộ khóa nhịp 1:1)
+- **Tệp video ghép chuẩn 16:9 1080p (cục bộ):** ideo_ghep_song_song_1080p.mp4 (1920x1080)

@@ -2,16 +2,13 @@
  * BÀI TOÁN ỨNG DỤNG MỤC 4: GIÁM SÁT MỨC VÀ THỂ TÍCH BÌNH CHAI 2L
  * Chạy trên ESP32 DevKit bằng Arduino IDE (C/C++)
  *
- * Thư viện cần cài trong Arduino IDE:
- *  - "DHT sensor library" của Adafruit (kèm Adafruit Unified Sensor)
- * 
- * Sơ đồ đấu nối chân ESP32:
- *  - RCWL-1601 : TRIG -> GPIO 5, ECHO -> GPIO 18, VCC -> 3.3V/5V, GND -> GND
- *  - DHT11     : DATA -> GPIO 4, VCC -> 3.3V, GND -> GND
- *  - Relay Bơm : IN   -> GPIO 23, VCC -> 5V, GND -> GND (Active LOW)
- *  - Buzzer 5V : (+)  -> GPIO 22, (-) -> GND
- *  - LED Đỏ    : Anode -> Trở 220Ω -> GPIO 21, Cathode -> GND
- *  - LED Xanh  : Anode -> Trở 220Ω -> GPIO 19, Cathode -> GND
+ * Sơ đồ đấu nối chân ESP32 (Chuẩn Bảng mở rộng Shield G-V-S):
+ *  - RCWL-1601 : VCC -> 3.3V/5V (Hàng V), GND -> GND (Hàng G)
+ *                TRIG -> GPIO 5 (Hàng S), ECHO -> GPIO 18 (Hàng S)
+ *  - DHT11     : VCC -> 3.3V (Hàng V), GND -> GND (Hàng G)
+ *                DATA -> GPIO 4 (Hàng S)
+ *  - LED Đỏ    : Anode (+) -> Trở 220Ω -> GPIO 21 (Hàng S), Cathode (-) -> GND (Hàng G)
+ *  - LED Xanh  : Anode (+) -> Trở 220Ω -> GPIO 19 (Hàng S), Cathode (-) -> GND (Hàng G)
  */
 
 #include <DHT.h>
@@ -19,8 +16,6 @@
 #define PIN_TRIG        5
 #define PIN_ECHO        18
 #define PIN_DHT         4
-#define PIN_RELAY       23
-#define PIN_BUZZER      22
 #define PIN_LED_RED     21
 #define PIN_LED_GREEN   19
 
@@ -34,15 +29,15 @@ const float BAN_KINH_R = 5.0;    // Bán kính đáy bình (cm) (D = 10.0 cm)
 const float S_BASE = 78.5398;    // Diện tích đáy bình ≈ 78.54 cm²
 
 // Sai số thành phần theo ISO/GUM
-const float U_R = 0.04;          // Sai số thước kẹp (cm)
-const float U_H = 0.071;         // Sai số đo mức nước RCWL-1601 (cm)
+const float U_R = 0.04;          // Sai số thước kẹp cơ khí (cm)
+const float U_H = 0.071;         // Sai số đo mức nước RCWL-1601 từ Chương 3 (cm)
 
-// Ngưỡng cảnh báo (cm)
+// Ngưỡng cảnh báo an toàn (cm)
 const float TH_CAN_KHAN_CAP   = 2.5;   // Low-Low
 const float TH_CANH_BAO_CAN    = 5.0;   // Low
 const float TH_TRAN_KHAN_CAP  = 14.0;  // High-High
 
-// Bộ đệm cho chuỗi lọc 2 tầng
+// Bộ đệm cho chuỗi lọc thích nghi 2 tầng
 float buf_iqr[5];
 int count_iqr = 0;
 float buf_ma[7];
@@ -50,7 +45,7 @@ int count_ma = 0;
 
 float current_temp_c = 27.0;
 unsigned long last_dht_time = 0;
-int pump_state = 0; // 0: Tắt, 1: Bật
+int pump_state = 0; // 0: Tắt, 1: Bật (chế độ giám sát)
 
 void setup() {
   Serial.begin(115200);
@@ -59,12 +54,6 @@ void setup() {
   pinMode(PIN_TRIG, OUTPUT);
   pinMode(PIN_ECHO, INPUT);
   digitalWrite(PIN_TRIG, LOW);
-
-  pinMode(PIN_RELAY, OUTPUT);
-  digitalWrite(PIN_RELAY, HIGH); // Mặc định tắt relay (Active LOW)
-
-  pinMode(PIN_BUZZER, OUTPUT);
-  digitalWrite(PIN_BUZZER, LOW);
 
   pinMode(PIN_LED_RED, OUTPUT);
   pinMode(PIN_LED_GREEN, OUTPUT);
@@ -93,14 +82,17 @@ float read_distance_cm() {
   if (duration <= 0) return -1.0;
 
   float v_cm_us = get_sound_speed_cm_us(current_temp_c);
-  return (duration * v_cm_us) / 2.0;
+  float dist_cm = (duration * v_cm_us) / 2.0;
+
+  if (dist_cm < 2.0 || dist_cm > 400.0) return -1.0;
+  return dist_cm;
 }
 
-// Lọc 2 tầng: Tầng 1 IQR (N=5) + Tầng 2 Moving Average (W=7)
+// Chuỗi lọc thích nghi 2 tầng (IQR + Moving Average)
 float filter_2_stages(float raw_val) {
   if (raw_val < 0) return (count_ma > 0) ? buf_ma[count_ma - 1] : 0.0;
 
-  // TẦNG 1: Lọc IQR
+  // TẦNG 1: Lọc IQR (W=5)
   if (count_iqr < 5) {
     buf_iqr[count_iqr++] = raw_val;
   } else {
@@ -160,7 +152,7 @@ void loop() {
     }
   }
 
-  // Đo cự ly và tính mức nước
+  // Đo cự ly ToF và tính mức nước h
   float d_raw = read_distance_cm();
   float h_raw = -1.0;
   if (d_raw > 0) {
